@@ -1,12 +1,18 @@
-import Comment from './components/comment';
-import logo from './logo.svg';
 import './App.css';
+import Theme from './lib/theme';
+import Title from './components/title';
+import Conversation from './components/conversation';
 
 function App() {
   return (
-    <div className="App">
-      <Comment name="on9" id={1} op={true} sex={true}>Hi</Comment>
-    </div>
+    <Theme>
+      <div id="App" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div>
+          <Title/>
+          <Conversation id={1}/>
+        </div>
+      </div>
+    </Theme>
   );
 }
 
