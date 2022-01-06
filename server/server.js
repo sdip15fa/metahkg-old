@@ -3,10 +3,66 @@ const body_parser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const rootRouter = express.Router();
 const app = express();
+const mailgun = require("mailgun-js");
+const random = require('random');
+const rg = require("wcyat-rg");
 require('dotenv').config();
+const DOMAIN = 'metahkg.wcyat.me';
+const mg = mailgun({apiKey: process.env.api_key, domain: DOMAIN});
 const mongouri = process.env.DB_URI;
+const client = new MongoClient(mongouri);
+app.post('/api/register', body_parser.json(), async (req, res) => {
+    await client.connect();
+    const verification = client.db("metahkg-users").collection("verification");
+    const users = client.db("metahkg-users").collection("users");
+    const code = random.int((min = 100000), (max = 999999))
+    if (!req.body.user || !req.body.pwd || 
+        !req.body.email || Object.keys(req.body).length > 3) {
+            res.status(400);res.send("Bad request");}
+    else if (await users.find({user : req.body.user}).count() || await verification.find({user : req.body.user}).count()) {res.status(409); res.send("Username exists.");}
+    else if (await users.find({email : req.body.email}).count() || await verification.find({email : req.body.email}).count()) {res.status(409); res.send("Email exists.");}
+    else { 
+    const verify = {from : "Metahkg support <support@metahkg.wcyat.me>",
+        to : req.body.email,
+        subject : "Metahkg verification code",
+        text : `Your verification code is ${code}.` }
+    await mg.messages().send(verify, function (error, body) {console.log(body);});
+    await verification.insertOne({
+        createdAt : new Date(),
+        code : code,
+        email : req.body.email,
+        pwd : req.body.pwd,
+        user : req.body.user
+    })}
+    res.send("Ok");
+})
+app.post('/api/verify', body_parser.json(), async (req,res) => {
+    if (!req.body.email || !req.body.code || Object.keys(reeq.body).length > 2) 
+    {res.status(400); res.send("Bad request");} else {
+        await client.connect();
+        const verification = client.db("metahkg-users").collection("verification");
+        const users = client.db("metahkg-users").collection("users");
+        const data = await verification.findOne({email : req.body.email});
+        if (!data) {res.status(404); res.send("Not found. Your code night have expired.")}
+        else if (data.code !== req.body.code) {res.status(401); res.send("Code incorrect.")}
+        else {delete data._id; delete data.code;
+            data.key = rg.generate({include: {numbers:true,upper:true,lower:true,special:false},digits:16})
+            await users.insertOne(data); res.send(data.key);}
+}})
+app.post('api/signin', body_parser.json(), async (req, res) => {
+    if (!req.body.user || !req.body.pwd || Object.keys(req.body).length > 2) {res.status(400); res.send("Bad request");}
+    else {
+        await client.connect();
+        const users = client.db("metahkg-users").collection("users");
+        const data = await users.findOne({user : req.body.user});
+        if (!data) {res.status(404); res.send("User not found");}
+        else if (data.pwd !== req.body.pwd) {
+            res.status(401); res.send("Password incorrect");}
+        else {res.send(data.key)}
+    }
+})
+//get conversation
 app.get('/api/thread/:id/:file', async (req, res) => {
-    const client = new MongoClient(mongouri);
     await client.connect();
     try {
         const c = client.db('metahkg-threads').collection(req.params.file);
@@ -16,8 +72,8 @@ app.get('/api/thread/:id/:file', async (req, res) => {
     }
     finally {await client.close()}
 })
+//add a comment
 app.post('/api/thread/:id', body_parser.json(), async (req, res) => {
-    const client = new MongoClient(mongouri);
     await client.connect();
     try {
         const conversation = client.db('metahkg-threads').collection('conversation');

@@ -5,8 +5,8 @@ import { Box } from '@mui/material'
 function App() {
   return (
     <Theme>
-      <Box id="App" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'primary.dark', minHeight: '100vh'}}>
-        <div>
+      <Box id="App" sx={{backgroundColor: 'primary.dark', minHeight: '100vh'}}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <Conversation id={1}/>
         </div>
       </Box>
