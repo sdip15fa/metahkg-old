@@ -1,6 +1,7 @@
 import React from "react";
 import { Box } from '@mui/material';
 import Comment from "./comment";
+import Title from "./title";
 import axios from "axios";
 export default class Conversation extends React.Component<any> {
     constructor(props:any) {
@@ -35,12 +36,15 @@ export default class Conversation extends React.Component<any> {
         })
     }
     render() {
-        if (!this.state.ready) {this.getdata(); return <div/>};
+        if (!this.state.ready) {this.getdata(); return <p style={{color: "white"}}>Please wait...</p>};
         this.build();
         return (
-          <Box sx={{backgroundColor: "primary.dark", width: '80vw'}}>
-            {this.o}
-          </Box>
+          <div>
+              <Title title={this.conversation.title}/>
+              <Box sx={{backgroundColor: "primary.dark", width: '80vw'}}>
+                {this.o}
+              </Box>
+          </div>
         )
     }
 }

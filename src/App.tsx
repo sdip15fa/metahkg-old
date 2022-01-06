@@ -1,17 +1,15 @@
 import './App.css';
 import Theme from './lib/theme';
-import Title from './components/title';
 import Conversation from './components/conversation';
-
+import { Box } from '@mui/material'
 function App() {
   return (
     <Theme>
-      <div id="App" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <Box id="App" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'primary.dark', minHeight: '100vh'}}>
         <div>
-          <Title/>
           <Conversation id={1}/>
         </div>
-      </div>
+      </Box>
     </Theme>
   );
 }
