@@ -1,6 +1,7 @@
 const express = require('express');
 const body_parser = require('body-parser');
 const { MongoClient } = require('mongodb');
+const cookieParser = require("cookie-parser");
 const rootRouter = express.Router();
 const app = express();
 const mailgun = require("mailgun-js");
@@ -11,6 +12,7 @@ const DOMAIN = 'metahkg.wcyat.me';
 const mg = mailgun({apiKey: process.env.api_key, domain: DOMAIN});
 const mongouri = process.env.DB_URI;
 const client = new MongoClient(mongouri);
+app.use(cookieParser());
 app.post('/api/register', body_parser.json(), async (req, res) => {
     await client.connect();
     const verification = client.db("metahkg-users").collection("verification");
@@ -54,7 +56,7 @@ app.post('api/signin', body_parser.json(), async (req, res) => {
     else {
         await client.connect();
         const users = client.db("metahkg-users").collection("users");
-        const data = await users.findOne({user : req.body.user});
+        const data = await users.findOne({user : req.body.user}) || await users.findOne({email : req.body.email});
         if (!data) {res.status(404); res.send("User not found");}
         else if (data.pwd !== req.body.pwd) {
             res.status(401); res.send("Password incorrect");}
@@ -82,7 +84,7 @@ app.post('/api/thread/:id', body_parser.json(), async (req, res) => {
 })
 app.use(express.static('build'))
 rootRouter.get('(/*)?', async (req, res, next) => {
-    res.sendFile(path.join('build', 'index.html'));
+    res.sendFile('index.html', { root: 'build' });
 });
 app.use(rootRouter);
 app.listen(3000, () => {
