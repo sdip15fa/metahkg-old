@@ -2,6 +2,7 @@ const express = require('express');
 const body_parser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const cookieParser = require("cookie-parser");
+const cors = require('cors');
 const rootRouter = express.Router();
 const app = express();
 const mailgun = require("mailgun-js");
@@ -12,6 +13,7 @@ const DOMAIN = 'metahkg.wcyat.me';
 const mg = mailgun({apiKey: process.env.api_key, domain: DOMAIN});
 const mongouri = process.env.DB_URI;
 const client = new MongoClient(mongouri);
+app.use(cors());
 app.use(cookieParser());
 app.post('/api/register', body_parser.json(), async (req, res) => {
     await client.connect();
@@ -35,11 +37,11 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
         email : req.body.email,
         pwd : req.body.pwd,
         user : req.body.user
-    })}
-    res.send("Ok");
+    })
+    res.send("Ok");}
 })
 app.post('/api/verify', body_parser.json(), async (req,res) => {
-    if (!req.body.email || !req.body.code || Object.keys(reeq.body).length > 2) 
+    if (!req.body.email || !req.body.code || Object.keys(req.body).length > 2) 
     {res.status(400); res.send("Bad request");} else {
         await client.connect();
         const verification = client.db("metahkg-users").collection("verification");
@@ -49,7 +51,8 @@ app.post('/api/verify', body_parser.json(), async (req,res) => {
         else if (data.code !== req.body.code) {res.status(401); res.send("Code incorrect.")}
         else {delete data._id; delete data.code;
             data.key = rg.generate({include: {numbers:true,upper:true,lower:true,special:false},digits:16})
-            await users.insertOne(data); res.send(data.key);}
+            data.id = await users.countDocuments({}) + 1;
+            await users.insertOne(data); res.send({id : data.id, key : data.key}); await verification.deleteOne({email : req.body.email});}
 }})
 app.post('api/signin', body_parser.json(), async (req, res) => {
     if (!req.body.user || !req.body.pwd || Object.keys(req.body).length > 2) {res.status(400); res.send("Bad request");}
