@@ -6,10 +6,9 @@ const cors = require('cors');
 const rootRouter = express.Router();
 const app = express();
 const mailgun = require("mailgun-js");
-const emailChk = require('email-chk')
+const { isEmailValid } = require('is-email-valid');
 const random = require('random');
 const rg = require("wcyat-rg");
-const { execPath } = require('process');
 require('dotenv').config();
 const DOMAIN = 'metahkg.wcyat.me';
 const mg = mailgun({apiKey: process.env.api_key, domain: DOMAIN});
@@ -27,10 +26,9 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
             res.status(400);res.send("Bad request");}
     else if (await users.find({user : req.body.user}).count() || await verification.find({user : req.body.user}).count()) {res.status(409); res.send("Username exists.");}
     else if (await users.find({email : req.body.email}).count() || await verification.find({email : req.body.email}).count()) {res.status(409); res.send("Email exists.");}
+    else if (!isEmailValid(req.body.email)) {res.status(400); res.send("Email isn't valid.")}
     else {
-    try {const exists = await emailChk(req.body.email); if (!exists) {res.status(400); res.send("Email address doesn't exist.");return;}}
-    catch(e) {res.status(400); res.send("Email address doesn't exist.");return;}
-    const verify = {from : "Metahkg support <support@metahkg.wcyat.me>",
+        const verify = {from : "Metahkg support <support@metahkg.wcyat.me>",
         to : req.body.email,
         subject : "Metahkg verification code",
         text : `Your verification code is ${code}.` }
