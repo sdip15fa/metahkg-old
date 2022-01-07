@@ -30,7 +30,8 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
         to : req.body.email,
         subject : "Metahkg verification code",
         text : `Your verification code is ${code}.` }
-    await mg.messages().send(verify, function (error, body) {console.log(body);});
+    await mg.messages().send(verify, function (error, body) {console.log(body);
+    if (body.message !== "Queued. Thank you.") {res.status(400); res.send(body.message);}});
     await verification.insertOne({
         createdAt : new Date(),
         code : code,
