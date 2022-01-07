@@ -41,7 +41,7 @@ class Register extends React.Component {
     render () {
         return (
             <Box sx={{backgroundColor: 'primary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', height : '100vh'}}>
-                <Box sx={{backgroundColor : 'secondary.main', height : 'auto'}}>
+                <Box sx={{backgroundColor : 'secondary.dark', height : 'auto'}}>
                 <div style={{margin : '50px'}}>
                     <p style={{textAlign : 'center', fontSize: '20px'}}>Register a Metahkg account</p>
                     <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 

@@ -17,7 +17,8 @@ declare module '@mui/material/styles' {
         main: '#2a2a2a'
       },
       secondary: {
-        main: '#F5BD1F'
+        main: '#F5BD1F',
+        dark: '#ffc100'
       }
     }})
 export default function Theme(props:any) {

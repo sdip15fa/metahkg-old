@@ -5184,6 +5184,11 @@ is-docker@^2.0.0, is-docker@^2.1.1:
   resolved "https://registry.npmjs.org/is-docker/-/is-docker-2.2.1.tgz"
   integrity sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==
 
+is-email-valid@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/is-email-valid/-/is-email-valid-1.0.1.tgz#82d3323a89806f0a117f96e79cb2c5f07dbd204d"
+  integrity sha1-gtMyOomAbwoRf5bnnLLF8H29IE0=
+
 is-extglob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz"
