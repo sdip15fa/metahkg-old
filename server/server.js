@@ -91,6 +91,6 @@ rootRouter.get('(/*)?', async (req, res, next) => {
     res.sendFile('index.html', { root: 'build' });
 });
 app.use(rootRouter);
-app.listen(3000, () => {
-    console.log("listening at port 3000");
+app.listen(3100, () => {
+    console.log("listening at port 3100");
 })
