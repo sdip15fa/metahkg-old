@@ -21,7 +21,9 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
     const users = client.db("metahkg-users").collection("users");
     const code = random.int((min = 100000), (max = 999999))
     if (!req.body.user || !req.body.pwd || 
-        !req.body.email || Object.keys(req.body).length > 3) {
+        !req.body.email || !req.body.sex || 
+        req.body.sex !== "female" && req.body.sex !== "male"
+        || Object.keys(req.body).length > 4) {
             res.status(400);res.send("Bad request");}
     else if (await users.find({user : req.body.user}).count() || await verification.find({user : req.body.user}).count()) {res.status(409); res.send("Username exists.");}
     else if (await users.find({email : req.body.email}).count() || await verification.find({email : req.body.email}).count()) {res.status(409); res.send("Email exists.");}
@@ -36,7 +38,8 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
         code : code,
         email : req.body.email,
         pwd : req.body.pwd,
-        user : req.body.user
+        user : req.body.user,
+        sex : req.body.sex
     })
     res.send("Ok");}
 })
@@ -78,11 +81,31 @@ app.get('/api/thread/:id/:file', async (req, res) => {
     finally {await client.close()}
 })
 //add a comment
-app.post('/api/thread/:id', body_parser.json(), async (req, res) => {
+app.post('/api/comment', body_parser.json(), async (req, res) => {
+    if (!req.body.id || !req.body.comment || Object.keys(req.body).length > 2) 
+    {res.status(400); res.send("Bad request"); return;}
     await client.connect();
     try {
         const conversation = client.db('metahkg-threads').collection('conversation');
         const users = client.db('metahkg-threads').collection('users');
+        const count = client.db("metahkg-threads").collection('count');
+        const metahkgusers = client.db("metahkg-users").collection('users');
+        const key = req.cookies.key;
+        const user = await metahkgusers.findOne({key : key});
+        if (!await metahkgusers.findOne({key : key}) || !await conversation.findOne({id : req.body.id})) 
+        {res.status(404); res.send("Not found.");return;}
+        else {
+            await conversation.updateOne({id : req.body.id}, 
+                {$set : { [`conversation.${await count.findOne({id : req.body.id}).count}`]:
+                 {user : user.id, 
+                 comment : req.body.comment, date : String(new Date)}}
+                })
+            await count.updateOne({id : req.body.id}, {$set : {count : await count.findOne({id : req.body.id}).count + 1}})
+            if (!await users.findOne({id : req.body.id})[user.id]) {
+                await users.updateOne({id : req.body.id}, {$set : {[user.id] : {sex : user.sex, name : user.name}}})
+            }
+            res.send("ok");
+        }
     } finally {await client.close()}
 })
 app.use(express.static('build'))
