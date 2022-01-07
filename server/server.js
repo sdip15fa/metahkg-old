@@ -96,13 +96,13 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
         {res.status(404); res.send("Not found.");return;}
         else {
             await conversation.updateOne({id : req.body.id}, 
-                {$set : { [`conversation.${await count.findOne({id : req.body.id}).count}`]:
+                {$set : { [`conversation.${await count.findOne({id : req.body.id}).c}`]:
                  {user : user.id, 
                  comment : req.body.comment, date : String(new Date)}}
                 })
-            await count.updateOne({id : req.body.id}, {$set : {count : await count.findOne({id : req.body.id}).count + 1}})
+            await count.updateOne({id : req.body.id}, {$set : {c : await count.findOne({id : req.body.id}).c + 1}})
             if (!await users.findOne({id : req.body.id})[user.id]) {
-                await users.updateOne({id : req.body.id}, {$set : {[user.id] : {sex : user.sex, name : user.name}}})
+                await users.updateOne({id : req.body.id}, {$set : {[user.id] : {sex : user.sex, name : user.user}}})
             }
             res.send("ok");
         }
