@@ -13,6 +13,10 @@ const DOMAIN = 'metahkg.wcyat.me';
 const mg = mailgun({apiKey: process.env.api_key, domain: DOMAIN});
 const mongouri = process.env.DB_URI;
 const client = new MongoClient(mongouri);
+app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "script-src 'self' https://sa.wcyat.engineer https://analytics.wcyat.me https://static.cloudflareinsights.com https://cdnjs.cloudflare.com");
+    return next();
+});
 app.use(cors());
 app.use(cookieParser());
 app.post('/api/register', body_parser.json(), async (req, res) => {
