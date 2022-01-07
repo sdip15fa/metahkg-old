@@ -19,6 +19,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "email-chk": "^1.0.2",
     "express": "^4.17.2",
     "is-email-valid": "^1.0.1",
     "js-cookie": "^3.0.1",
