@@ -28,8 +28,8 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
     else if (await users.find({user : req.body.user}).count() || await verification.find({user : req.body.user}).count()) {res.status(409); res.send("Username exists.");}
     else if (await users.find({email : req.body.email}).count() || await verification.find({email : req.body.email}).count()) {res.status(409); res.send("Email exists.");}
     else {
-    try {const exists = await emailChk(req.body.email); if (!exists) {res.status(400); res.send("Email address doesn't exist.");}}
-    catch(e) {res.status(400); res.send("Email address doesn't exist.");}
+    try {const exists = await emailChk(req.body.email); if (!exists) {res.status(400); res.send("Email address doesn't exist.");return;}}
+    catch(e) {res.status(400); res.send("Email address doesn't exist.");return;}
     const verify = {from : "Metahkg support <support@metahkg.wcyat.me>",
         to : req.body.email,
         subject : "Metahkg verification code",
