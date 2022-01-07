@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import * as EmailValidator from 'email-validator';
 import { Box, TextField, Button } from '@mui/material';
 class Register extends React.Component {
     constructor (props:any) {
@@ -32,6 +33,7 @@ class Register extends React.Component {
         if (!this.user) {this.setState({warning : 'Username cannot be empty.'}); return;}
         else if (!this.email) {this.setState({warning : 'Email cannot be empty.'}); return;}
         else if (!this.pwd) {this.setState({warning : 'Password cannot be empty.'}); return;}
+        else if (!EmailValidator.validate(this.email)) {this.setState({warning : 'Email invalid.'}); return;}
         this.setState({warning : ''});
         axios.post('/api/register',{email : this.email, user : this.user, pwd : this.pwd})
         .then (() => {
