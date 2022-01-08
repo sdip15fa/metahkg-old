@@ -6,6 +6,4 @@ export default function Home () {
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <Conversation id={1}/>
           </div>
-        </Box>
-    )
-}
+        </Box>)}

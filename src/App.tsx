@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages';
 import Register from './pages/signup';
 import Signin from './pages/signin';
-function App() {
+export default function App() {
   return (
     <Theme>
         <Router>
@@ -14,8 +14,4 @@ function App() {
             <Route path='/signin' element={<Signin/>}/>
           </Routes> 
         </Router>
-    </Theme>
-  );
-}
-
-export default App;
+    </Theme>);}

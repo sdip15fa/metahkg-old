@@ -4,9 +4,7 @@ function Tag(props:any) {
         <div style={{display: 'flex', fontSize: '18px'}}>
            <p style={{color: props.op ? '#F5BD1F' : 'grey'}}>#{props.id}</p>
            <p style={{color: props.sex ? '#0277bd' : 'red', marginLeft: '10px'}}>{props.children}</p>
-        </div>
-    )
-}
+        </div>)}
 export default function Comment(props:any) {
     return (
         <Box sx={{backgroundColor: 'primary.main', textAlign: 'left'}}>
@@ -15,6 +13,4 @@ export default function Comment(props:any) {
             <p style={{color: 'white', marginTop: '0px'}}>{props.children}</p>
             <div style={{height: '20px'}}/>
           </div>
-        </Box>
-    )
-}
+        </Box>)}

@@ -42,5 +42,4 @@ export default class Conversation extends React.Component<any> {
               <Box sx={{backgroundColor: "primary.dark", width: isMobile ? '100vw' : '80vw'}}>
                 {this.o}
               </Box>
-          </div>
-        )}}
+          </div>)}}

@@ -6,13 +6,10 @@ import Cookies from "js-cookie";
 export default class Signin extends React.Component {
     constructor (props:any) {
         super(props);
-        this.signin = this.signin.bind(this);
-    }
-    user = '';
-    pwd = '';
+        this.signin = this.signin.bind(this);}
+    user = '';pwd = '';
     state = {
-        warning : ''
-    }
+        warning : ''}
     signin () {
         if (!this.user) {this.setState({warning : "Username cannot be empty."}); return;};
         if (!this.pwd) {this.setState({warning : "Password cannot be empty"}); return;};
@@ -24,8 +21,7 @@ export default class Signin extends React.Component {
             localStorage.id = res.data.id;
             window.location.href = '/'})
         .catch(err => {
-            this.setState({warning: err.response.data})})
-    }
+            this.setState({warning: err.response.data})})}
     render () {
         if (localStorage.signedin) {window.location.replace('/')};
         return (
@@ -42,7 +38,4 @@ export default class Signin extends React.Component {
                   <p style={{color : 'red'}}>{this.state.warning}</p>
                 </div>
               </Box> 
-            </Box>
-        )
-    }
-}
+            </Box>)}}
