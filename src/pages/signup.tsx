@@ -12,8 +12,8 @@ function Sex (props:any) {
     return (
         <FormControl sx={{ minWidth: 200 }}>
           <InputLabel>Sex</InputLabel>
-          <Select value={sex} label="Sex"
-            onChange={changeHandler}>
+          <Select disabled={props.disabled} value={sex} 
+            label="Sex" onChange={changeHandler}>
             <MenuItem value={1}>Male</MenuItem>
             <MenuItem value={0}>Female</MenuItem>
           </Select>
@@ -61,7 +61,7 @@ export default class Register extends React.Component {
                         <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
                         <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="email" onChange={(e) => {this.email = e.target.value}} label="Email" required fullWidth/>
                         <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="password" onChange={(e) => {this.pwd = e.target.value}} label="Password" required fullWidth/>
-                        <Sex changeHandler={(e:any) => {this.sex = e.target.value ? "male" : "female"}}/><br/>
+                        <Sex disabled={this.state.waiting} changeHandler={(e:any) => {this.sex = e.target.value ? "male" : "female"}}/><br/>
                         {this.state.verify}<br/>
                         <Button variant="outlined" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
                         <p style={{color : 'red'}}>{this.state.warning}</p>
