@@ -6,7 +6,11 @@ const rootRouter = express.Router();
 const mailgun = require("mailgun-js");
 const random = require('random');
 const rg = require("wcyat-rg");
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
 require('dotenv').config();
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
 const app = express();
 const DOMAIN = 'metahkg.wcyat.me';
 const mg = mailgun({apiKey: process.env.api_key, domain: DOMAIN});
@@ -90,7 +94,7 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
         await conversation.updateOne({id : req.body.id}, 
         {$set : { [`conversation.${(await count.findOne({id : req.body.id})).c + 1}`]:
         {user : user.id, 
-        comment : req.body.comment, date : String(new Date)}}})
+        comment : DOMPurify.sanitize(req.body.comment), date : String(new Date)}}})
         await count.updateOne({id : req.body.id}, {$set : {c : (await count.findOne({id : req.body.id})).c + 1}})
         if (!await users.findOne({id : req.body.id})[user.id]) {
         await users.updateOne({id : req.body.id}, {$set : {[user.id] : {sex : user.sex, name : user.user}}})}

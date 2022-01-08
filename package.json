@@ -27,6 +27,7 @@
     "hash.js": "^1.1.7",
     "html-react-parser": "^1.4.5",
     "js-cookie": "^3.0.1",
+    "jsdom": "^19.0.0",
     "mailgun-js": "^0.22.0",
     "mongodb": "^4.2.2",
     "random": "^3.0.6",
