@@ -2,7 +2,6 @@ const express = require('express');
 const body_parser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const cookieParser = require("cookie-parser");
-const cors = require('cors');
 const rootRouter = express.Router();
 const app = express();
 const mailgun = require("mailgun-js");
@@ -17,7 +16,6 @@ app.use(function(req, res, next) {
     res.setHeader("Content-Security-Policy", "script-src 'self' https://sa.wcyat.engineer https://analytics.wcyat.me https://static.cloudflareinsights.com https://cdnjs.cloudflare.com");
     return next();
 });
-app.use(cors());
 app.use(cookieParser());
 app.post('/api/register', body_parser.json(), async (req, res) => {
     await client.connect();
