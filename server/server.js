@@ -59,7 +59,7 @@ app.post('/api/verify', body_parser.json(), async (req,res) => {
             data.id = await users.countDocuments({}) + 1;
             await users.insertOne(data); res.send({id : data.id, key : data.key}); await verification.deleteOne({email : req.body.email});}
 }})
-app.post('api/signin', body_parser.json(), async (req, res) => {
+app.post('/api/signin', body_parser.json(), async (req, res) => {
     if (!req.body.user || !req.body.pwd || 
         Object.keys(req.body).length > 2 || !(typeof req.body.user === typeof req.body.pwd === "string"))
     {res.status(400); res.send("Bad request");}
