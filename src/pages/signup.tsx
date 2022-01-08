@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ClassAttributes, Props } from 'react';
+import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import * as EmailValidator from 'email-validator';
@@ -52,23 +52,23 @@ class Register extends React.Component {
         this.setState({warning : ''});
         axios.post('/api/register',{email : this.email, user : this.user, pwd : this.pwd, sex : this.sex ? "male" : "female"})
         .then (() => {
-            this.setState({verify : <TextField style={{marginBottom : '20px'}} variant="outlined" label="verification code" onChange={(e) => {this.code = e.target.value}}/>, waiting : true });
+            this.setState({verify : <TextField style={{marginBottom : '20px', marginTop: '20px'}} variant="outlined" label="verification code" onChange={(e) => {this.code = e.target.value}}/>, waiting : true });
         }).catch (err => {this.setState({warning : err.response.data});})
     }
     render () {
         return (
-            <Box sx={{backgroundColor: 'primary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', height : '100vh'}}>
+            <Box sx={{backgroundColor: 'primary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', minHeight : '100vh'}}>
                 <Box sx={{backgroundColor : 'secondary.dark', height : 'auto'}}>
-                <div style={{margin : '50px'}}>
-                    <p style={{textAlign : 'center', fontSize: '20px'}}>Register a Metahkg account</p>
-                    <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
-                    <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="email" onChange={(e) => {this.email = e.target.value}} label="Email" required fullWidth/>
-                    <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="password" onChange={(e) => {this.pwd = e.target.value}} label="Password" required fullWidth/>
-                    <Sex changeHandler={(e:any) => {this.sex = e.target.value}}/><br/>
-                    {this.state.verify}<br/>
-                    <Button variant="outlined" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
-                    <p style={{color : 'red'}}>{this.state.warning}</p>
-                </div>
+                    <div style={{margin : '50px'}}>
+                        <p style={{textAlign : 'center', fontSize: '20px'}}>Register a Metahkg account</p>
+                        <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
+                        <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="email" onChange={(e) => {this.email = e.target.value}} label="Email" required fullWidth/>
+                        <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="password" onChange={(e) => {this.pwd = e.target.value}} label="Password" required fullWidth/>
+                        <Sex changeHandler={(e:any) => {this.sex = e.target.value}}/><br/>
+                        {this.state.verify}<br/>
+                        <Button variant="outlined" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
+                        <p style={{color : 'red'}}>{this.state.warning}</p>
+                    </div>
                 </Box>
             </Box>
         )

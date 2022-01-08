@@ -25,7 +25,7 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
     const users = client.db("metahkg-users").collection("users");
     const code = random.int((min = 100000), (max = 999999))
     if (!req.body.user || !req.body.pwd || 
-        !req.body.email || !req.body.sex || 
+        !req.body.email || !(typeof req.body.user === typeof req.body.ped === typeof req.body.email === "string") || !req.body.sex || 
         req.body.sex !== "female" && req.body.sex !== "male"
         || Object.keys(req.body).length > 4) {
             res.status(400);res.send("Bad request");}
@@ -48,7 +48,7 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
     res.send("Ok");}
 })
 app.post('/api/verify', body_parser.json(), async (req,res) => {
-    if (!req.body.email || !req.body.code || Object.keys(req.body).length > 2) 
+    if (!req.body.email || !req.body.code || !(typeof req.body.email === "string" && typeof req.body.code === "number") || Object.keys(req.body).length > 2) 
     {res.status(400); res.send("Bad request");} else {
         await client.connect();
         const verification = client.db("metahkg-users").collection("verification");
@@ -62,7 +62,9 @@ app.post('/api/verify', body_parser.json(), async (req,res) => {
             await users.insertOne(data); res.send({id : data.id, key : data.key}); await verification.deleteOne({email : req.body.email});}
 }})
 app.post('api/signin', body_parser.json(), async (req, res) => {
-    if (!req.body.user || !req.body.pwd || Object.keys(req.body).length > 2) {res.status(400); res.send("Bad request");}
+    if (!req.body.user || !req.body.pwd || 
+        Object.keys(req.body).length > 2 || !(typeof req.body.user === typeof req.body.pwd === "string"))
+    {res.status(400); res.send("Bad request");}
     else {
         await client.connect();
         const users = client.db("metahkg-users").collection("users");
@@ -86,7 +88,8 @@ app.get('/api/thread/:id/:file', async (req, res) => {
 })
 //add a comment
 app.post('/api/comment', body_parser.json(), async (req, res) => {
-    if (!req.body.id || !req.body.comment || Object.keys(req.body).length > 2) 
+    if (!req.body.id || !req.body.comment || Object.keys(req.body).length > 2
+    || !(typeof req.body.id === "number" && typeof req.body.comment === "string")) 
     {res.status(400); res.send("Bad request"); return;}
     await client.connect();
     try {
