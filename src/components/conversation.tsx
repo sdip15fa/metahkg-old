@@ -4,6 +4,7 @@ import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
 import {isMobile} from 'react-device-detect';
+import ResponsiveAppbar from "./Appbar";
 export default class Conversation extends React.Component<any> {
     constructor(props:any) {
         super(props);
@@ -39,6 +40,7 @@ export default class Conversation extends React.Component<any> {
         this.build();
         return (
           <div>
+              <ResponsiveAppbar/>
               <Title title={this.conversation.title}/>
               <Box sx={{backgroundColor: "primary.dark", width: isMobile ? '100vw' : '80vw'}}>
                 {this.o}

@@ -1,10 +1,11 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import hash from 'hash.js';
 import * as EmailValidator from 'email-validator';
 import { Box, TextField, Button, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
-let s:any = undefined;
-function Sex (props:any) {
+let s = '';
+function Sex () {
     const [sex, setSex] = React.useState('');
     const changeHandler = 
     (e:any) => {s = e.target.value ? "male" : "false";
@@ -45,6 +46,7 @@ class Register extends React.Component {
             Cookies.set('key', res.data.key);
             localStorage.user = this.user;
             localStorage.id = res.data.id;
+            localStorage.signedin = true;
             window.location.href = '/'})
         .catch(err => {
             this.setState({warning : err.response.data})})
@@ -56,7 +58,7 @@ class Register extends React.Component {
         else if (!s) {this.setState({warning : 'You must select a sex.'}); return;}
         else if (!EmailValidator.validate(this.email)) {this.setState({warning : 'Email invalid.'}); return;}
         this.setState({warning : ''});
-        axios.post('/api/register',{email : this.email, user : this.user, pwd : this.pwd, sex : s})
+        axios.post('/api/register',{email : this.email, user : this.user, pwd : hash.sha256().update(this.pwd).digest("hex"), sex : s})
         .then (() => {
             this.setState({verify : <TextField style={{marginBottom : '20px', marginTop: '20px'}} variant="outlined" label="verification code" onChange={(e) => {this.code = e.target.value}}/>, waiting : true });
         }).catch (err => {this.setState({warning : err.response.data});})
@@ -66,7 +68,7 @@ class Register extends React.Component {
             <Box sx={{backgroundColor: 'primary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', minHeight : '100vh'}}>
                 <Box sx={{backgroundColor : 'secondary.dark', height : 'auto'}}>
                     <div style={{margin : '50px'}}>
-                        <p style={{textAlign : 'center', fontSize: '20px'}}>Register a Metahkg account</p>
+                        <h1 style={{textAlign : 'center', fontSize: '20px'}}>Register a Metahkg account</h1>
                         <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
                         <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="email" onChange={(e) => {this.email = e.target.value}} label="Email" required fullWidth/>
                         <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="password" onChange={(e) => {this.pwd = e.target.value}} label="Password" required fullWidth/>
