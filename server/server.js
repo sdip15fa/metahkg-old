@@ -23,7 +23,7 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
     const users = client.db("metahkg-users").collection("users");
     const code = random.int((min = 100000), (max = 999999))
     if (!req.body.user || !req.body.pwd || 
-        !req.body.email || !(typeof req.body.user === typeof req.body.ped === typeof req.body.email === "string") || !req.body.sex || 
+        !req.body.email || !(typeof req.body.user === "string" && typeof req.body.ped === "string" && typeof req.body.email === "string") || !req.body.sex || 
         req.body.sex !== "female" && req.body.sex !== "male"
         || Object.keys(req.body).length > 4) {
             res.status(400);res.send("Bad request");}
@@ -61,7 +61,7 @@ app.post('/api/verify', body_parser.json(), async (req,res) => {
 }})
 app.post('/api/signin', body_parser.json(), async (req, res) => {
     if (!req.body.user || !req.body.pwd || 
-        Object.keys(req.body).length > 2 || !(typeof req.body.user === typeof req.body.pwd === "string"))
+        Object.keys(req.body).length > 2 || !(typeof req.body.user === "string" && typeof req.body.pwd === "string"))
     {res.status(400); res.send("Bad request");}
     else {
         await client.connect();
