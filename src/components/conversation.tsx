@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
+import {isMobile} from 'react-device-detect';
 export default class Conversation extends React.Component<any> {
     constructor(props:any) {
         super(props);
@@ -17,11 +18,9 @@ export default class Conversation extends React.Component<any> {
     }
     async getdata() {
         await axios.get(`/api/thread/${this.props.id}/conversation`).then(res => {
-            this.conversation = res.data;
-        })
+            this.conversation = res.data;})
         await axios.get(`/api/thread/${this.props.id}/users`).then(res => {
-            this.users = res.data;
-        })
+            this.users = res.data;})
         this.setState({ready : true});
     }
     build() {
@@ -41,7 +40,7 @@ export default class Conversation extends React.Component<any> {
         return (
           <div>
               <Title title={this.conversation.title}/>
-              <Box sx={{backgroundColor: "primary.dark", width: '80vw'}}>
+              <Box sx={{backgroundColor: "primary.dark", width: isMobile ? '100vw' : '80vw'}}>
                 {this.o}
               </Box>
           </div>
