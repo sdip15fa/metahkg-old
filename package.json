@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "@tinymce/tinymce-react": "^3.13.0",
     "@types/dompurify": "^2.3.2",
     "@types/jest": "^27.0.3",
     "@types/js-cookie": "^3.0.1",

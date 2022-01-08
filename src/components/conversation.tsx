@@ -16,10 +16,12 @@ export default class Conversation extends React.Component<any> {
     conversation:any = {};
     users:any = {};
     state = {
-        ready : false}
+        ready : false,
+        error : ''}
     async getdata() {
         await axios.get(`/api/thread/${this.props.id}/conversation`).then(res => {
             this.conversation = res.data;})
+            .catch(err => {this.setState({error : err.response.data}); return;})
         await axios.get(`/api/thread/${this.props.id}/users`).then(res => {
             this.users = res.data;})
         this.setState({ready : true});}
@@ -33,6 +35,7 @@ export default class Conversation extends React.Component<any> {
                             {parse(DOMPurify.sanitize(entry[1].comment))}</Comment>
             )})}
     render() {
+        if (this.state.error) {return <h1 style={{color : 'white'}}>{this.state.error}</h1>};
         if (!this.state.ready) {this.getdata(); return <p style={{color: "white"}}>Please wait...</p>};
         this.build();
         return (
