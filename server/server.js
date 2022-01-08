@@ -22,7 +22,7 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
     const users = client.db("metahkg-users").collection("users");
     const code = random.int((min = 100000), (max = 999999))
     if (!req.body.user || !req.body.pwd || 
-        !req.body.email || !(typeof req.body.user === "string" && typeof req.body.ped === "string" 
+        !req.body.email || !(typeof req.body.user === "string" && typeof req.body.pwd === "string" 
         && typeof req.body.email === "string") || !req.body.sex || 
         req.body.sex !== "female" && req.body.sex !== "male"
         || Object.keys(req.body).length > 4) {res.status(400);res.send("Bad request");}
