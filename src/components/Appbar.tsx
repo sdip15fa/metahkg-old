@@ -98,7 +98,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            Url shortener
+              Metahkg
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {localStorage.signedin ? <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={() => {localStorage.clear();
