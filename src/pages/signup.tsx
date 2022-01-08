@@ -8,7 +8,7 @@ let s = '';
 function Sex () {
     const [sex, setSex] = React.useState('');
     const changeHandler = 
-    (e:any) => {s = e.target.value ? "male" : "false";
+    (e:any) => {s = e.target.value ? "male" : "female";
      setSex(e.target.value);}
     return (
         <FormControl sx={{ minWidth: 200 }}>
@@ -58,7 +58,8 @@ class Register extends React.Component {
         else if (!s) {this.setState({warning : 'You must select a sex.'}); return;}
         else if (!EmailValidator.validate(this.email)) {this.setState({warning : 'Email invalid.'}); return;}
         this.setState({warning : ''});
-        axios.post('/api/register',{email : this.email, user : this.user, pwd : hash.sha256().update(this.pwd).digest("hex"), sex : s})
+        axios.post('/api/register',{email : this.email, user : this.user, 
+            pwd : hash.sha256().update(this.pwd).digest("hex"), sex : s})
         .then (() => {
             this.setState({verify : <TextField style={{marginBottom : '20px', marginTop: '20px'}} variant="outlined" label="verification code" onChange={(e) => {this.code = e.target.value}}/>, waiting : true });
         }).catch (err => {this.setState({warning : err.response.data});})
