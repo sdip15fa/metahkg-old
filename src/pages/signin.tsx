@@ -26,7 +26,7 @@ export default class Signin extends React.Component {
         if (localStorage.signedin) {window.location.replace('/')};
         return (
             <Box sx={{backgroundColor : 'primary.dark', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <Box sx={{backgroundColor : 'secondary.dark'}}>
+              <Box sx={{backgroundColor : 'secondary.dark', minHeight : '50vh', minWidth : '50vw'}}>
                 <div style={{margin: '50px'}}>
                   <h1 style={{textAlign : 'center', fontSize : '20px'}}>Sign in to your Metahkg account</h1>
                   <TextField sx={{marginBottom : '20px'}} type="text" label="Username / Email" variant="standard" 
