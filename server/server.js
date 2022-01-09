@@ -104,5 +104,5 @@ app.use(express.static('build'))
 rootRouter.get('(/*)?', async (req, res, next) => {
     res.sendFile('index.html', { root: 'build' });});
 app.use(rootRouter);
-app.listen(3100, () => {
-    console.log("listening at port 3100");})
+app.listen(3200, () => {
+    console.log("listening at port 3200");})
