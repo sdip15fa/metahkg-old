@@ -8,7 +8,7 @@ import Thread from './pages/thread';
 import AddComment from './pages/AddComment';
 export default function App() {
   return (
-    <Theme>
+    <Theme primary={{main : '#2a2a2a'}} secondary={{main: '#F5BD1F',dark: '#ffc100'}}>
         <Router>
           <Routes>
             <Route path='/' element={<Home/>}/>

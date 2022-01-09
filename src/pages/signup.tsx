@@ -4,6 +4,7 @@ import axios from 'axios';
 import hash from 'hash.js';
 import * as EmailValidator from 'email-validator';
 import { Box, TextField, Button, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
+import Theme from '../lib/theme';
 function Sex (props:any) {
     const [sex, setSex] = React.useState('');
     const changeHandler = 
@@ -54,17 +55,19 @@ export default class Register extends React.Component {
         }).catch (err => {this.setState({warning : err.response.data});})}
     render () {
         return (
-            <Box sx={{backgroundColor: 'primary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', minHeight : '100vh'}}>
-                <Box sx={{backgroundColor : 'secondary.dark', minHeight : '50vh', minWidth : '50vw'}}>
+            <Theme secondary={{main : '#2a2a2a'}} primary={{main: '#F5BD1F',dark: '#ffc100'}}>
+            <Box sx={{backgroundColor: 'secondary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', minHeight : '100vh'}}>
+                <Box sx={{minHeight : '50vh', width : '50vw'}}>
                     <div style={{margin : '50px'}}>
                         <h1 style={{textAlign : 'center', fontSize: '20px'}}>Register a Metahkg account</h1>
-                        <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
-                        <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="email" onChange={(e) => {this.email = e.target.value}} label="Email" required fullWidth/>
-                        <TextField style={{marginBottom: '20px'}} disabled={this.state.waiting} variant="standard" type="password" onChange={(e) => {this.pwd = e.target.value}} label="Password" required fullWidth/>
+                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="filled" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
+                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="standard" type="email" onChange={(e) => {this.email = e.target.value}} label="Email" required fullWidth/>
+                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="standard" type="password" onChange={(e) => {this.pwd = e.target.value}} label="Password" required fullWidth/>
                         <Sex disabled={this.state.waiting} changeHandler={(e:any) => {this.sex = e.target.value ? "male" : "female"}}/><br/>
                         {this.state.verify}<br/>
                         <Button variant="outlined" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
                         <p style={{color : 'red'}}>{this.state.warning}</p>
                     </div>
                 </Box>
-            </Box>)}}
+            </Box>
+            </Theme>)}}

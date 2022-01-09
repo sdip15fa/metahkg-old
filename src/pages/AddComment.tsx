@@ -21,7 +21,7 @@ class AddComment extends React.Component <any> {
         if (!this.comment) {this.setState({warning : "Comment cannot be empty."}); return;}
         axios.post('/api/comment', {id : this.id, comment : this.comment})
         .then (() => {
-            window.location.href = `${window.location.origin}/thread/${this.id}`;})
+            window.location.href = `/thread/${this.id}`;})
         .catch (err => {
             this.setState({warning : err.response.data})})}
     render () {
@@ -31,7 +31,7 @@ class AddComment extends React.Component <any> {
                 <div style={{width: isMobile ? '100vw' : '80vw'}}>
                   <div style={{margin: '20px'}}>
                       <ResponsiveAppBar/>
-                      <p style={{color: 'white', fontSize: '18px'}}>Add a comment to thread id {this.id}: <a href={`${window.location.origin}/thread/${this.id}`}>link</a></p>
+                      <p style={{color: 'white', fontSize: '18px'}}>Add a comment to thread id {this.id}: <a href={`/thread/${this.id}`}>link</a></p>
                       <TextEditor text="" changehandler={(v:any,e:any) => {this.comment = e.getContent()}}/>
                       <Button style={{marginTop: '20px'}} onClick={this.addcomment} variant='contained' color='secondary'>Comment</Button>
                       <p style={{color : 'red'}}>{this.state.warning}</p>

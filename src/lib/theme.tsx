@@ -8,14 +8,12 @@ declare module '@mui/material/styles' {
       status?: {
         danger?: string;
       };}}
+export default function Theme(props:any) {
   const theme = createTheme({
     palette: {
-      primary: {
-        main: '#2a2a2a'},
-      secondary: {
-        main: '#F5BD1F',
-        dark: '#ffc100'}}})
-export default function Theme(props:any) {
+      primary: props.primary,
+      secondary: props.secondary
+    }})
     return (
         <ThemeProvider theme={theme}>
             {props.children}
