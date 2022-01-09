@@ -60,7 +60,7 @@ export default class Register extends React.Component {
                 <Box sx={{minHeight : '50vh', width : '50vw'}}>
                     <div style={{margin : '50px'}}>
                         <h1 style={{textAlign : 'center', fontSize: '20px'}}>Register a Metahkg account</h1>
-                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="filled" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
+                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}, '& .MuiInputBase-input' : {borderColor: 'primary.main'}}} disabled={this.state.waiting} variant="filled" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
                         <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="standard" type="email" onChange={(e) => {this.email = e.target.value}} label="Email" required fullWidth/>
                         <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="standard" type="password" onChange={(e) => {this.pwd = e.target.value}} label="Password" required fullWidth/>
                         <Sex disabled={this.state.waiting} changeHandler={(e:any) => {this.sex = e.target.value ? "male" : "female"}}/><br/>
