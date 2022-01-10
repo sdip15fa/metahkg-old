@@ -27,11 +27,11 @@ export default class Signin extends React.Component {
     render () {
         if (localStorage.signedin) {window.location.replace('/')};
         return (
-            <Box sx={{backgroundColor : 'primary.dark', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <Box sx={{minHeight : '50vh', width : isMobile ? '80vw' : '50vw'}}>
+            <Box sx={{backgroundColor : 'primary.dark', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '50px'}}>
+              <Box sx={{minHeight : '50vh', width : isMobile ? '100vw' : '50vw'}}>
                 <div style={{margin: '50px'}}>
                   <div style={{display: 'flex', justifyContent: 'end'}}>
-                    <a href="/register"><Button sx={{fontSize: '18px', marginBottom: '20px', textTransform: 'none'}} color="secondary" variant="text"><strong>Register</strong></Button></a>
+                    <a href="/register"><Button sx={{fontSize: '18px', textTransform: 'none'}} color="secondary" variant="text"><strong>Register</strong></Button></a>
                   </div>
                   <h1 style={{textAlign : 'center', fontSize : '25px', color: 'white', marginBottom: '20px'}}>Sign in to your Metahkg account</h1>
                   {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '30px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
