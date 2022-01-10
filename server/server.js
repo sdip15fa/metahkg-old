@@ -114,10 +114,12 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
         res.send("ok");
     } finally {await client.close()}})
 app.get('/api/logout', (req,res) => {
-  res.status(200).clearCookie('connect.sid', {
-    path: '/'});
-  res.send("Ok");
-  })
+    res.cookie('key', 'none', {
+        expires: new Date(Date.now() + 5),
+        httpOnly: true,
+        domain : process.env.domain})
+    res.status(200).json({success: true, message: 'User logged out successfully'})
+})
 app.use(express.static('build'))
 rootRouter.get('(/*)?', async (req, res, next) => {
     res.sendFile('index.html', { root: 'build' });});

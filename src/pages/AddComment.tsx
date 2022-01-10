@@ -28,7 +28,7 @@ class AddComment extends React.Component <any> {
         .catch (err => {
             this.setState({alert : {severity : "error", text : err.response.data}, disabled : false})})}
     render () {
-        if (!localStorage.signedin) {window.location.replace('/register')}
+        if (!localStorage.signedin) {window.location.replace('/signin')}
         return (
             <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', justifyContent: 'center'}}>
                 <div style={{width: isMobile ? '100vw' : '80vw'}}>
