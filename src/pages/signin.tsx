@@ -35,9 +35,9 @@ export default class Signin extends React.Component {
                   </div>
                   <h1 style={{textAlign : 'center', fontSize : '25px', color: 'white', marginBottom: '20px'}}>Sign in to your Metahkg account</h1>
                   {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '30px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
-                  <TextField sx={{marginBottom : '20px'}} type="text" label="Username / Email" variant="filled" 
+                  <TextField sx={{marginBottom : '20px'}} color="secondary" type="text" label="Username / Email" variant="filled" 
                   onChange={(e) => {this.setState({user : e.target.value})}} required fullWidth/>
-                  <TextField sx={{marginBottom : '20px'}} type="password" label="Password" variant="filled"
+                  <TextField sx={{marginBottom : '20px'}} color="secondary" type="password" label="Password" variant="filled"
                   onChange={(e) => {this.setState({pwd : e.target.value})}} required fullWidth/>
                   <br/>
                   <Button disabled={this.state.disabled || !(this.state.user && this.state.pwd)} sx={{fontSize: '16px', height: '40px', marginTop: '10px'}} color="secondary" variant="contained" onClick={this.signin}>Sign in</Button>
