@@ -2,8 +2,12 @@ import React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Box, Toolbar, Typography, Menu, Container, Button, MenuItem, IconButton} from '@mui/material';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 const pages = ['Sign in', 'Register'];
 const links = ["/signin", "/register"];
+async function logout () {
+  await axios.get('/api/logout').then(()=>{localStorage.clear();window.location.reload();})
+}
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const handleOpenNavMenu = (event:any) => {
@@ -34,7 +38,7 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}
               sx={{display: { xs: 'block', md: 'none' }}}>
               {localStorage.signedin ? 
-                <MenuItem onClick={() => {Cookies.remove('key'); localStorage.clear();window.location.reload();}}>
+                <MenuItem onClick={logout}>
                   <Typography textAlign="center">Log out</Typography>
                 </MenuItem> : pages.map((page) => 
                 <MenuItem onClick={() => {window.location.href = links[pages.indexOf(page)]}}>
@@ -48,8 +52,7 @@ const ResponsiveAppBar = () => {
               Metahkg
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {localStorage.signedin ? <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={() => {localStorage.clear();
-             Cookies.remove('key'); window.location.reload();}}>Log out</Button> :
+            {localStorage.signedin ? <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={logout}>Log out</Button> :
             pages.map((page) => (
               <Button key={page} onClick={() => {window.location.href = links[pages.indexOf(page)]}}
                 sx={{ my: 2, color: 'white', display: 'block' }}>{page}

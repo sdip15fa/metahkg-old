@@ -11,6 +11,7 @@ declare module '@mui/material/styles' {
 export default function Theme(props:any) {
   const theme = createTheme({
     palette: {
+      mode : 'dark',
       primary: props.primary,
       secondary: props.secondary
     }})
