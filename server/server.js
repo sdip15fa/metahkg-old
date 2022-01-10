@@ -118,8 +118,15 @@ app.get('/api/logout', (req,res) => {
         expires: new Date(Date.now() + 5),
         httpOnly: true,
         domain : process.env.domain})
-    res.status(200).json({success: true, message: 'User logged out successfully'})
-})
+    res.status(200).json({success: true, message: 'User logged out successfully'})})
+app.post('/api/check', body_parser.json(), async (req,res) => {
+    if (!req.body.id || Object.keys(req.body) > 1 || typeof req.body.id !== "number") 
+    {res.status(400); res.send("Bad request."); return;};
+    try {await client.connect();
+        if (!(await client.db("metahkg-threads").collection("conversation").findOne({id : req.body.id})))
+        {res.status(404); res.send("Not found.");return;}
+        res.send("ok");} finally {
+        await client.close();};})
 app.use(express.static('build'))
 rootRouter.get('(/*)?', async (req, res, next) => {
     res.sendFile('index.html', { root: 'build' });});

@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Alert, Box, Button } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import { isMobile } from 'react-device-detect';
@@ -20,6 +20,13 @@ class AddComment extends React.Component <any> {
     state! : {
         comment : string, disabled : boolean,
         alert : {severity : severity, text : string}}
+    componentDidMount () {
+        axios.post('/api/check', {id : this.id})
+        .catch(err => {
+            if (err.response.status === 404) {
+                this.setState({alert : {severity : "warning", text : "Thread not found. Redirecting you to the homepage in 5 seconds."}});
+                setTimeout(() => {window.location.replace('/');}, 5000)}
+            else {this.setState({alert : {severity : "error", text : err.response.data}});}})}
     addcomment () {
         this.setState({disabled : true, alert : {severity : "info", text : "Adding comment..."}});
         axios.post('/api/comment', {id : this.id, comment : this.state.comment})
@@ -28,20 +35,18 @@ class AddComment extends React.Component <any> {
         .catch (err => {
             this.setState({alert : {severity : "error", text : err.response.data}, disabled : false})})}
     render () {
-        if (!localStorage.signedin) {window.location.replace('/signin')}
+        if (!localStorage.signedin) {window.location.replace('/signin'); return <div/>;}
         return (
             <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', justifyContent: 'center'}}>
                 <div style={{width: isMobile ? '100vw' : '80vw'}}>
                   <div style={{margin: '20px'}}>
                       <ResponsiveAppBar/>
-                      <p style={{color: 'white', fontSize: '18px'}}>Add a comment to thread id {this.id}: <a href={`/thread/${this.id}`}>link</a></p>
+                      <h2 style={{color: 'white', fontSize: '22px'}}>Add a comment to thread id {this.id}: <a href={`/thread/${this.id}`}>link</a></h2>
+                      {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '10px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
                       <TextEditor text="" changehandler={(v:any,e:any) => {this.setState({comment : e.getContent()})}}/>
                       <Button disabled={this.state.disabled || !this.state.comment} style={{marginTop: '20px'}} onClick={this.addcomment} variant='contained' color='secondary'>Comment</Button>
                   </div>
                 </div>
             </Box>)}}
 export default (props:any) => (
-    <AddComment
-        params={useParams()}
-    />
-);
+    <AddComment params={useParams()}/>);
