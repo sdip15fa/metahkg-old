@@ -12,7 +12,7 @@ function Sex (props:any) {
     (e:any) => {props.changeHandler(e);
      setSex(e.target.value);}
     return (
-        <FormControl sx={{ minWidth: 200, marginBottom: '10px' }}>
+        <FormControl sx={{minWidth: 200}}>
           <InputLabel color="secondary">Sex</InputLabel>
           <Select color="secondary" disabled={props.disabled} value={sex} 
             label="Sex" onChange={changeHandler}>
@@ -60,7 +60,7 @@ export default class Register extends React.Component {
         if (localStorage.signedin) {window.location.replace('/')};
         return (
             <Box sx={{backgroundColor: 'primary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', minHeight : '100vh', height: '100%'}}>
-                <Box sx={{minHeight : '50vh', width : isMobile ? '80vw' : '50vw'}}>
+                <Box sx={{minHeight : '50vh', width : isMobile ? '100vw' : '50vw'}}>
                     <div style={{margin : '50px'}}>
                         <h1 style={{textAlign : 'center', fontSize: '25px', color : 'white', marginBottom: '20px'}}>Register a Metahkg account</h1>
                         {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '30px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
@@ -69,11 +69,11 @@ export default class Register extends React.Component {
                         <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} color="secondary" disabled={this.state.waiting} variant="filled" type="password" onChange={(e) => {this.setState({pwd : e.target.value})}} label="Password" required fullWidth/>
                         <Sex disabled={this.state.waiting} changeHandler={(e:any) => {this.setState({sex : e.target.value ? "male" : "female"})}}/><br/>
                         {this.state.verify}<br/>
-                        <div style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
+                        <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%'}}>
                         <div style={{display: 'flex', justifyContent: 'left', width: '100%'}}>
                           <HCaptcha theme='dark' sitekey="adbdce6c-dde2-46e1-b881-356447110fa7" onVerify={(token) => {this.setState({htoken : token})}}/>
                         </div>
-                        <div style={{display: 'flex', justifyContent: 'end', alignItems: 'center', width: '100%'}}>
+                        <div style={{display: 'flex', justifyContent: isMobile ? 'left' : 'end', alignItems: 'center', width: '100%', marginTop: isMobile ? '20px' : '0px'}}>
                           <Button disabled={this.state.disabled || (this.state.waiting ? !this.state.code : !(this.state.htoken && this.state.user && this.state.email && this.state.pwd && this.state.sex))} type="submit" sx={{fontSize: '16px', height: '40px'}} color="secondary" variant="contained" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
                         </div>
                         </div>
