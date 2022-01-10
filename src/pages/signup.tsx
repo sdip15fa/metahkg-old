@@ -57,7 +57,7 @@ export default class Register extends React.Component {
         alert : {severity : "success", text : "Please enter the verification code sent to your email address.\nIt will expire in 5 minutes."}, disabled : false});
         }).catch (err => {this.setState({alert : {severity : "error", text : err.response.data}, disabled : false});})}
     render () {
-        if (localStorage.signedin) {window.location.replace('/')};
+        if (localStorage.signedin) {window.location.replace('/'); return <div/>;};
         return (
             <Box sx={{backgroundColor: 'primary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', minHeight : '100vh', height: '100%'}}>
                 <Box sx={{minHeight : '50vh', width : isMobile ? '100vw' : '50vw'}}>

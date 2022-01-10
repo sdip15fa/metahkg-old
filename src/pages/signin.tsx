@@ -25,7 +25,7 @@ export default class Signin extends React.Component {
         .catch(err => {
             this.setState({alert : {severity : "error", text : err.response.data}, disabled : false})})}
     render () {
-        if (localStorage.signedin) {window.location.replace('/')};
+        if (localStorage.signedin) {window.location.replace('/'); return <div/>;};
         return (
             <Box sx={{backgroundColor : 'primary.dark', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '50px'}}>
               <Box sx={{minHeight : '50vh', width : isMobile ? '100vw' : '50vw'}}>
