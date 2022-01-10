@@ -3,71 +3,80 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import hash from 'hash.js';
 import * as EmailValidator from 'email-validator';
-import { Box, TextField, Button, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
-import Theme from '../lib/theme';
+import { Box, TextField, Button, FormControl, Select, MenuItem, InputLabel, Alert } from '@mui/material';
+import { isMobile } from 'react-device-detect';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 function Sex (props:any) {
     const [sex, setSex] = React.useState('');
     const changeHandler = 
     (e:any) => {props.changeHandler(e);
      setSex(e.target.value);}
     return (
-        <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel>Sex</InputLabel>
-          <Select disabled={props.disabled} value={sex} 
+        <FormControl sx={{ minWidth: 200, marginBottom: '10px' }}>
+          <InputLabel color="secondary">Sex</InputLabel>
+          <Select color="secondary" disabled={props.disabled} value={sex} 
             label="Sex" onChange={changeHandler}>
             <MenuItem value={1}>Male</MenuItem>
             <MenuItem value={0}>Female</MenuItem>
           </Select>
         </FormControl>)}
+type severity = "success" | "info" | "warning" | "error";
 export default class Register extends React.Component {
     constructor (props:any) {
         super(props);
         this.verify = this.verify.bind(this);
-        this.register = this.register.bind(this);}
-    email = '';user = '';
-    pwd = '';code = '';sex = '';
-    state = {
-        verify : <div/>,
-        waiting : false,
-        warning : ''}
+        this.register = this.register.bind(this);
+        this.state = {
+            user : '', email : '', pwd : '',
+            sex : '', verify : <div/>, disabled : false, 
+            waiting : false, htoken : '',
+            code :'', alert : {severity: "info", text : ''}}}
+    state! : {
+        user : string, email : string, pwd: string,
+        sex : string, verify : JSX.Element, disabled : boolean,
+        waiting : boolean, htoken : string,
+        code : string, alert : {severity : severity, text : string}}
     verify () {
-        this.setState({warning : ''});
-        axios.post('/api/verify', {email : this.email, code : Number(this.code)})
+        this.setState({alert : {severity : "info", text : "Verifying..."}, disabled : true});
+        axios.post('/api/verify', {email : this.state.email, code : Number(this.state.code)})
         .then(res => {
             Cookies.set('key', res.data.key);
-            localStorage.user = this.user;
+            localStorage.user = this.state.user;
             localStorage.id = res.data.id;
             localStorage.signedin = true;
             window.location.href = '/'})
         .catch(err => {
-            this.setState({warning : err.response.data})})}
+            this.setState({alert : {severity : "error", text : err.response.data}, disabled : false})})}
     register () {
-        if (!this.user) {this.setState({warning : 'Username cannot be empty.'}); return;}
-        else if (!this.email) {this.setState({warning : 'Email cannot be empty.'}); return;}
-        else if (!this.pwd) {this.setState({warning : 'Password cannot be empty.'}); return;}
-        else if (!this.sex) {this.setState({warning : 'You must select a sex.'}); return;}
-        else if (!EmailValidator.validate(this.email)) {this.setState({warning : 'Email invalid.'}); return;}
-        this.setState({warning : ''});
-        axios.post('/api/register',{email : this.email, user : this.user, 
-            pwd : hash.sha256().update(this.pwd).digest("hex"), sex : this.sex})
+        this.setState({alert : {severity : "info", text : "Registering..."}, disabled : true});
+        if (!EmailValidator.validate(this.state.email)) {this.setState({alert : {severity : "error", text: "Email invalid"}, disabled : false}); return;}
+        axios.post('/api/register',{email : this.state.email, user : this.state.user, 
+            pwd : hash.sha256().update(this.state.pwd).digest("hex"), sex : this.state.sex, htoken: this.state.htoken})
         .then (() => {
-            this.setState({verify : <TextField style={{marginBottom : '20px', marginTop: '20px'}} variant="outlined" label="verification code" onChange={(e) => {this.code = e.target.value}}/>, waiting : true });
-        }).catch (err => {this.setState({warning : err.response.data});})}
+            this.setState({verify : <TextField color="secondary" style={{marginBottom : '20px'}} variant="filled" label="verification code" onChange={(e) => {this.setState({code : e.target.value})}}/>, waiting : true, 
+        alert : {severity : "success", text : "Please enter the verification code sent to your email address.\nIt will expire in 5 minutes."}, disabled : false});
+        }).catch (err => {this.setState({alert : {severity : "error", text : err.response.data}, disabled : false});})}
     render () {
+        if (localStorage.signedin) {window.location.replace('/')};
         return (
-            <Theme secondary={{main : '#2a2a2a'}} primary={{main: '#F5BD1F',dark: '#ffc100'}}>
-            <Box sx={{backgroundColor: 'secondary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', minHeight : '100vh'}}>
-                <Box sx={{minHeight : '50vh', width : '50vw'}}>
+            <Box sx={{backgroundColor: 'primary.dark', display : 'flex', alignItems: 'center', justifyContent: 'center', minHeight : '100vh', height: '100%'}}>
+                <Box sx={{minHeight : '50vh', width : isMobile ? '80vw' : '50vw'}}>
                     <div style={{margin : '50px'}}>
-                        <h1 style={{textAlign : 'center', fontSize: '20px'}}>Register a Metahkg account</h1>
-                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="filled" type="text" onChange={(e) => {this.user = e.target.value}} label="Username" required fullWidth /> 
-                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="standard" type="email" onChange={(e) => {this.email = e.target.value}} label="Email" required fullWidth/>
-                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} disabled={this.state.waiting} variant="standard" type="password" onChange={(e) => {this.pwd = e.target.value}} label="Password" required fullWidth/>
-                        <Sex disabled={this.state.waiting} changeHandler={(e:any) => {this.sex = e.target.value ? "male" : "female"}}/><br/>
+                        <h1 style={{textAlign : 'center', fontSize: '25px', color : 'white', marginBottom: '20px'}}>Register a Metahkg account</h1>
+                        {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '30px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
+                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} color="secondary" disabled={this.state.waiting} variant="filled" type="text" onChange={(e) => {this.setState({user : e.target.value})}} label="Username" required fullWidth /> 
+                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} color="secondary" disabled={this.state.waiting} variant="filled" type="email" onChange={(e) => {this.setState({email : e.target.value})}} label="Email" required fullWidth/>
+                        <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} color="secondary" disabled={this.state.waiting} variant="filled" type="password" onChange={(e) => {this.setState({pwd : e.target.value})}} label="Password" required fullWidth/>
+                        <Sex disabled={this.state.waiting} changeHandler={(e:any) => {this.setState({sex : e.target.value ? "male" : "female"})}}/><br/>
                         {this.state.verify}<br/>
-                        <Button variant="outlined" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
-                        <p style={{color : 'red'}}>{this.state.warning}</p>
+                        <div style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
+                        <div style={{display: 'flex', justifyContent: 'left', width: '100%'}}>
+                          <HCaptcha theme='dark' sitekey="adbdce6c-dde2-46e1-b881-356447110fa7" onVerify={(token) => {this.setState({htoken : token})}}/>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'end', alignItems: 'center', width: '100%'}}>
+                          <Button disabled={this.state.disabled || (this.state.waiting ? !this.state.code : !(this.state.htoken && this.state.user && this.state.email && this.state.pwd && this.state.sex))} type="submit" sx={{fontSize: '16px', height: '40px'}} color="secondary" variant="contained" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
+                        </div>
+                        </div>
                     </div>
                 </Box>
-            </Box>
-            </Theme>)}}
+            </Box>)}}
