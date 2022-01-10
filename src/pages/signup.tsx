@@ -53,7 +53,7 @@ export default class Register extends React.Component {
         axios.post('/api/register',{email : this.state.email, user : this.state.user, 
             pwd : hash.sha256().update(this.state.pwd).digest("hex"), sex : this.state.sex, htoken: this.state.htoken})
         .then (() => {
-            this.setState({verify : <TextField color="secondary" style={{marginBottom : '20px'}} variant="filled" label="verification code" onChange={(e) => {this.setState({code : e.target.value})}}/>, waiting : true, 
+            this.setState({verify : <TextField color="secondary" style={{marginBottom : '20px', marginTop: '20px'}} variant="filled" label="verification code" onChange={(e) => {this.setState({code : e.target.value})}}/>, waiting : true, 
         alert : {severity : "success", text : "Please enter the verification code sent to your email address.\nIt will expire in 5 minutes."}, disabled : false});
         }).catch (err => {this.setState({alert : {severity : "error", text : err.response.data}, disabled : false});})}
     render () {
