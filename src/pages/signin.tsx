@@ -15,7 +15,6 @@ export default class Signin extends React.Component {
         if (!this.pwd) {this.setState({warning : "Password cannot be empty"}); return;};
         axios.post('/api/signin', {user : this.user, pwd : hash.sha256().update(this.pwd).digest("hex")})
         .then(res => {
-            Cookies.set('key', res.data.key);
             localStorage.signedin = true;
             localStorage.user = res.data.user;
             localStorage.id = res.data.id;
