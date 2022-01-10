@@ -68,7 +68,9 @@ app.post('/api/signin', body_parser.json(), async (req, res) => {
     if (!data) {res.status(404); res.send("User not found");}
     else if (data.pwd !== req.body.pwd) {
     res.status(401); res.send("Password incorrect");}
-    else {res.send({key : data.key, id: data.id, user : data.user})}})
+    else {
+        res.cookie('key', data.key, {domain: "metahkg.wcyat.engineer", domain: "metahkg.wcyat.me",domain: "metahkg-dev.wcyat.engineer", secure: true, httpOnly: true})
+        res.send({key : data.key, id: data.id, user : data.user})}})
 //get conversation
 app.get('/api/thread/:id/:file', async (req, res) => {
     await client.connect();
