@@ -40,8 +40,8 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
     const verification = client.db("metahkg-users").collection("verification");
     const users = client.db("metahkg-users").collection("users");
     const code = random.int((min = 100000), (max = 999999))
-    if (await users.find({user : req.body.user}).count() || await verification.find({user : req.body.user}).count()) {res.status(409); res.send("Username exists.");}
-    else if (await users.find({email : req.body.email}).count() || await verification.find({email : req.body.email}).count()) {res.status(409); res.send("Email exists.");}
+    if (await users.countDocuments({user : req.body.user}) || await verification.countDocuments({user : req.body.user})) {res.status(409); res.send("Username exists.");}
+    else if (await users.countDocuments({email : req.body.email}) || await verification.countDocuments({email : req.body.email})) {res.status(409); res.send("Email exists.");}
     else {const verify = {from : "Metahkg support <support@metahkg.wcyat.me>",
         to : req.body.email,
         subject : "Metahkg verification code",
@@ -68,7 +68,7 @@ app.post('/api/verify', body_parser.json(), async (req,res) => {
         if (!data) {res.status(404); res.send("Not found. Your code night have expired.")}
         else if (data.code !== req.body.code) {res.status(401); res.send("Code incorrect.")}
         else {delete data._id; delete data.code;
-            data.key = rg.generate({include: {numbers:true,upper:true,lower:true,special:false},digits:16})
+            data.key = rg.generate({include: {numbers:true,upper:true,lower:true,special:false},digits:30})
             data.id = await users.countDocuments({}) + 1;
             await users.insertOne(data);
             res.cookie('key', data.key, {domain: process.env.domain, secure: true, httpOnly: true, path: '/'});
@@ -101,21 +101,51 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
     await client.connect();
     try {const conversation = client.db('metahkg-threads').collection('conversation');
         const users = client.db('metahkg-threads').collection('users');
-        const count = client.db("metahkg-threads").collection('count');
+        const summary = client.db("metahkg-threads").collection("summary");
         const metahkgusers = client.db("metahkg-users").collection('users');
         const key = req.cookies.key;
         const user = await metahkgusers.findOne({key : key});
         if (!await metahkgusers.findOne({key : key}) || !await conversation.findOne({id : req.body.id})) 
         {res.status(404); res.send("Not found.");return;}
         await conversation.updateOne({id : req.body.id}, 
-        {$set : { [`conversation.${(await count.findOne({id : req.body.id})).c + 1}`]:
+        {$set : { [`conversation.${(await summary.findOne({id : req.body.id})).c + 1}`]:
         {user : user.id, 
-        comment : DOMPurify.sanitize(req.body.comment), createdAt : new Date}}})
-        await count.updateOne({id : req.body.id}, {$set : {c : (await count.findOne({id : req.body.id})).c + 1}})
+        comment : DOMPurify.sanitize(req.body.comment), createdAt : new Date}}, 
+        $currentDate: {lastModified : true}})
+        await summary.updateOne({id : req.body.id}, {$inc : {c : 1},
+        $currentDate : {lastModified : true}});
         if (!await users.findOne({id : req.body.id})[user.id]) {
         await users.updateOne({id : req.body.id}, {$set : {[user.id] : {sex : user.sex, name : user.user}}})}
         res.send("ok");
     } finally {await client.close()}})
+app.post('/api/create', body_parser.json(), async (req, res) => {
+    if (!req.body.icomment || !req.body.hcode || !req.body.title || Object.keys(req.body).length > 3
+    || !(typeof req.body.icomment === "string" && typeof req.body.title === "string" && 
+    typeof req.body.hcode === "string")) {res.status(400); res.send("Bad request.");}
+    const hvalid = await verify(secret, req.body.htoken);
+    if (!hvalid.success) {res.status(400);
+    res.send("hCaptcha token invalid.");return;}
+    try {await client.connect();
+        const metahkgusers = client.db('metahkg-users').collection('users');
+        const user = await metahkgusers.findOne({key : req.cookies.key});
+        if (!user) {res.status(404); res.send("User not found."); return;};
+        const limit = client.db('metahkg-users').collection('limit');
+        if (await limit.countDocuments({id : user.id, type : "create"}) >= 10)
+        {res.status(429); res.send("You cannot create more than 10 topics a day.");return;}
+        const summary = client.db('metahkg-threads').collection('summary');
+        const conversation = client.db('metahkg-threads').collection('conversation');
+        const users = client.db('metahkg-threads').collection('users');
+        const newcid = await conversation.countDocuments({}) + 1;
+        const date = new Date;
+        await conversation.insertOne({op : user.name, id : newcid,
+        title : req.body.title, "conversation.1" : {user : user.id, comment : req.body.icomment,
+        createdAt : date}, lastModified : date})
+        await users.insertOne({id : newcid, [user.id] : {name : user.name, sex : user.sex}});
+        await summary.insertOne({id : newcid, op : user.name, sex : user.sex, c : 1, vote : 0, 
+            title : req.body.title, lastModified : date, createdAt : date});
+        await limit.insertOne({id : user.id, createdAt: date, type : "create"});
+        res.send({id : newcid});}
+    finally {await client.close();}})
 app.get('/api/logout', (req,res) => {
     res.cookie('key', 'none', {
         expires: new Date(Date.now() + 5),
