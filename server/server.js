@@ -28,7 +28,8 @@ app.use(cookieParser());
 app.get('/api/newest', async (req,res) => {
     try {await client.connect();
     const summary = client.db('metahkg-threads').collection('summary');
-    const data = summary.find({}).sort({"lastModified" : -1}).limit(20);
+    const data = await summary.find({}).sort({"lastModified" : -1}).limit(20).toArray();
+    console.log(data);
     res.send(data);}
     finally {await client.close();};})
 app.post('/api/register', body_parser.json(), async (req, res) => {
