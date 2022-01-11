@@ -137,11 +137,11 @@ app.post('/api/create', body_parser.json(), async (req, res) => {
         const users = client.db('metahkg-threads').collection('users');
         const newcid = await conversation.countDocuments({}) + 1;
         const date = new Date;
-        await conversation.insertOne({op : user.name, id : newcid,
+        await conversation.insertOne({op : user.user, id : newcid,
         title : req.body.title, conversation : {1 : {user : user.id, comment : req.body.icomment,
         createdAt : date}}, lastModified : date})
-        await users.insertOne({id : newcid, [user.id] : {name : user.name, sex : user.sex}});
-        await summary.insertOne({id : newcid, op : user.name, sex : user.sex, c : 1, vote : 0, 
+        await users.insertOne({id : newcid, [user.id] : {name : user.user, sex : user.sex}});
+        await summary.insertOne({id : newcid, op : user.user, sex : user.sex, c : 1, vote : 0, 
             title : req.body.title, lastModified : date, createdAt : date});
         await limit.insertOne({id : user.id, createdAt: date, type : "create"});
         res.send({id : newcid});}
