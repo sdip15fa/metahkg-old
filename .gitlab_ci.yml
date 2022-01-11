@@ -1,0 +1,9 @@
+build:
+  image: node:16.13.1
+  script:
+    - yarn install
+    - yarn run build
+    - git add -A
+    - git commit -a -m build
+    - git push origin $CI_COMMIT_BRANCH
+
