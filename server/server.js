@@ -11,6 +11,7 @@ const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const bcrypt = require('bcrypt');
 const EmailValidator = require('email-validator');
+const isNumber = require('is-number');
 require('dotenv').config();
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
@@ -56,7 +57,9 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
         sex : req.body.sex})
     res.send("Ok");}})
 app.post('/api/verify', body_parser.json(), async (req,res) => {
-    if (!req.body.email || !req.body.code || !(typeof req.body.email === "string" && typeof req.body.code === "number") || Object.keys(req.body).length > 2) 
+    if (!req.body.email || !req.body.code || !(typeof req.body.email === "string" && 
+    typeof req.body.code === "number") || Object.keys(req.body).length > 2 || 
+    !isNumber(req.body.code) || req.body.code.length !== 6) 
     {res.status(400); res.send("Bad request");return;}
         await client.connect();
         const verification = client.db("metahkg-users").collection("verification");

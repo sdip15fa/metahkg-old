@@ -6,6 +6,7 @@ import * as EmailValidator from 'email-validator';
 import { Box, TextField, Button, FormControl, Select, MenuItem, InputLabel, Alert } from '@mui/material';
 import { isMobile } from 'react-device-detect';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import isNumber from 'is-number';
 function Sex (props:any) {
     const [sex, setSex] = React.useState('');
     const changeHandler = 
@@ -53,7 +54,7 @@ export default class Register extends React.Component {
         axios.post('/api/register',{email : this.state.email, user : this.state.user, 
             pwd : hash.sha256().update(this.state.pwd).digest("hex"), sex : this.state.sex, htoken: this.state.htoken})
         .then (() => {
-            this.setState({verify : <TextField color="secondary" style={{marginBottom : '20px', marginTop: '20px'}} variant="filled" label="verification code" onChange={(e) => {this.setState({code : e.target.value})}}/>, waiting : true, 
+            this.setState({verify : <TextField color="secondary" style={{marginTop: isMobile ? '20px' : '0px'}} variant="filled" label="verification code" onChange={(e) => {this.setState({code : e.target.value})}}/>, waiting : true, 
         alert : {severity : "success", text : "Please enter the verification code sent to your email address.\nIt will expire in 5 minutes."}, disabled : false});
         }).catch (err => {this.setState({alert : {severity : "error", text : err.response.data}, disabled : false});})}
     render () {
@@ -67,14 +68,19 @@ export default class Register extends React.Component {
                         <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} color="secondary" disabled={this.state.waiting} variant="filled" type="text" onChange={(e) => {this.setState({user : e.target.value})}} label="Username" required fullWidth /> 
                         <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} color="secondary" disabled={this.state.waiting} variant="filled" type="email" onChange={(e) => {this.setState({email : e.target.value})}} label="Email" required fullWidth/>
                         <TextField sx={{marginBottom: '20px', input : {color : 'white'}}} color="secondary" disabled={this.state.waiting} variant="filled" type="password" onChange={(e) => {this.setState({pwd : e.target.value})}} label="Password" required fullWidth/>
-                        <Sex disabled={this.state.waiting} changeHandler={(e:any) => {this.setState({sex : e.target.value ? "male" : "female"})}}/><br/>
-                        {this.state.verify}<br/>
-                        <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%'}}>
+                        <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row'}}>
+                        <Sex disabled={this.state.waiting} changeHandler={(e:any) => {this.setState({sex : e.target.value ? "male" : "female"})}}/>
+                        {isMobile ? <br/> : <div/>}
+                        <div style={{display: 'flex', justifyContent: isMobile ? 'left' : 'end', width: '100%'}}>
+                          {this.state.verify}
+                        </div>
+                        </div><br/>
+                        <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%', marginBottom: '20px'}}>
                         <div style={{display: 'flex', justifyContent: 'left', width: '100%'}}>
                           <HCaptcha theme='dark' sitekey="adbdce6c-dde2-46e1-b881-356447110fa7" onVerify={(token) => {this.setState({htoken : token})}}/>
                         </div>
                         <div style={{display: 'flex', justifyContent: isMobile ? 'left' : 'end', alignItems: 'center', width: '100%', marginTop: isMobile ? '20px' : '0px'}}>
-                          <Button disabled={this.state.disabled || (this.state.waiting ? !this.state.code : !(this.state.htoken && this.state.user && this.state.email && this.state.pwd && this.state.sex))} type="submit" sx={{fontSize: '16px', height: '40px'}} color="secondary" variant="contained" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
+                          <Button disabled={this.state.disabled || (this.state.waiting ? !(this.state.code && isNumber(this.state.code) && this.state.code.length === 6) : !(this.state.htoken && this.state.user && this.state.email && this.state.pwd && this.state.sex))} type="submit" sx={{fontSize: '16px', height: '40px'}} color="secondary" variant="contained" onClick={this.state.waiting ? this.verify : this.register}>{this.state.waiting ? 'Verify' : 'Register'}</Button>
                         </div>
                         </div>
                     </div>
