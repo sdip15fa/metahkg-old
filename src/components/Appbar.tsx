@@ -1,13 +1,11 @@
 import React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Box, Toolbar, Typography, Menu, Container, Button, MenuItem, IconButton} from '@mui/material';
-import Cookies from 'js-cookie';
 import axios from 'axios';
 const pages = ['Sign in', 'Register'];
 const links = ["/signin", "/register"];
 async function logout () {
-  await axios.get('/api/logout').then(()=>{localStorage.clear();window.location.reload();})
-}
+  await axios.get('/api/logout').then(()=>{localStorage.clear();window.location.reload();})}
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const handleOpenNavMenu = (event:any) => {

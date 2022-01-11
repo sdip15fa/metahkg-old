@@ -119,9 +119,9 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
         res.send("ok");
     } finally {await client.close()}})
 app.post('/api/create', body_parser.json(), async (req, res) => {
-    if (!req.body.icomment || !req.body.hcode || !req.body.title || Object.keys(req.body).length > 3
+    if (!req.body.icomment || !req.body.htoken || !req.body.title || Object.keys(req.body).length > 3
     || !(typeof req.body.icomment === "string" && typeof req.body.title === "string" && 
-    typeof req.body.hcode === "string")) {res.status(400); res.send("Bad request.");}
+    typeof req.body.hcode === "string")) {res.status(400); res.send("Bad request.");return;}
     const hvalid = await verify(secret, req.body.htoken);
     if (!hvalid.success) {res.status(400);
     res.send("hCaptcha token invalid.");return;}
