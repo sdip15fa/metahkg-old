@@ -75,7 +75,7 @@ export default class Register extends React.Component {
                           {this.state.verify}
                         </div>
                         </div><br/>
-                        <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%', marginBottom: '20px'}}>
+                        <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%'}}>
                         <div style={{display: 'flex', justifyContent: 'left', width: '100%'}}>
                           <HCaptcha theme='dark' sitekey="adbdce6c-dde2-46e1-b881-356447110fa7" onVerify={(token) => {this.setState({htoken : token})}}/>
                         </div>

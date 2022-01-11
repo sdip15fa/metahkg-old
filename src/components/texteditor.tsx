@@ -1,4 +1,4 @@
-import {Editor} from "@tinymce/tinymce-react";
+import { Editor } from "@tinymce/tinymce-react";
 export default function TextEditor(props:any) {
     return (
       <Editor
@@ -17,6 +17,4 @@ export default function TextEditor(props:any) {
         toolbar:
           `undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help`
         }}
-      tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/tinymce.min.js"/>
-    )
-}
+      tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/tinymce.min.js"/>)}

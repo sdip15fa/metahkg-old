@@ -44,7 +44,7 @@ class AddComment extends React.Component <any> {
                       <h2 style={{color: 'white', fontSize: '22px'}}>Add a comment to thread id {this.id}: <a href={`/thread/${this.id}`}>link</a></h2>
                       {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '10px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
                       <TextEditor text="" changehandler={(v:any,e:any) => {this.setState({comment : e.getContent()})}}/>
-                      <Button disabled={this.state.disabled || !this.state.comment} style={{marginTop: '20px'}} onClick={this.addcomment} variant='contained' color='secondary'>Comment</Button>
+                      <Button disabled={this.state.disabled || !this.state.comment} style={{marginTop: '20px', fontSize: '16px', height: '40px'}} onClick={this.addcomment} variant='contained' color='secondary'>Comment</Button>
                   </div>
                 </div>
             </Box>)}}
