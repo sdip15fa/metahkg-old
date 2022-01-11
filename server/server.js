@@ -20,19 +20,19 @@ const DOMAIN = 'metahkg.wcyat.me';
 const secret = process.env.hcaptchasecret;
 const mg = mailgun({apiKey: process.env.api_key, domain: DOMAIN});
 const mongouri = process.env.DB_URI;
-const client = new MongoClient(mongouri);
 app.use(function(req, res, next) {
     res.setHeader("Content-Security-Policy", "script-src 'self' https://js.hcaptcha.com https://sa.wcyat.engineer https://analytics.wcyat.me https://static.cloudflareinsights.com https://cdnjs.cloudflare.com");
     return next();});
 app.use(cookieParser());
 app.get('/api/newest', async (req,res) => {
+    const client = new MongoClient(mongouri);
     try {await client.connect();
     const summary = client.db('metahkg-threads').collection('summary');
     const data = await summary.find({}).sort({"lastModified" : -1}).limit(20).toArray();
-    console.log(data);
     res.send(data);}
     finally {await client.close();};})
 app.post('/api/register', body_parser.json(), async (req, res) => {
+    const client = new MongoClient(mongouri);
     if (!req.body.user || !req.body.pwd || !req.body.htoken ||
         !req.body.email || !req.body.sex ||  !(typeof req.body.user === "string" && typeof req.body.pwd === "string" 
         && typeof req.body.email === "string" && typeof req.body.htoken === "string") || 
@@ -64,6 +64,7 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
         sex : req.body.sex})
     res.send("Ok");}})
 app.post('/api/verify', body_parser.json(), async (req,res) => {
+    const client = new MongoClient(mongouri);
     if (!req.body.email || !req.body.code || !(typeof req.body.email === "string" && 
     typeof req.body.code === "number") || Object.keys(req.body).length > 2 || 
     !isNumber(req.body.code) || req.body.code.length !== 6) 
@@ -81,6 +82,7 @@ app.post('/api/verify', body_parser.json(), async (req,res) => {
             res.cookie('key', data.key, {domain: process.env.domain, secure: true, httpOnly: true, path: '/'});
             res.send({id : data.id, key : data.key}); await verification.deleteOne({email : req.body.email});}})
 app.post('/api/signin', body_parser.json(), async (req, res) => {
+    const client = new MongoClient(mongouri);
     if (!req.body.user || !req.body.pwd || 
         Object.keys(req.body).length > 2 || !(typeof req.body.user === "string" && typeof req.body.pwd === "string"))
     {res.status(400); res.send("Bad request");return;}
@@ -94,6 +96,7 @@ app.post('/api/signin', body_parser.json(), async (req, res) => {
     res.send({key : data.key, id: data.id, user : data.user});})
 //get conversation
 app.get('/api/thread/:id/:file', async (req, res) => {
+    const client = new MongoClient(mongouri);
     await client.connect();
     try {const c = client.db('metahkg-threads').collection(req.params.file);
         const result = await c.findOne({id : Number(req.params.id)});
@@ -102,6 +105,7 @@ app.get('/api/thread/:id/:file', async (req, res) => {
     finally {await client.close()}})
 //add a comment
 app.post('/api/comment', body_parser.json(), async (req, res) => {
+    const client = new MongoClient(mongouri);
     if (!req.body.id || !req.body.comment || Object.keys(req.body).length > 2
     || !(typeof req.body.id === "number" && typeof req.body.comment === "string")) 
     {res.status(400); res.send("Bad request"); return;}
@@ -126,6 +130,7 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
         res.send("ok");
     } finally {await client.close()}})
 app.post('/api/create', body_parser.json(), async (req, res) => {
+    const client = new MongoClient(mongouri);
     if (!req.body.icomment || !req.body.htoken || !req.body.title || Object.keys(req.body).length > 3
     || !(typeof req.body.icomment === "string" && typeof req.body.title === "string" && 
     typeof req.body.htoken === "string")) {res.status(400); res.send("Bad request.");return;}

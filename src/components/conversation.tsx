@@ -3,10 +3,10 @@ import { Box } from '@mui/material';
 import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
-import {isMobile} from 'react-device-detect';
 import ResponsiveAppbar from "./Appbar";
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
+import ResponsiveAppBar from "./Appbar";
 export default class Conversation extends React.Component<any> {
     constructor(props:any) {
         super(props);
@@ -36,13 +36,13 @@ export default class Conversation extends React.Component<any> {
             )})}
     render() {
         if (this.state.error) {return <h1 style={{color : 'white'}}>{this.state.error}</h1>};
-        if (!this.state.ready) {this.getdata(); return <p style={{color: "white"}}>Please wait...</p>};
+        if (!this.state.ready) {this.getdata(); return <p style={{color: "white", textAlign: 'center'}}>Please wait...</p>};
         this.build();
         return (
-          <div>
-              <ResponsiveAppbar/>
+          <div style={{minHeight: '100vh'}}>
+              <ResponsiveAppBar/>
               <Title title={this.conversation.title}/>
-              <Box sx={{backgroundColor: "primary.dark", width: isMobile ? '100vw' : '80vw'}}>
+              <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
                 {this.o}
               </Box>
           </div>)}}
