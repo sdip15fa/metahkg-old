@@ -138,8 +138,8 @@ app.post('/api/create', body_parser.json(), async (req, res) => {
         const newcid = await conversation.countDocuments({}) + 1;
         const date = new Date;
         await conversation.insertOne({op : user.name, id : newcid,
-        title : req.body.title, "conversation.1" : {user : user.id, comment : req.body.icomment,
-        createdAt : date}, lastModified : date})
+        title : req.body.title, conversation : {1 : {user : user.id, comment : req.body.icomment,
+        createdAt : date}}, lastModified : date})
         await users.insertOne({id : newcid, [user.id] : {name : user.name, sex : user.sex}});
         await summary.insertOne({id : newcid, op : user.name, sex : user.sex, c : 1, vote : 0, 
             title : req.body.title, lastModified : date, createdAt : date});
