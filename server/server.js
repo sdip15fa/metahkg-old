@@ -25,6 +25,12 @@ app.use(function(req, res, next) {
     res.setHeader("Content-Security-Policy", "script-src 'self' https://js.hcaptcha.com https://sa.wcyat.engineer https://analytics.wcyat.me https://static.cloudflareinsights.com https://cdnjs.cloudflare.com");
     return next();});
 app.use(cookieParser());
+app.get('/api/newest', async (req,res) => {
+    try {await client.connect();
+    const summary = client.db('metahkg-threads').collection('summary');
+    const data = summary.find().sort({"lastModified" : -1}).limit(20);
+    res.send(data);}
+    finally {await client.close();};})
 app.post('/api/register', body_parser.json(), async (req, res) => {
     if (!req.body.user || !req.body.pwd || !req.body.htoken ||
         !req.body.email || !req.body.sex ||  !(typeof req.body.user === "string" && typeof req.body.pwd === "string" 
