@@ -1909,6 +1909,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/is-number@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@types/is-number/-/is-number-7.0.2.tgz#b8cc7cef635544acdd4325104888edbae940b460"
+  integrity sha512-5SVdfYSyNOc16O1wp/cfFN2i/tCFAriWKzKk2RkUIT0Ec+jvvX+oBPbNSRpuBwSobXX+gRjaamE2y0Z10sgO5A==
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.4.tgz"
@@ -5462,7 +5467,7 @@ is-number-object@^1.0.4:
 
 is-number@^7.0.0:
   version "7.0.0"
-  resolved "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
 is-obj@^1.0.1:
