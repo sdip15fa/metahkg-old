@@ -6,6 +6,7 @@ import Register from './pages/signup';
 import Signin from './pages/signin';
 import Thread from './pages/thread';
 import AddComment from './pages/AddComment';
+import Create from './pages/create';
 export default function App() {
   return (
     <Theme primary={{main : '#2a2a2a'}} secondary={{main: '#F5BD1F',dark: '#ffc100'}}>
@@ -16,6 +17,7 @@ export default function App() {
             <Route path='/comment/:id' element={<AddComment/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/signin' element={<Signin/>}/>
+            <Route path='/create' element={<Create/>}/>
           </Routes> 
         </Router>
     </Theme>);}
