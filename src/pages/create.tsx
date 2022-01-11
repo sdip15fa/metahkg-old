@@ -35,10 +35,10 @@ export default class Create extends React.Component {
                   <ResponsiveAppBar/>
                   <h1 style={{color : 'white'}}>Create new topic</h1>
                   {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '10px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
-                  <TextField variant="outlined" color="secondary" fullWidth label="Title" 
+                  <TextField style={{marginBottom : '20px'}} variant="outlined" color="secondary" fullWidth label="Title" 
                   onChange={(e) => {this.setState({title : e.target.value})}}/>
-                  <TextEditor onChange={(v:any,e:any) => {this.setState({icomment : e.getContent()})}} text=''/>
-                  <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%', marginBottom: '20px'}}>
+                  <TextEditor changehandler={(v:any,e:any) => {this.setState({icomment : e.getContent()})}} text=''/>
+                  <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%', marginTop: '20px'}}>
                     <div style={{display: 'flex', justifyContent: 'left', width: '100%'}}>
                       <HCaptcha theme='dark' sitekey="adbdce6c-dde2-46e1-b881-356447110fa7" onVerify={(token) => {this.setState({htoken : token})}}/>
                     </div>

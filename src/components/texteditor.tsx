@@ -5,7 +5,7 @@ export default function TextEditor(props:any) {
       onEditorChange={props.changehandler}
       initialValue={props.text}
       init={{
-        height: 350,
+        height: 300,
         menubar: true,
         skin: 'oxide-dark',
         content_css: 'dark',
