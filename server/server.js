@@ -49,7 +49,7 @@ app.post('/api/register', body_parser.json(), async (req, res) => {
     await mg.messages().send(verify, function (error, body) {console.log(body);});
     const hashed = await bcrypt.hash(req.body.pwd, 10);
     await verification.insertOne({
-        createdAt : new Date(),
+        createdAt : new Date,
         code : code,
         email : req.body.email,
         pwd : hashed,
@@ -110,7 +110,7 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
         await conversation.updateOne({id : req.body.id}, 
         {$set : { [`conversation.${(await count.findOne({id : req.body.id})).c + 1}`]:
         {user : user.id, 
-        comment : DOMPurify.sanitize(req.body.comment), date : String(new Date)}}})
+        comment : DOMPurify.sanitize(req.body.comment), createdAt : new Date}}})
         await count.updateOne({id : req.body.id}, {$set : {c : (await count.findOne({id : req.body.id})).c + 1}})
         if (!await users.findOne({id : req.body.id})[user.id]) {
         await users.updateOne({id : req.body.id}, {$set : {[user.id] : {sex : user.sex, name : user.user}}})}
