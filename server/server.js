@@ -165,6 +165,7 @@ app.get('/api/logout', (req,res) => {
         domain : process.env.domain})
     res.status(200).json({success: true, message: 'User logged out successfully'})})
 app.post('/api/check', body_parser.json(), async (req,res) => {
+    const client = new MongoClient(mongouri);
     if (!req.body.id || Object.keys(req.body) > 1 || typeof req.body.id !== "number") 
     {res.status(400); res.send("Bad request."); return;};
     try {await client.connect();
