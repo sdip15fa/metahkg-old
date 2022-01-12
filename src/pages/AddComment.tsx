@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { useParams } from "react-router";
-import ResponsiveAppBar from '../components/Appbar';
+import { Link } from 'react-router-dom';
 import TextEditor from '../components/texteditor';
 type severity = "success" | "info" | "warning" | "error";
 class AddComment extends React.Component <any> {
@@ -40,8 +40,7 @@ class AddComment extends React.Component <any> {
             <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', justifyContent: 'center'}}>
                 <div style={{width: isMobile ? '100vw' : '80vw'}}>
                   <div style={{margin: '20px'}}>
-                      <ResponsiveAppBar/>
-                      <h2 style={{color: 'white', fontSize: '22px'}}>Add a comment to thread id {this.id}: <a href={`/thread/${this.id}`}>link</a></h2>
+                      <h2 style={{color: 'white', fontSize: '22px'}}>Add a comment to thread id {this.id}: <Link to={`/thread/${this.id}`}>link</Link></h2>
                       {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '10px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
                       <TextEditor text="" changehandler={(v:any,e:any) => {this.setState({comment : e.getContent()})}}/>
                       <Button disabled={this.state.disabled || !this.state.comment} style={{marginTop: '20px', fontSize: '16px', height: '40px'}} onClick={this.addcomment} variant='contained' color='secondary'>Comment</Button>

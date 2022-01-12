@@ -1,11 +1,10 @@
 import React from "react";
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
-import ResponsiveAppBar from "./Appbar";
 export default class Conversation extends React.Component<any> {
     constructor(props:any) {
         super(props);
@@ -39,9 +38,10 @@ export default class Conversation extends React.Component<any> {
         this.build();
         return (
           <div style={{minHeight: '100vh'}}>
-              <ResponsiveAppBar/>
               <Title title={this.conversation.title}/>
+              <Paper style={{overflow: "auto", maxHeight: "calc(100vh-61px)"}}>
               <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
                 {this.o}
               </Box>
+              </Paper>
           </div>)}}

@@ -3,6 +3,7 @@ import { Alert, Box, Button, TextField } from '@mui/material';
 import axios from 'axios';
 import hash from 'hash.js';
 import { isMobile } from "react-device-detect";
+import { Link } from "react-router-dom";
 type severity = "success" | "info" | "warning" | "error";
 export default class Signin extends React.Component {
     constructor (props:any) {
@@ -31,7 +32,7 @@ export default class Signin extends React.Component {
               <Box sx={{minHeight : '50vh', width : isMobile ? '100vw' : '50vw'}}>
                 <div style={{margin: '50px'}}>
                   <div style={{display: 'flex', justifyContent: 'end'}}>
-                    <a href="/register"><Button sx={{fontSize: '18px', textTransform: 'none'}} color="secondary" variant="text"><strong>Register</strong></Button></a>
+                    <Link to="/register"><Button sx={{fontSize: '18px', textTransform: 'none'}} color="secondary" variant="text"><strong>Register</strong></Button></Link>
                   </div>
                   <h1 style={{textAlign : 'center', fontSize : '25px', color: 'white', marginBottom: '20px'}}>Sign in to your Metahkg account</h1>
                   {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '30px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}

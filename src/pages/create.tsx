@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import ResponsiveAppBar from '../components/Appbar';
 import TextEditor from '../components/texteditor';
 import { isMobile } from 'react-device-detect';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
@@ -59,7 +58,6 @@ export default class Create extends React.Component {
             <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', justifyContent: 'center'}}>
                 <div style={{width: isMobile ? '100vw' : '80vw'}}>
                   <div style={{margin: '20px'}}>
-                  <ResponsiveAppBar/>
                   <h1 style={{color : 'white'}}>Create new topic</h1>
                   {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '10px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
                   <TextField style={{marginBottom : '20px'}} variant="outlined" color="secondary" fullWidth label="Title" 
