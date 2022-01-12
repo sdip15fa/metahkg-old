@@ -17,7 +17,7 @@ export default class SideBar extends React.Component<any> {
           this.setState({open : open});};
     links = {
         1 : ['/signin', '/register', '/create'],
-        2 : ['/about', 'https://gitlab.com/wcyat-me/metahkg']}
+        2 : ['/about', '/source']}
     render () {
         return (
             <div>
@@ -41,12 +41,12 @@ export default class SideBar extends React.Component<any> {
       <Divider/>
       <List>
         {['About', 'Source code'].map((text, index) => (
-          <a style={{textDecoration: "none", color: 'white'}} href={this.links[2][index]}><ListItem button key={text}>
+          <Link style={{textDecoration: "none", color: 'white'}} to={this.links[2][index]}><ListItem button key={text}>
             <ListItemIcon>
                 {index === 0 ? <InfoIcon/> : <CodeIcon/>}
             </ListItemIcon>
             <ListItemText primary={text} />
-          </ListItem></a>))}
+          </ListItem></Link>))}
       </List>
     </Box>
     </Drawer>

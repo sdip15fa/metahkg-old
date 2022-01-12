@@ -9,6 +9,7 @@ import AddComment from './pages/AddComment';
 import Create from './pages/create';
 import Category from './pages/category';
 import Logout from './components/logout';
+import Source from './pages/source';
 export default function App() {
   return (
     <Theme primary={{main : '#2a2a2a'}} secondary={{main: '#F5BD1F',dark: '#ffc100'}}>
@@ -22,6 +23,7 @@ export default function App() {
             <Route path='/signin' element={<Signin/>}/>
             <Route path='/create' element={<Create/>}/>
             <Route path='/logout' element={<Logout/>}/>
+            <Route path='/source' element={<Source/>}/>
           </Routes> 
         </Router>
     </Theme>);}

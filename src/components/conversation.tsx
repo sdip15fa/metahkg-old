@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Paper } from '@mui/material';
+import { Box, LinearProgress, Paper } from '@mui/material';
 import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
@@ -32,11 +32,11 @@ export default class Conversation extends React.Component<any> {
                         op={this.users[entry[1].user].name === this.conversation.op ? true : false} 
                         sex={this.users[entry[1].user].sex === "male" ? true : false}>
                             {parse(DOMPurify.sanitize(entry[1].comment))}    
-                        </Comment>
+                </Comment>
             )})}
     render() {
         if (this.state.error) {return <h1 style={{color : 'white'}}>{this.state.error}</h1>};
-        if (!this.state.ready) {this.getdata(); return <p style={{color: "white", textAlign: 'center'}}>Please wait...</p>};
+        if (!this.state.ready) {this.getdata(); return <LinearProgress sx={{width: '100%'}} color="secondary"/>};
         this.build();
         return (
           <div style={{minHeight: '100vh'}}>

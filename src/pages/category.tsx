@@ -6,9 +6,9 @@ import { useParams } from 'react-router';
 import Menu from '../components/menu';
 import { Link } from 'react-router-dom';
 class Category extends React.Component <any> {
-    listitems = ['Sign in', 'Register', 'Create Topic', 'About', 'Source code'];
-    links = ['/signin', '/register', '/create', '/about', 'https://gitlab.com/wcyat-me/metahkg'];
-    icons:JSX.Element[] = [<AccountCircleIcon/>, <AccountCircleIcon/>, <CreateIcon/>, <InfoIcon/>, <CodeIcon/>]
+    listitems = ['Create Topic', 'About', 'Source code'];
+    links = ['/create', '/about', '/source'];
+    icons:JSX.Element[] = [<CreateIcon/>, <InfoIcon/>, <CodeIcon/>]
     render() {
         return (
             <Paper sx={{overflow: "auto", maxHeight: "100vh"}}>
@@ -20,6 +20,12 @@ class Category extends React.Component <any> {
                                 <div style={{margin: '50px'}}>
                                     <h1 style={{color: 'white'}}>Metahkg</h1>
                                     <List>
+                                        <Link style={{textDecoration: 'none', color: 'white'}} to={localStorage.signedin ? '/logout' : '/signin'}>
+                                            <ListItem button style={{width: '100%'}}>
+                                                <ListItemIcon><AccountCircleIcon/></ListItemIcon>
+                                                <ListItemText>{localStorage.signedin ? 'Logout' : 'Sign in / Register'}</ListItemText>
+                                            </ListItem>
+                                        </Link>
                                         {this.listitems.map((item, index) => (
                                             <Link style={{textDecoration: 'none', color: 'white'}} to={this.links[index]}>
                                             <ListItem button style={{width: '100%'}}>
