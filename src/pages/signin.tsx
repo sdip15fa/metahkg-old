@@ -30,12 +30,12 @@ export default class Signin extends React.Component {
         return (
             <Box sx={{backgroundColor : 'primary.dark', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '50px'}}>
               <Box sx={{minHeight : '50vh', width : isMobile ? '100vw' : '50vw'}}>
-                <div style={{margin: '50px'}}>
+                <div style={{marginLeft: '50px', marginRight: '50px'}}>
                   <div style={{display: 'flex', justifyContent: 'end'}}>
                     <Link to="/register"><Button sx={{fontSize: '18px', textTransform: 'none'}} color="secondary" variant="text"><strong>Register</strong></Button></Link>
                   </div>
                   <h1 style={{textAlign : 'center', fontSize : '25px', color: 'white', marginBottom: '20px'}}>Sign in to your Metahkg account</h1>
-                  {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '30px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
+                  {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '20px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}
                   <TextField sx={{marginBottom : '20px'}} color="secondary" type="text" label="Username / Email" variant="filled" 
                   onChange={(e) => {this.setState({user : e.target.value})}} required fullWidth/>
                   <TextField sx={{marginBottom : '20px'}} color="secondary" type="password" label="Password" variant="filled"
