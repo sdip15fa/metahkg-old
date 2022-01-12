@@ -8,7 +8,7 @@ export default function Logout () {
     logout();
     return (
         <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh'}}>
-            <div>
+            <div style={{display: 'flex'}}>
               <Alert style={{marginTop: '20px'}} severity="info">Logging you out...</Alert>
             </div>
         </Box>)}
