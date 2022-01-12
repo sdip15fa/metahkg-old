@@ -15,7 +15,7 @@ export default class Conversation extends React.Component<any> {
     users:any = {};
     state = {
         ready : false,
-        error : ''}
+        error : '',}
     async getdata() {
         await axios.get(`/api/thread/${this.props.id}/conversation`).then(res => {
             this.conversation = res.data;})
@@ -30,7 +30,8 @@ export default class Conversation extends React.Component<any> {
                         id={entry[0]} 
                         op={this.users[entry[1].user].name === this.conversation.op ? true : false} 
                         sex={this.users[entry[1].user].sex === "male" ? true : false}>
-                            {parse(DOMPurify.sanitize(entry[1].comment))}</Comment>
+                            {parse(DOMPurify.sanitize(entry[1].comment))}    
+                        </Comment>
             )})}
     render() {
         if (this.state.error) {return <h1 style={{color : 'white'}}>{this.state.error}</h1>};
@@ -40,8 +41,8 @@ export default class Conversation extends React.Component<any> {
           <div style={{minHeight: '100vh'}}>
               <Title title={this.conversation.title}/>
               <Paper style={{overflow: "auto", maxHeight: "calc(100vh - 61px)"}}>
-              <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
-                {this.o}
-              </Box>
+                <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
+                  {this.o}
+                </Box>
               </Paper>
           </div>)}}
