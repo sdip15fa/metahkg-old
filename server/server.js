@@ -24,12 +24,36 @@ app.use(function(req, res, next) {
     res.setHeader("Content-Security-Policy", "script-src 'self' https://js.hcaptcha.com https://sa.wcyat.engineer https://analytics.wcyat.me https://static.cloudflareinsights.com https://cdnjs.cloudflare.com");
     return next();});
 app.use(cookieParser());
-app.get('/api/newest', async (req,res) => {
+app.get('/api/newest/:category', async (req,res) => {
+    if (!isNumber(req.params.category) && !req.params.category.startsWith('bytid') ||
+    req.params.category.startsWith('bytid') && !isNumber(req.params.category.replace('bytid','')))
+    {res.status(400); res.send("Bad request."); return;}
     const client = new MongoClient(mongouri);
     try {await client.connect();
+    let category = Number(req.params.category);
     const summary = client.db('metahkg-threads').collection('summary');
-    const data = await summary.find({}).sort({"lastModified" : -1}).limit(20).toArray();
+    if (req.params.category.startsWith('bytid')) {
+        const s = await summary.findOne({id : Number(req.params.category.replace('bytid', ''))});
+        if (!s || !s.category) {res.status(404); res.send("Not found.");return;}
+        category = s.category;}
+    if (!await client.db("metahkg-threads").collection('category').findOne({id : category}))
+    {res.status(404); res.send("Not found."); return;}
+    const data = await summary.find(category === 1 ? {} : {category : category}).sort({"lastModified" : -1}).limit(20).toArray();
     res.send(data);}
+    finally {await client.close();};})
+app.get('/api/categories/:id', body_parser.json(), async (req,res) => {
+    if (req.params.id !== "all" && !(isNumber(req.params.id))) {res.status(400); res.send("Bad request."); return;}
+    const client = new MongoClient(mongouri);
+    await client.connect();
+    try {const categories = client.db('metahkg-threads').collection('categories');
+        if (req.params.id === "all") {
+            const c = categories.find({}).toArray();
+            let o = {};
+            for (i of c) {
+                o[i.id] = i.name;}
+            res.send(i); return;}
+        const c = categories.findOne({id : Number(this.params.id)});
+        res.send(c.name);}    
     finally {await client.close();};})
 app.post('/api/register', body_parser.json(), async (req, res) => {
     const client = new MongoClient(mongouri);
@@ -67,7 +91,7 @@ app.post('/api/verify', body_parser.json(), async (req,res) => {
     const client = new MongoClient(mongouri);
     if (!req.body.email || !req.body.code || !(typeof req.body.email === "string" && 
     typeof req.body.code === "number") || Object.keys(req.body).length > 2 || 
-    !isNumber(req.body.code) || req.body.code.length !== 6) 
+    (req.body.code).toString().length !== 6) 
     {res.status(400); res.send("Bad request");return;}
         await client.connect();
         const verification = client.db("metahkg-users").collection("verification");
@@ -114,10 +138,13 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
         const users = client.db('metahkg-threads').collection('users');
         const summary = client.db("metahkg-threads").collection("summary");
         const metahkgusers = client.db("metahkg-users").collection('users');
+        const limit = client.db("metahkg-users").collection('limit');
         const key = req.cookies.key;
         const user = await metahkgusers.findOne({key : key});
         if (!await metahkgusers.findOne({key : key}) || !await conversation.findOne({id : req.body.id})) 
         {res.status(404); res.send("Not found.");return;}
+        if (await limit.countDocuments({id : user.id, type : "comment"}) >= 300) {
+            res.status(429); res.send("You cannot add more than 300 comments a day.");return;}
         await conversation.updateOne({id : req.body.id}, 
         {$set : { [`conversation.${(await summary.findOne({id : req.body.id})).c + 1}`]:
         {user : user.id, 
@@ -131,9 +158,10 @@ app.post('/api/comment', body_parser.json(), async (req, res) => {
     } finally {await client.close()}})
 app.post('/api/create', body_parser.json(), async (req, res) => {
     const client = new MongoClient(mongouri);
-    if (!req.body.icomment || !req.body.htoken || !req.body.title || Object.keys(req.body).length > 3
-    || !(typeof req.body.icomment === "string" && typeof req.body.title === "string" && 
-    typeof req.body.htoken === "string")) {res.status(400); res.send("Bad request.");return;}
+    if (!req.body.icomment || !req.body.htoken || !req.body.title || !req.body.category ||
+     Object.keys(req.body).length > 4 || !(typeof req.body.icomment === "string" &&
+     typeof req.body.title === "string" && typeof req.body.htoken === "string" && typeof req.body.category === "number")) 
+     {res.status(400); res.send("Bad request.");return;}
     const hvalid = await verify(secret, req.body.htoken);
     if (!hvalid.success) {res.status(400);
     res.send("hCaptcha token invalid.");return;}
@@ -144,17 +172,20 @@ app.post('/api/create', body_parser.json(), async (req, res) => {
         const limit = client.db('metahkg-users').collection('limit');
         if (await limit.countDocuments({id : user.id, type : "create"}) >= 10)
         {res.status(429); res.send("You cannot create more than 10 topics a day.");return;}
+        const categories = client.db("metahkg-threads").collection("category");
+        const category = await categories.findOne({id : req.body.category});
+        if (!category) {res.status(404); res.send("Category not found."); return;}
         const summary = client.db('metahkg-threads').collection('summary');
         const conversation = client.db('metahkg-threads').collection('conversation');
         const users = client.db('metahkg-threads').collection('users');
         const newcid = await conversation.countDocuments({}) + 1;
         const date = new Date;
         await conversation.insertOne({op : user.user, id : newcid,
-        title : req.body.title, conversation : {1 : {user : user.id, comment : req.body.icomment,
+        title : req.body.title, category : category.id, conversation : {1 : {user : user.id, comment : req.body.icomment,
         createdAt : date}}, lastModified : date})
         await users.insertOne({id : newcid, [user.id] : {name : user.user, sex : user.sex}});
         await summary.insertOne({id : newcid, op : user.user, sex : user.sex, c : 1, vote : 0, 
-            title : req.body.title, lastModified : date, createdAt : date});
+            title : req.body.title, category : category.name, lastModified : date, createdAt : date});
         await limit.insertOne({id : user.id, createdAt: date, type : "create"});
         res.send({id : newcid});}
     finally {await client.close();}})
@@ -165,6 +196,7 @@ app.get('/api/logout', (req,res) => {
         domain : process.env.domain})
     res.status(200).json({success: true, message: 'User logged out successfully'})})
 app.post('/api/check', body_parser.json(), async (req,res) => {
+    const client = new MongoClient(mongouri);
     if (!req.body.id || Object.keys(req.body) > 1 || typeof req.body.id !== "number") 
     {res.status(400); res.send("Bad request."); return;};
     try {await client.connect();

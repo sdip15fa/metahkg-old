@@ -5,7 +5,7 @@ import { roundup } from '../lib/common';
 import React from 'react';
 import SideBar from './sidebar';
 import axios from 'axios';
-export default class Menu extends React.Component {
+export default class Menu extends React.Component <any> {
     constructor(props:any) {
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);}
@@ -19,7 +19,8 @@ export default class Menu extends React.Component {
         const r = humanizeDuration(diff, {round:true, spacer: "", delimiter: ""});
         return r;}
     componentDidMount() {
-        axios.get('/api/newest')
+        const c = this.props.category || `bytid${this.props.id}`;
+        axios.get(`/api/newest/${c}`)
         .then(res => {
             this.data = res.data;
             this.setState({ready: true});})}
@@ -46,10 +47,10 @@ export default class Menu extends React.Component {
                             <div style={{display: 'flex', flexDirection: 'column', marginLeft: "20px", marginRight: "20px"}}>
                             <Button variant="text" sx={{textTransform: "none", height: "35px"}}>
                                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: '10px'}}>
-                                    <p style={{color : thread.sex === "male" ? '#0277bd' : 'red', fontSize: '16px', textAlign: 'left'}}><strong>{thread.op}</strong></p>
+                                    <p style={{color : thread.sex === "male" ? '#0277bd' : 'red', fontSize: '16px', textAlign: 'left'}}>{thread.op}</p>
                                     <p style={{marginLeft: '5px', fontSize: '12px', color: 'grey'}}>{this.time(thread.lastModified)}</p>
                                     <div style={{marginLeft: '5px', height: '8px', width: '8px'}}>
-                                    {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px', marginBottom: '10px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px', marginBottom: '10px'}}/>}
+                                    {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px', paddingBottom: '10px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px', paddingBottom: '10px'}}/>}
                                     </div>
                                     <p style={{fontSize: '12px', color: 'white', marginLeft: '15px'}}>{thread.vote}</p>
                                     <div style={{display: 'flex', justifyContent: 'end', width: '100%'}}>
@@ -57,9 +58,9 @@ export default class Menu extends React.Component {
                                     </div>
                                 </div>
                             </Button>
-                            <Button variant="text" sx={{textTransform: "none", height: "50px"}}>
+                            <Button variant="text" sx={{textTransform: "none", height: "45px"}}>
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'left'}}>
-                                  <p style={{color: 'white', fontSize: '22px'}}><strong>{thread.title}</strong></p>
+                                  <p style={{color: 'white', fontSize: '20px'}}>{thread.title}</p>
                                 </div>
                             </Button>
                             </div>
