@@ -15,7 +15,7 @@ class ChooseCat extends React.Component <{errorHandler: Function, changeHandler:
     axios.get('/api/categories/all')
     .then(res => {
       this.setState({data : res.data})})
-    .catch(err => {this.props.errorHandler(err.response.data)})})
+    .catch(err => {this.props.errorHandler(err.response.data)})}
   changeHandler = (e:any) => {
     this.setState({cat : e.target.value});
     this.props.changeHandler(e);}
