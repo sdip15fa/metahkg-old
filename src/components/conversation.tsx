@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
@@ -39,7 +39,9 @@ export default class Conversation extends React.Component<any> {
         return (
           <div style={{minHeight: '100vh'}}>
               <Title title={this.conversation.title}/>
+              <Paper style={{overflow: "auto", maxHeight: "calc(100vh-61px)"}}>
               <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
                 {this.o}
               </Box>
+              </Paper>
           </div>)}}

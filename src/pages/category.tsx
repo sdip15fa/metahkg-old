@@ -1,4 +1,4 @@
-import { Box, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, List, ListItem, ListItemIcon, ListItemText, Paper } from '@mui/material';
 import { AccountCircle as AccountCircleIcon, Create as CreateIcon, Info as InfoIcon, Code as CodeIcon } from '@mui/icons-material';
 import React from 'react';
 import { isMobile } from 'react-device-detect';
@@ -9,8 +9,11 @@ class Category extends React.Component <any> {
     listitems = ['Sign in', 'Register', 'Create Topic', 'About', 'Source code'];
     links = ['/signin', '/register', '/create', '/about', 'https://gitlab.com/wcyat-me/metahkg'];
     icons:JSX.Element[] = [<AccountCircleIcon/>, <AccountCircleIcon/>, <CreateIcon/>, <InfoIcon/>, <CodeIcon/>]
+    componentDidMount() {
+        this.props.onLoad(this.props.params.category);}
     render() {
         return (
+            <Paper sx={{overflow: "auto", maxHeight: "100vh"}}>
             <Box sx={{backgroundColor : "primary.dark", display: 'flex', flexDirection: 'row'}}>
                 <div style={{width: isMobile ? '100vw' : '30vw'}}>
                     <Menu category={Number(this.props.params.category)}/>
@@ -31,6 +34,8 @@ class Category extends React.Component <any> {
                                     </List>
                                 </div>
                             </div> : <div/>}
-                        </Box>)}}
+                        </Box>
+                        </Paper>
+                        )}}
 export default (props:any) => (
     <Category params={useParams()}/>);
