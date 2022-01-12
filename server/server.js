@@ -51,7 +51,7 @@ app.get('/api/categories/:id', body_parser.json(), async (req,res) => {
             let o = {};
             for (i of c) {
                 o[i.id] = i.name;}
-            res.send(i); return;}
+            res.send(o); return;}
         const c = categories.findOne({id : Number(this.params.id)});
         res.send(c.name);}    
     finally {await client.close();};})
