@@ -47,7 +47,7 @@ app.get('/api/categories/:id', body_parser.json(), async (req,res) => {
     try {await client.connect();
         const categories = client.db('metahkg-threads').collection('categories');
         if (req.params.id === "all") {
-            const c = categories.find({}).toArray();
+            const c = await categories.find({}).toArray();
             let o = {};
             for (i of c) {
                 o[i.id] = i.name;}
