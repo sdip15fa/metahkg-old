@@ -24,6 +24,7 @@ export default class Conversation extends React.Component<any> {
             this.users = res.data;})
         this.setState({ready : true});}
     build() {
+        this.o = [];
         Object.entries(this.conversation.conversation).map((entry:any) => {
             this.o.push(
                 <Comment name={this.users[entry[1].user].name} 

@@ -1,4 +1,4 @@
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Link } from "react-router-dom";
 export default function Title(props:any) {
@@ -9,7 +9,7 @@ export default function Title(props:any) {
             <p style={{color:'#F5BD1F', fontSize: '18px'}}>{props.title}</p>
           </div>
           <Box sx={{display: 'flex', flexDirection: 'row'}}>
-            <Link to={window.location.href.replace('thread', 'comment')}>
+            <Link to={`/comment/${window.location.href.split('/').pop()}`}>
             <IconButton>
               <ReplyIcon color="secondary"/>
             </IconButton>

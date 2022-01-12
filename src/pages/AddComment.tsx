@@ -37,7 +37,7 @@ class AddComment extends React.Component <any> {
     render () {
         if (!localStorage.signedin) {window.location.replace('/signin'); return <div/>;}
         return (
-            <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', justifyContent: 'center'}}>
+            <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <div style={{width: isMobile ? '100vw' : '80vw'}}>
                   <div style={{margin: '20px'}}>
                       <h2 style={{color: 'white', fontSize: '22px'}}>Add a comment to thread id {this.id}: <Link to={`/thread/${this.id}`}>link</Link></h2>

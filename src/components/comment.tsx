@@ -7,7 +7,7 @@ function Tag(props:any) {
         </div>)}
 export default function Comment(props:any) {
     return (
-        <Box sx={{backgroundColor: 'primary.main', textAlign: 'left'}}>
+        <Box sx={{backgroundColor: 'primary.main', textAlign: 'left', marginTop: '5px'}}>
           <div style={{marginLeft: '20px'}}>
             <Tag op={props.op} sex={props.sex} id={props.id}>{props.name}</Tag>
             <p style={{color: 'white', marginTop: '0px'}}>{props.children}</p>
