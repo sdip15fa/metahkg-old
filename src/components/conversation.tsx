@@ -39,7 +39,7 @@ export default class Conversation extends React.Component<any> {
         return (
           <div style={{minHeight: '100vh'}}>
               <Title title={this.conversation.title}/>
-              <Paper style={{overflow: "auto", maxHeight: "calc(100vh-61px)"}}>
+              <Paper style={{overflow: "auto", maxHeight: "calc(100vh - 61px)"}}>
               <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
                 {this.o}
               </Box>
