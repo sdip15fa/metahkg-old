@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, List, ListItem, Drawer, Divider, ListItemIcon, ListItemText, Button } from '@mui/material';
+import { Box, List, ListItem, Drawer, Divider, ListItemIcon, ListItemText, Button, IconButton } from '@mui/material';
 import { Menu as MenuIcon, AccountCircle as AccountCircleIcon, Create as CreateIcon, Info as InfoIcon, Code as CodeIcon } from '@mui/icons-material';
-import axios from 'axios';
 export default class SideBar extends React.Component<any> {
     constructor(props:any) {
         super(props);
@@ -22,16 +21,16 @@ export default class SideBar extends React.Component<any> {
         return (
             <div>
             <div>
-              <Button sx={{height: '40px', width:'40px'}} variant="text" onClick={this.toggleDrawer(true)}><MenuIcon style={{color : 'white'}}/></Button>
+              <IconButton sx={{height: '40px', width:'40px'}} onClick={this.toggleDrawer(true)}><MenuIcon style={{color : 'white'}}/></IconButton>
             </div>
             <Drawer anchor='left' open={this.state.open} onClose={this.toggleDrawer(false)}>
             <Box sx={{width: 250}} role="presentation" onClick={this.toggleDrawer(false)} onKeyDown={this.toggleDrawer(false)}>
                <List>
-        <a href={localStorage.signedin ? '/logout' : '/signin'}><ListItem button>
+        <a style={{textDecoration: 'none'}} href={localStorage.signedin ? '/logout' : '/signin'}><ListItem button>
             <ListItemIcon><AccountCircleIcon/></ListItemIcon>
             <ListItemText>{localStorage.signedin ? 'Logout' : 'Sign in / Register'}</ListItemText>
           </ListItem></a>
-        <a href="/create">
+        <a style={{textDecoration: 'none'}} href="/create">
         <ListItem button>
           <ListItemIcon><CreateIcon/></ListItemIcon>
           <ListItemText>Create topic</ListItemText>

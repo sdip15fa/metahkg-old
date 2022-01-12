@@ -1,4 +1,4 @@
-import { Box, Divider, Button, ListItem, List } from '@mui/material';
+import { Box, Divider, Button } from '@mui/material';
 import { Add as AddIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
 import humanizeDuration from 'humanize-duration-shortened-english';
 import { roundup } from '../lib/common';
@@ -33,7 +33,7 @@ export default class Menu extends React.Component <any> {
                   <h3 style={{textAlign: 'center', color : '#F5BD1F'}}>Metahkg</h3>
                   <div style={{display: 'flex', justifyContent: 'end', width: '100%'}}>
                   <a style={{height: '30px', width: '30px'}} href='/create'>
-                    <AddIcon style={{color: 'white'}}/>
+                    <AddIcon style={{color: 'white', marginRight: '10px'}}/>
                   </a>
                   </div>
                 </div>
@@ -41,31 +41,30 @@ export default class Menu extends React.Component <any> {
               <Divider/>
               {!this.state.ready ? <h3 style={{color: 'white', textAlign: 'center'}}>Please wait...</h3> :
                 <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <List>
                     {this.data.map((thread:any) => (
                         <div>
                         <a style={{width: '100%', textDecoration: 'none'}} href={`/thread/${thread.id}`}>
-                            <ListItem button style={{display: 'flex', flexDirection: 'column', marginLeft: "20px", marginRight: "20px"}}>
-                            <div style={{height: "35px"}}>
-                                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: '10px'}}>
+                            <Button sx={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+                            <div style={{textTransform: "none", height: "35px", width: '100%'}}>
+                                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', height: '35px', marginLeft: '10px'}}>
                                     <p style={{color : thread.sex === "male" ? '#0277bd' : 'red', fontSize: '16px', textAlign: 'left'}}>{thread.op}</p>
                                     <p style={{marginLeft: '5px', fontSize: '12px', color: 'grey'}}>{this.time(thread.lastModified)}</p>
-                                    {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px', paddingBottom: '10px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px', paddingBottom: '10px'}}/>}
-                                    <p style={{fontSize: '12px', color: 'white', marginLeft: '15px'}}>{thread.vote}</p>
+                                    {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px'}}/>}
+                                    <p style={{fontSize: '12px', color: 'white'}}>{thread.vote}</p>
                                     <div style={{display: 'flex', justifyContent: 'end', width: '100%'}}>
-                                    <p style={{textAlign: 'right', color: 'white'}}>{roundup(thread.c / 10)+" pages"}</p>
+                                    <p style={{textAlign: 'right', color: 'white', marginRight: '10px'}}>{roundup(thread.c / 10)+" pages"}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div style={{textTransform: "none", height: "45px"}}>
-                                <div style={{width: '100%', display: 'flex', justifyContent: 'left'}}>
-                                  <p style={{color: 'white', fontSize: '20px'}}>{thread.title}</p>
+                            <br/>
+                            <div style={{textTransform: "none", height: "45px", width: '100%'}}>
+                                <div style={{width: '100%', display: 'flex', justifyContent: 'left', alignItems: 'center', height: '45px'}}>
+                                  <p style={{color: 'white', fontSize: '18px', marginLeft: '10px'}}>{thread.title}</p>
                                 </div>
                             </div>
-                            </ListItem>
+                            </Button>
                         </a>
                         <Divider/>
                         </div>))}
-                        </List>
                 </div>}
             </Box>)}}
