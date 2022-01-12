@@ -26,11 +26,11 @@ export default class SideBar extends React.Component<any> {
             <Drawer anchor='left' open={this.state.open} onClose={this.toggleDrawer(false)}>
             <Box sx={{width: 250}} role="presentation" onClick={this.toggleDrawer(false)} onKeyDown={this.toggleDrawer(false)}>
                <List>
-        <a style={{textDecoration: 'none'}} href={localStorage.signedin ? '/logout' : '/signin'}><ListItem button>
+        <a style={{textDecoration: 'none', color: 'white'}} href={localStorage.signedin ? '/logout' : '/signin'}><ListItem button>
             <ListItemIcon><AccountCircleIcon/></ListItemIcon>
             <ListItemText>{localStorage.signedin ? 'Logout' : 'Sign in / Register'}</ListItemText>
           </ListItem></a>
-        <a style={{textDecoration: 'none'}} href="/create">
+        <a style={{textDecoration: 'none', color: 'white'}} href="/create">
         <ListItem button>
           <ListItemIcon><CreateIcon/></ListItemIcon>
           <ListItemText>Create topic</ListItemText>
