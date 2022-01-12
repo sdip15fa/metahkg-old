@@ -67,7 +67,7 @@ app.post('/api/verify', body_parser.json(), async (req,res) => {
     const client = new MongoClient(mongouri);
     if (!req.body.email || !req.body.code || !(typeof req.body.email === "string" && 
     typeof req.body.code === "number") || Object.keys(req.body).length > 2 || 
-    !isNumber(req.body.code) || req.body.code.length !== 6) 
+    req.body.code.length !== 6) 
     {res.status(400); res.send("Bad request");return;}
         await client.connect();
         const verification = client.db("metahkg-users").collection("verification");
