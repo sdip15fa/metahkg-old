@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
-import ResponsiveAppbar from "./Appbar";
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
 import ResponsiveAppBar from "./Appbar";

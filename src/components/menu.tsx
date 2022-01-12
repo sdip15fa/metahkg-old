@@ -5,7 +5,7 @@ import { roundup } from '../lib/common';
 import React from 'react';
 import SideBar from './sidebar';
 import axios from 'axios';
-export default class Menu extends React.Component {
+export default class Menu extends React.Component <any> {
     constructor(props:any) {
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);}
@@ -19,7 +19,8 @@ export default class Menu extends React.Component {
         const r = humanizeDuration(diff, {round:true, spacer: "", delimiter: ""});
         return r;}
     componentDidMount() {
-        axios.get('/api/newest')
+        const c = this.props.category || `bytid${this.props.id}`;
+        axios.get(`/api/newest/${c}`)
         .then(res => {
             this.data = res.data;
             this.setState({ready: true});})}
@@ -32,7 +33,7 @@ export default class Menu extends React.Component {
                   <h3 style={{textAlign: 'center', color : '#F5BD1F'}}>Metahkg</h3>
                   <div style={{display: 'flex', justifyContent: 'end', width: '100%'}}>
                   <a style={{height: '30px', width: '30px'}} href='/create'>
-                    <AddIcon style={{color: 'white'}}/>
+                    <AddIcon style={{color: 'white', marginRight: '10px'}}/>
                   </a>
                   </div>
                 </div>
@@ -43,26 +44,25 @@ export default class Menu extends React.Component {
                     {this.data.map((thread:any) => (
                         <div>
                         <a style={{width: '100%', textDecoration: 'none'}} href={`/thread/${thread.id}`}>
-                            <div style={{display: 'flex', flexDirection: 'column', marginLeft: "20px", marginRight: "20px"}}>
-                            <Button variant="text" sx={{textTransform: "none", height: "35px"}}>
-                                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: '10px'}}>
-                                    <p style={{color : thread.sex === "male" ? '#0277bd' : 'red', fontSize: '16px', textAlign: 'left'}}><strong>{thread.op}</strong></p>
+                            <Button sx={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+                            <div style={{textTransform: "none", height: "35px", width: '100%'}}>
+                                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', height: '35px', marginLeft: '10px'}}>
+                                    <p style={{color : thread.sex === "male" ? '#0277bd' : 'red', fontSize: '16px', textAlign: 'left'}}>{thread.op}</p>
                                     <p style={{marginLeft: '5px', fontSize: '12px', color: 'grey'}}>{this.time(thread.lastModified)}</p>
-                                    <div style={{marginLeft: '5px', height: '8px', width: '8px'}}>
-                                    {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px', marginBottom: '10px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px', marginBottom: '10px'}}/>}
-                                    </div>
-                                    <p style={{fontSize: '12px', color: 'white', marginLeft: '15px'}}>{thread.vote}</p>
+                                    {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px'}}/>}
+                                    <p style={{fontSize: '12px', color: 'white'}}>{thread.vote}</p>
                                     <div style={{display: 'flex', justifyContent: 'end', width: '100%'}}>
-                                    <p style={{textAlign: 'right', color: 'white'}}>{roundup(thread.c / 10)+" pages"}</p>
+                                    <p style={{textAlign: 'right', color: 'white', marginRight: '10px'}}>{roundup(thread.c / 10)+" pages"}</p>
                                     </div>
                                 </div>
-                            </Button>
-                            <Button variant="text" sx={{textTransform: "none", height: "50px"}}>
-                                <div style={{width: '100%', display: 'flex', justifyContent: 'left'}}>
-                                  <p style={{color: 'white', fontSize: '22px'}}><strong>{thread.title}</strong></p>
-                                </div>
-                            </Button>
                             </div>
+                            <br/>
+                            <div style={{textTransform: "none", height: "45px", width: '100%'}}>
+                                <div style={{width: '100%', display: 'flex', justifyContent: 'left', alignItems: 'center', height: '45px'}}>
+                                  <p style={{color: 'white', fontSize: '18px', marginLeft: '10px'}}>{thread.title}</p>
+                                </div>
+                            </div>
+                            </Button>
                         </a>
                         <Divider/>
                         </div>))}
