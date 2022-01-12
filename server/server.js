@@ -45,7 +45,7 @@ app.get('/api/categories/:id', body_parser.json(), async (req,res) => {
     if (req.params.id !== "all" && !(isNumber(req.params.id))) {res.status(400); res.send("Bad request."); return;}
     const client = new MongoClient(mongouri);
     try {await client.connect();
-        const categories = client.db('metahkg-threads').collection('categories');
+        const categories = client.db('metahkg-threads').collection('category');
         if (req.params.id === "all") {
             const c = await categories.find({}).toArray();
             let o = {};
