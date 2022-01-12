@@ -6,30 +6,33 @@ import { isMobile } from 'react-device-detect';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import axios from 'axios';
 type severity = "success" | "info" | "warning" | "error";
-function ChooseCat(props:{errorHandler: Function, changeHandler: Function}) {
-  const [data, setData] = React.useState({});
-  const [cat, setCat] = React.useState(0);
-  useEffect(() => {
+class ChooseCat extends React.Component <{errorHandler: Function, changeHandler: Function}> {
+  state = {
+    data : {},
+    cat : 0
+  }
+  componentDidMount() {
     axios.get('/api/categories/all')
     .then(res => {
-      setData(res.data)})
-    .catch(err => {props.errorHandler(err.response.data)})})
-  const changeHandler = (e:any) => {
-    setCat(e.target.value);
-    props.changeHandler(e);}
-  return (
+      this.setState({data : res.data})})
+    .catch(err => {this.props.errorHandler(err.response.data)})})
+  changeHandler = (e:any) => {
+    this.setState({cat : e.target.value});
+    this.props.changeHandler(e);}
+  render () {
+    return (
     <div>
-      {!Object.keys(data).length ? <div/> : 
+      {!Object.keys(this.state.data).length ? <div/> : 
       <FormControl>
       <InputLabel color="secondary">Category</InputLabel>
-      <Select color="secondary" value={cat}
-      label="Category" onChange={changeHandler}>
-        {Object.entries(data).map((name, id) => {
+      <Select color="secondary" value={this.state.cat}
+      label="Category" onChange={this.changeHandler}>
+        {Object.entries(this.state.data).map((name, id) => {
           <MenuItem value={id}>{name}</MenuItem>
         })}
       </Select>
       </FormControl>}
-    </div>)}
+    </div>)}}
 export default class Create extends React.Component {
     constructor(props:any) {
         super(props);
