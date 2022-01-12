@@ -185,7 +185,7 @@ app.post('/api/create', body_parser.json(), async (req, res) => {
         createdAt : date}}, lastModified : date})
         await users.insertOne({id : newcid, [user.id] : {name : user.user, sex : user.sex}});
         await summary.insertOne({id : newcid, op : user.user, sex : user.sex, c : 1, vote : 0, 
-            title : req.body.title, category : category.name, lastModified : date, createdAt : date});
+            title : req.body.title, category : category.id, lastModified : date, createdAt : date});
         await limit.insertOne({id : user.id, createdAt: date, type : "create"});
         res.send({id : newcid});}
     finally {await client.close();}})
