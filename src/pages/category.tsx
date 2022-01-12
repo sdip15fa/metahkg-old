@@ -20,7 +20,7 @@ class Category extends React.Component <any> {
                                     <List>
                                         {this.listitems.map((item, index) => (
                                             <a style={{textDecoration: 'none', color: 'white'}} href={this.links[index]}>
-                                            <ListItem style={{width: '100%'}}>
+                                            <ListItem button style={{width: '100%'}}>
                                               <ListItemIcon>
                                                   {this.icons[index]}
                                               </ListItemIcon>
