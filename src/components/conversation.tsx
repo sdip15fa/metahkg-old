@@ -5,7 +5,6 @@ import Title from "./title";
 import axios from "axios";
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
-import ResponsiveAppBar from "./Appbar";
 export default class Conversation extends React.Component<any> {
     constructor(props:any) {
         super(props);
@@ -39,7 +38,6 @@ export default class Conversation extends React.Component<any> {
         this.build();
         return (
           <div style={{minHeight: '100vh'}}>
-              <ResponsiveAppBar/>
               <Title title={this.conversation.title}/>
               <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
                 {this.o}

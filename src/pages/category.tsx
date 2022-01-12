@@ -4,6 +4,7 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { useParams } from 'react-router';
 import Menu from '../components/menu';
+import { Link } from 'react-router-dom';
 class Category extends React.Component <any> {
     listitems = ['Sign in', 'Register', 'Create Topic', 'About', 'Source code'];
     links = ['/signin', '/register', '/create', '/about', 'https://gitlab.com/wcyat-me/metahkg'];
@@ -19,14 +20,14 @@ class Category extends React.Component <any> {
                                     <h1 style={{color: 'white'}}>Metahkg</h1>
                                     <List>
                                         {this.listitems.map((item, index) => (
-                                            <a style={{textDecoration: 'none', color: 'white'}} href={this.links[index]}>
+                                            <Link style={{textDecoration: 'none', color: 'white'}} to={this.links[index]}>
                                             <ListItem button style={{width: '100%'}}>
                                               <ListItemIcon>
                                                   {this.icons[index]}
                                               </ListItemIcon>
                                               <ListItemText>{item}</ListItemText>
                                             </ListItem>
-                                            </a>))}
+                                            </Link>))}
                                     </List>
                                 </div>
                             </div> : <div/>}

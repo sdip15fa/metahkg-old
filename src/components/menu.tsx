@@ -5,6 +5,7 @@ import { roundup } from '../lib/common';
 import React from 'react';
 import SideBar from './sidebar';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 export default class Menu extends React.Component <any> {
     constructor(props:any) {
         super(props);
@@ -32,9 +33,9 @@ export default class Menu extends React.Component <any> {
                   <SideBar/>
                   <h3 style={{textAlign: 'center', color : '#F5BD1F'}}>Metahkg</h3>
                   <div style={{display: 'flex', justifyContent: 'end', width: '100%'}}>
-                  <a style={{height: '30px', width: '30px'}} href='/create'>
+                  <Link style={{height: '30px', width: '30px'}} to='/create'>
                     <AddIcon style={{color: 'white', marginRight: '10px'}}/>
-                  </a>
+                  </Link>
                   </div>
                 </div>
               </Box>
@@ -43,7 +44,7 @@ export default class Menu extends React.Component <any> {
                 <div style={{display: 'flex', flexDirection: 'column'}}>
                     {this.data.map((thread:any) => (
                         <div>
-                        <a style={{width: '100%', textDecoration: 'none'}} href={`/thread/${thread.id}`}>
+                        <Link style={{width: '100%', textDecoration: 'none'}} to={`/thread/${thread.id}`}>
                             <Button sx={{width: '100%', display: 'flex', flexDirection: 'column'}}>
                             <div style={{textTransform: "none", height: "35px", width: '100%'}}>
                                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', height: '35px', marginLeft: '10px'}}>
@@ -63,7 +64,7 @@ export default class Menu extends React.Component <any> {
                                 </div>
                             </div>
                             </Button>
-                        </a>
+                        </Link>
                         <Divider/>
                         </div>))}
                 </div>}
