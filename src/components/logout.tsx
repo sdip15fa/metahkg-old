@@ -7,7 +7,7 @@ async function logout() {
 export default function Logout () {
     logout();
     return (
-        <Box style={{backgroundColor: 'primary.dark', minHeight: '100vh'}}>
+        <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh'}}>
             <div>
               <Alert style={{marginTop: '20px'}} severity="info">Logging you out...</Alert>
             </div>
