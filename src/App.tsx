@@ -8,6 +8,7 @@ import Thread from './pages/thread';
 import AddComment from './pages/AddComment';
 import Create from './pages/create';
 import Category from './pages/category';
+import Logout from './components/logout';
 export default function App() {
   return (
     <Theme primary={{main : '#2a2a2a'}} secondary={{main: '#F5BD1F',dark: '#ffc100'}}>
@@ -20,6 +21,7 @@ export default function App() {
             <Route path='/register' element={<Register/>}/>
             <Route path='/signin' element={<Signin/>}/>
             <Route path='/create' element={<Create/>}/>
+            <Route path='/logout' element={<Logout/>}/>
           </Routes> 
         </Router>
     </Theme>);}

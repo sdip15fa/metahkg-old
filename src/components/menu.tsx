@@ -1,4 +1,4 @@
-import { Box, Divider, Button } from '@mui/material';
+import { Box, Divider, Button, ListItem, List } from '@mui/material';
 import { Add as AddIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
 import humanizeDuration from 'humanize-duration-shortened-english';
 import { roundup } from '../lib/common';
@@ -41,31 +41,31 @@ export default class Menu extends React.Component <any> {
               <Divider/>
               {!this.state.ready ? <h3 style={{color: 'white', textAlign: 'center'}}>Please wait...</h3> :
                 <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <List>
                     {this.data.map((thread:any) => (
                         <div>
                         <a style={{width: '100%', textDecoration: 'none'}} href={`/thread/${thread.id}`}>
-                            <div style={{display: 'flex', flexDirection: 'column', marginLeft: "20px", marginRight: "20px"}}>
-                            <Button variant="text" sx={{textTransform: "none", height: "35px"}}>
+                            <ListItem button style={{display: 'flex', flexDirection: 'column', marginLeft: "20px", marginRight: "20px"}}>
+                            <div style={{height: "35px"}}>
                                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: '10px'}}>
                                     <p style={{color : thread.sex === "male" ? '#0277bd' : 'red', fontSize: '16px', textAlign: 'left'}}>{thread.op}</p>
                                     <p style={{marginLeft: '5px', fontSize: '12px', color: 'grey'}}>{this.time(thread.lastModified)}</p>
-                                    <div style={{marginLeft: '5px', height: '8px', width: '8px'}}>
                                     {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px', paddingBottom: '10px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px', paddingBottom: '10px'}}/>}
-                                    </div>
                                     <p style={{fontSize: '12px', color: 'white', marginLeft: '15px'}}>{thread.vote}</p>
                                     <div style={{display: 'flex', justifyContent: 'end', width: '100%'}}>
                                     <p style={{textAlign: 'right', color: 'white'}}>{roundup(thread.c / 10)+" pages"}</p>
                                     </div>
                                 </div>
-                            </Button>
-                            <Button variant="text" sx={{textTransform: "none", height: "45px"}}>
+                            </div>
+                            <div style={{textTransform: "none", height: "45px"}}>
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'left'}}>
                                   <p style={{color: 'white', fontSize: '20px'}}>{thread.title}</p>
                                 </div>
-                            </Button>
                             </div>
+                            </ListItem>
                         </a>
                         <Divider/>
                         </div>))}
+                        </List>
                 </div>}
             </Box>)}}

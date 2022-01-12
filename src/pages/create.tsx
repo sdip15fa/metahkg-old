@@ -23,13 +23,13 @@ class ChooseCat extends React.Component <{errorHandler: Function, changeHandler:
     return (
     <div>
       {!Object.keys(this.state.data).length ? <div/> : 
-      <FormControl>
+      <FormControl sx={{minWidth: '200px'}}>
       <InputLabel color="secondary">Category</InputLabel>
       <Select color="secondary" value={this.state.cat}
       label="Category" onChange={this.changeHandler}>
-        {Object.entries(this.state.data).map((name, id) => {
-          <MenuItem value={id}>{name}</MenuItem>
-        })}
+        {Object.entries(this.state.data).map((d:any, i) => (
+          <MenuItem value={Number(d[0])}>{d[1]}</MenuItem>
+        ))}
       </Select>
       </FormControl>}
     </div>)}}

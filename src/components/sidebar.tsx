@@ -27,14 +27,12 @@ export default class SideBar extends React.Component<any> {
             <Drawer anchor='left' open={this.state.open} onClose={this.toggleDrawer(false)}>
             <Box sx={{width: 250}} role="presentation" onClick={this.toggleDrawer(false)} onKeyDown={this.toggleDrawer(false)}>
                <List>
-        {<ListItem onClick={async ()=>{if (localStorage.signedin)
-            {await axios.get('/api/logout'); localStorage.clear(); window.location.reload();}
-          else {window.location.href = '/signin'}}}>
+        <a href={localStorage.signedin ? '/logout' : '/signin'}><ListItem button>
             <ListItemIcon><AccountCircleIcon/></ListItemIcon>
             <ListItemText>{localStorage.signedin ? 'Logout' : 'Sign in / Register'}</ListItemText>
-          </ListItem>}
+          </ListItem></a>
         <a href="/create">
-        <ListItem>
+        <ListItem button>
           <ListItemIcon><CreateIcon/></ListItemIcon>
           <ListItemText>Create topic</ListItemText>
         </ListItem>
