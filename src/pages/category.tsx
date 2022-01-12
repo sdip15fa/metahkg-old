@@ -9,8 +9,6 @@ class Category extends React.Component <any> {
     listitems = ['Sign in', 'Register', 'Create Topic', 'About', 'Source code'];
     links = ['/signin', '/register', '/create', '/about', 'https://gitlab.com/wcyat-me/metahkg'];
     icons:JSX.Element[] = [<AccountCircleIcon/>, <AccountCircleIcon/>, <CreateIcon/>, <InfoIcon/>, <CodeIcon/>]
-    componentDidMount() {
-        this.props.onLoad(this.props.params.category);}
     render() {
         return (
             <Paper sx={{overflow: "auto", maxHeight: "100vh"}}>
