@@ -11,12 +11,12 @@ class Category extends React.Component <any> {
     icons:JSX.Element[] = [<CreateIcon/>, <InfoIcon/>, <CodeIcon/>]
     render() {
         return (
-            <Paper sx={{overflow: "auto", maxHeight: "100vh"}}>
             <Box sx={{backgroundColor : "primary.dark", display: 'flex', flexDirection: 'row'}}>
                 <div style={{width: isMobile ? '100vw' : '30vw'}}>
                     <Menu category={Number(this.props.params.category)}/>
                 </div>
-                {!isMobile ? <div style={{width: '70vw', justifyContent: 'center', alignItems: 'center'}}>
+                {!isMobile ? <Paper sx={{overflow: "auto", maxHeight: "100vh"}}>
+                              <div style={{width: '70vw', justifyContent: 'center', alignItems: 'center'}}>
                                 <div style={{margin: '50px'}}>
                                     <h1 style={{color: 'white'}}>Metahkg</h1>
                                     <List>
@@ -37,9 +37,8 @@ class Category extends React.Component <any> {
                                             </Link>))}
                                     </List>
                                 </div>
-                            </div> : <div/>}
+                            </div></Paper> : <div/>}
                         </Box>
-                        </Paper>
                         )}}
 export default (props:any) => (
     <Category params={useParams()}/>);

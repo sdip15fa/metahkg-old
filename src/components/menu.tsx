@@ -53,7 +53,7 @@ export default class Menu extends React.Component <any> {
                                     {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px'}}/>}
                                     <p style={{fontSize: '12px', color: 'white'}}>{thread.vote}</p>
                                     <div style={{display: 'flex', justifyContent: 'end', width: '100%', paddingRight: '10px'}}>
-                                    <p style={{textAlign: 'right', color: 'white'}}>{roundup(thread.c / 10)+` page${roundup(thread.c / 10) > 1 ? "s" : ""}`}</p>
+                                    <p style={{textAlign: 'right', color: 'white'}}>{roundup(thread.c / 10) +` page${roundup(thread.c / 10) > 1 ? "s" : ""}`}</p>
                                     </div>
                                 </div>
                             </div>
