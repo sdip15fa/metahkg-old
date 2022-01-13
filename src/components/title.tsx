@@ -6,7 +6,7 @@ export default function Title(props:{category: number | string, title: string}) 
     return (
         <Box sx={{backgroundColor: 'primary.main', height: '50px'}}>
           <div style={{display: 'flex', flexDirection: 'row', marginLeft: '10px', marginRight: '20px', justifyContent: 'end', alignItems: 'center'}}>
-          <div style={{width: '100%', maxWidth: '100%', display: 'flex', justifyContent: 'left', textOverflow: 'ellipsis', alignItems: 'center'}}>
+          <div style={{width: '100%', maxWidth: '100%', display: 'flex', justifyContent: 'left', textOverflow: 'ellipsis', alignItems: 'center', overflow: 'hidden'}}>
             <Link to={`/category/${props.category}`}>
             <IconButton>
               <ArrowBackIcon color="secondary" sx={{paddingTop: '2.5px'}}/>
