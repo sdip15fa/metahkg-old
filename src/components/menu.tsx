@@ -52,7 +52,7 @@ function Menu (props:{id : string | number, category: string | number}) {
                   <Link style={{width: '100%', textDecoration: 'none'}} to={`/thread/${thread.id}`}>
                     <Button sx={{width: '100%', display: 'flex', flexDirection: 'column'}}>
                       <div style={{textTransform: "none", height: "35px", width: '100%'}}>
-                        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', height: '35px', marginLeft: '20px'}}>
+                        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', height: '35px', marginLeft: '10px'}}>
                           <p style={{color : thread.sex === "male" ? '#0277bd' : 'red', fontSize: '16px', textAlign: 'left'}}>{thread.op}</p>
                             <p style={{marginLeft: '5px', fontSize: '12px', color: 'grey'}}>{timetoword(thread.lastModified)}</p>
                                     {thread.vote >= 0 ? <ThumbUpIcon style={{color: 'white', height: '12px'}}/> : <ThumbDownIcon style={{color: 'white', height: '12px'}}/>}
@@ -65,7 +65,7 @@ function Menu (props:{id : string | number, category: string | number}) {
                             <div style={{display: 'flex', textTransform: "none", height: "auto", width: '100%'}}>
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'left', 
                                 alignItems: 'center', lineHeight: '24px', overflow: 'hidden', paddingRight: '30px'}}>
-                                  <p style={{color: 'white', fontSize: '17px', marginLeft: '20px', maxWidth: '100%', 
+                                  <p style={{color: 'white', fontSize: '17px', paddingLeft: '10px', maxWidth: '100%', 
                                   wordBreak: 'break-word', textAlign: 'left', marginTop: '5px', marginBottom: '5px', 
                                   wordWrap: "break-word", lineHeight: '17px', maxHeight: '34px', overflow: 'hidden', 
                                   textOverflow: 'ellipsis'}}>{thread.title}</p>
