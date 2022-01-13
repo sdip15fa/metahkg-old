@@ -6,4 +6,3 @@ build:
     - git add -A
     - git commit -a -m build
     - git push origin $CI_COMMIT_BRANCH
-

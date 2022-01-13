@@ -1,13 +1,13 @@
 {
-    "id" : 1,
-    "title" : "on99",
-    "op" : "on9",
-    "sex" : "male",
-    "vote" : 0,
-    "lastModified" : {
-        "$date" : "2022-01-11T09:48:42.521Z"
-    },
-    "createdAt" : {
-        "$date" : "2022-01-11T09:48:42.521Z"
-    }    
+  "id": 1,
+  "title": "on99",
+  "op": "on9",
+  "sex": "male",
+  "vote": 0,
+  "lastModified": {
+    "$date": "2022-01-11T09:48:42.521Z"
+  },
+  "createdAt": {
+    "$date": "2022-01-11T09:48:42.521Z"
+  }
 }
