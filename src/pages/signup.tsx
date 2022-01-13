@@ -47,7 +47,8 @@ export default class Register extends React.Component {
             localStorage.user = this.state.user;
             localStorage.id = res.data.id;
             localStorage.signedin = true;
-            window.location.href = String(this.params.returnto) || '/'})
+            if (this.params.returnto) {window.location.href = String(this.params.returnto)}
+            else {window.location.href = '/'}})
         .catch(err => {
             this.setState({alert : {severity : "error", text : err.response.data}, disabled : false})})}
     register () {

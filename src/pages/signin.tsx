@@ -27,7 +27,8 @@ export default class Signin extends React.Component {
             localStorage.signedin = true;
             localStorage.user = res.data.user;
             localStorage.id = res.data.id;
-            window.location.href = String(this.params.returnto) || '/'})
+            if (this.params.returnto) {window.location.href = String(this.params.returnto)}
+              else {window.location.href = '/'}})
         .catch(err => {
             this.setState({alert : {severity : "error", text : err.response.data}, disabled : false})})}
     render () {
