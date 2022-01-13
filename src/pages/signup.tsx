@@ -7,6 +7,7 @@ import { Box, TextField, Button, FormControl, Select, MenuItem, InputLabel, Aler
 import { isMobile } from 'react-device-detect';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import isNumber from 'is-number';
+import queryString from 'query-string';
 function Sex (props:any) {
     const [sex, setSex] = React.useState('');
     const changeHandler = 
@@ -32,6 +33,7 @@ export default class Register extends React.Component {
             sex : '', verify : <div/>, disabled : false, 
             waiting : false, htoken : '',
             code :'', alert : {severity: "info", text : ''}}}
+    params = queryString.parse(window.location.search);
     state! : {
         user : string, email : string, pwd: string,
         sex : string, verify : JSX.Element, disabled : boolean,
@@ -45,7 +47,7 @@ export default class Register extends React.Component {
             localStorage.user = this.state.user;
             localStorage.id = res.data.id;
             localStorage.signedin = true;
-            window.location.href = '/'})
+            window.location.href = String(this.params.returnto) || '/'})
         .catch(err => {
             this.setState({alert : {severity : "error", text : err.response.data}, disabled : false})})}
     register () {

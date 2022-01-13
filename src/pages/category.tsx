@@ -20,7 +20,7 @@ class Category extends React.Component <any> {
                                 <div style={{margin: '50px'}}>
                                     <h1 style={{color: 'white'}}>Metahkg</h1>
                                     <List>
-                                        <Link style={{textDecoration: 'none', color: 'white'}} to={localStorage.signedin ? '/logout' : '/signin'}>
+                                        <Link style={{textDecoration: 'none', color: 'white'}} to={localStorage.signedin ? '/logout' : `/signin?returnto=${window.location.pathname}`}>
                                             <ListItem button style={{width: '100%'}}>
                                                 <ListItemIcon><AccountCircleIcon/></ListItemIcon>
                                                 <ListItemText>{localStorage.signedin ? 'Logout' : 'Sign in / Register'}</ListItemText>

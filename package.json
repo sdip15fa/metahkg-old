@@ -37,6 +37,7 @@
     "jsdom": "^19.0.0",
     "mailgun-js": "^0.22.0",
     "mongodb": "^4.2.2",
+    "query-string": "^7.1.0",
     "random": "^3.0.6",
     "react": "^17.0.2",
     "react-device-detect": "^2.1.2",

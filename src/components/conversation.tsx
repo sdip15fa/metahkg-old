@@ -5,6 +5,7 @@ import Title from "./title";
 import axios from "axios";
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
+import { timetoword } from "../lib/common";
 export default class Conversation extends React.Component<any> {
     constructor(props:any) {
         super(props);
@@ -30,17 +31,19 @@ export default class Conversation extends React.Component<any> {
                 <Comment name={this.users[entry[1].user].name} 
                         id={entry[0]} 
                         op={this.users[entry[1].user].name === this.conversation.op ? true : false} 
-                        sex={this.users[entry[1].user].sex === "male" ? true : false}>
+                        sex={this.users[entry[1].user].sex === "male" ? true : false}
+                        time={timetoword(entry[1].createdAt)}>
                             {parse(DOMPurify.sanitize(entry[1].comment))}    
                 </Comment>
             )})}
     render() {
         if (this.state.error) {return <h1 style={{color : 'white'}}>{this.state.error}</h1>};
-        if (!this.state.ready) {this.getdata(); return <LinearProgress sx={{width: '100%'}} color="secondary"/>};
-        this.build();
+        if (!this.state.ready) {this.getdata();}
+        else {this.build();}
         return (
           <div style={{minHeight: '100vh'}}>
-              <Title title={this.conversation.title}/>
+              {!this.state.ready ? <LinearProgress sx={{width: '100%'}} color="secondary"/> : <div/>}
+              <Title category={this.conversation.category} title={this.conversation.title}/>
               <Paper style={{overflow: "auto", maxHeight: "calc(100vh - 61px)"}}>
                 <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
                   {this.o}

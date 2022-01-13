@@ -4,6 +4,7 @@ import axios from 'axios';
 import hash from 'hash.js';
 import { isMobile } from "react-device-detect";
 import { Link } from "react-router-dom";
+import queryString from "query-string";
 type severity = "success" | "info" | "warning" | "error";
 export default class Signin extends React.Component {
     constructor (props:any) {
@@ -12,9 +13,13 @@ export default class Signin extends React.Component {
         this.state = {
           user : '', pwd : '', disabled : false,
           alert : {severity : "info", text : ''}}}
+    params = queryString.parse(window.location.search);
     state! : {
         user : string, pwd : string, disabled : boolean,
         alert : {severity : severity, text : string}}
+    componentDidMount() {
+      if (this.params.continue) {
+        this.setState({alert : {severity : "info", text : "Sign in to continue."}})}}
     signin () {
         this.setState({alert : {severity : "info", text : "Signing in..."}, disabled : true});
         axios.post('/api/signin', {user : this.state.user, pwd : hash.sha256().update(this.state.pwd).digest("hex")})
@@ -22,17 +27,17 @@ export default class Signin extends React.Component {
             localStorage.signedin = true;
             localStorage.user = res.data.user;
             localStorage.id = res.data.id;
-            window.location.href = '/'})
+            window.location.href = String(this.params.returnto) || '/'})
         .catch(err => {
             this.setState({alert : {severity : "error", text : err.response.data}, disabled : false})})}
     render () {
         if (localStorage.signedin) {window.location.replace('/'); return <div/>;};
         return (
-            <Box sx={{backgroundColor : 'primary.dark', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '50px'}}>
+            <Box sx={{backgroundColor : 'primary.dark', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
               <Box sx={{minHeight : '50vh', width : isMobile ? '100vw' : '50vw'}}>
                 <div style={{marginLeft: '50px', marginRight: '50px'}}>
                   <div style={{display: 'flex', justifyContent: 'end'}}>
-                    <Link to="/register"><Button sx={{fontSize: '18px', textTransform: 'none'}} color="secondary" variant="text"><strong>Register</strong></Button></Link>
+                    <Link to={`/register${window.location.search}`}><Button sx={{fontSize: '18px', textTransform: 'none'}} color="secondary" variant="text"><strong>Register</strong></Button></Link>
                   </div>
                   <h1 style={{textAlign : 'center', fontSize : '25px', color: 'white', marginBottom: '20px'}}>Sign in to your Metahkg account</h1>
                   {this.state.alert.text ? <Alert sx={{marginTop: '10px', marginBottom: '20px'}} severity={this.state.alert.severity}>{this.state.alert.text}</Alert> : <div/>}

@@ -53,7 +53,7 @@ export default class Create extends React.Component {
         .catch(err => {
             this.setState({alert : {severity : "error", text : err.response.data}, disabled : false});})} 
     render () {
-        if (!localStorage.signedin) {window.location.replace('/signin')};
+        if (!localStorage.signedin) {window.location.replace(`/signin?continue=true&returnto=${window.location.pathname}`); return <div/>;};
         return (
             <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', justifyContent: 'center'}}>
                 <div style={{width: isMobile ? '100vw' : '80vw'}}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, List, ListItem, Drawer, Divider, ListItemIcon, ListItemText, Button, IconButton } from '@mui/material';
-import { Menu as MenuIcon, AccountCircle as AccountCircleIcon, Create as CreateIcon, Info as InfoIcon, Code as CodeIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, AccountCircle as AccountCircleIcon, Create as CreateIcon, Info as InfoIcon, Code as CodeIcon, ManageAccounts as ManageAccountsIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 export default class SideBar extends React.Component<any> {
     constructor(props:any) {
@@ -16,13 +16,13 @@ export default class SideBar extends React.Component<any> {
               (event as React.KeyboardEvent).key === 'Shift')) {return;}
           this.setState({open : open});};
     links = {
-        1 : ['/signin', '/register', '/create'],
+        1 : [`/signin?returnto=${window.location.pathname}`, '/register', '/create'],
         2 : ['/about', '/source']}
     render () {
         return (
             <div>
             <div>
-              <IconButton sx={{height: '40px', width:'40px'}} onClick={this.toggleDrawer(true)}><MenuIcon style={{color : 'white'}}/></IconButton>
+              <IconButton sx={{height: '40px', width:'40px'}} onClick={this.toggleDrawer(true)}><MenuIcon style={{color : 'white', paddingTop: '2.5px'}}/></IconButton>
             </div>
             <Drawer anchor='left' open={this.state.open} onClose={this.toggleDrawer(false)}>
             <Box sx={{width: 250}} role="presentation" onClick={this.toggleDrawer(false)} onKeyDown={this.toggleDrawer(false)}>
@@ -48,6 +48,17 @@ export default class SideBar extends React.Component<any> {
             <ListItemText primary={text} />
           </ListItem></Link>))}
       </List>
+      {localStorage.signedin ?
+         <div>
+        <Divider/>
+          <List>
+            <ListItem>
+              <ListItemIcon><ManageAccountsIcon/></ListItemIcon>
+              <ListItemText>{localStorage.user}</ListItemText>
+            </ListItem>
+          </List>
+          </div>
+        : <div/>}
     </Box>
     </Drawer>
     </div>)}}

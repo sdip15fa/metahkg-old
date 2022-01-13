@@ -9,5 +9,4 @@ export function timetoword (sdate:string) {
     const diff = (endDate.getTime() - startDate.getTime());
     let r:any = humanizeDuration(diff, {round:true, spacer: "", delimiter: " "});
     r = r.split(" ");
-    r = r[0] + (r[1] ? r[1] : "");
-    return r;}
+    return r[0];}

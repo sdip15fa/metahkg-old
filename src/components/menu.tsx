@@ -1,11 +1,11 @@
 import { Box, Divider, Button, Paper, IconButton, LinearProgress, Tooltip } from '@mui/material';
 import { Add as AddIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
 import { roundup, timetoword } from '../lib/common';
-import React from 'react';
+import React, { memo } from 'react';
 import SideBar from './sidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-export default class Menu extends React.Component <any> {
+class Menu extends React.Component <{id : string | number, category: string | number}> {
     constructor(props:any) {
         super(props);
         this.componentDidMount = this.componentDidMount.bind(this);}
@@ -22,16 +22,18 @@ export default class Menu extends React.Component <any> {
         return (
             <Box sx={{backgroundColor: 'primary.dark', maxWidth: '100%', minHeight: '100vh'}}>
               <Box sx={{backgroundColor: 'primary.main', width: '100%'}}>
-                <div style={{display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center', height: '60px'}}>
-                  <SideBar/>
+                <div style={{display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center', height: '50px'}}>
+                  <div style={{paddingLeft: '10px'}}>
+                    <SideBar/>
+                  </div>
                   <div style={{display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-                    <p style={{textAlign: 'center', color : '#F5BD1F', fontSize: '18px'}}>Metahkg</p>
+                    <p style={{textAlign: 'center', color : '#F5BD1F', fontSize: '18px', marginTop: '0px', marginBottom: '0px'}}>Metahkg</p>
                   </div>
                   <div style={{display: 'flex', justifyContent: 'end'}}>
                   <Tooltip title="Create topic" arrow>
                   <Link style={{display: 'flex'}} to='/create'>
                     <IconButton>
-                      <AddIcon style={{color: 'white', marginRight: '10px'}}/>
+                      <AddIcon style={{color: 'white', marginRight: '10px', paddingTop: '2.5px'}}/>
                     </IconButton>
                   </Link>
                   </Tooltip>
@@ -60,7 +62,7 @@ export default class Menu extends React.Component <any> {
                             <br/>
                             <div style={{display: 'flex', textTransform: "none", height: "auto", width: '100%'}}>
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'left', alignItems: 'center', lineHeight: '24px', overflow: 'hidden', paddingRight: '30px'}}>
-                                  <p style={{color: 'white', fontSize: '18px', marginLeft: '10px', maxWidth: '100%', wordBreak: 'break-word', textAlign: 'left', marginTop: '5px', marginBottom: '5px'}}>{thread.title}</p>
+                                  <p style={{color: 'white', fontSize: '17px', marginLeft: '10px', maxWidth: '100%', wordBreak: 'break-word', textAlign: 'left', marginTop: '5px', marginBottom: '5px'}}>{thread.title}</p>
                                 </div>
                             </div>
                             </Button>
@@ -70,3 +72,4 @@ export default class Menu extends React.Component <any> {
                      </div>}
                 </Paper>
             </Box>)}}
+export default memo(Menu);
