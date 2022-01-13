@@ -8,17 +8,18 @@ import { Link } from 'react-router-dom';
 class Menu extends React.Component <{id : string | number, category: string | number}> {
     constructor(props:any) {
         super(props);
-        this.componentDidMount = this.componentDidMount.bind(this);}
+        this.componentDidMount = this.fetch.bind(this);}
     data:any = [];
     state = {
         ready : false}
-    componentDidMount() {
+    fetch() {
         const c = this.props.id ? `bytid${this.props.id}` :this.props.category ;
         axios.get(`/api/newest/${c}`)
         .then(res => {
             this.data = res.data;
             this.setState({ready: true});})}
     render () {
+        if (!this.state.ready) {this.fetch()};
         return (
             <Box sx={{backgroundColor: 'primary.dark', maxWidth: '100%', minHeight: '100vh'}}>
               <Box sx={{backgroundColor: 'primary.main', width: '100%'}}>
@@ -30,6 +31,11 @@ class Menu extends React.Component <{id : string | number, category: string | nu
                     <p style={{textAlign: 'center', color : '#F5BD1F', fontSize: '18px', marginTop: '0px', marginBottom: '0px'}}>Metahkg</p>
                   </div>
                   <div style={{display: 'flex', justifyContent: 'end'}}>
+                  <Tooltip title="Refresh" arrow>
+                    <IconButton onClick={() => {this.setState({ready : false})}}>
+                      <AutorenewIcon style={{color: 'white', paddingTop: '2.5px'}}/>
+                    </IconButton>
+                  </Tooltip>
                   <Tooltip title="Create topic" arrow>
                   <Link style={{display: 'flex'}} to='/create'>
                     <IconButton>
