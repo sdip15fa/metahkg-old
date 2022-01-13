@@ -1,5 +1,5 @@
 import { Box, Divider, Button, Paper, IconButton, LinearProgress, Tooltip } from '@mui/material';
-import { Add as AddIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material';
+import { Add as AddIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon, Autorenew as AutorenewIcon } from '@mui/icons-material';
 import { roundup, timetoword } from '../lib/common';
 import React, { memo } from 'react';
 import SideBar from './sidebar';
@@ -59,7 +59,6 @@ class Menu extends React.Component <{id : string | number, category: string | nu
                                     </div>
                                 </div>
                             </div>
-                            <br/>
                             <div style={{display: 'flex', textTransform: "none", height: "auto", width: '100%'}}>
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'left', alignItems: 'center', lineHeight: '24px', overflow: 'hidden', paddingRight: '30px'}}>
                                   <p style={{color: 'white', fontSize: '17px', marginLeft: '10px', maxWidth: '100%', wordBreak: 'break-word', textAlign: 'left', marginTop: '5px', marginBottom: '5px'}}>{thread.title}</p>
