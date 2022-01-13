@@ -67,11 +67,11 @@ export default class Create extends React.Component {
                     <ChooseCat changeHandler={(e:any) => {this.setState({cat : e.target.value})}} 
                     errorHandler={(e:any) => {this.setState({alert : {severity : "error", text : e}})}}/>
                   </div>
-                  <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%', marginTop: '20px'}}>
+                  <div style={isMobile ? {marginTop: '20px'} : {display: 'flex', flexDirection: 'row', width: '100%', marginTop: '20px'}}>
                     <div style={{display: 'flex', justifyContent: 'left', width: '100%'}}>
                       <HCaptcha theme='dark' sitekey="adbdce6c-dde2-46e1-b881-356447110fa7" onVerify={(token) => {this.setState({htoken : token})}}/>
                     </div>
-                    <div style={{display: 'flex', justifyContent: isMobile ? 'left' : 'end', alignItems: 'center', width: '100%', marginTop: isMobile ? '20px' : '0px'}}>
+                    <div style={{display: 'flex', justifyContent: isMobile ? 'left' : 'end', alignItems: 'center', width: '100%'}}>
                       <Button disabled={this.state.disabled || !(this.state.icomment && this.state.title && this.state.htoken && this.state.cat)} style={{marginTop: '20px', fontSize: '16px', height: '40px'}} onClick={this.create} variant='contained' color='secondary'>Create</Button>
                     </div>
                   </div>

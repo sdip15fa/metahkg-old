@@ -23,7 +23,7 @@ export default function Title(props:{category: number | string, title: string, s
             </IconButton>
             </Link>
             <Typography sx={{color:'secondary.main', fontSize: '18px', marginTop: '0px', 
-            marginBottom: '0px', paddingLeft: '10px', lineHeight: '21px', maxHeight: '21px', 
+            marginBottom: '0px', paddingLeft: '10px', lineHeight: '22px', maxHeight: '22px', 
             textOverflow: 'ellipsis', overflow: 'hidden'}}>{props.title}</Typography>
           </div>
           <Box sx={{display: 'flex', flexDirection: 'row'}}>
