@@ -8,9 +8,9 @@ enabled = true
   plugins = ["react"]
 
 [[transformers]]
-name = "prettier"
+name = "standardjs"
 enabled = true
 
 [[transformers]]
-name = "standardjs"
+name = "prettier"
 enabled = true
