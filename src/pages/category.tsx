@@ -1,19 +1,18 @@
 import { Box, List, ListItem, ListItemIcon, ListItemText, Paper } from '@mui/material';
 import { AccountCircle as AccountCircleIcon, Create as CreateIcon, Info as InfoIcon, Code as CodeIcon } from '@mui/icons-material';
-import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { useParams } from 'react-router';
 import Menu from '../components/menu';
 import { Link } from 'react-router-dom';
-class Category extends React.Component <any> {
-    listitems = ['Create Topic', 'About', 'Source code'];
-    links = ['/create', '/about', '/source'];
-    icons:JSX.Element[] = [<CreateIcon/>, <InfoIcon/>, <CodeIcon/>]
-    render() {
+export default function Category() {
+    const listitems = ['Create Topic', 'About', 'Source code'];
+    const links = ['/create', '/about', '/source'];
+    const icons:JSX.Element[] = [<CreateIcon/>, <InfoIcon/>, <CodeIcon/>];
+    const params = useParams();
         return (
             <Box sx={{backgroundColor : "primary.dark", display: 'flex', flexDirection: 'row'}}>
                 <div style={{width: isMobile ? '100vw' : '30vw'}}>
-                    <Menu id={0} category={Number(this.props.params.category)}/>
+                    <Menu id={0} category={Number(params.category)}/>
                 </div>
                 {!isMobile ? <Paper sx={{overflow: "auto", maxHeight: "100vh"}}>
                               <div style={{width: '70vw', justifyContent: 'center', alignItems: 'center'}}>
@@ -26,11 +25,11 @@ class Category extends React.Component <any> {
                                                 <ListItemText>{localStorage.signedin ? 'Logout' : 'Sign in / Register'}</ListItemText>
                                             </ListItem>
                                         </Link>
-                                        {this.listitems.map((item, index) => (
-                                            <Link style={{textDecoration: 'none', color: 'white'}} to={this.links[index]}>
+                                        {listitems.map((item, index) => (
+                                            <Link style={{textDecoration: 'none', color: 'white'}} to={links[index]}>
                                             <ListItem button style={{width: '100%'}}>
                                               <ListItemIcon>
-                                                  {this.icons[index]}
+                                                  {icons[index]}
                                               </ListItemIcon>
                                               <ListItemText>{item}</ListItemText>
                                             </ListItem>
@@ -39,6 +38,4 @@ class Category extends React.Component <any> {
                                 </div>
                             </div></Paper> : <div/>}
                         </Box>
-                        )}}
-export default (props:any) => (
-    <Category params={useParams()}/>);
+                    )}

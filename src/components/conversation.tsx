@@ -6,51 +6,44 @@ import axios from "axios";
 import DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
 import { timetoword } from "../lib/common";
-export default class Conversation extends React.Component<any> {
-    constructor(props:any) {
-        super(props);
-        this.getdata = this.getdata.bind(this);
-        this.build = this.build.bind(this);}
-    o : JSX.Element[] = [];
-    conversation:any = {};
-    users:any = {};
-    slink:string = "";
-    state = {
-        ready : false,
-        error : '',}
-    async getdata() {
-        await axios.get(`/api/thread/${this.props.id}/conversation`).then(res => {
-            this.conversation = res.data;})
-            .catch(err => {this.setState({error : err.response.data}); return;})
-        await axios.get(`/api/thread/${this.props.id}/users`).then(res => {
-            this.users = res.data;})
-        this.slink = this.conversation.slink || 
+let o:JSX.Element[] = [];
+let conversation:any = {};
+let users:any = {};
+let slink = '';
+export default function Conversation(props:{id: string | number}) {
+    const [state, setState] = React.useState<{ready: boolean, error: string}>({ready: false, error: ''})
+    async function getdata() {
+        await axios.get(`/api/thread/${props.id}/conversation`).then(res => {
+            conversation = res.data;})
+            .catch(err => {setState({...state, error : err.response.data}); return;})
+        await axios.get(`/api/thread/${props.id}/users`).then(res => {
+            users = res.data;})
+        slink = conversation.slink || 
         `https://us.wcyat.me/${(await axios.post("https://api-us.wcyat.me/create", {url : window.location.href})).data.id}`
-        this.setState({ready : true});}
-    build() {
-        this.o = [];
-        Object.entries(this.conversation.conversation).map((entry:any) => {
-            this.o.push(
-                <Comment name={this.users[entry[1].user].name} 
+        setState({...state, ready : true});}
+    function build() {
+        o = [];
+        Object.entries(conversation.conversation).map((entry:any):void => {
+            o.push(
+                <Comment name={users[entry[1].user].name} 
                         id={entry[0]} 
-                        op={this.users[entry[1].user].name === this.conversation.op ? true : false} 
-                        sex={this.users[entry[1].user].sex === "male" ? true : false}
+                        op={users[entry[1].user].name === conversation.op ? true : false} 
+                        sex={users[entry[1].user].sex === "male" ? true : false}
                         time={timetoword(entry[1].createdAt)}>
                             {parse(DOMPurify.sanitize(entry[1].comment))}    
                 </Comment>
             )})}
-    render() {
-        if (this.state.error) {return <h1 style={{color : 'white'}}>{this.state.error}</h1>};
-        if (!this.state.ready) {this.getdata();}
-        else {this.build();}
+        if (state.error) {return <h1 style={{color : 'white'}}>{state.error}</h1>};
+        if (!state.ready) {getdata();}
+        else {build();}
         return (
           <div style={{minHeight: '100vh'}}>
-              {!this.state.ready ? <LinearProgress sx={{width: '100%'}} color="secondary"/> : <div/>}
-              <Title slink={this.slink} 
-              category={this.conversation.category} title={this.conversation.title}/>
+              {!state.ready ? <LinearProgress sx={{width: '100%'}} color="secondary"/> : <div/>}
+              <Title slink={slink}
+              category={conversation.category} title={conversation.title}/>
               <Paper style={{overflow: "auto", maxHeight: "calc(100vh - 61px)"}}>
                 <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
-                  {this.o}
+                  {o}
                 </Box>
               </Paper>
-          </div>)}}
+          </div>)}
