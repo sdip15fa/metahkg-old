@@ -9,7 +9,7 @@ class Thread extends React.Component<any> {
     return (
         <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', flexDirection: 'row'}}>
           {!isMobile ? <div style={{width: '30vw'}}>
-            <Menu id={1}/>
+            <Menu id={this.props.params.id}/>
           </div> : <div/>}
           <div key={this.props.params.id} style={{width: isMobile ? '100vw' : '70vw'}}>
             <Conversation id={this.props.params.id}/>
