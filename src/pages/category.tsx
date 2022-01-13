@@ -13,7 +13,7 @@ class Category extends React.Component <any> {
         return (
             <Box sx={{backgroundColor : "primary.dark", display: 'flex', flexDirection: 'row'}}>
                 <div style={{width: isMobile ? '100vw' : '30vw'}}>
-                    <Menu category={Number(this.props.params.category)}/>
+                    <Menu id={0} category={Number(this.props.params.category)}/>
                 </div>
                 {!isMobile ? <Paper sx={{overflow: "auto", maxHeight: "100vh"}}>
                               <div style={{width: '70vw', justifyContent: 'center', alignItems: 'center'}}>

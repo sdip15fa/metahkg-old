@@ -22,7 +22,7 @@ export default class SideBar extends React.Component<any> {
         return (
             <div>
             <div>
-              <IconButton sx={{height: '40px', width:'40px'}} onClick={this.toggleDrawer(true)}><MenuIcon style={{color : 'white', paddingTop: '2.5px'}}/></IconButton>
+              <IconButton sx={{height: '40px', width:'40px'}} onClick={this.toggleDrawer(true)}><MenuIcon style={{color : 'white'}}/></IconButton>
             </div>
             <Drawer anchor='left' open={this.state.open} onClose={this.toggleDrawer(false)}>
             <Box sx={{width: 250}} role="presentation" onClick={this.toggleDrawer(false)} onKeyDown={this.toggleDrawer(false)}>
