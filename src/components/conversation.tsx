@@ -14,6 +14,7 @@ export default class Conversation extends React.Component<any> {
     o : JSX.Element[] = [];
     conversation:any = {};
     users:any = {};
+    slink:string = "";
     state = {
         ready : false,
         error : '',}
@@ -23,6 +24,8 @@ export default class Conversation extends React.Component<any> {
             .catch(err => {this.setState({error : err.response.data}); return;})
         await axios.get(`/api/thread/${this.props.id}/users`).then(res => {
             this.users = res.data;})
+        this.slink = this.conversation.slink || 
+        `https://us.wcyat.me/${(await axios.post("https://api-us.wcyat.me/create", {url : window.location.href})).data.id}`
         this.setState({ready : true});}
     build() {
         this.o = [];
@@ -43,7 +46,8 @@ export default class Conversation extends React.Component<any> {
         return (
           <div style={{minHeight: '100vh'}}>
               {!this.state.ready ? <LinearProgress sx={{width: '100%'}} color="secondary"/> : <div/>}
-              <Title category={this.conversation.category} title={this.conversation.title}/>
+              <Title slink={this.slink} 
+              category={this.conversation.category} title={this.conversation.title}/>
               <Paper style={{overflow: "auto", maxHeight: "calc(100vh - 61px)"}}>
                 <Box sx={{backgroundColor: "primary.dark", width: '100%'}}>
                   {this.o}

@@ -67,7 +67,7 @@ function Menu (props:{id : string | number, category: string | number}) {
                                 alignItems: 'center', lineHeight: '24px', overflow: 'hidden', paddingRight: '30px'}}>
                                   <p style={{color: 'white', fontSize: '17px', paddingLeft: '10px', maxWidth: '100%', 
                                   wordBreak: 'break-word', textAlign: 'left', marginTop: '5px', marginBottom: '5px', 
-                                  wordWrap: "break-word", lineHeight: '17px', maxHeight: '34px', overflow: 'hidden', 
+                                  wordWrap: "break-word", lineHeight: '20px', maxHeight: '40px', overflow: 'hidden', 
                                   textOverflow: 'ellipsis'}}>{thread.title}</p>
                                 </div>
                             </div>

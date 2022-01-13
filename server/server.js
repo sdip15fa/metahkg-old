@@ -12,6 +12,7 @@ const { JSDOM } = require('jsdom');
 const bcrypt = require('bcrypt');
 const EmailValidator = require('email-validator');
 const isNumber = require('is-number');
+const { default: axios } = require('axios');
 require('dotenv').config();
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
@@ -190,8 +191,9 @@ app.post('/api/create', body_parser.json(), async (req, res) => {
         const users = client.db('metahkg-threads').collection('users');
         const newcid = await conversation.countDocuments({}) + 1;
         const date = new Date;
+        const slink = `https://us.wcyat.me/${(await axios.post("https://api-us.wcyat.me/create", {url : `https://metahkg.wcyat.me/thread/${newcid}`})).data.id}`;
         await conversation.insertOne({op : user.user, id : newcid,
-        title : req.body.title, category : category.id, conversation : {1 : {user : user.id, comment : req.body.icomment,
+        title : req.body.title, category : category.id, slink : slink, conversation : {1 : {user : user.id, comment : req.body.icomment,
         createdAt : date}}, lastModified : date})
         await users.insertOne({id : newcid, [user.id] : {name : user.user, sex : user.sex}});
         await summary.insertOne({id : newcid, op : user.user, sex : user.sex, c : 1, vote : 0, 
