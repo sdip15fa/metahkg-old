@@ -26,11 +26,11 @@ type severity = "success" | "info" | "warning" | "error";
 export default function Register() {
     const [state, setState] = React.useState<{
         user : string, email : string, pwd: string,
-        sex : string, verify : JSX.Element, disabled : boolean,
+        sex : string, disabled : boolean,
         waiting : boolean, htoken : string,
         code : string, alert : {severity : severity, text : string}}>({
         user : '', email : '', pwd : '',
-        sex : '', verify : <div/>, disabled : false, 
+        sex : '', disabled : false, 
         waiting : false, htoken : '',
         code :'', alert : {severity: "info", text : ''}});
     const params = queryString.parse(window.location.search);
@@ -52,7 +52,7 @@ export default function Register() {
         axios.post('/api/register',{email : state.email, user : state.user, 
             pwd : hash.sha256().update(state.pwd).digest("hex"), sex : state.sex, htoken: state.htoken})
         .then (() => {
-            setState({...state, verify : <TextField color="secondary" style={{marginTop: isMobile ? '20px' : '0px'}} variant="filled" label="verification code" onChange={(e) => {setState({...state, code : e.target.value})}}/>, waiting : true, 
+            setState({...state, waiting : true, 
         alert : {severity : "success", text : "Please enter the verification code sent to your email address.\nIt will expire in 5 minutes."}, disabled : false});
         }).catch (err => {setState({...state, alert : {severity : "error", text : err.response.data}, disabled : false});})}
         if (localStorage.signedin) {window.location.replace('/'); return <div/>;};
@@ -69,7 +69,7 @@ export default function Register() {
                         <Sex disabled={state.waiting} changeHandler={(e:any) => {setState({...state, sex : e.target.value ? "male" : "female"})}}/>
                         {isMobile ? <br/> : <div/>}
                         <div style={{display: 'flex', justifyContent: isMobile ? 'left' : 'end', width: '100%'}}>
-                          {state.verify}
+                          {state.waiting ? <TextField color="secondary" style={{marginTop: isMobile ? '20px' : '0px'}} variant="filled" label="verification code" onChange={(e) => {setState({...state, code : e.target.value})}}/> : <div/>}
                         </div>
                         </div><br/>
                         <div style={isMobile ? {} : {display: 'flex', flexDirection: 'row', width: '100%'}}>

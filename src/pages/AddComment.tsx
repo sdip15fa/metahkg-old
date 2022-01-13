@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 import { Link } from 'react-router-dom';
 import TextEditor from '../components/texteditor';
 type severity = "success" | "info" | "warning" | "error";
-export default function AddComment(props:any) {
+export default function AddComment() {
     const [state, setState] = React.useState<{
         comment : string, disabled : boolean,
         alert : {severity : severity, text : string}}>({
