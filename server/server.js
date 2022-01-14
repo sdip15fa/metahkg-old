@@ -94,7 +94,7 @@ app.get("/api/categories/:id", body_parser.json(), async (req, res) => {
     const categories = client.db("metahkg-threads").collection("category");
     if (req.params.id === "all") {
       const c = await categories.find({}).toArray();
-      let o = {};
+      const o = {};
       for (i of c) {
         o[i.id] = i.name;
       }
@@ -272,7 +272,7 @@ app.post("/api/signin", body_parser.json(), async (req, res) => {
   });
   res.send({ key: data.key, id: data.id, user: data.user });
 });
-//get conversation
+// get conversation
 app.get("/api/thread/:id/:file", async (req, res) => {
   const client = new MongoClient(mongouri);
   await client.connect();
@@ -289,7 +289,7 @@ app.get("/api/thread/:id/:file", async (req, res) => {
     await client.close();
   }
 });
-//add a comment
+// add a comment
 app.post("/api/comment", body_parser.json(), async (req, res) => {
   const client = new MongoClient(mongouri);
   if (
