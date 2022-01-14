@@ -54,7 +54,7 @@ export default function Title(props: {
           flexDirection: "row",
           marginLeft: "10px",
           marginRight: "20px",
-          justifyContent: "end",
+          justifyContent: "flex-end",
           alignItems: "center",
           height: "100%",
         }}
