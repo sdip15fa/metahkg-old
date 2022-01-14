@@ -11,7 +11,6 @@ import Create from "./pages/create";
 import Category from "./pages/category";
 import Logout from "./components/logout";
 import Source from "./pages/source";
-import NotSupported from "./pages/notsupported";
 export default function App() {
   if (isIE) {
     return <p>IE is not supported. Please use  
