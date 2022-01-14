@@ -75,7 +75,7 @@ export default function Signin() {
           <div style={{ display: "flex", justifyContent: "flex-end", width: '100%' }}>
             <Link style={{textDecoration: 'none', textAlign: 'end'}} to={`/register${window.location.search}`}>
               <Button
-                sx={{ fontSize: "18px", textTransform: "none" }}
+                sx={{ fontSize: "18px", textTransform: "none", display: "flex", justifyContent: "end", width: '100%' }}
                 color="secondary"
                 variant="text"
               >

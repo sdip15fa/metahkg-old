@@ -155,6 +155,12 @@ app.post("/api/register", body_parser.json(), async (req, res) => {
     return;
   }
   await client.connect();
+  const banned = client.db("metahkg-users").collection("banned");
+  if (await banned.findOne({ip : req.ip})) {
+    res.status(403);
+    res.send("You are banned from creating accounts.");
+    console.log(`Banned ${req.ip}`);
+    return;}
   const verification = client.db("metahkg-users").collection("verification");
   const users = client.db("metahkg-users").collection("users");
   const code = random.int((min = 100000), (max = 999999));
