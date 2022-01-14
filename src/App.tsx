@@ -11,13 +11,7 @@ import Create from "./pages/create";
 import Category from "./pages/category";
 import Logout from "./components/logout";
 import Source from "./pages/source";
-import NotSupported from "./pages/notsupported";
 export default function App() {
-  if (isSafari && !localStorage.continuens) {
-    return <Theme
-    primary={{ main: "#2a2a2a" }}
-    secondary={{ main: "#F5BD1F", dark: "#ffc100" }}
-  ><NotSupported/></Theme>}
   if (isIE) {
     return <p>IE is not supported. Please use  
     <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> or 

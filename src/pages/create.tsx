@@ -175,7 +175,7 @@ export default function Create(props: any) {
             <div
               style={{
                 display: "flex",
-                justifyContent: isMobile ? "left" : "end",
+                justifyContent: isMobile ? "left" : "flex-end",
                 alignItems: "center",
                 width: "100%",
               }}
