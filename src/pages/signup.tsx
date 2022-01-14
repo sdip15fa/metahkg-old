@@ -220,7 +220,7 @@ export default function Register() {
             <div
               style={{
                 display: "flex",
-                justifyContent: isMobile ? "left" : "end",
+                justifyContent: isMobile ? "left" : "flex-end",
                 width: "100%",
               }}
             >
@@ -261,7 +261,7 @@ export default function Register() {
             <div
               style={{
                 display: "flex",
-                justifyContent: isMobile ? "left" : "end",
+                justifyContent: isMobile ? "left" : "flex-end",
                 alignItems: "center",
                 width: "100%",
                 marginTop: isMobile ? "20px" : "0px",

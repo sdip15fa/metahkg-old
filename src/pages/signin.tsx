@@ -72,7 +72,7 @@ export default function Signin() {
     >
       <Box sx={{ minHeight: "50vh", width: isMobile ? "100vw" : "50vw" }}>
         <div style={{ marginLeft: "50px", marginRight: "50px" }}>
-          <div style={{ display: "flex", justifyContent: "end", width: '100%' }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", width: '100%' }}>
             <Link style={{textDecoration: 'none', textAlign: 'end'}} to={`/register${window.location.search}`}>
               <Button
                 sx={{ fontSize: "18px", textTransform: "none" }}

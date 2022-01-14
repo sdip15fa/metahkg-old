@@ -74,7 +74,7 @@ function Menu(props: { id: string | number; category: string | number }) {
               {cat}
             </p>
           </div>
-          <div style={{ display: "flex", justifyContent: "end" }}>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Tooltip title="Refresh" arrow>
               <IconButton
                 onClick={() => {
@@ -169,7 +169,7 @@ function Menu(props: { id: string | number; category: string | number }) {
                         <div
                           style={{
                             display: "flex",
-                            justifyContent: "end",
+                            justifyContent: "flex-end",
                             width: "100%",
                             paddingRight: "10px",
                           }}
