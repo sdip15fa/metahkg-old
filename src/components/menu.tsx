@@ -174,7 +174,7 @@ function Menu(props: { id: string | number; category: string | number }) {
                             paddingRight: "10px",
                           }}
                         >
-                          <p style={{ textAlign: "right", color: "white" }}>
+                          <p style={{ textAlign: "end", color: "white" }}>
                             {roundup(thread.c / 10) +
                               ` page${roundup(thread.c / 10) > 1 ? "s" : ""}`}
                           </p>
