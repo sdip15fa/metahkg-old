@@ -21,7 +21,7 @@ const DOMAIN = "metahkg.wcyat.me";
 const secret = process.env.hcaptchasecret;
 const mg = mailgun({ apiKey: process.env.api_key, domain: DOMAIN });
 const mongouri = process.env.DB_URI;
-app.set('trust proxy', true);
+app.set("trust proxy", true);
 app.use(function (req, res, next) {
   res.setHeader(
     "Content-Security-Policy",
@@ -159,12 +159,13 @@ app.post("/api/register", body_parser.json(), async (req, res) => {
   }
   await client.connect();
   const banned = client.db("metahkg-users").collection("banned");
-  console.log(req.ip)
-  if (await banned.findOne({ip : req.ip})) {
+  console.log(req.ip);
+  if (await banned.findOne({ ip: req.ip })) {
     res.status(403);
     res.send("You are banned from creating accounts.");
     console.log(`Banned ${req.ip}`);
-    return;}
+    return;
+  }
   const verification = client.db("metahkg-users").collection("verification");
   const users = client.db("metahkg-users").collection("users");
   const code = random.int((min = 100000), (max = 999999));
