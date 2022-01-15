@@ -44,6 +44,6 @@ a:active {
   color: #3498db;
 }
 ::selection {
-  background:#fbc308;
-  color: black
+  background: #fbc308;
+  color: black;
 }
