@@ -17,6 +17,7 @@ import HCaptcha from "@hcaptcha/react-hcaptcha";
 import isNumber from "is-number";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
+declare const hcaptcha: any;
 function Sex(props: any) {
   const [sex, setSex] = React.useState("");
   const changeHandler = (e: any) => {
@@ -129,6 +130,7 @@ export default function Register() {
           alert: { severity: "error", text: err.response.data },
           disabled: false,
         });
+        hcaptcha.reset('');
       });
   }
   if (localStorage.signedin) {

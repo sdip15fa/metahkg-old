@@ -14,6 +14,7 @@ import { isMobile } from "react-device-detect";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "axios";
 import { useNavigate } from "react-router";
+declare const hcaptcha: any;
 type severity = "success" | "info" | "warning" | "error";
 function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
   const [state, setState] = React.useState<{ data: any; cat: number }>({
@@ -56,7 +57,7 @@ function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
     </div>
   );
 }
-export default function Create(props: any) {
+export default function Create() {
   const navigate = useNavigate();
   const [state, setState] = React.useState<{
     htoken: string;
@@ -95,6 +96,7 @@ export default function Create(props: any) {
           alert: { severity: "error", text: err.response.data },
           disabled: false,
         });
+        hcaptcha.reset('');
       });
   }
   if (!localStorage.signedin) {
