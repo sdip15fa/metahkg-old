@@ -1,6 +1,7 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import reactElementToJSXString from 'react-element-to-jsx-string';
 export default function Comment(props: {
   op: boolean;
   sex: boolean;
@@ -52,7 +53,7 @@ export default function Comment(props: {
           {props.time}
         </p>
         <Tooltip title="Quote">
-          <IconButton onClick={() => {localStorage.reply = String(props.children); console.log(localStorage.reply); navigate(`/comment/${props.id}`);}}>
+          <IconButton onClick={() => {localStorage.reply = reactElementToJSXString(props.children); console.log(localStorage.reply); navigate(`/comment/${props.id}`);}}>
             <ReplyIcon/>
           </IconButton>
         </Tooltip>
