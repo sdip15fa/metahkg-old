@@ -23,6 +23,12 @@ function Tag(props: {
           marginLeft: "10px",
           marginTop: "15px",
           marginBottom: "0px",
+          textOverflow: 'ellipsis',
+          maxWidth: '100%',
+          overflow: 'hidden',
+          lineHeight: '22px',
+          maxHeight: '22px',
+          wordBreak: 'keep-all'
         }}
       >
         {props.children}
@@ -57,11 +63,11 @@ export default function Comment(props: {
         marginTop: "5px",
       }}
     >
-      <div style={{ marginLeft: "20px" }}>
+      <div style={{ marginLeft: "20px", marginRight: '20px' }}>
         <Tag op={props.op} sex={props.sex} id={props.id} time={props.time}>
           {props.name}
         </Tag>
-        <p style={{ color: "white" }}>{props.children}</p>
+        <p style={{ color: "white", wordBreak: 'break-all' }}>{props.children}</p>
         <div style={{ height: "5px" }} />
       </div>
     </Box>

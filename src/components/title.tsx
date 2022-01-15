@@ -65,7 +65,6 @@ export default function Title(props: {
             maxWidth: "100%",
             display: "flex",
             justifyContent: "left",
-            textOverflow: "ellipsis",
             alignItems: "center",
             overflow: "hidden",
             height: "100%",
@@ -87,6 +86,7 @@ export default function Title(props: {
               maxHeight: "22px",
               textOverflow: "ellipsis",
               overflow: "hidden",
+              wordBreak: 'keep-all'
             }}
           >
             {props.title}

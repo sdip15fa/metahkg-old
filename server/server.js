@@ -135,6 +135,8 @@ app.post("/api/register", body_parser.json(), async (req, res) => {
     !req.body.htoken ||
     !req.body.email ||
     !req.body.sex ||
+    req.body.user.split(" ")[1] ||
+    req.body.user.length > 15 ||
     !(
       typeof req.body.user === "string" &&
       typeof req.body.pwd === "string" &&

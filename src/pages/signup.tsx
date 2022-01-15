@@ -104,6 +104,10 @@ export default function Register() {
       });
       return;
     }
+    if (state.user.split(" ")[1] || state.user.length > 15) {
+      setState({...state, alert: {severity: "error", text: "Username must be one word and less than 16 characters."}, disabled: false});
+      return;
+    }
     axios
       .post("/api/register", {
         email: state.email,
