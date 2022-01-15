@@ -52,7 +52,7 @@ export default function Comment(props: {
           {props.time}
         </p>
         <Tooltip title="Quote">
-          <IconButton onClick={() => {localStorage.reply = String(props.children); navigate(`/comment/${props.id}`);}}>
+          <IconButton onClick={() => {localStorage.reply = String(props.children); console.log(localStorage.reply); navigate(`/comment/${props.id}`);}}>
             <ReplyIcon/>
           </IconButton>
         </Tooltip>

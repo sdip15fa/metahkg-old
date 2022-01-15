@@ -95,7 +95,7 @@ export default function AddComment() {
             <div />
           )}
           <TextEditor
-            text=""
+            text={inittext}
             changehandler={(v: any, e: any) => {
               setState({ ...state, comment: e.getContent() });
             }}
