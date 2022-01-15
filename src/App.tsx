@@ -1,7 +1,7 @@
 import "./App.css";
 import Theme from "./lib/theme";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { isIE, isSafari, isEdge } from "react-device-detect";
+import { isIE } from "react-device-detect";
 import Home from "./pages";
 import Register from "./pages/signup";
 import Signin from "./pages/signin";
