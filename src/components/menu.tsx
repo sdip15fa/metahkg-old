@@ -86,8 +86,8 @@ function Menu(props: { id: string | number; category: string | number }) {
             </Tooltip>
             <Tooltip title="Create topic" arrow>
               <Link style={{ display: "flex" }} to="/create">
-                <IconButton>
-                  <AddIcon style={{ color: "white", marginRight: "10px" }} />
+                <IconButton sx={{marginRight: "10px"}}>
+                  <AddIcon style={{ color: "white" }} />
                 </IconButton>
               </Link>
             </Tooltip>
