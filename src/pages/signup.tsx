@@ -1,5 +1,4 @@
 import React from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
 import hash from "hash.js";
 import * as EmailValidator from "email-validator";
