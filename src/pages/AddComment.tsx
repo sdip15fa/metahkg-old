@@ -18,6 +18,10 @@ export default function AddComment() {
   });
   const params = useParams();
   const id = Number(params.id);
+  let inittext = "";
+  if (localStorage.reply) {
+    inittext = `<blockquote style="color: #aca9a9; border-left: 2px solid #aca9a9; margin-left: 0"><div style="margin-left: 15px">${localStorage.reply}</div></blockquote>`;
+    localStorage.removeItem('reply');}
   useEffect(() => {
     axios.post("/api/check", { id: id }).catch((err) => {
       if (err.response.status === 404) {

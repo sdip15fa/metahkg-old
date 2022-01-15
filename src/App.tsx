@@ -1,8 +1,7 @@
 import "./App.css";
 import Theme from "./lib/theme";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { isIE } from "react-device-detect";
-import Home from "./pages";
 import Register from "./pages/signup";
 import Signin from "./pages/signin";
 import Thread from "./pages/thread";
@@ -23,7 +22,7 @@ export default function App() {
     >
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Navigate to="/category/1"/>} />
           <Route path="/thread/:id" element={<Thread />} />
           <Route path="/comment/:id" element={<AddComment />} />
           <Route path="/category/:category" element={<Category />} />

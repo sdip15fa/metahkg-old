@@ -9,8 +9,8 @@ import {
 import {
   ArrowBack as ArrowBackIcon,
   Share as ShareIcon,
+  Reply as ReplyIcon
 } from "@mui/icons-material";
-import ReplyIcon from "@mui/icons-material/Reply";
 import { Link } from "react-router-dom";
 import React from "react";
 import { isMobile } from "react-device-detect";
@@ -113,7 +113,7 @@ export default function Title(props: {
                 });
               }}
             >
-              <ShareIcon style={{ color: "white" }} />
+              <ShareIcon style={{ color: "white", fontSize: '20px' }} />
             </IconButton>
           </Tooltip>
         </Box>

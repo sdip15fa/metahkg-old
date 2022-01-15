@@ -1,52 +1,7 @@
-import { Box } from "@mui/material";
-function Tag(props: {
-  op: boolean;
-  sex: boolean;
-  id: number;
-  children: string | JSX.Element | JSX.Element[];
-  time: string;
-}) {
-  return (
-    <div style={{ display: "flex", fontSize: "17px" }}>
-      <p
-        style={{
-          color: props.op ? "#F5BD1F" : "grey",
-          marginTop: "15px",
-          marginBottom: "0px",
-        }}
-      >
-        #{props.id}
-      </p>
-      <p
-        style={{
-          color: props.sex ? "#0277bd" : "red",
-          marginLeft: "10px",
-          marginTop: "15px",
-          marginBottom: "0px",
-          textOverflow: 'ellipsis',
-          maxWidth: '100%',
-          overflow: 'hidden',
-          lineHeight: '22px',
-          maxHeight: '22px',
-          wordBreak: 'keep-all'
-        }}
-      >
-        {props.children}
-      </p>
-      <p
-        style={{
-          fontSize: "16px",
-          color: "gray",
-          marginLeft: "10px",
-          marginTop: "15px",
-          marginBottom: "0px",
-        }}
-      >
-        {props.time}
-      </p>
-    </div>
-  );
-}
+import { Box, IconButton, Tooltip } from "@mui/material";
+import { Reply as ReplyIcon } from "@mui/icons-material";
+import { useNavigate } from "react-router";
+const navigate = useNavigate();
 export default function Comment(props: {
   op: boolean;
   sex: boolean;
@@ -55,6 +10,55 @@ export default function Comment(props: {
   children: string | JSX.Element | JSX.Element[];
   time: string;
 }) {
+  function Tag(tprops: {
+    children: string | JSX.Element | JSX.Element[];
+    }) {
+    return (
+      <div style={{ display: "flex", fontSize: "17px" }}>
+        <p
+          style={{
+            color: props.op ? "#F5BD1F" : "grey",
+            marginTop: "15px",
+            marginBottom: "0px",
+          }}
+        >
+          #{props.id}
+        </p>
+        <p
+          style={{
+            color: props.sex ? "#0277bd" : "red",
+            marginLeft: "10px",
+            marginTop: "15px",
+            marginBottom: "0px",
+            textOverflow: 'ellipsis',
+            maxWidth: '100%',
+            overflow: 'hidden',
+            lineHeight: '22px',
+            maxHeight: '22px',
+            wordBreak: 'keep-all'
+          }}
+        >
+          {tprops.children}
+        </p>
+        <p
+          style={{
+            fontSize: "16px",
+            color: "gray",
+            marginLeft: "10px",
+            marginTop: "15px",
+            marginBottom: "0px",
+          }}
+        >
+          {props.time}
+        </p>
+        <Tooltip title="Quote">
+          <IconButton onClick={() => {localStorage.reply = String(props.children); navigate(`/comment/${props.id}`);}}>
+            <ReplyIcon/>
+          </IconButton>
+        </Tooltip>
+      </div>
+    );
+  }
   return (
     <Box
       sx={{
@@ -64,7 +68,7 @@ export default function Comment(props: {
       }}
     >
       <div style={{ marginLeft: "20px", marginRight: '20px' }}>
-        <Tag op={props.op} sex={props.sex} id={props.id} time={props.time}>
+        <Tag>
           {props.name}
         </Tag>
         <p style={{ color: "white", wordBreak: 'break-word' }}>{props.children}</p>
