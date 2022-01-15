@@ -74,7 +74,6 @@ export default function Register() {
     axios
       .post("/api/verify", { email: state.email, code: Number(state.code) })
       .then((res) => {
-        Cookies.set("key", res.data.key);
         localStorage.user = state.user;
         localStorage.id = res.data.id;
         localStorage.signedin = true;
