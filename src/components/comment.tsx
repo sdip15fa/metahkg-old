@@ -67,7 +67,7 @@ export default function Comment(props: {
         <Tag op={props.op} sex={props.sex} id={props.id} time={props.time}>
           {props.name}
         </Tag>
-        <p style={{ color: "white", wordBreak: 'break-all' }}>{props.children}</p>
+        <p style={{ color: "white", wordBreak: 'break-word' }}>{props.children}</p>
         <div style={{ height: "5px" }} />
       </div>
     </Box>
