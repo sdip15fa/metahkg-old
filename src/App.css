@@ -43,7 +43,7 @@ a:hover,
 a:active {
   color: #3498db;
 }
-::selection {
+.conversation *::selection {
   background: #fbc308;
   color: black;
 }

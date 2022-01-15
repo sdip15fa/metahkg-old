@@ -69,6 +69,7 @@ function Menu(props: { id: string | number; category: string | number }) {
                 fontSize: "18px",
                 marginTop: "0px",
                 marginBottom: "0px",
+                userSelect: "none"
               }}
             >
               {cat}

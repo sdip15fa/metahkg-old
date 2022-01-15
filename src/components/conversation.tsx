@@ -63,7 +63,7 @@ export default function Conversation(props: { id: string | number }) {
     build();
   }
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div className="conversation" style={{ minHeight: "100vh" }}>
       {!state.ready ? (
         <LinearProgress sx={{ width: "100%" }} color="secondary" />
       ) : (
