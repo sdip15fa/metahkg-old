@@ -1,7 +1,6 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-const navigate = useNavigate();
 export default function Comment(props: {
   op: boolean;
   sex: boolean;
@@ -13,6 +12,7 @@ export default function Comment(props: {
   function Tag(tprops: {
     children: string | JSX.Element | JSX.Element[];
     }) {
+    const navigate = useNavigate();
     return (
       <div style={{ display: "flex", fontSize: "17px" }}>
         <p
