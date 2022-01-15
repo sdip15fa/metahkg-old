@@ -4,9 +4,11 @@ import axios from "axios";
 import hash from "hash.js";
 import { isMobile } from "react-device-detect";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import queryString from "query-string";
 type severity = "success" | "info" | "warning" | "error";
 export default function Signin() {
+  const navigate = useNavigate();
   const [state, setState] = React.useState<{
     user: string;
     pwd: string;
@@ -42,11 +44,7 @@ export default function Signin() {
         localStorage.signedin = true;
         localStorage.user = res.data.user;
         localStorage.id = res.data.id;
-        if (params.returnto) {
-          window.location.href = String(params.returnto);
-        } else {
-          window.location.href = "/";
-        }
+        navigate(String(params.returnto || "/"))
       })
       .catch((err) => {
         setState({

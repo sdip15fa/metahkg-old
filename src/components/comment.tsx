@@ -1,13 +1,14 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import reactElementToJSXString from 'react-element-to-jsx-string';
+import parse from 'html-react-parser';
 export default function Comment(props: {
   op: boolean;
   sex: boolean;
   id: number;
+  tid: number | string,
   name: string;
-  children: string | JSX.Element | JSX.Element[];
+  children: string;
   time: string;
 }) {
   function Tag(tprops: {
@@ -15,10 +16,10 @@ export default function Comment(props: {
     }) {
     const navigate = useNavigate();
     return (
-      <div style={{ display: "flex", fontSize: "17px" }}>
+      <div style={{ display: "flex", fontSize: "17px", alignItems: 'center' }}>
         <p
           style={{
-            color: props.op ? "#F5BD1F" : "grey",
+            color: props.op ? "#F5BD1F" : "#aca9a9",
             marginTop: "15px",
             marginBottom: "0px",
           }}
@@ -27,7 +28,7 @@ export default function Comment(props: {
         </p>
         <p
           style={{
-            color: props.sex ? "#0277bd" : "red",
+            color: props.sex ? "#34aadc" : "red",
             marginLeft: "10px",
             marginTop: "15px",
             marginBottom: "0px",
@@ -44,17 +45,17 @@ export default function Comment(props: {
         <p
           style={{
             fontSize: "16px",
-            color: "gray",
+            color: "#aca9a9",
             marginLeft: "10px",
-            marginTop: "15px",
+            marginTop: "16.5px",
             marginBottom: "0px",
           }}
         >
           {props.time}
         </p>
         <Tooltip title="Quote">
-          <IconButton onClick={() => {localStorage.reply = reactElementToJSXString(props.children); console.log(localStorage.reply); navigate(`/comment/${props.id}`);}}>
-            <ReplyIcon/>
+          <IconButton sx={{marginTop: "16px", marginLeft: '3px'}} onClick={() => {localStorage.reply = props.children; console.log(localStorage.reply); navigate(`/comment/${props.tid}`);}}>
+            <ReplyIcon style={{fontSize: "19px", color: '#aca9a9'}}/>
           </IconButton>
         </Tooltip>
       </div>
@@ -72,7 +73,7 @@ export default function Comment(props: {
         <Tag>
           {props.name}
         </Tag>
-        <p style={{ color: "white", wordBreak: 'break-word' }}>{props.children}</p>
+        <p style={{ color: "white", wordBreak: 'break-word' }}>{parse(props.children)}</p>
         <div style={{ height: "5px" }} />
       </div>
     </Box>

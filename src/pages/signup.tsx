@@ -17,6 +17,7 @@ import { isMobile } from "react-device-detect";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import isNumber from "is-number";
 import queryString from "query-string";
+import { useNavigate } from "react-router";
 function Sex(props: any) {
   const [sex, setSex] = React.useState("");
   const changeHandler = (e: any) => {
@@ -41,6 +42,7 @@ function Sex(props: any) {
 }
 type severity = "success" | "info" | "warning" | "error";
 export default function Register() {
+  const navigate = useNavigate();
   const [state, setState] = React.useState<{
     user: string;
     email: string;
@@ -76,11 +78,7 @@ export default function Register() {
         localStorage.user = state.user;
         localStorage.id = res.data.id;
         localStorage.signedin = true;
-        if (params.returnto) {
-          window.location.href = String(params.returnto);
-        } else {
-          window.location.href = "/";
-        }
+        navigate(String(params.returnto || "/"));
       })
       .catch((err) => {
         setState({

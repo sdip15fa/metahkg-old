@@ -2,16 +2,13 @@ import { Alert, Box, Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { isMobile } from "react-device-detect";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import TextEditor from "../components/texteditor";
 type severity = "success" | "info" | "warning" | "error";
 let inittext = "";
 export default function AddComment() {
-  if (localStorage.reply) {
-    inittext = `<blockquote style="color: #aca9a9; border-left: 2px solid #aca9a9; margin-left: 0"><div style="margin-left: 15px">${localStorage.reply}</div></blockquote><p></p>`;
-    console.log(inittext);
-  }
+  const navigate = useNavigate();
   const [state, setState] = React.useState<{
     comment: string;
     disabled: boolean;
@@ -23,6 +20,10 @@ export default function AddComment() {
   });
   const params = useParams();
   const id = Number(params.id);
+  if (localStorage.reply && localStorage.signedin) {
+    inittext = `<blockquote style="color: #aca9a9; border-left: 2px solid #aca9a9; margin-left: 0"><div style="margin-left: 15px">${localStorage.reply}</div></blockquote><p></p>`;
+    localStorage.removeItem('reply');
+  }
   useEffect(() => {
     axios.post("/api/check", { id: id }).catch((err) => {
       if (err.response.status === 404) {
@@ -53,7 +54,7 @@ export default function AddComment() {
     axios
       .post("/api/comment", { id: id, comment: state.comment })
       .then(() => {
-        window.location.href = `/thread/${id}`;
+        navigate(`/thread/${id}`);
       })
       .catch((err) => {
         setState({

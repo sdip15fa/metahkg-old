@@ -33,7 +33,7 @@ export default function Conversation(props: { id: string | number }) {
       `https://us.wcyat.me/${
         (
           await axios.post("https://api-us.wcyat.me/create", {
-            url: window.location.href,
+            url: window.location.origin + window.location.pathname,
           })
         ).data.id
       }`;
@@ -49,8 +49,9 @@ export default function Conversation(props: { id: string | number }) {
           op={users[entry[1].user].name === conversation.op ? true : false}
           sex={users[entry[1].user].sex === "male" ? true : false}
           time={timetoword(entry[1].createdAt)}
+          tid={props.id}
         >
-          {parse(DOMPurify.sanitize(entry[1].comment))}
+          {DOMPurify.sanitize(entry[1].comment)}
         </Comment>
       );
     });

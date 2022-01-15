@@ -94,7 +94,7 @@ export default function Title(props: {
         </div>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Tooltip title="Comment" arrow>
-            <Link to={`/comment/${window.location.href.split("/").pop()}`}>
+            <Link to={`/comment/${window.location.pathname.split('/').pop() || window.location.pathname.split('/')[window.location.pathname.split('/').length - 2]}`}>
               <IconButton>
                 <ReplyIcon
                   style={{ color: "white", height: "24px", width: "24px" }}

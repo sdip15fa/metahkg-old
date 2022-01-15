@@ -13,6 +13,7 @@ import TextEditor from "../components/texteditor";
 import { isMobile } from "react-device-detect";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "axios";
+import { useNavigate } from "react-router";
 type severity = "success" | "info" | "warning" | "error";
 function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
   const [state, setState] = React.useState<{ data: any; cat: number }>({
@@ -56,6 +57,7 @@ function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
   );
 }
 export default function Create(props: any) {
+  const navigate = useNavigate();
   const [state, setState] = React.useState<{
     htoken: string;
     title: string;
@@ -85,7 +87,7 @@ export default function Create(props: any) {
         htoken: state.htoken,
       })
       .then((res) => {
-        window.location.href = `/thread/${res.data.id}`;
+        navigate(`/thread/${res.data.id}`);
       })
       .catch((err) => {
         setState({

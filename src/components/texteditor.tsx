@@ -10,11 +10,11 @@ export default function TextEditor(props: any) {
         skin: "oxide-dark",
         content_css: "dark",
         plugins: [
-          "advlist autolink lists link image charmap print preview anchor",
+          "advlist autolink lists link image charmap print preview anchor textcolor",
           "searchreplace visualblocks code fullscreen",
           "insertdatetime media table paste code help wordcount",
         ],
-        toolbar: `undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help`,
+        toolbar: `undo redo | formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help`,
       }}
       tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/tinymce.min.js"
     />

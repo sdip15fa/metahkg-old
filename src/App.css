@@ -43,8 +43,3 @@ a:hover,
 a:active {
   color: #3498db;
 }
-
-::selection {
-  background: rgb(245, 189, 31);
-  color: black
-}

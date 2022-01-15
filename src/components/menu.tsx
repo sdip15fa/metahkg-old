@@ -149,21 +149,21 @@ function Menu(props: { id: string | number; category: string | number }) {
                           style={{
                             marginLeft: "5px",
                             fontSize: "12px",
-                            color: "grey",
+                            color: "#aca9a9",
                           }}
                         >
                           {timetoword(thread.lastModified)}
                         </p>
                         {thread.vote >= 0 ? (
                           <ThumbUpIcon
-                            style={{ color: "white", height: "12px" }}
+                            style={{ color: "#aca9a9", height: "12px" }}
                           />
                         ) : (
                           <ThumbDownIcon
-                            style={{ color: "white", height: "12px" }}
+                            style={{ color: "#aca9a9", height: "12px" }}
                           />
                         )}
-                        <p style={{ fontSize: "12px", color: "white" }}>
+                        <p style={{ fontSize: "12px", color: "#aca9a9" }}>
                           {thread.vote}
                         </p>
                         <div
@@ -174,7 +174,7 @@ function Menu(props: { id: string | number; category: string | number }) {
                             paddingRight: "10px",
                           }}
                         >
-                          <p style={{ textAlign: "end", color: "white" }}>
+                          <p style={{ textAlign: "end", color: "#aca9a9", fontSize: '12px' }}>
                             {roundup(thread.c / 10) +
                               ` page${roundup(thread.c / 10) > 1 ? "s" : ""}`}
                           </p>
@@ -203,7 +203,7 @@ function Menu(props: { id: string | number; category: string | number }) {
                         <p
                           style={{
                             color: "white",
-                            fontSize: "17px",
+                            fontSize: "16px",
                             paddingLeft: "10px",
                             maxWidth: "100%",
                             wordBreak: "break-word",
