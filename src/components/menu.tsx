@@ -150,20 +150,21 @@ function Menu(props: { id: string | number; category: string | number }) {
                             marginLeft: "5px",
                             fontSize: "12px",
                             color: "#aca9a9",
+                            paddingTop: '1px'
                           }}
                         >
                           {timetoword(thread.lastModified)}
                         </p>
                         {thread.vote >= 0 ? (
                           <ThumbUpIcon
-                            style={{ color: "#aca9a9", height: "12px" }}
+                            style={{ color: "#aca9a9", height: "12px", paddingTop: '1px' }}
                           />
                         ) : (
                           <ThumbDownIcon
-                            style={{ color: "#aca9a9", height: "12px" }}
+                            style={{ color: "#aca9a9", height: "12px", paddingTop: '1px' }}
                           />
                         )}
-                        <p style={{ fontSize: "12px", color: "#aca9a9" }}>
+                        <p style={{ fontSize: "12px", color: "#aca9a9", paddingTop: '1px' }}>
                           {thread.vote}
                         </p>
                         <div

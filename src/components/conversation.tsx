@@ -4,8 +4,6 @@ import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
 import DOMPurify from "dompurify";
-import parse from "html-react-parser";
-import { timetoword } from "../lib/common";
 let o: JSX.Element[] = [];
 let conversation: any = {};
 let users: any = {};
@@ -48,7 +46,7 @@ export default function Conversation(props: { id: string | number }) {
           id={entry[0]}
           op={users[entry[1].user].name === conversation.op ? true : false}
           sex={users[entry[1].user].sex === "male" ? true : false}
-          time={timetoword(entry[1].createdAt)}
+          date={entry[1].createdAt}
           tid={props.id}
         >
           {DOMPurify.sanitize(entry[1].comment)}

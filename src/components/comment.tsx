@@ -2,6 +2,8 @@ import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import parse from 'html-react-parser';
+import date from 'date-and-time';
+import { timetoword } from "../lib/common";
 export default function Comment(props: {
   op: boolean;
   sex: boolean;
@@ -9,14 +11,14 @@ export default function Comment(props: {
   tid: number | string,
   name: string;
   children: string;
-  time: string;
+  date: string;
 }) {
   function Tag(tprops: {
     children: string | JSX.Element | JSX.Element[];
     }) {
     const navigate = useNavigate();
     return (
-      <div style={{ display: "flex", fontSize: "17px", alignItems: 'center' }}>
+      <div style={{ display: "flex", fontSize: "16px", alignItems: 'center' }}>
         <p
           style={{
             color: props.op ? "#F5BD1F" : "#aca9a9",
@@ -42,18 +44,20 @@ export default function Comment(props: {
         >
           {tprops.children}
         </p>
+        <Tooltip title={date.format(new Date(props.date), 'ddd, MMM DD YYYY HH:mm:ss')} arrow>
         <p
           style={{
-            fontSize: "16px",
+            fontSize: "15px",
             color: "#aca9a9",
             marginLeft: "10px",
-            marginTop: "16.5px",
+            marginTop: "15.5px",
             marginBottom: "0px",
           }}
         >
-          {props.time}
+          {timetoword(props.date)}
         </p>
-        <Tooltip title="Quote">
+        </Tooltip>
+        <Tooltip title="Quote" arrow>
           <IconButton sx={{marginTop: "16px", marginLeft: '3px'}} onClick={() => {localStorage.reply = props.children; console.log(localStorage.reply); navigate(`/comment/${props.tid}`);}}>
             <ReplyIcon style={{fontSize: "19px", color: '#aca9a9'}}/>
           </IconButton>
