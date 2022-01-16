@@ -13,11 +13,14 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@tinymce/tinymce-react": "^3.13.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/cookie-parser": "^1.4.2",
     "@types/date-and-time": "^0.13.0",
     "@types/dompurify": "^2.3.2",
     "@types/is-number": "^7.0.2",
     "@types/jest": "^27.0.3",
     "@types/js-cookie": "^3.0.1",
+    "@types/mailgun-js": "^0.22.12",
     "@types/node": "^16.11.17",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
@@ -49,7 +52,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "typescript": "^4.5.4",
-    "wcyat-rg": "^1.0.0",
+    "wcyat-rg": "^1.0.1",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
