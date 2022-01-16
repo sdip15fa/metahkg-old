@@ -58,7 +58,7 @@ export default function Comment(props: {
         </p>
         </Tooltip>
         <Tooltip title="Quote" arrow>
-          <IconButton sx={{marginTop: "16px", marginLeft: '3px'}} onClick={() => {localStorage.reply = props.children; console.log(localStorage.reply); navigate(`/comment/${props.tid}`);}}>
+          <IconButton sx={{marginTop: "16px", marginLeft: '3px'}} onClick={() => {localStorage.reply = props.children; console.log(localStorage.reply); window.location.href = `/comment/${props.tid}`}}>
             <ReplyIcon style={{fontSize: "19px", color: '#aca9a9'}}/>
           </IconButton>
         </Tooltip>

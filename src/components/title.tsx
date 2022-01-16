@@ -94,13 +94,13 @@ export default function Title(props: {
         </div>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Tooltip title="Comment" arrow>
-            <Link to={`/comment/${window.location.pathname.split('/').pop() || window.location.pathname.split('/')[window.location.pathname.split('/').length - 2]}`}>
+            <a style={{textDecoration: 'none'}} href={`/comment/${window.location.pathname.split('/').pop() || window.location.pathname.split('/')[window.location.pathname.split('/').length - 2]}`}>
               <IconButton>
                 <ReplyIcon
                   style={{ color: "white", height: "24px", width: "24px" }}
                 />
               </IconButton>
-            </Link>
+            </a>
           </Tooltip>
           <Tooltip title="Share" arrow>
             <IconButton
