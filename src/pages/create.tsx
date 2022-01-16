@@ -96,7 +96,7 @@ export default function Create() {
           alert: { severity: "error", text: err.response.data },
           disabled: false,
         });
-        hcaptcha.reset('');
+        hcaptcha.reset("");
       });
   }
   if (!localStorage.signedin) {

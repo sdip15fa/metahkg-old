@@ -1,6 +1,11 @@
 import "./App.css";
 import Theme from "./lib/theme";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { isIE } from "react-device-detect";
 import Register from "./pages/signup";
 import Signin from "./pages/signin";
@@ -12,9 +17,14 @@ import Logout from "./components/logout";
 import Source from "./pages/source";
 export default function App() {
   if (isIE) {
-    return <p>IE is not supported. Please use  
-    <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> or 
-    <a href="https://www.google.com/chrome/">Chrome</a></p>}
+    return (
+      <p>
+        IE is not supported. Please use
+        <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> or
+        <a href="https://www.google.com/chrome/">Chrome</a>
+      </p>
+    );
+  }
   return (
     <Theme
       primary={{ main: "#2a2a2a" }}
@@ -22,7 +32,7 @@ export default function App() {
     >
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/category/1"/>} />
+          <Route path="/" element={<Navigate to="/category/1" />} />
           <Route path="/thread/:id" element={<Thread />} />
           <Route path="/comment/:id" element={<AddComment />} />
           <Route path="/category/:category" element={<Category />} />
@@ -33,4 +43,6 @@ export default function App() {
           <Route path="/source" element={<Source />} />
         </Routes>
       </Router>
-    </Theme>);}
+    </Theme>
+  );
+}

@@ -22,7 +22,7 @@ export default function AddComment() {
   const id = Number(params.id);
   if (localStorage.reply && localStorage.signedin) {
     inittext = `<blockquote style="color: #aca9a9; border-left: 2px solid #aca9a9; margin-left: 0"><div style="margin-left: 15px">${localStorage.reply}</div></blockquote><p></p>`;
-    localStorage.removeItem('reply');
+    localStorage.removeItem("reply");
   }
   useEffect(() => {
     axios.post("/api/check", { id: id }).catch((err) => {

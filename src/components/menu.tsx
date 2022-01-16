@@ -69,7 +69,7 @@ function Menu(props: { id: string | number; category: string | number }) {
                 fontSize: "18px",
                 marginTop: "0px",
                 marginBottom: "0px",
-                userSelect: "none"
+                userSelect: "none",
               }}
             >
               {cat}
@@ -87,7 +87,7 @@ function Menu(props: { id: string | number; category: string | number }) {
             </Tooltip>
             <Tooltip title="Create topic" arrow>
               <Link style={{ display: "flex" }} to="/create">
-                <IconButton sx={{marginRight: "10px"}}>
+                <IconButton sx={{ marginRight: "10px" }}>
                   <AddIcon style={{ color: "white" }} />
                 </IconButton>
               </Link>
@@ -151,21 +151,35 @@ function Menu(props: { id: string | number; category: string | number }) {
                             marginLeft: "5px",
                             fontSize: "12px",
                             color: "#aca9a9",
-                            paddingTop: '1px'
+                            paddingTop: "1px",
                           }}
                         >
                           {timetoword(thread.lastModified)}
                         </p>
                         {thread.vote >= 0 ? (
                           <ThumbUpIcon
-                            style={{ color: "#aca9a9", height: "12px", paddingTop: '1px' }}
+                            style={{
+                              color: "#aca9a9",
+                              height: "12px",
+                              paddingTop: "1px",
+                            }}
                           />
                         ) : (
                           <ThumbDownIcon
-                            style={{ color: "#aca9a9", height: "12px", paddingTop: '1px' }}
+                            style={{
+                              color: "#aca9a9",
+                              height: "12px",
+                              paddingTop: "1px",
+                            }}
                           />
                         )}
-                        <p style={{ fontSize: "12px", color: "#aca9a9", paddingTop: '1px' }}>
+                        <p
+                          style={{
+                            fontSize: "12px",
+                            color: "#aca9a9",
+                            paddingTop: "1px",
+                          }}
+                        >
                           {thread.vote}
                         </p>
                         <div
@@ -176,7 +190,13 @@ function Menu(props: { id: string | number; category: string | number }) {
                             paddingRight: "10px",
                           }}
                         >
-                          <p style={{ textAlign: "end", color: "#aca9a9", fontSize: '12px' }}>
+                          <p
+                            style={{
+                              textAlign: "end",
+                              color: "#aca9a9",
+                              fontSize: "12px",
+                            }}
+                          >
                             {roundup(thread.c / 10) +
                               ` page${roundup(thread.c / 10) > 1 ? "s" : ""}`}
                           </p>

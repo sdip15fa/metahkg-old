@@ -9,7 +9,7 @@ import {
 import {
   ArrowBack as ArrowBackIcon,
   Share as ShareIcon,
-  Reply as ReplyIcon
+  Reply as ReplyIcon,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import React from "react";
@@ -86,7 +86,7 @@ export default function Title(props: {
               maxHeight: "22px",
               textOverflow: "ellipsis",
               overflow: "hidden",
-              wordBreak: 'keep-all'
+              wordBreak: "keep-all",
             }}
           >
             {props.title}
@@ -94,7 +94,15 @@ export default function Title(props: {
         </div>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Tooltip title="Comment" arrow>
-            <a style={{textDecoration: 'none'}} href={`/comment/${window.location.pathname.split('/').pop() || window.location.pathname.split('/')[window.location.pathname.split('/').length - 2]}`}>
+            <a
+              style={{ textDecoration: "none" }}
+              href={`/comment/${
+                window.location.pathname.split("/").pop() ||
+                window.location.pathname.split("/")[
+                  window.location.pathname.split("/").length - 2
+                ]
+              }`}
+            >
               <IconButton>
                 <ReplyIcon
                   style={{ color: "white", height: "24px", width: "24px" }}
@@ -113,7 +121,7 @@ export default function Title(props: {
                 });
               }}
             >
-              <ShareIcon style={{ color: "white", fontSize: '20px' }} />
+              <ShareIcon style={{ color: "white", fontSize: "20px" }} />
             </IconButton>
           </Tooltip>
         </Box>
