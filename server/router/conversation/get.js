@@ -1,8 +1,11 @@
+//get conversation
+//Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
+//conversation: main conversation content
+//users: content of users involved in the conversation
 const express = require('express');
 const router = express.Router();
 const { MongoClient } = require('mongodb');
 const { mongouri } = require('../../common');
-// get conversation
 router.get("/api/thread/:id/:file", async (req, res) => {
     const client = new MongoClient(mongouri);
     await client.connect();

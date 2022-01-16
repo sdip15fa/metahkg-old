@@ -1,3 +1,14 @@
+//Signup for an account
+//humans only
+/*Syntax: POST /api/register
+{
+  user (username): string,
+  pwd (password, sha256 hashed): string,
+  email: string,
+  htoken (hcaptcha token): string,
+  sex: "male" | "female"
+}
+*/
 require('dotenv').config();
 const express = require('express');
 const { MongoClient } = require('mongodb');
