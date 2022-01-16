@@ -1,10 +1,11 @@
 prettify:
   image: node:16.13.1
   script:
+    - git checkout $CI_COMMIT_BRANCH
     - npm install prettier
     - npx prettier . --write
     - git config user.name wcyat-bot
     - git config user.email bot@wcyat.me
     - git commit -a -m prettify
-    - git remote set-url origin https://wcyat:$gitlab_token@gitlab.com/wcyat-me/metahkg
+    - git remote set-url origin https://wcyat:$gitlab_token@gitlab.com/wcyat-me/metahkg.git
     - git push origin $CI_COMMIT_BRANCH
