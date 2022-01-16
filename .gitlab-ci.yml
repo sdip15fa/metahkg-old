@@ -2,6 +2,6 @@ prettify:
   image: node:16.13.1
   script:
     - npm install prettier
-    - npx prettier --write
+    - npx prettier . --write
     - git commit -a -m prettify
     - git push origin $CI_COMMIT_BRANCH
