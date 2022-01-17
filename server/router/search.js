@@ -22,7 +22,7 @@ router.post("/api/search", body_parser.json(), async (req, res) => {
     const sortc = {
       0: {},
       1: { createdAt: -1 },
-      2: { lastModified: -1 }
+      2: { lastModified: -1 },
     }[req.body.sort];
     const data = await summary
       .find({ $text: { $search: req.body.q } })
