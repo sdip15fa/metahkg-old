@@ -47,3 +47,6 @@ a:active {
   background: #fbc308;
   color: black;
 }
+.catlink :hover {
+  color: #fbc308;
+}

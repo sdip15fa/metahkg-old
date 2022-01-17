@@ -1,12 +1,12 @@
-//get summary 20 latest modified threads in a category
+//get hottest 20 threads in a category
 //note: category 1 returns all categories
-//Syntax: GET /api/newest/<category id>
+//Syntax: GET /api/hottest/<category id>
 const express = require("express");
 const isNumber = require("is-number");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 const router = express.Router();
-router.get("/api/newest/:category", async (req, res) => {
+router.get("/api/hottest/:category", async (req, res) => {
   if (
     (!isNumber(req.params.category) &&
       !req.params.category.startsWith("bytid")) ||
@@ -21,6 +21,7 @@ router.get("/api/newest/:category", async (req, res) => {
   try {
     await client.connect();
     let category = Number(req.params.category);
+    const hottest = client.db("metahkg-threads").collection("hottest");
     const summary = client.db("metahkg-threads").collection("summary");
     if (req.params.category.startsWith("bytid")) {
       const s = await summary.findOne({
@@ -43,9 +44,9 @@ router.get("/api/newest/:category", async (req, res) => {
       res.send("Not found.");
       return;
     }
-    const data = await summary
+    const data = await hottest
       .find(category === 1 ? {} : { category: category })
-      .sort({ lastModified: -1 })
+      .sort({ c: -1, lastModified: -1 })
       .limit(20)
       .toArray();
     res.send(data);

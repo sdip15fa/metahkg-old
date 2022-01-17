@@ -27,10 +27,11 @@ export default function Category() {
         backgroundColor: "primary.dark",
         display: "flex",
         flexDirection: "row",
+        maxHeight: "100vh",
       }}
     >
       <div style={{ width: isMobile ? "100vw" : "30vw" }}>
-        <Menu id={0} category={Number(params.category)} />
+        <Menu key={params.category} id={0} category={Number(params.category)} />
       </div>
       {!isMobile ? (
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>

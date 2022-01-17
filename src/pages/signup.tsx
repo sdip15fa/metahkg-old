@@ -102,7 +102,14 @@ export default function Register() {
       return;
     }
     if (state.user.split(" ")[1] || state.user.length > 15) {
-      setState({...state, alert: {severity: "error", text: "Username must be one word and less than 16 characters."}, disabled: false});
+      setState({
+        ...state,
+        alert: {
+          severity: "error",
+          text: "Username must be one word and less than 16 characters.",
+        },
+        disabled: false,
+      });
       return;
     }
     axios
@@ -130,7 +137,7 @@ export default function Register() {
           alert: { severity: "error", text: err.response.data },
           disabled: false,
         });
-        hcaptcha.reset('');
+        hcaptcha.reset("");
       });
   }
   if (localStorage.signedin) {
