@@ -13,7 +13,10 @@ function Menu(props: { id: string | number; category: string | number }) {
     await axios
       .get(`/api/${selected === 0 ? "newest" : "hottest"}/${c}`)
       .then((res) => {
-        if (!res.data.length) {setData([404]); return;}
+        if (!res.data.length) {
+          setData([404]);
+          return;
+        }
         setData(res.data);
       });
     await axios.get(`/api/categories/${c}`).then((res) => {
@@ -51,7 +54,9 @@ function Menu(props: { id: string | number; category: string | number }) {
       <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 91px)" }}>
         {!data.length ? (
           <div />
-        ) : data[0] === 404 ? <h1 style={{color: 'white'}}>Nothing found</h1> : (
+        ) : data[0] === 404 ? (
+          <h1 style={{ color: "white" }}>Nothing found</h1>
+        ) : (
           <div
             style={{
               display: "flex",

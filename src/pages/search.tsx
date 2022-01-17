@@ -23,7 +23,10 @@ export default function Search() {
         sort: selected,
       })
       .then((res) => {
-        if (!res.data.length) {setData([404]); return;}
+        if (!res.data.length) {
+          setData([404]);
+          return;
+        }
         setData(res.data);
       });
   }
@@ -81,8 +84,10 @@ export default function Search() {
             <div style={{ maxWidth: "99%" }}>
               {!data.length ? (
                 <div />
-              ) : data[0] === 404 ? <h1 style={{color: 'white'}}>Nothing found</h1> : (
-                data.map((thread:any) => <MenuThread thread={thread} />)
+              ) : data[0] === 404 ? (
+                <h1 style={{ color: "white" }}>Nothing found</h1>
+              ) : (
+                data.map((thread: any) => <MenuThread thread={thread} />)
               )}
             </div>
           }
