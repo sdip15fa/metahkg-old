@@ -21,8 +21,8 @@ router.post("/api/search", body_parser.json(), async (req, res) => {
     const summary = client.db("metahkg-threads").collection("summary");
     const sortc = {
       0: {},
-      1: { lastModified: -1 },
-      2: { createdAt: -1 },
+      1: { createdAt: -1 },
+      2: { lastModified: -1 }
     }[req.body.sort];
     const data = await summary
       .find({ $text: { $search: req.body.q } })
