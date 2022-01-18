@@ -8,7 +8,6 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
-  Typography,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -55,8 +54,8 @@ export default function SideBar() {
           <MenuIcon style={{ color: "white" }} />
         </IconButton>
       </div>
-      <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: 250 }} role="presentation">
+      <Drawer sx={{backgroundColor: 'primary.main'}} anchor="left" open={open} onClose={toggleDrawer(false)}>
+        <Box sx={{ width: 250, backgroundColor: 'primary.main', height: '100%' }} role="presentation">
           <div
             style={{
               marginTop: "20px",
@@ -66,6 +65,7 @@ export default function SideBar() {
               display: "flex",
             }}
           >
+            <div style={{marginLeft: '10px', marginRight: '10px'}}>
             <SearchBar
               onChange={(e) => {
                 tempq = e.target.value;
@@ -82,6 +82,7 @@ export default function SideBar() {
                 }
               }}
             />
+            </div>
           </div>
           <List>
             <Link
@@ -114,7 +115,7 @@ export default function SideBar() {
             </Link>
           </List>
           <Divider />
-          <div style={{ margin: "20px" }}>
+          <div className="catlink" style={{ margin: "20px" }}>
             {Object.entries(categories).map((category: [string, string]) => (
               <Link
                 to={`/category/${category[0]}`}
@@ -123,17 +124,15 @@ export default function SideBar() {
                   display: "inline-block",
                   textAlign: "left",
                   width: "50%",
+                  fontSize: "16px",
+                  lineHeight: "35px"
                 }}
               >
-                <Typography
-                  className="catlink"
-                  sx={{ color: "white", fontSize: "16px", lineHeight: "35px" }}
-                >
                   {category[1]}
-                </Typography>
               </Link>
             ))}
           </div>
+          <Divider/>
           <List>
             {["About", "Source code"].map((text, index) => (
               <Link

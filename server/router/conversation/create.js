@@ -91,7 +91,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
       id: newcid,
       [user.id]: { name: user.user, sex: user.sex },
     });
-    const sh = {
+    const s = {
       id: newcid,
       op: user.user,
       sex: user.sex,
@@ -102,8 +102,8 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
       lastModified: date,
       createdAt: date,
     };
-    await summary.insertOne(sh);
-    await hottest.insertOne(sh);
+    await summary.insertOne(s);
+    await hottest.insertOne({id: s.id, c: 1, category: c.category, lastModified: date, createdAt: date});
     await limit.insertOne({ id: user.id, createdAt: date, type: "create" });
     res.send({ id: newcid });
   } finally {

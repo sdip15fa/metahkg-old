@@ -7,16 +7,16 @@ import MenuTop from "../components/menu/top";
 import SearchBar from "../components/searchbar";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
+import Empty from "../components/empty";
 export default function Search() {
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
   const [query, setQuery] = useState("");
   let tempq = "";
-  const buttons = ["Relevance", "By Posts", "By Comments"];
+  const buttons = ["Relevance", "Created", "Last Comment"];
   const params = queryString.parse(window.location.search);
   const navigate = useNavigate();
   async function fetch() {
-    console.log(params.q, String(params.q));
     await axios
       .post("/api/search", {
         q: decodeURIComponent(String(query || params.q)),
@@ -56,6 +56,7 @@ export default function Search() {
             setData([]);
           }}
         />
+        <div style={{display: 'flex', width: '100%'}}>
         <div
           style={{
             display: "flex",
@@ -75,11 +76,11 @@ export default function Search() {
                 setQuery(tempq);
                 setData([]);
                 navigate(`/search?q=${encodeURIComponent(tempq)}`);
-              }
-            }}
+              }}}
           />
         </div>
-        <Paper style={{ maxHeight: "calc(100vh - 160px)", overflow: "auto" }}>
+        </div>
+        <Paper style={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
               {!data.length ? (
@@ -93,6 +94,12 @@ export default function Search() {
           }
         </Paper>
       </div>
+      {!isMobile ?
+      <Paper sx={{overflow: 'auto', maxHeight: '100vh'}}>
+      <div style={{width: '70vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Empty/>
+      </div>
+      </Paper> : <div/>}
     </Box>
   );
 }
