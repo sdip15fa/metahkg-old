@@ -106,7 +106,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     await hottest.insertOne({
       id: s.id,
       c: 1,
-      category: c.category,
+      category: s.category,
       lastModified: date,
       createdAt: date,
     });
