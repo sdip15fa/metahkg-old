@@ -6,9 +6,11 @@ const { autodecrement } = require("./router/menu/autodecrement");
 const rootRouter = express.Router();
 require("dotenv").config();
 const app = express();
-setInterval(()=>{setTimeout(() => {
-  autodecrement();
-}, 3600*1000)}, 3600*1000)
+setInterval(() => {
+  setTimeout(() => {
+    autodecrement();
+  }, 3600 * 1000);
+}, 3600 * 1000);
 app.set("trust proxy", true);
 app.use(cors());
 app.use(function (req, res, next) {
