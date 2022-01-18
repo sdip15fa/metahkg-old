@@ -9,7 +9,7 @@ router.post("/api/search", body_parser.json(), async (req, res) => {
     (!req.body.sort && !req.body.sort === 0) ||
     Object.keys(req.body).length > 2 ||
     !(typeof req.body.q === "string" && typeof req.body.sort === "number") ||
-    !req.body.sort in [0, 1, 2]
+    ![0,1,2].includes(req.body.sort)
   ) {
     res.status(400);
     res.send("Bad request.");

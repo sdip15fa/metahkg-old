@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
 const { autodecrement } = require("./router/menu/autodecrement");
 const rootRouter = express.Router();
 require("dotenv").config();
@@ -10,7 +9,6 @@ setInterval(()=>{setTimeout(() => {
   autodecrement();
 }, 3600*1000)}, 3600*1000)
 app.set("trust proxy", true);
-app.use(cors());
 app.use(function (req, res, next) {
   res.setHeader(
     "Content-Security-Policy",
