@@ -56,50 +56,58 @@ export default function Search() {
             setData([]);
           }}
         />
-        <div style={{display: 'flex', width: '100%'}}>
-        <div
-          style={{
-            display: "flex",
-            height: "39px",
-            margin: "10px",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <SearchBar
-            onChange={(e) => {
-              tempq = e.target.value;
+        <div style={{ display: "flex", width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              height: "39px",
+              margin: "10px",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            onKeyPress={(e) => {
-              if (e.key === "Enter" && tempq) {
-                setQuery(tempq);
-                setData([]);
-                navigate(`/search?q=${encodeURIComponent(tempq)}`);
-              }}}
-          />
-        </div>
+          >
+            <SearchBar
+              onChange={(e) => {
+                tempq = e.target.value;
+              }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter" && tempq) {
+                  setQuery(tempq);
+                  setData([]);
+                  navigate(`/search?q=${encodeURIComponent(tempq)}`);
+                }
+              }}
+            />
+          </div>
         </div>
         <Paper style={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
-              {!data.length ? (
-                <div />
-              ) : data[0] === 404 ? (
-                <h1 style={{ color: "white" }}>Nothing found</h1>
-              ) : (
-                data.map((thread: any) => <MenuThread thread={thread} />)
-              )}
+              {data.length &&
+                (data[0] === 404 ? (
+                  <h1 style={{ color: "white" }}>Nothing found</h1>
+                ) : (
+                  data.map((thread: any) => <MenuThread thread={thread} />)
+                ))}
             </div>
           }
         </Paper>
       </div>
-      {!isMobile ?
-      <Paper sx={{overflow: 'auto', maxHeight: '100vh'}}>
-      <div style={{width: '70vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <Empty/>
-      </div>
-      </Paper> : <div/>}
+      {!isMobile && (
+        <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
+          <div
+            style={{
+              width: "70vw",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Empty />
+          </div>
+        </Paper>
+      )}
     </Box>
   );
 }

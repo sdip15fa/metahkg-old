@@ -1,20 +1,22 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
-import { useNavigate } from "react-router";
 import parse from "html-react-parser";
 import date from "date-and-time";
 import { timetoword } from "../lib/common";
+import VoteButtons from "./votebuttons";
 export default function Comment(props: {
   op: boolean;
   sex: boolean;
   id: number;
-  tid: number | string;
+  tid: number;
   name: string;
   children: string;
   date: string;
+  up: number;
+  down: number;
+  vote: "up" | "down" | undefined;
 }) {
   function Tag(tprops: { children: string | JSX.Element | JSX.Element[] }) {
-    const navigate = useNavigate();
     return (
       <div style={{ display: "flex", fontSize: "16px", alignItems: "center" }}>
         <p
@@ -86,8 +88,18 @@ export default function Comment(props: {
         <p style={{ color: "white", wordBreak: "break-word" }}>
           {parse(props.children)}
         </p>
-        <div style={{ height: "5px" }} />
+        <div style={{ height: "2px" }} />
       </div>
+      <div style={{ marginLeft: "20px" }}>
+        <VoteButtons
+          vote={props.vote}
+          id={props.tid}
+          cid={props.id}
+          up={props.up}
+          down={props.down}
+        />
+      </div>
+      <div style={{ height: "10px" }} />
     </Box>
   );
 }

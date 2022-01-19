@@ -37,9 +37,7 @@ function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
   };
   return (
     <div>
-      {!Object.keys(state.data).length ? (
-        <div />
-      ) : (
+      {Object.keys(state.data).length && (
         <FormControl sx={{ minWidth: "200px" }}>
           <InputLabel color="secondary">Category</InputLabel>
           <Select
@@ -117,15 +115,15 @@ export default function Create() {
       <div style={{ width: isMobile ? "100vw" : "80vw" }}>
         <div style={{ margin: "20px" }}>
           <h1 style={{ color: "white" }}>Create new topic</h1>
-          {state.alert.text ? (
+          {!state.alert.text ? (
+            <div />
+          ) : (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "10px" }}
               severity={state.alert.severity}
             >
               {state.alert.text}
             </Alert>
-          ) : (
-            <div />
           )}
           <TextField
             style={{ marginBottom: "20px" }}

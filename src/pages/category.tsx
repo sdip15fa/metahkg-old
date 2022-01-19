@@ -1,7 +1,4 @@
-import {
-  Box,
-  Paper,
-} from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { isMobile } from "react-device-detect";
 import { useParams } from "react-router";
 import Empty from "../components/empty";
@@ -20,11 +17,7 @@ export default function Category() {
       <div style={{ width: isMobile ? "100vw" : "30vw" }}>
         <Menu key={params.category} id={0} category={Number(params.category)} />
       </div>
-      {!isMobile ? (
-            <Empty/>
-      ) : (
-        <div />
-      )}
+      {!isMobile && <Empty />}
     </Box>
   );
 }

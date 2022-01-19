@@ -167,15 +167,15 @@ export default function Register() {
           >
             Register a Metahkg account
           </h1>
-          {state.alert.text ? (
+          {!state.alert.text ? (
+            <div />
+          ) : (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "30px" }}
               severity={state.alert.severity}
             >
               {state.alert.text}
             </Alert>
-          ) : (
-            <div />
           )}
           <TextField
             sx={{ marginBottom: "20px", input: { color: "white" } }}
@@ -233,7 +233,9 @@ export default function Register() {
                 width: "100%",
               }}
             >
-              {state.waiting ? (
+              {!state.waiting ? (
+                <div />
+              ) : (
                 <TextField
                   color="secondary"
                   style={{ marginTop: isMobile ? "20px" : "0px" }}
@@ -243,8 +245,6 @@ export default function Register() {
                     setState({ ...state, code: e.target.value });
                   }}
                 />
-              ) : (
-                <div />
               )}
             </div>
           </div>

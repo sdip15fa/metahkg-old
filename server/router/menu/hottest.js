@@ -49,8 +49,8 @@ router.get("/api/hottest/:category", async (req, res) => {
       .sort({ c: -1, lastModified: -1 })
       .limit(20)
       .toArray();
-    for (let index=0; index < data.length; index++) {
-        data[index] = await summary.findOne({id : data[index].id});
+    for (let index = 0; index < data.length; index++) {
+      data[index] = await summary.findOne({ id: data[index].id });
     }
     res.send(data);
   } finally {

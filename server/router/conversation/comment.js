@@ -74,15 +74,27 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
     }
     const h = await hottest.findOne({ id: req.body.id });
     if (h) {
-        await hottest.updateOne(
-          { id: req.body.id },
-          { $inc: { c: 1 }, $currentDate: timediff(h.createdAt) > 86400 ? {lastModified: true, createdAt: true} : { lastModified: true } }
-        );
-      } else {
+      await hottest.updateOne(
+        { id: req.body.id },
+        {
+          $inc: { c: 1 },
+          $currentDate:
+            timediff(h.createdAt) > 86400
+              ? { lastModified: true, createdAt: true }
+              : { lastModified: true },
+        }
+      );
+    } else {
       const s = await summary.findOne({
         id: req.body.id,
       });
-      const o = {lastModified: new Date, createdAt: new Date, id: s.id, c: 1, category: s.category};
+      const o = {
+        lastModified: new Date(),
+        createdAt: new Date(),
+        id: s.id,
+        c: 1,
+        category: s.category,
+      };
       await hottest.insertOne(o);
     }
     res.send("ok");

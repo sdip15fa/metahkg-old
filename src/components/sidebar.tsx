@@ -54,8 +54,16 @@ export default function SideBar() {
           <MenuIcon style={{ color: "white" }} />
         </IconButton>
       </div>
-      <Drawer sx={{backgroundColor: 'primary.main'}} anchor="left" open={open} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: 250, backgroundColor: 'primary.main', height: '100%' }} role="presentation">
+      <Drawer
+        sx={{ backgroundColor: "primary.main" }}
+        anchor="left"
+        open={open}
+        onClose={toggleDrawer(false)}
+      >
+        <Box
+          sx={{ width: 250, backgroundColor: "primary.main", height: "100%" }}
+          role="presentation"
+        >
           <div
             style={{
               marginTop: "20px",
@@ -65,23 +73,23 @@ export default function SideBar() {
               display: "flex",
             }}
           >
-            <div style={{marginLeft: '10px', marginRight: '10px'}}>
-            <SearchBar
-              onChange={(e) => {
-                tempq = e.target.value;
-              }}
-              onKeyPress={(e: any) => {
-                if (e.key === "Enter" && tempq) {
-                  if (window.location.pathname === "/search") {
-                    window.location.replace(
-                      `/search?q=${encodeURIComponent(tempq)}`
-                    );
-                  } else {
-                    navigate(`/search?q=${encodeURIComponent(tempq)}`);
+            <div style={{ marginLeft: "10px", marginRight: "10px" }}>
+              <SearchBar
+                onChange={(e) => {
+                  tempq = e.target.value;
+                }}
+                onKeyPress={(e: any) => {
+                  if (e.key === "Enter" && tempq) {
+                    if (window.location.pathname === "/search") {
+                      window.location.replace(
+                        `/search?q=${encodeURIComponent(tempq)}`
+                      );
+                    } else {
+                      navigate(`/search?q=${encodeURIComponent(tempq)}`);
+                    }
                   }
-                }
-              }}
-            />
+                }}
+              />
             </div>
           </div>
           <List>
@@ -125,14 +133,14 @@ export default function SideBar() {
                   textAlign: "left",
                   width: "50%",
                   fontSize: "16px",
-                  lineHeight: "35px"
+                  lineHeight: "35px",
                 }}
               >
-                  {category[1]}
+                {category[1]}
               </Link>
             ))}
           </div>
-          <Divider/>
+          <Divider />
           <List>
             {["About", "Source code"].map((text, index) => (
               <Link
@@ -148,7 +156,9 @@ export default function SideBar() {
               </Link>
             ))}
           </List>
-          {localStorage.signedin ? (
+          {!localStorage.signedin ? (
+            <div />
+          ) : (
             <div>
               <Divider />
               <List>
@@ -160,8 +170,6 @@ export default function SideBar() {
                 </ListItem>
               </List>
             </div>
-          ) : (
-            <div />
           )}
         </Box>
       </Drawer>

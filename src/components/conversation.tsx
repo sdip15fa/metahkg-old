@@ -7,8 +7,9 @@ import DOMPurify from "dompurify";
 let o: JSX.Element[] = [];
 let conversation: any = {};
 let users: any = {};
+let uservotes: any = {};
 let slink = "";
-export default function Conversation(props: { id: string | number }) {
+export default function Conversation(props: { id: number }) {
   const [state, setState] = React.useState<{ ready: boolean; error: string }>({
     ready: false,
     error: "",
@@ -35,6 +36,13 @@ export default function Conversation(props: { id: string | number }) {
           })
         ).data.id
       }`;
+    if (localStorage.signedin) {
+      await axios
+        .post("/api/getvotes", { id: Number(props.id) })
+        .then((res) => {
+          uservotes = res.data;
+        });
+    }
     setState({ ...state, ready: true });
   }
   function build() {
@@ -42,14 +50,17 @@ export default function Conversation(props: { id: string | number }) {
     Object.entries(conversation.conversation).map((entry: any): void => {
       o.push(
         <Comment
-          name={users[entry[1].user].name}
+          name={users?.[entry[1].user].name}
           id={entry[0]}
-          op={users[entry[1].user].name === conversation.op ? true : false}
-          sex={users[entry[1].user].sex === "male" ? true : false}
+          op={users?.[entry[1].user].name === conversation.op ? true : false}
+          sex={users?.[entry[1].user].sex === "male" ? true : false}
           date={entry[1].createdAt}
           tid={props.id}
+          up={entry[1].up | 0}
+          down={entry[1].down | 0}
+          vote={uservotes?.[entry[0]]}
         >
-          {DOMPurify.sanitize(entry[1].comment)}
+          {DOMPurify.sanitize(entry[1]?.comment)}
         </Comment>
       );
     });
@@ -57,11 +68,7 @@ export default function Conversation(props: { id: string | number }) {
   if (state.error) {
     return <h1 style={{ color: "white" }}>{state.error}</h1>;
   }
-  if (!state.ready) {
-    getdata();
-  } else {
-    build();
-  }
+  !state.ready ? getdata() : build();
   return (
     <div className="conversation" style={{ minHeight: "100vh" }}>
       {!state.ready ? (

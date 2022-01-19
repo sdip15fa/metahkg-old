@@ -15,3 +15,4 @@ export function timetoword(sdate: string) {
   r = r.split(" ");
   return r[0];
 }
+export type severity = "success" | "info" | "warning" | "error";
