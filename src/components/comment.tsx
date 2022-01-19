@@ -92,6 +92,7 @@ export default function Comment(props: {
       </div>
       <div style={{ marginLeft: "20px" }}>
         <VoteButtons
+          key={props.tid}
           vote={props.vote}
           id={props.tid}
           cid={props.id}
