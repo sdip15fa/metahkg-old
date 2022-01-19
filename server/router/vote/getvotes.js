@@ -28,7 +28,7 @@ router.post("/api/getvotes", bodyParser.json(), async (req, res) => {
       .find({ id: user.id })
       .project({ [req.body.id]: 1, _id: 0 })
       .toArray();
-    res.send(uservotes[0][req.body.id] || { none: "none" });
+    res.send(uservotes?.[0]?.[req.body.id] || { none: "none" });
   } finally {
     await client.close();
   }
