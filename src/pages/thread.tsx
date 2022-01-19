@@ -14,12 +14,10 @@ export default function Thread() {
         flexDirection: "row",
       }}
     >
-      {!isMobile ? (
+      {!isMobile && (
         <div style={{ width: "30vw" }}>
           <Menu category={1} id={params.id} />
         </div>
-      ) : (
-        <div />
       )}
       <div key={params.id} style={{ width: isMobile ? "100vw" : "70vw" }}>
         <Conversation id={params.id} />

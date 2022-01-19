@@ -36,9 +36,7 @@ function Menu(props: { id: string | number; category: string | number }) {
     >
       {!data.length ? (
         <LinearProgress style={{ width: "100%" }} color="secondary" />
-      ) : (
-        <div />
-      )}
+      ) : <div/>}
       <MenuTop
         title={title}
         refresh={() => {
@@ -52,9 +50,8 @@ function Menu(props: { id: string | number; category: string | number }) {
         buttons={buttons}
       />
       <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 91px)" }}>
-        {!data.length ? (
-          <div />
-        ) : data[0] === 404 ? (
+        {!data.length ? <div/> : (
+          data[0] === 404 ? (
           <h1 style={{ color: "white" }}>Nothing found</h1>
         ) : (
           <div
@@ -70,7 +67,7 @@ function Menu(props: { id: string | number; category: string | number }) {
               </div>
             ))}
           </div>
-        )}
+        ))}
       </Paper>
     </Box>
   );

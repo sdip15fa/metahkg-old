@@ -43,7 +43,7 @@ export default function Search() {
       }}
     >
       <div style={{ width: isMobile ? "100vw" : "30vw" }}>
-        {!data.length ? <LinearProgress color="secondary" /> : <div />}
+        {!data.length ? <LinearProgress color="secondary" /> : <div/>}
         <MenuTop
           title="Search"
           refresh={() => {
@@ -83,23 +83,22 @@ export default function Search() {
         <Paper style={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
-              {!data.length ? (
-                <div />
-              ) : data[0] === 404 ? (
+              {data.length && (
+                data[0] === 404 ? (
                 <h1 style={{ color: "white" }}>Nothing found</h1>
               ) : (
                 data.map((thread: any) => <MenuThread thread={thread} />)
-              )}
+              ))}
             </div>
           }
         </Paper>
       </div>
-      {!isMobile ?
+      {!isMobile &&
       <Paper sx={{overflow: 'auto', maxHeight: '100vh'}}>
       <div style={{width: '70vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Empty/>
       </div>
-      </Paper> : <div/>}
+      </Paper>}
     </Box>
   );
 }

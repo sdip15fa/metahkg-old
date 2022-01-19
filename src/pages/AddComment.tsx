@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import TextEditor from "../components/texteditor";
-type severity = "success" | "info" | "warning" | "error";
+import type { severity } from "../lib/common";
 let inittext = "";
 export default function AddComment() {
   const navigate = useNavigate();
@@ -86,15 +86,13 @@ export default function AddComment() {
             Add a comment to thread id {id}:{" "}
             <Link to={`/thread/${id}`}>link</Link>
           </h2>
-          {state.alert.text ? (
+          {!state.alert.text ? <div/> : (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "10px" }}
               severity={state.alert.severity}
             >
               {state.alert.text}
             </Alert>
-          ) : (
-            <div />
           )}
           <TextEditor
             text={inittext}

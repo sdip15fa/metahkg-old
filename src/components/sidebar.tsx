@@ -148,7 +148,7 @@ export default function SideBar() {
               </Link>
             ))}
           </List>
-          {localStorage.signedin ? (
+          {!localStorage.signedin ? <div/> : (
             <div>
               <Divider />
               <List>
@@ -160,8 +160,6 @@ export default function SideBar() {
                 </ListItem>
               </List>
             </div>
-          ) : (
-            <div />
           )}
         </Box>
       </Drawer>

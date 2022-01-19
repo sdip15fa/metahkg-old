@@ -106,15 +106,13 @@ export default function Signin() {
           >
             Sign in to your Metahkg account
           </h1>
-          {state.alert.text ? (
+          {!state.alert.text ? <div/> : (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "20px" }}
               severity={state.alert.severity}
             >
               {state.alert.text}
             </Alert>
-          ) : (
-            <div />
           )}
           <TextField
             sx={{ marginBottom: "20px" }}

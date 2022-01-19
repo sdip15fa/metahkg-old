@@ -34,7 +34,7 @@ router.post('/api/vote', body_parser.json(), async (req, res) => {
         if (!thread?.[req.body.cid]?.[req.body.vote]) {
             await threads.updateOne({id: req.body.id}, {$set: {[`conversation.${req.body.cid}.${req.body.vote}`] : 0}});
         }
-        await threads.updateOne({id: req.body.id}, {$inc: {[`conversation.${req.body.cid}.${req.body.vote}`] : req.body.vote === "up" ? 1 : -1 }});
+        await threads.updateOne({id: req.body.id}, {$inc: {[`conversation.${req.body.cid}.${req.body.vote}`] : 1 }});
         if (req.body.cid === 1) {
             await summary.updateOne({id: req.body.id}, {$inc: {vote : req.body.vote === "up" ? 1 : -1}});
         }
