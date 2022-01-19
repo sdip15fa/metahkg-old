@@ -10,7 +10,7 @@ export default function TextEditor(props: any) {
         skin: "oxide-dark",
         content_css: "dark",
         mobile: {
-          menubar: true
+          menubar: true,
         },
         plugins: [
           "advlist autolink lists link image charmap print preview anchor textcolor",
