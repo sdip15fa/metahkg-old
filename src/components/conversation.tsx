@@ -37,10 +37,12 @@ export default function Conversation(props: { id: number }) {
         ).data.id
       }`;
     if (localStorage.signedin) {
-    await axios.post('/api/getvotes', {id: Number(props.id)})
-    .then(res => {
-      uservotes = res.data;
-    })}
+      await axios
+        .post("/api/getvotes", { id: Number(props.id) })
+        .then((res) => {
+          uservotes = res.data;
+        });
+    }
     setState({ ...state, ready: true });
   }
   function build() {
@@ -71,7 +73,9 @@ export default function Conversation(props: { id: number }) {
     <div className="conversation" style={{ minHeight: "100vh" }}>
       {!state.ready ? (
         <LinearProgress sx={{ width: "100%" }} color="secondary" />
-      ) : <div/>}
+      ) : (
+        <div />
+      )}
       <Title
         slink={slink}
         category={conversation.category}

@@ -2,7 +2,7 @@
   width: 9px;
 }
 *::-webkit-scrollbar-track {
-  background: #151515
+  background: #151515;
 }
 *::-webkit-scrollbar-thumb {
   background-color: #404040;
@@ -54,7 +54,9 @@ a:active {
   background: #fbc308;
   color: black;
 }
-.catlink a, .catlink a:visited, .catlink a:active {
+.catlink a,
+.catlink a:visited,
+.catlink a:active {
   color: white;
 }
 .catlink a:hover {

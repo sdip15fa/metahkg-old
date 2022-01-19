@@ -103,7 +103,13 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
       createdAt: date,
     };
     await summary.insertOne(s);
-    await hottest.insertOne({id: s.id, c: 1, category: s.category, lastModified: date, createdAt: date});
+    await hottest.insertOne({
+      id: s.id,
+      c: 1,
+      category: s.category,
+      lastModified: date,
+      createdAt: date,
+    });
     await limit.insertOne({ id: user.id, createdAt: date, type: "create" });
     res.send({ id: newcid });
   } finally {

@@ -86,7 +86,9 @@ export default function AddComment() {
             Add a comment to thread id {id}:{" "}
             <Link to={`/thread/${id}`}>link</Link>
           </h2>
-          {!state.alert.text ? <div/> : (
+          {!state.alert.text ? (
+            <div />
+          ) : (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "10px" }}
               severity={state.alert.severity}

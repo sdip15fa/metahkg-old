@@ -90,10 +90,16 @@ export default function Comment(props: {
         </p>
         <div style={{ height: "2px" }} />
       </div>
-      <div style={{marginLeft: '20px'}}>
-        <VoteButtons vote={props.vote} id={props.tid} cid={props.id} up={props.up} down={props.down}/>
+      <div style={{ marginLeft: "20px" }}>
+        <VoteButtons
+          vote={props.vote}
+          id={props.tid}
+          cid={props.id}
+          up={props.up}
+          down={props.down}
+        />
       </div>
-      <div style={{height: '10px'}}/>
+      <div style={{ height: "10px" }} />
     </Box>
   );
 }

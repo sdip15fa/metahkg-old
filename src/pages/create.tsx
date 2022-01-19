@@ -115,7 +115,9 @@ export default function Create() {
       <div style={{ width: isMobile ? "100vw" : "80vw" }}>
         <div style={{ margin: "20px" }}>
           <h1 style={{ color: "white" }}>Create new topic</h1>
-          {!state.alert.text ? <div/> : (
+          {!state.alert.text ? (
+            <div />
+          ) : (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "10px" }}
               severity={state.alert.severity}

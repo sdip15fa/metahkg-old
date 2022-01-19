@@ -106,7 +106,9 @@ export default function Signin() {
           >
             Sign in to your Metahkg account
           </h1>
-          {!state.alert.text ? <div/> : (
+          {!state.alert.text ? (
+            <div />
+          ) : (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "20px" }}
               severity={state.alert.severity}
