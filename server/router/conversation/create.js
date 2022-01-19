@@ -69,7 +69,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const hottest = client.db("metahkg-threads").collection("hottest");
     const newcid = (await conversation.countDocuments({})) + 1;
     const date = new Date();
-    const slink = `https://us.wcyat.me/${
+    const slink = `https://l.wcyat.me/${
       (
         await axios.post("https://api-us.wcyat.me/create", {
           url: `https://metahkg.wcyat.me/thread/${newcid}`,

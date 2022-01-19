@@ -84,7 +84,7 @@ export default function Search() {
         <Paper style={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
-              {data.length &&
+              {!data.length ? <div/> :
                 (data[0] === 404 ? (
                   <h1 style={{ color: "white" }}>Nothing found</h1>
                 ) : (

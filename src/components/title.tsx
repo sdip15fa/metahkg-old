@@ -41,8 +41,8 @@ export default function Title(props: {
         }}
       >
         <Alert
-          variant="outlined"
-          severity={alert.error ? "error" : "info"}
+          variant="filled"
+          severity={alert.error ? "error" : "success"}
           sx={{ width: "100%" }}
         >
           {alert.text}

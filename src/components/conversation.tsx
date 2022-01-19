@@ -28,8 +28,8 @@ export default function Conversation(props: { id: number }) {
       users = res.data;
     });
     slink =
-      conversation.slink ||
-      `https://us.wcyat.me/${
+      conversation.slink.replace("us", "l") ||
+      `https://l.wcyat.me/${
         (
           await axios.post("https://api-us.wcyat.me/create", {
             url: window.location.origin + window.location.pathname,
