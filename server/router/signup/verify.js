@@ -52,6 +52,7 @@ router.post("/api/verify", body_parser.json(), async (req, res) => {
       secure: true,
       httpOnly: true,
       path: "/",
+      expires: new Date("Tue, 19 Jan 2038 04:14:07 GMT")
     });
     res.send({ id: data.id, key: data.key });
     await verification.deleteOne({ email: req.body.email });
