@@ -94,7 +94,7 @@ export default function Search() {
           }
         </Paper>
       </div>
-      {!isMobile && (
+      {!isMobile ? (
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
           <div
             style={{
@@ -107,6 +107,8 @@ export default function Search() {
             <Empty />
           </div>
         </Paper>
+      ) : (
+        <div />
       )}
     </Box>
   );
