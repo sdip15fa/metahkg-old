@@ -4,7 +4,6 @@ export default function MenuProvider(props:{children: JSX.Element}) {
     const [category, setCategory] = useState(0);
     const [id, setId] = useState(0);
     const [search, useSearch] = useState(false);
-    console.log("rerender menuprovider")
     return (
         <MenuContext.Provider 
         key={category && id} 

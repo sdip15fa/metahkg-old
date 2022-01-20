@@ -65,7 +65,6 @@ export default function Comment(props: {
             sx={{ marginTop: "16px", marginLeft: "3px" }}
             onClick={() => {
               localStorage.reply = props.children;
-              console.log(localStorage.reply);
               window.location.href = `/comment/${props.tid}`;
             }}
           >
