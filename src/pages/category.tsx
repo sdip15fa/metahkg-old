@@ -12,7 +12,7 @@ export default function Category() {
   if (category !== Number(params.category)) {
     setCategory(Number(params.category));
     setId(0);
-  };
+  }
   if (search) {
     setSearch(false);
   }
