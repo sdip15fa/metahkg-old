@@ -3,10 +3,12 @@ import React, { memo } from "react";
 import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
-function Menu(props: { id: string | number; category: string | number }) {
+import { SearchMenu } from "../pages/search";
+function Menu(props: { id: string | number; category: string | number; search: boolean }) {
   const [data, setData] = React.useState<any>([]);
   const [title, setTitle] = React.useState("Metahkg");
   const [selected, setSelected] = React.useState(0);
+  if (props.search) {return <SearchMenu/>}
   const buttons = ["Newest", "Hottest"];
   async function fetch() {
     const c = props.id ? `bytid${props.id}` : props.category;

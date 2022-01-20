@@ -8,7 +8,9 @@ import SearchBar from "../components/searchbar";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import Empty from "../components/empty";
-export default function Search() {
+import Menu from '../components/menu';
+import { useCat, useId, useSearch } from "../components/MenuProvider";
+export function SearchMenu() {
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
   const [query, setQuery] = useState("");
@@ -19,10 +21,11 @@ export default function Search() {
   async function fetch() {
     await axios
       .post("/api/search", {
-        q: decodeURIComponent(String(query || params.q)),
+        q: decodeURIComponent(String(query || params.q || localStorage.query)),
         sort: selected,
       })
       .then((res) => {
+        localStorage.query = decodeURIComponent(String(query || params.q)) || localStorage.query;
         if (!res.data.length) {
           setData([404]);
           return;
@@ -42,7 +45,7 @@ export default function Search() {
         flexDirection: "row",
       }}
     >
-      <div style={{ width: isMobile ? "100vw" : "30vw" }}>
+    <div style={{ width: isMobile ? "100vw" : "30vw" }}>
         {!data.length ? <LinearProgress color="secondary" /> : <div />}
         <MenuTop
           title="Search"
@@ -94,6 +97,24 @@ export default function Search() {
           }
         </Paper>
       </div>
+    </Box>
+  )
+}
+export default function Search() {
+  const [id, setId] = useId();
+  const [category, setCategory] = useCat();
+  const [search, setSearch] = useSearch();
+  if (!search) {setSearch(true);};
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        backgroundColor: "primary.dark",
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
+      <Menu key={search} id={id} category={category} search={search}/>
       {!isMobile ? (
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
           <div
