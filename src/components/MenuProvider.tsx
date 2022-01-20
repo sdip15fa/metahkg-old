@@ -14,15 +14,15 @@ export default function MenuProvider(props:{children: JSX.Element}) {
         </MenuContext.Provider>
     )
 }
-export function useCat () {
-    const { category } = useContext(MenuContext);
-    return category;
+export function useCat() {
+  const { category } = useContext(MenuContext);
+  return category;
 }
-export function useId () {
-    const { id } = useContext(MenuContext);
-    return id;
+export function useId() {
+  const { id } = useContext(MenuContext);
+  return id;
 }
-export function useSearch () {
-    const { search } = useContext(MenuContext);
-    return search;
+export function useSearch() {
+  const { search } = useContext(MenuContext);
+  return search;
 }
