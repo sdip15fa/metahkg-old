@@ -1,4 +1,4 @@
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import { isMobile } from "react-device-detect";
 import { useParams } from "react-router";
 import Empty from "../components/empty";
@@ -9,8 +9,9 @@ export default function Category() {
   const [id, setId] = useId();
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
-  if (category !== params.category) {
+  if (category !== Number(params.category)) {
     setCategory(Number(params.category));
+    setId(0);
   };
   if (search) {
     setSearch(false);
