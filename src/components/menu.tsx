@@ -4,9 +4,13 @@ import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
 import { SearchMenu } from "../pages/search";
-function Menu(props: { id: string | number; category: number; search: boolean }) {
+function Menu(props: {
+  id: string | number;
+  category: number;
+  search: boolean;
+}) {
   const [data, setData] = React.useState<any>([]);
-  const [cat, setCat] = React.useState({id: 0, name: "Metahkg"});
+  const [cat, setCat] = React.useState({ id: 0, name: "Metahkg" });
   const [selected, setSelected] = React.useState(0);
   if (props.search) {
     return <SearchMenu />;
@@ -14,7 +18,7 @@ function Menu(props: { id: string | number; category: number; search: boolean })
   const buttons = ["Newest", "Hottest"];
   async function fetch() {
     const c = props.id ? `bytid${props.id}` : props.category;
-    let d:any, ca:any;
+    let d: any, ca: any;
     await axios
       .get(`/api/${selected === 0 ? "newest" : "hottest"}/${c}`)
       .then((res) => {
@@ -73,7 +77,7 @@ function Menu(props: { id: string | number; category: number; search: boolean })
           >
             {data.map((thread: any) => (
               <div>
-                <MenuThread key={cat.id} thread={thread} category={cat.id}/>
+                <MenuThread key={cat.id} thread={thread} category={cat.id} />
               </div>
             ))}
           </div>

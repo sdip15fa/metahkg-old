@@ -5,7 +5,7 @@ import {
 } from "@mui/icons-material";
 import { timetoword, roundup } from "../../lib/common";
 import { Link } from "react-router-dom";
-export default function MenuThread(props: { thread: any, category: number }) {
+export default function MenuThread(props: { thread: any; category: number }) {
   return (
     <div>
       <Link
@@ -140,13 +140,32 @@ export default function MenuThread(props: { thread: any, category: number }) {
                 {props.thread.title}
               </p>
             </div>
-            {props.category === 1 &&
-            <Link to={`/category/${props.thread.category}`}>
-            <Button variant="contained" sx={{borderRadius: '15px', textTransform: 'none', backgroundColor: '#333', margin: '0px', padding: '0px'}}>
-              <Typography sx={{color: 'white', fontSize: '12px', padding: '0px', margin: '0px', whiteSpace: 'nowrap'}}>{props.thread.catname}</Typography>
-            </Button>
-            </Link>
-            }
+            {props.category === 1 && (
+              <Link to={`/category/${props.thread.category}`}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    borderRadius: "15px",
+                    textTransform: "none",
+                    backgroundColor: "#333",
+                    margin: "0px",
+                    padding: "0px",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: "12px",
+                      padding: "0px",
+                      margin: "0px",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {props.thread.catname}
+                  </Typography>
+                </Button>
+              </Link>
+            )}
           </div>
         </Button>
       </Link>
