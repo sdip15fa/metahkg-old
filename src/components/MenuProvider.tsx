@@ -1,18 +1,21 @@
-import { createContext, useContext, useState } from "react"
-const MenuContext = createContext<any>({})
-export default function MenuProvider(props:{children: JSX.Element}) {
-    const [category, setCategory] = useState(0);
-    const [id, setId] = useState(0);
-    const [search, useSearch] = useState(false);
-    return (
-        <MenuContext.Provider 
-        key={category && id} 
-        value={{category: [category, setCategory], 
-                id: [id, setId], 
-                search: [search, useSearch]}}>
-            {props.children}
-        </MenuContext.Provider>
-    )
+import { createContext, useContext, useState } from "react";
+const MenuContext = createContext<any>({});
+export default function MenuProvider(props: { children: JSX.Element }) {
+  const [category, setCategory] = useState(0);
+  const [id, setId] = useState(0);
+  const [search, useSearch] = useState(false);
+  return (
+    <MenuContext.Provider
+      key={category && id}
+      value={{
+        category: [category, setCategory],
+        id: [id, setId],
+        search: [search, useSearch],
+      }}
+    >
+      {props.children}
+    </MenuContext.Provider>
+  );
 }
 export function useCat() {
   const { category } = useContext(MenuContext);
