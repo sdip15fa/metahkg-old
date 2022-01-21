@@ -99,6 +99,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
       vote: 0,
       title: req.body.title,
       category: category.id,
+      catname: category.name,
       lastModified: date,
       createdAt: date,
     };

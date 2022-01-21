@@ -44,6 +44,7 @@ export default function SearchBar(props: {
   onChange:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
+  initvalue: string
 }) {
   return (
     <Search>
@@ -55,6 +56,7 @@ export default function SearchBar(props: {
         inputProps={{ "aria-label": "search" }}
         onKeyPress={props.onKeyPress}
         onChange={props.onChange}
+        defaultValue={props.initvalue}
       />
     </Search>
   );

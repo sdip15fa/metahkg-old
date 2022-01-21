@@ -4,13 +4,9 @@ import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
 import { SearchMenu } from "../pages/search";
-function Menu(props: {
-  id: string | number;
-  category: string | number;
-  search: boolean;
-}) {
+function Menu(props: { id: string | number; category: number; search: boolean }) {
   const [data, setData] = React.useState<any>([]);
-  const [title, setTitle] = React.useState("Metahkg");
+  const [cat, setCat] = React.useState({id: 0, name: "Metahkg"});
   const [selected, setSelected] = React.useState(0);
   if (props.search) {
     return <SearchMenu />;
@@ -18,6 +14,7 @@ function Menu(props: {
   const buttons = ["Newest", "Hottest"];
   async function fetch() {
     const c = props.id ? `bytid${props.id}` : props.category;
+    let d:any, ca:any;
     await axios
       .get(`/api/${selected === 0 ? "newest" : "hottest"}/${c}`)
       .then((res) => {
@@ -25,11 +22,13 @@ function Menu(props: {
           setData([404]);
           return;
         }
-        setData(res.data);
+        d = res.data;
       });
     await axios.get(`/api/categories/${c}`).then((res) => {
-      setTitle(res.data.name || res.data);
+      ca = res.data;
     });
+    setData(d);
+    setCat(ca);
   }
   if (!data.length) {
     fetch();
@@ -48,7 +47,7 @@ function Menu(props: {
         <div />
       )}
       <MenuTop
-        title={title}
+        title={cat.name}
         refresh={() => {
           setData([]);
         }}
@@ -74,7 +73,7 @@ function Menu(props: {
           >
             {data.map((thread: any) => (
               <div>
-                <MenuThread thread={thread} />
+                <MenuThread key={cat.id} thread={thread} category={cat.id}/>
               </div>
             ))}
           </div>

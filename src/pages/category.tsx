@@ -28,7 +28,7 @@ export default function Category() {
       <div style={{ width: isMobile ? "100vw" : "30vw" }}>
         <Menu key={category} category={category} id={id} search={search} />
       </div>
-      {!isMobile ? <Empty /> : <div />}
+      {!isMobile && <Empty />}
     </Box>
   );
 }

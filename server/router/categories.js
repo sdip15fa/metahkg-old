@@ -52,7 +52,7 @@ router.get("/api/categories/:id", body_parser.json(), async (req, res) => {
       res.send("Not found.");
       return;
     }
-    res.send(c.name);
+    res.send({id: c.id, name: c.name});
   } finally {
     await client.close();
   }
