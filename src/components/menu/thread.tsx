@@ -1,11 +1,11 @@
-import { Divider, Button } from "@mui/material";
+import { Divider, Button, Typography } from "@mui/material";
 import {
   ThumbUp as ThumbUpIcon,
   ThumbDown as ThumbDownIcon,
 } from "@mui/icons-material";
 import { timetoword, roundup } from "../../lib/common";
 import { Link } from "react-router-dom";
-export default function MenuThread(props: { thread: any }) {
+export default function MenuThread(props: { thread: any, category: number }) {
   return (
     <div>
       <Link
@@ -131,7 +131,6 @@ export default function MenuThread(props: { thread: any }) {
                   textAlign: "left",
                   marginTop: "5px",
                   marginBottom: "5px",
-                  wordWrap: "break-word",
                   lineHeight: "20px",
                   maxHeight: "40px",
                   overflow: "hidden",
@@ -141,6 +140,13 @@ export default function MenuThread(props: { thread: any }) {
                 {props.thread.title}
               </p>
             </div>
+            {props.category === 1 &&
+            <Link to={`/category/${props.thread.category}`}>
+            <Button variant="contained" sx={{borderRadius: '15px', textTransform: 'none', backgroundColor: '#333', margin: '0px', padding: '0px'}}>
+              <Typography sx={{color: 'white', fontSize: '12px', padding: '0px', margin: '0px', whiteSpace: 'nowrap'}}>{props.thread.catname}</Typography>
+            </Button>
+            </Link>
+            }
           </div>
         </Button>
       </Link>

@@ -81,6 +81,7 @@ export function SearchMenu() {
                   navigate(`/search?q=${encodeURIComponent(tempq)}`);
                 }
               }}
+              initvalue={decodeURIComponent(String(query || params.q || localStorage.query))}
             />
           </div>
         </div>
@@ -91,7 +92,7 @@ export function SearchMenu() {
                 (data[0] === 404 ? (
                   <h1 style={{ color: "white" }}>Nothing found</h1>
                 ) : (
-                  data.map((thread: any) => <MenuThread thread={thread} />)
+                  data.map((thread: any) => <MenuThread thread={thread} category={0}/>)
                 ))}
             </div>
           }
