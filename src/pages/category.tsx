@@ -12,10 +12,10 @@ export default function Category() {
   if (category !== Number(params.category)) {
     setCategory(Number(params.category));
     setId(0);
-  };
+  }
   if (search) {
     setSearch(false);
-  };
+  }
   return (
     <Box
       sx={{
@@ -26,7 +26,7 @@ export default function Category() {
       }}
     >
       <div style={{ width: isMobile ? "100vw" : "30vw" }}>
-        <Menu key={category} category={category} id={id} search={search}/>
+        <Menu key={category} category={category} id={id} search={search} />
       </div>
       {!isMobile && <Empty />}
     </Box>

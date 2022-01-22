@@ -8,7 +8,9 @@ function Menu(props: { id: string | number; category: number; search: boolean })
   const [data, setData] = React.useState<any>([]);
   const [cat, setCat] = React.useState({id: 0, name: "Metahkg"});
   const [selected, setSelected] = React.useState(0);
-  if (props.search) {return <SearchMenu/>}
+  if (props.search) {
+    return <SearchMenu />;
+  }
   const buttons = ["Newest", "Hottest"];
   async function fetch() {
     const c = props.id ? `bytid${props.id}` : props.category;

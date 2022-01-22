@@ -8,7 +8,7 @@ import SearchBar from "../components/searchbar";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import Empty from "../components/empty";
-import Menu from '../components/menu';
+import Menu from "../components/menu";
 import { useCat, useId, useSearch } from "../components/MenuProvider";
 export function SearchMenu() {
   const [data, setData] = useState<any>([]);
@@ -25,7 +25,8 @@ export function SearchMenu() {
         sort: selected,
       })
       .then((res) => {
-        localStorage.query = decodeURIComponent(String(query || params.q)) || localStorage.query;
+        localStorage.query =
+          decodeURIComponent(String(query || params.q)) || localStorage.query;
         if (!res.data.length) {
           setData([404]);
           return;
@@ -45,7 +46,7 @@ export function SearchMenu() {
         flexDirection: "row",
       }}
     >
-    <div style={{ width: isMobile ? "100vw" : "30vw" }}>
+      <div style={{ width: isMobile ? "100vw" : "30vw" }}>
         {!data.length ? <LinearProgress color="secondary" /> : <div />}
         <MenuTop
           title="Search"
@@ -99,13 +100,15 @@ export function SearchMenu() {
         </Paper>
       </div>
     </Box>
-  )
+  );
 }
 export default function Search() {
   const [id, setId] = useId();
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
-  if (!search) {setSearch(true);};
+  if (!search) {
+    setSearch(true);
+  }
   return (
     <Box
       sx={{
@@ -115,7 +118,7 @@ export default function Search() {
         flexDirection: "row",
       }}
     >
-      <Menu key={search} id={id} category={category} search={search}/>
+      <Menu key={search} id={id} category={category} search={search} />
       {!isMobile ? (
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
           <div
