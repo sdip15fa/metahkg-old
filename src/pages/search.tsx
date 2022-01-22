@@ -90,8 +90,8 @@ export function SearchMenu() {
             <div style={{ maxWidth: "99%" }}>
               {!data.length ? <div/> :
                 (data[0] === 404 ? (
-                  <h1 style={{ color: "white" }}>Nothing found</h1>
-                ) : (
+                  <div/> 
+                 ) : (
                   data.map((thread: any) => <MenuThread thread={thread} category={0}/>)
                 ))}
             </div>

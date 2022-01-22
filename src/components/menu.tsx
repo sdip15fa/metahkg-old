@@ -60,8 +60,8 @@ function Menu(props: { id: string | number; category: number; search: boolean })
         {!data.length ? (
           <div />
         ) : data[0] === 404 ? (
-          <h1 style={{ color: "white" }}>Nothing found</h1>
-        ) : (
+           <div/>
+          ) : (
           <div
             style={{
               display: "flex",

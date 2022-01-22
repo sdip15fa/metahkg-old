@@ -52,7 +52,7 @@ router.get("/api/hottest/:category", async (req, res) => {
     for (let index = 0; index < data.length; index++) {
       data[index] = await summary.findOne({ id: data[index].id });
     }
-    res.send(data);
+    res.send(data.length ? data : [404]);
   } finally {
     await client.close();
   }

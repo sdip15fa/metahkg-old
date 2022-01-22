@@ -48,7 +48,7 @@ router.get("/api/newest/:category", async (req, res) => {
       .sort({ lastModified: -1 })
       .limit(20)
       .toArray();
-    res.send(data);
+    res.send(data.length ? data : [404]);
   } finally {
     await client.close();
   }

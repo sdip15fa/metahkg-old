@@ -9,4 +9,5 @@ router.use(require("./router/logout"));
 router.use(require("./router/search"));
 router.use(require("./router/vote/vote"));
 router.use(require("./router/vote/getvotes"));
+router.use(require("./router/profile/history"));
 module.exports = router;
