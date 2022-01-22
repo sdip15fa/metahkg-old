@@ -82,7 +82,9 @@ export function SearchMenu() {
                   navigate(`/search?q=${encodeURIComponent(tempq)}`);
                 }
               }}
-              initvalue={decodeURIComponent(String(query || params.q || localStorage.query))}
+              initvalue={decodeURIComponent(
+                String(query || params.q || localStorage.query)
+              )}
             />
           </div>
         </div>
