@@ -66,8 +66,8 @@ function Menu(props: {
         {!data.length ? (
           <div />
         ) : data[0] === 404 ? (
-           <div/>
-          ) : (
+          <div />
+        ) : (
           <div
             style={{
               display: "flex",

@@ -91,12 +91,15 @@ export function SearchMenu() {
         <Paper style={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
-              {!data.length ? <div/> :
-                (data[0] === 404 ? (
-                  <div/> 
-                 ) : (
-                  data.map((thread: any) => <MenuThread thread={thread} category={0}/>)
-                ))}
+              {!data.length ? (
+                <div />
+              ) : data[0] === 404 ? (
+                <div />
+              ) : (
+                data.map((thread: any) => (
+                  <MenuThread thread={thread} category={0} />
+                ))
+              )}
             </div>
           }
         </Paper>
