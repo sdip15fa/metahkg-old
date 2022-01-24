@@ -1,10 +1,4 @@
-import {
-  Box,
-  IconButton,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import {
   ArrowBack as ArrowBackIcon,
   Share as ShareIcon,
@@ -21,18 +15,43 @@ export default function Title(props: {
   slink: string;
 }) {
   const [open, setOpen] = useState(false);
-  const [notify, setNotify] = useState({open: false, text: ""});
-  const copytext = props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
+  const [notify, setNotify] = useState({ open: false, text: "" });
+  const copytext =
+    props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
   return (
     <Box sx={{ backgroundColor: "primary.main", height: "50px" }}>
-      <Notification notify={notify} setNotify={setNotify}/>
-      <PopUp withbutton={false} open={open} setOpen={setOpen} title="Share" button={{text: "", link: ""}}>
-        <div style={{marginLeft: '10px', marginRight: '10px', textAlign: 'start'}}>
-        <TextField sx={{borderRadius: '0px', minWidth: '500px'}} multiline variant="outlined" fullWidth aria-readonly value={copytext}/>
-        <br/>
-        <IconButton onClick={() => {navigator.clipboard.writeText(copytext); setNotify({open: true, text: "Copied to Clipboard!"})}}>
-          <ContentCopy sx={{textAlign: 'start'}}/>
-        </IconButton>
+      <Notification notify={notify} setNotify={setNotify} />
+      <PopUp
+        withbutton={false}
+        open={open}
+        setOpen={setOpen}
+        title="Share"
+        button={{ text: "", link: "" }}
+      >
+        <div
+          style={{
+            marginLeft: "10px",
+            marginRight: "10px",
+            textAlign: "start",
+          }}
+        >
+          <TextField
+            sx={{ borderRadius: "0px", minWidth: "500px" }}
+            multiline
+            variant="outlined"
+            fullWidth
+            aria-readonly
+            value={copytext}
+          />
+          <br />
+          <IconButton
+            onClick={() => {
+              navigator.clipboard.writeText(copytext);
+              setNotify({ open: true, text: "Copied to Clipboard!" });
+            }}
+          >
+            <ContentCopy sx={{ textAlign: "start" }} />
+          </IconButton>
         </div>
       </PopUp>
       <div

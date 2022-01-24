@@ -1,9 +1,5 @@
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
-import {
-  Button,
-  ButtonGroup,
-  Typography,
-} from "@mui/material";
+import { Button, ButtonGroup, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { Notification } from "../lib/notification";
@@ -38,7 +34,7 @@ export default function VoteButtons(props: {
   };
   return (
     <div>
-      <Notification notify={notify} setNotify={setNotify}/>
+      <Notification notify={notify} setNotify={setNotify} />
       <ButtonGroup
         variant="text"
         sx={{ borderRadius: "5px", backgroundColor: "#333" }}

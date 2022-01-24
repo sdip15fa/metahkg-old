@@ -54,11 +54,7 @@ export default function SideBar() {
           <MenuIcon style={{ color: "white" }} />
         </IconButton>
       </div>
-      <Drawer
-        anchor="left"
-        open={open}
-        onClose={toggleDrawer(false)}
-      >
+      <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
         <Box
           sx={{ width: 250, backgroundColor: "primary.main", height: "100%" }}
           role="presentation"
@@ -162,7 +158,10 @@ export default function SideBar() {
             <div>
               <Divider />
               <List>
-                <Link to="/profile/self" style={{textDecoration: 'none', color: 'white'}}>
+                <Link
+                  to="/profile/self"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
                   <ListItem button>
                     <ListItemIcon>
                       <ManageAccountsIcon />

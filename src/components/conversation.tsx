@@ -15,7 +15,7 @@ export default function Conversation(props: { id: number }) {
     ready: false,
     error: "",
   });
-  const [notify, setNotify] = useState({open: false, text: ""});
+  const [notify, setNotify] = useState({ open: false, text: "" });
   async function getdata() {
     await axios
       .get(`/api/thread/${props.id}/conversation`)
@@ -69,25 +69,29 @@ export default function Conversation(props: { id: number }) {
     });
   }
   if (state.error && !notify.open) {
-    setNotify({open: true, text: state.error});
+    setNotify({ open: true, text: state.error });
   }
   !state.ready ? !state.error && getdata() : build();
   return (
     <div className="conversation" style={{ minHeight: "100vh" }}>
-      <Notification notify={notify} setNotify={setNotify}/>
-      {!state.error && <div>
-      {!state.ready && (
-        <LinearProgress sx={{ width: "100%" }} color="secondary" />
+      <Notification notify={notify} setNotify={setNotify} />
+      {!state.error && (
+        <div>
+          {!state.ready && (
+            <LinearProgress sx={{ width: "100%" }} color="secondary" />
+          )}
+          <Title
+            slink={slink}
+            category={conversation.category}
+            title={conversation.title}
+          />
+          <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 61px)" }}>
+            <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
+              {o}
+            </Box>
+          </Paper>
+        </div>
       )}
-      <Title
-        slink={slink}
-        category={conversation.category}
-        title={conversation.title}
-      />
-      <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 61px)" }}>
-        <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>{o}</Box>
-      </Paper>
-      </div>}
     </div>
   );
 }

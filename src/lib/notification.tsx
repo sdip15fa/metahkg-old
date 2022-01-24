@@ -40,8 +40,8 @@ export function Notification(props: {
             width: "100%",
             backgroundColor: "#333",
             fontSize: "14px",
-            borderTopLeftRadius: '8px',
-            borderTopRightRadius: '8px'
+            borderTopLeftRadius: "8px",
+            borderTopRightRadius: "8px",
           }}
         >
           <div
@@ -84,11 +84,11 @@ export function Notification(props: {
               marginLeft: "15px",
               marginTop: "15px",
               marginBottom: "15px",
-              fontSize: '15px',
-              lineHeight: '18px',
-              maxHeight: '36px',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden'
+              fontSize: "15px",
+              lineHeight: "18px",
+              maxHeight: "36px",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
             }}
           >
             {props.notify.text}

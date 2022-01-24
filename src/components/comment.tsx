@@ -23,10 +23,16 @@ export default function Comment(props: {
     const [open, setOpen] = useState(false);
     return (
       <div style={{ display: "flex", fontSize: "16px", alignItems: "center" }}>
-        <PopUp withbutton open={open} setOpen={setOpen} title="User information" button={{text: "View Profile", link: `/profile/${props.userid}`}}>
-          <p style={{textAlign: 'center'}}>
-            {props.name}<br/>
-            #{props.userid}
+        <PopUp
+          withbutton
+          open={open}
+          setOpen={setOpen}
+          title="User information"
+          button={{ text: "View Profile", link: `/profile/${props.userid}` }}
+        >
+          <p style={{ textAlign: "center" }}>
+            {props.name}
+            <br />#{props.userid}
           </p>
         </PopUp>
         <p
@@ -40,7 +46,9 @@ export default function Comment(props: {
         </p>
         <a
           className="cuserlink"
-          onClick={() => {setOpen(true)}}
+          onClick={() => {
+            setOpen(true);
+          }}
           style={{
             color: props.sex ? "#34aadc" : "red",
             marginLeft: "10px",
@@ -52,7 +60,7 @@ export default function Comment(props: {
             lineHeight: "22px",
             maxHeight: "22px",
             wordBreak: "keep-all",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
         >
           {tprops.children}
