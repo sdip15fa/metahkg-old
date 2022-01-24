@@ -4,20 +4,25 @@ import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
 import { SearchMenu } from "../pages/search";
-function Menu(props: {
-  id: string | number;
-  category: number;
-  search: boolean;
-}) {
+import { useCat, useId, useProfile, useSearch } from "./MenuProvider";
+import { ProfileMenu } from "../pages/profile";
+function Menu() {
   const [data, setData] = React.useState<any>([]);
   const [cat, setCat] = React.useState({ id: 0, name: "Metahkg" });
   const [selected, setSelected] = React.useState(0);
-  if (props.search) {
+  const [id, setId] = useId();
+  const [category, setCategory] = useCat();
+  const [search, setSearch] = useSearch();
+  const [profile, setProfile] = useProfile();
+  if (search) {
     return <SearchMenu />;
+  }
+  if (profile) {
+    return <ProfileMenu />;
   }
   const buttons = ["Newest", "Hottest"];
   async function fetch() {
-    const c = props.id ? `bytid${props.id}` : props.category;
+    const c = id ? `bytid${id}` : category;
     let d: any, ca: any;
     await axios
       .get(`/api/${selected === 0 ? "newest" : "hottest"}/${c}`)
@@ -66,8 +71,8 @@ function Menu(props: {
         {!data.length ? (
           <div />
         ) : data[0] === 404 ? (
-           <div/>
-          ) : (
+          <div />
+        ) : (
           <div
             style={{
               display: "flex",

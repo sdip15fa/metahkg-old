@@ -28,8 +28,7 @@ router.get("/api/hottest/:category", async (req, res) => {
         id: Number(req.params.category.replace("bytid", "")),
       });
       if (!s || !s.category) {
-        res.status(404);
-        res.send("Not found.");
+        res.send([404]);
         return;
       }
       category = s.category;
@@ -40,8 +39,7 @@ router.get("/api/hottest/:category", async (req, res) => {
         .collection("category")
         .findOne({ id: category }))
     ) {
-      res.status(404);
-      res.send("Not found.");
+      res.send([404]);
       return;
     }
     const data = await hottest

@@ -1,53 +1,59 @@
-import {
-  Alert,
-  Box,
-  IconButton,
-  Snackbar,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import {
   ArrowBack as ArrowBackIcon,
   Share as ShareIcon,
   Reply as ReplyIcon,
+  ContentCopy,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import React from "react";
-import { isMobile } from "react-device-detect";
+import { useState } from "react";
+import { PopUp } from "../lib/popup";
+import { Notification } from "../lib/notification";
 export default function Title(props: {
   category: number | string;
   title: string;
   slink: string;
 }) {
-  const [alert, setAlert] = React.useState({
-    text: "",
-    open: false,
-    error: false,
-  });
+  const [open, setOpen] = useState(false);
+  const [notify, setNotify] = useState({ open: false, text: "" });
+  const copytext =
+    props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
   return (
     <Box sx={{ backgroundColor: "primary.main", height: "50px" }}>
-      <Snackbar
-        sx={{
-          backgroundColor: "primary.main",
-          width: isMobile ? "50vw" : "30vw",
-        }}
-        open={alert.open}
-        autoHideDuration={5000}
-        onClick={() => {
-          setAlert({ text: "", open: false, error: false });
-        }}
-        onClose={() => {
-          setAlert({ text: "", open: false, error: false });
-        }}
+      <Notification notify={notify} setNotify={setNotify} />
+      <PopUp
+        withbutton={false}
+        open={open}
+        setOpen={setOpen}
+        title="Share"
+        button={{ text: "", link: "" }}
       >
-        <Alert
-          variant="filled"
-          severity={alert.error ? "error" : "success"}
-          sx={{ width: "100%" }}
+        <div
+          style={{
+            marginLeft: "10px",
+            marginRight: "10px",
+            textAlign: "start",
+          }}
         >
-          {alert.text}
-        </Alert>
-      </Snackbar>
+          <TextField
+            sx={{ borderRadius: "0px", minWidth: "500px" }}
+            multiline
+            variant="outlined"
+            fullWidth
+            aria-readonly
+            value={copytext}
+          />
+          <br />
+          <IconButton
+            onClick={() => {
+              navigator.clipboard.writeText(copytext);
+              setNotify({ open: true, text: "Copied to Clipboard!" });
+            }}
+          >
+            <ContentCopy sx={{ textAlign: "start" }} />
+          </IconButton>
+        </div>
+      </PopUp>
       <div
         style={{
           display: "flex",
@@ -113,12 +119,7 @@ export default function Title(props: {
           <Tooltip title="Share" arrow>
             <IconButton
               onClick={() => {
-                window.navigator.clipboard.writeText(props.slink);
-                setAlert({
-                  error: false,
-                  text: "Link copied to clipboard!",
-                  open: true,
-                });
+                setOpen(true);
               }}
             >
               <ShareIcon style={{ color: "white", fontSize: "20px" }} />

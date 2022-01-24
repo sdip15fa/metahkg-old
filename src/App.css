@@ -63,7 +63,16 @@ a:active {
   color: #fbc308;
   will-change: color;
 }
-.votearrow svg:hover {
+.votearrow .close svg:hover {
   color: white;
   will-change: color;
+}
+.cuserlink:active {
+  text-decoration: none;
+}
+.cuserlink:hover {
+  text-decoration: underline;
+}
+.TextField-without-border-radius fieldset {
+  border-radius: 0;
 }

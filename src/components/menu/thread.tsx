@@ -141,7 +141,10 @@ export default function MenuThread(props: { thread: any; category: number }) {
               </p>
             </div>
             {props.category === 1 && (
-              <Link to={`/category/${props.thread.category}`}>
+              <Link
+                to={`/category/${props.thread.category}`}
+                style={{ textDecoration: "none" }}
+              >
                 <Button
                   variant="contained"
                   sx={{
