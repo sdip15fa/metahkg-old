@@ -163,12 +163,14 @@ export default function SideBar() {
             <div>
               <Divider />
               <List>
+                <Link to="/profile/self">
                 <ListItem>
                   <ListItemIcon>
                     <ManageAccountsIcon />
                   </ListItemIcon>
                   <ListItemText>{localStorage.user}</ListItemText>
                 </ListItem>
+                </Link>
               </List>
             </div>
           )}

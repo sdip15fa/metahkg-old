@@ -26,9 +26,6 @@ export default function Thread() {
         <div style={{ width: "30vw" }}>
           <Menu
             key={category && search}
-            category={category}
-            id={id}
-            search={search}
           />
         </div>
       )}

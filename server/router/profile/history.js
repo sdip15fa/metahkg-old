@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/api/history/:id", async (req, res) => {
   if (
     (!is_number(req.params.id) && !req.params.id === "self") ||
-    req.query.sort !== "post" && req.query.sort !== "comments"
+    (req.query.sort !== "post" && req.query.sort !== "comments")
   ) {
     res.status(400);
     res.send("Bad request.");
@@ -27,15 +27,14 @@ router.get("/api/history/:id", async (req, res) => {
       return;
     }
     const sort = {
-      post: { createdAt: -1 },
-      comments: { lastModified: -1 },
+      "post": { createdAt: -1 },
+      "comments": { lastModified: -1 },
     }[req.query.sort];
-    console.log(sort);
     const history = await summary
       .find({ op: user.user })
       .sort(sort)
       .limit(100)
-      .project({_id: 0})
+      .project({ _id: 0 })
       .toArray();
     if (!history.length) {
       res.send([404]);

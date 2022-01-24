@@ -82,19 +82,24 @@ export function SearchMenu() {
                   navigate(`/search?q=${encodeURIComponent(tempq)}`);
                 }
               }}
-              initvalue={decodeURIComponent(String(query || params.q || localStorage.query))}
+              initvalue={decodeURIComponent(
+                String(query || params.q || localStorage.query)
+              )}
             />
           </div>
         </div>
         <Paper style={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
-              {!data.length ? <div/> :
-                (data[0] === 404 ? (
-                  <div/> 
-                 ) : (
-                  data.map((thread: any) => <MenuThread thread={thread} category={0}/>)
-                ))}
+              {!data.length ? (
+                <div />
+              ) : data[0] === 404 ? (
+                <div />
+              ) : (
+                data.map((thread: any) => (
+                  <MenuThread thread={thread} category={0} />
+                ))
+              )}
             </div>
           }
         </Paper>
@@ -118,7 +123,7 @@ export default function Search() {
         flexDirection: "row",
       }}
     >
-      <Menu key={search} id={id} category={category} search={search} />
+      <Menu key={search} />
       {!isMobile ? (
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
           <div

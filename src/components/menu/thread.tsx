@@ -141,7 +141,7 @@ export default function MenuThread(props: { thread: any, category: number }) {
               </p>
             </div>
             {props.category === 1 &&
-            <Link to={`/category/${props.thread.category}`}>
+            <Link to={`/category/${props.thread.category}`} style={{textDecoration: 'none'}}>
             <Button variant="contained" sx={{borderRadius: '15px', textTransform: 'none', backgroundColor: '#333', margin: '0px', padding: '0px'}}>
               <Typography sx={{color: 'white', fontSize: '12px', padding: '0px', margin: '0px', whiteSpace: 'nowrap'}}>{props.thread.catname}</Typography>
             </Button>
