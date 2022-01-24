@@ -55,7 +55,6 @@ export default function SideBar() {
         </IconButton>
       </div>
       <Drawer
-        sx={{ backgroundColor: "primary.main" }}
         anchor="left"
         open={open}
         onClose={toggleDrawer(false)}
@@ -163,13 +162,13 @@ export default function SideBar() {
             <div>
               <Divider />
               <List>
-                <Link to="/profile/self">
-                <ListItem>
-                  <ListItemIcon>
-                    <ManageAccountsIcon />
-                  </ListItemIcon>
-                  <ListItemText>{localStorage.user}</ListItemText>
-                </ListItem>
+                <Link to="/profile/self" style={{textDecoration: 'none', color: 'white'}}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <ManageAccountsIcon />
+                    </ListItemIcon>
+                    <ListItemText>{localStorage.user}</ListItemText>
+                  </ListItem>
                 </Link>
               </List>
             </div>

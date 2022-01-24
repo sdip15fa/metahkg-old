@@ -27,8 +27,8 @@ router.get("/api/history/:id", async (req, res) => {
       return;
     }
     const sort = {
-      "post": { createdAt: -1 },
-      "comments": { lastModified: -1 },
+      post: { createdAt: -1 },
+      comments: { lastModified: -1 },
     }[req.query.sort];
     const history = await summary
       .find({ op: user.user })

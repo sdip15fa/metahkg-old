@@ -3,7 +3,12 @@ import { isMobile } from "react-device-detect";
 import { useParams } from "react-router";
 import Empty from "../components/empty";
 import Menu from "../components/menu";
-import { useCat, useId, useProfile, useSearch } from "../components/MenuProvider";
+import {
+  useCat,
+  useId,
+  useProfile,
+  useSearch,
+} from "../components/MenuProvider";
 export default function Category() {
   const params = useParams();
   const [id, setId] = useId();

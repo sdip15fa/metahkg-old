@@ -6,7 +6,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { isIE } from "react-device-detect";
 import Register from "./pages/signup";
 import Signin from "./pages/signin";
 import Thread from "./pages/thread";
@@ -17,16 +16,8 @@ import Logout from "./components/logout";
 import Source from "./pages/source";
 import Search from "./pages/search";
 import Profile from "./pages/profile";
+import History from "./pages/history";
 export default function App() {
-  if (isIE) {
-    return (
-      <p>
-        IE is not supported. Please use
-        <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> or
-        <a href="https://www.google.com/chrome/">Chrome</a>
-      </p>
-    );
-  }
   return (
     <div style={{ maxHeight: "100vh" }}>
       <Theme
@@ -46,6 +37,7 @@ export default function App() {
             <Route path="/logout" element={<Logout />} />
             <Route path="/source" element={<Source />} />
             <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/history/:id" element={<History />} />
           </Routes>
         </Router>
       </Theme>

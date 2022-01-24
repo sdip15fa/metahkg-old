@@ -24,9 +24,7 @@ export default function Thread() {
     >
       {!isMobile && (
         <div style={{ width: "30vw" }}>
-          <Menu
-            key={category && search}
-          />
+          <Menu key={category && search} />
         </div>
       )}
       <div key={params.id} style={{ width: isMobile ? "100vw" : "70vw" }}>

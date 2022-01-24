@@ -8,7 +8,7 @@ import { useCat, useId, useProfile, useSearch } from "./MenuProvider";
 import { ProfileMenu } from "../pages/profile";
 function Menu() {
   const [data, setData] = React.useState<any>([]);
-  const [cat, setCat] = React.useState({id: 0, name: "Metahkg"});
+  const [cat, setCat] = React.useState({ id: 0, name: "Metahkg" });
   const [selected, setSelected] = React.useState(0);
   const [id, setId] = useId();
   const [category, setCategory] = useCat();
@@ -23,7 +23,7 @@ function Menu() {
   const buttons = ["Newest", "Hottest"];
   async function fetch() {
     const c = id ? `bytid${id}` : category;
-    let d:any, ca:any;
+    let d: any, ca: any;
     await axios
       .get(`/api/${selected === 0 ? "newest" : "hottest"}/${c}`)
       .then((res) => {
@@ -71,8 +71,8 @@ function Menu() {
         {!data.length ? (
           <div />
         ) : data[0] === 404 ? (
-           <div/>
-          ) : (
+          <div />
+        ) : (
           <div
             style={{
               display: "flex",
@@ -82,7 +82,7 @@ function Menu() {
           >
             {data.map((thread: any) => (
               <div>
-                <MenuThread key={cat.id} thread={thread} category={cat.id}/>
+                <MenuThread key={cat.id} thread={thread} category={cat.id} />
               </div>
             ))}
           </div>

@@ -1,4 +1,14 @@
-import { Box, Button, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import {
+  Box,
+  Button,
+  LinearProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+} from "@mui/material";
 import Menu from "../components/menu";
 import axios from "axios";
 import { useState } from "react";
@@ -24,12 +34,9 @@ export function ProfileMenu() {
       .then((res) => {
         setData(res.data);
       });
-    await axios.get(
-      `/api/profile/${profile}?nameonly=true`
-    )
-    .then((res) => {
-      setUser(res.data.user)
-    })
+    await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
+      setUser(res.data.user);
+    });
   }
   if (!data.length) {
     fetch();
@@ -76,28 +83,45 @@ export function ProfileMenu() {
     </Box>
   );
 }
-function DataTable(props:{user:any}) {
+function DataTable(props: { user: any }) {
   const tablerows = ["Posts", "Sex", "Admin", "Joined"];
-  const items = [props.user.count, props.user.sex, props.user?.admin ? "yes" : "no", `${timetoword_long(props.user.createdAt)} ago`];
+  const items = [
+    props.user.count,
+    props.user.sex,
+    props.user?.admin ? "yes" : "no",
+    `${timetoword_long(props.user.createdAt)} ago`,
+  ];
   return (
-    <TableContainer sx={{marginLeft: '50px', marginRight: '50px'}} component={Paper}>
-      <Table sx={{ width: '100%' }} aria-label="simple table">
+    <TableContainer
+      sx={{ marginLeft: "50px", marginRight: "50px" }}
+      component={Paper}
+    >
+      <Table sx={{ width: "100%" }} aria-label="simple table">
         <TableBody>
           {items.map((item, index) => (
             <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            > 
-              <TableCell component="th" scope="row" style={{fontSize: '18px'}}>
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell
+                component="th"
+                scope="row"
+                style={{ fontSize: "18px" }}
+              >
                 {tablerows[index]}
               </TableCell>
-              <TableCell component="th" scope="row" style={{fontSize: '18px'}}>
+              <TableCell
+                component="th"
+                scope="row"
+                style={{ fontSize: "18px" }}
+              >
                 {item}
               </TableCell>
-            </TableRow>))}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
-  )
+  );
 }
 export default function Profile() {
   const params = useParams();
@@ -105,47 +129,125 @@ export default function Profile() {
   const [search, setSearch] = useSearch();
   const [user, setUser] = useState<any>({});
   async function fetch() {
-    await axios.get(`/api/profile/${Number(params.id) || "self"}`)
-    .then(res  => {
-      setUser(res.data);
-    })
+    await axios
+      .get(`/api/profile/${Number(params.id) || "self"}`)
+      .then((res) => {
+        setUser(res.data);
+      });
   }
   if (profile !== Number(params.id) || "self") {
-    setProfile(Number(params.id) || "self");}
+    setProfile(Number(params.id) || "self");
+  }
   if (search) {
-    setSearch(false);}
+    setSearch(false);
+  }
   if (!Object.keys(user).length) {
-    fetch()
+    fetch();
   }
   return (
     <div>
-    <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', flexDirection: 'row'}}>
-      {!isMobile && <Menu key={profile && search}/>}
-      {!Object.keys(user).length ? <LinearProgress sx={{width: '100%'}} color="secondary"/> : user?.[0] !== 404 &&
-      <Paper sx={{maxHeight: '100vh', overflow: 'auto'}}>
-      <Box sx={{backgroundColor: 'primary.dark', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <Box sx={{width: isMobile ? '100vw' : '70vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <img src={user?.avatar || "https://metahkg.s3.ap-northeast-1.amazonaws.com/avatars/noavatar.png"}/>
-        <br/>
-        <div style={{marginLeft: '20px', height: '200px', display: 'flex', flexDirection:params.id === "self" ? 'column' : 'row'}}>
-          <h1 style={{color: 'white', alignSelf: 'center', paddingTop: params.id === "self" ? '50px' : '0px'}}>
-            <span style={{color: user.sex === "male" ? "#34aadc" : "red"}}>{user.user}</span> #{user.id}</h1>
-            <div style={{alignSelf: 'flex-start', marginTop: params.id === "self" ? "10px" : "0px"}}>
-          {params.id === "self" && <UploadAvatar/>}
-          </div>
-        </div>
+      <Box
+        sx={{
+          backgroundColor: "primary.dark",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        {!isMobile && <Menu key={profile && search} />}
+        {!Object.keys(user).length ? (
+          <LinearProgress sx={{ width: "100%" }} color="secondary" />
+        ) : (
+          user?.[0] !== 404 && (
+            <Paper sx={{ maxHeight: "100vh", overflow: "auto" }}>
+              <Box
+                sx={{
+                  backgroundColor: "primary.dark",
+                  minHeight: "100vh",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: isMobile ? "100vw" : "70vw",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={
+                      user?.avatar ||
+                      "https://metahkg.s3.ap-northeast-1.amazonaws.com/avatars/noavatar.png"
+                    }
+                  />
+                  <br />
+                  <div
+                    style={{
+                      marginLeft: "20px",
+                      height: "200px",
+                      display: "flex",
+                      flexDirection: params.id === "self" ? "column" : "row",
+                    }}
+                  >
+                    <h1
+                      style={{
+                        color: "white",
+                        alignSelf: "center",
+                        paddingTop: params.id === "self" ? "50px" : "0px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: user.sex === "male" ? "#34aadc" : "red",
+                        }}
+                      >
+                        {user.user}
+                      </span>{" "}
+                      #{user.id}
+                    </h1>
+                    <div
+                      style={{
+                        alignSelf: "flex-start",
+                        marginTop: params.id === "self" ? "10px" : "0px",
+                      }}
+                    >
+                      {params.id === "self" && <UploadAvatar />}
+                    </div>
+                  </div>
+                </Box>
+                <Box
+                  sx={{
+                    marginTop: "20px",
+                    maxWidth: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                  }}
+                >
+                  <DataTable user={user} />
+                </Box>
+                {isMobile && (
+                  <div style={{ marginTop: "20px" }}>
+                    <Link to={`/history/${params.id}`}>
+                      <Button
+                        sx={{ fontSize: "16px" }}
+                        variant="text"
+                        color="secondary"
+                      >
+                        View History
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </Box>
+            </Paper>
+          )
+        )}
       </Box>
-      <Box sx={{marginTop: '20px', maxWidth: '100%', display: 'flex', justifyContent: 'center', width: '100%'}}>
-        <DataTable user={user}/>
-      </Box>
-      {isMobile && <div style={{marginTop: '20px'}}>
-        <Link to={`/history/${params.id}`}>
-          <Button sx={{fontSize: '16px'}} variant="text" color="secondary">View History</Button>
-        </Link>
-      </div>}
-      </Box>
-      </Paper>}
-    </Box>
     </div>
-  )
+  );
 }

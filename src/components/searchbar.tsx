@@ -44,7 +44,7 @@ export default function SearchBar(props: {
   onChange:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
-  initvalue: string
+  initvalue: string;
 }) {
   return (
     <Search>

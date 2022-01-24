@@ -4,11 +4,14 @@ import parse from "html-react-parser";
 import date from "date-and-time";
 import { timetoword } from "../lib/common";
 import VoteButtons from "./votebuttons";
+import { PopUp } from "../lib/popup";
+import { useState } from "react";
 export default function Comment(props: {
   op: boolean;
   sex: boolean;
   id: number;
   tid: number;
+  userid: number;
   name: string;
   children: string;
   date: string;
@@ -17,8 +20,15 @@ export default function Comment(props: {
   vote: "up" | "down" | undefined;
 }) {
   function Tag(tprops: { children: string | JSX.Element | JSX.Element[] }) {
+    const [open, setOpen] = useState(false);
     return (
       <div style={{ display: "flex", fontSize: "16px", alignItems: "center" }}>
+        <PopUp withbutton open={open} setOpen={setOpen} title="User information" button={{text: "View Profile", link: `/profile/${props.userid}`}}>
+          <p style={{textAlign: 'center'}}>
+            {props.name}<br/>
+            #{props.userid}
+          </p>
+        </PopUp>
         <p
           style={{
             color: props.op ? "#F5BD1F" : "#aca9a9",
@@ -28,7 +38,9 @@ export default function Comment(props: {
         >
           #{props.id}
         </p>
-        <p
+        <a
+          className="cuserlink"
+          onClick={() => {setOpen(true)}}
           style={{
             color: props.sex ? "#34aadc" : "red",
             marginLeft: "10px",
@@ -40,10 +52,11 @@ export default function Comment(props: {
             lineHeight: "22px",
             maxHeight: "22px",
             wordBreak: "keep-all",
+            cursor: "pointer"
           }}
         >
           {tprops.children}
-        </p>
+        </a>
         <Tooltip
           title={date.format(new Date(props.date), "ddd, MMM DD YYYY HH:mm:ss")}
           arrow

@@ -38,15 +38,19 @@ async function uploadtos3(filename) {
 }
 async function compress(filename) {
   const width = 200,
-  r = width / 2,
-  circleShape = Buffer.from(`<svg><circle cx="${r}" cy="${r}" r="${r}" /></svg>`);
+    r = width / 2,
+    circleShape = Buffer.from(
+      `<svg><circle cx="${r}" cy="${r}" r="${r}" /></svg>`
+    );
   await sharp(filename)
-  .resize(width, width)
-  .composite([{
-      input: circleShape,
-      blend: 'dest-in'
-  }])
-  .toFile(`${filename}.png`);
+    .resize(width, width)
+    .composite([
+      {
+        input: circleShape,
+        blend: "dest-in",
+      },
+    ])
+    .toFile(`${filename}.png`);
   fs.rm(filename, () => {});
   return;
 }
@@ -86,7 +90,7 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
     await uploadtos3(`uploads/${file.originalname}`);
     const url = `https://metahkg.s3.ap-northeast-1.amazonaws.com/avatars/${user.id}`;
     await users.updateOne({ id: user.id }, { $set: { avatar: url } });
-    res.redirect('/profile/self')
+    res.redirect("/profile/self");
     fs.rm(`uploads/${file.originalname}`, (err) => {});
   } finally {
     await client.close();

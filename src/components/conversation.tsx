@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, LinearProgress, Paper } from "@mui/material";
 import Comment from "./comment";
 import Title from "./title";
 import axios from "axios";
 import DOMPurify from "dompurify";
+import { Notification } from "../lib/notification";
 let o: JSX.Element[] = [];
 let conversation: any = {};
 let users: any = {};
@@ -14,6 +15,7 @@ export default function Conversation(props: { id: number }) {
     ready: false,
     error: "",
   });
+  const [notify, setNotify] = useState({open: false, text: ""});
   async function getdata() {
     await axios
       .get(`/api/thread/${props.id}/conversation`)
@@ -59,22 +61,23 @@ export default function Conversation(props: { id: number }) {
           up={entry[1].up | 0}
           down={entry[1].down | 0}
           vote={uservotes?.[entry[0]]}
+          userid={entry[1].user}
         >
           {DOMPurify.sanitize(entry[1]?.comment)}
         </Comment>
       );
     });
   }
-  if (state.error) {
-    return <h1 style={{ color: "white" }}>{state.error}</h1>;
+  if (state.error && !notify.open) {
+    setNotify({open: true, text: state.error});
   }
-  !state.ready ? getdata() : build();
+  !state.ready ? !state.error && getdata() : build();
   return (
     <div className="conversation" style={{ minHeight: "100vh" }}>
-      {!state.ready ? (
+      <Notification notify={notify} setNotify={setNotify}/>
+      {!state.error && <div>
+      {!state.ready && (
         <LinearProgress sx={{ width: "100%" }} color="secondary" />
-      ) : (
-        <div />
       )}
       <Title
         slink={slink}
@@ -84,6 +87,7 @@ export default function Conversation(props: { id: number }) {
       <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 61px)" }}>
         <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>{o}</Box>
       </Paper>
+      </div>}
     </div>
   );
 }

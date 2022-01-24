@@ -12,7 +12,7 @@ export default function MenuProvider(props: { children: JSX.Element }) {
         category: [category, setCategory],
         id: [id, setId],
         search: [search, useSearch],
-        profile: [profile, setProfile]
+        profile: [profile, setProfile],
       }}
     >
       {props.children}
