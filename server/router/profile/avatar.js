@@ -21,20 +21,20 @@ async function uploadtos3(filename) {
       .pop()
       .replace("jpg", "jpeg")
       .replace("svg", "svg+xml")}`,
+    CacheConfig: "no-cache"
   };
   const fileStream = fs.createReadStream(filename);
   fileStream.on("error", function (err) {
     console.log("File Error", err);
   });
   uploadParams.Body = fileStream;
-  s3.upload(uploadParams, (err, data) => {
-    if (err) {
-      console.log("Error", err);
+  const result = await s3.upload(uploadParams).promise();
+    if (result.err) {
+      console.log("Error", result.err);
     }
-    if (data) {
-      console.log("Upload Success", data.Location);
+    if (result.data) {
+      console.log("Upload Success", result.data.Location);
     }
-  });
 }
 async function compress(filename) {
   const width = 200,

@@ -1,11 +1,11 @@
 const express = require("express");
-const is_number = require("is-number");
+const isInteger = require("is-sn-integer");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 const router = express.Router();
 router.get("/api/history/:id", async (req, res) => {
   if (
-    (!is_number(req.params.id) && !req.params.id === "self") ||
+    (!isInteger(req.params.id) && !req.params.id === "self") ||
     (req.query.sort !== "post" && req.query.sort !== "comments")
   ) {
     res.status(400);

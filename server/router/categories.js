@@ -4,16 +4,16 @@
 const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
-const isNumber = require("is-number");
+const isInteger = require("is-sn-integer");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../common");
 router.get("/api/categories/:id", body_parser.json(), async (req, res) => {
   if (
     (req.params.id !== "all" &&
-      !isNumber(req.params.id) &&
+      !isInteger(req.params.id) &&
       !req.params.id.startsWith("bytid")) ||
     (req.params.id.startsWith("bytid") &&
-      !isNumber(req.params.id.replace("bytid", "")))
+      !isInteger(req.params.id.replace("bytid", "")))
   ) {
     res.status(400);
     res.send("Bad request.");
