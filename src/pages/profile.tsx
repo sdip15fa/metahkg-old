@@ -232,7 +232,7 @@ export default function Profile() {
                 </Box>
                 {isMobile && (
                   <div style={{ marginTop: "20px" }}>
-                    <Link to={`/history/${params.id}`}>
+                    <Link to={`/history/${params.id}`} style={{textDecoration: 'none'}}>
                       <Button
                         sx={{ fontSize: "16px" }}
                         variant="text"

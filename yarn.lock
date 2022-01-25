@@ -6315,6 +6315,13 @@ is-shared-array-buffer@^1.0.1:
   resolved "https://registry.npmjs.org/is-shared-array-buffer/-/is-shared-array-buffer-1.0.1.tgz"
   integrity sha512-IU0NmyknYZN0rChcKhRO1X8LYz5Isj/Fsqh8NJOSf+N/hCOTwy29F32Ik7a+QszE63IdvmwdTPDd6cZ5pg4cwA==
 
+is-sn-integer@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/is-sn-integer/-/is-sn-integer-0.1.0.tgz#2164accb694a82faed17254e340d14f90c91f772"
+  integrity sha512-1asZtURP+VWg4wyrLCfxz+4AQko3LGOGDnJ9RsK1HTxhIgyk/PlO3V4nZgGTgqCp11/ld+Nx8NfEF2SYNrGQIQ==
+  dependencies:
+    is-number "^7.0.0"
+
 is-stream@^1.0.0, is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/is-stream/-/is-stream-1.1.0.tgz"

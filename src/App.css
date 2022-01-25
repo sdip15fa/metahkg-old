@@ -63,7 +63,7 @@ a:active {
   color: #fbc308;
   will-change: color;
 }
-.votearrow .close svg:hover {
+.votearrow svg:hover, .close svg:hover {
   color: white;
   will-change: color;
 }

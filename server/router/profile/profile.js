@@ -1,10 +1,10 @@
 const express = require("express");
-const is_number = require("is-number");
+const isInteger = require("is-sn-integer");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 const router = express.Router();
 router.get("/api/profile/:id", async (req, res) => {
-  if (!is_number(req.params.id) && !req.params.id === "self") {
+  if (!isInteger(req.params.id) && !req.params.id === "self") {
     res.status(400);
     res.send("Bad request");
     return;

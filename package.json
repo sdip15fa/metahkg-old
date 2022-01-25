@@ -38,6 +38,7 @@
     "imagemin-jpegtran": "^7.0.0",
     "imagemin-pngquant": "^9.0.2",
     "is-number": "^7.0.0",
+    "is-sn-integer": "^0.1.0",
     "jsdom": "^19.0.0",
     "mailgun-js": "^0.22.0",
     "mongodb": "^4.2.2",

@@ -2,16 +2,16 @@
 //note: category 1 returns all categories
 //Syntax: GET /api/hottest/<category id>
 const express = require("express");
-const isNumber = require("is-number");
+const isInteger = require("is-sn-integer");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 const router = express.Router();
 router.get("/api/hottest/:category", async (req, res) => {
   if (
-    (!isNumber(req.params.category) &&
+    (!isInteger(req.params.category) &&
       !req.params.category.startsWith("bytid")) ||
     (req.params.category.startsWith("bytid") &&
-      !isNumber(req.params.category.replace("bytid", "")))
+      !isInteger(req.params.category.replace("bytid", "")))
   ) {
     res.status(400);
     res.send("Bad request.");
