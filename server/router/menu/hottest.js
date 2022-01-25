@@ -1,6 +1,6 @@
-//get hottest 20 threads in a category
-//note: category 1 returns all categories
-//Syntax: GET /api/hottest/<category id>
+// get hottest 20 threads in a category
+// note: category 1 returns all categories
+// Syntax: GET /api/hottest/<category id>
 const express = require("express");
 const isInteger = require("is-sn-integer");
 const { MongoClient } = require("mongodb");
