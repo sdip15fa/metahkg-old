@@ -21,7 +21,7 @@ async function uploadtos3(filename) {
       .pop()
       .replace("jpg", "jpeg")
       .replace("svg", "svg+xml")}`,
-    CacheConfig: "no-cache"
+    CacheConfig: "no-cache",
   };
   const fileStream = fs.createReadStream(filename);
   fileStream.on("error", function (err) {
@@ -29,12 +29,12 @@ async function uploadtos3(filename) {
   });
   uploadParams.Body = fileStream;
   const result = await s3.upload(uploadParams).promise();
-    if (result.err) {
-      console.log("Error", result.err);
-    }
-    if (result.data) {
-      console.log("Upload Success", result.data.Location);
-    }
+  if (result.err) {
+    console.log("Error", result.err);
+  }
+  if (result.data) {
+    console.log("Upload Success", result.data.Location);
+  }
 }
 async function compress(filename) {
   const width = 200;
