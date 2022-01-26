@@ -4,7 +4,7 @@ import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
 import { SearchMenu } from "../pages/search";
-import { useCat, useId, useProfile, useSearch } from "./MenuProvider";
+import { useCat, useId, useProfile, useSearch, useMenu } from "./MenuProvider";
 import { ProfileMenu } from "../pages/profile";
 function Menu() {
   const [data, setData] = React.useState<any>([]);
@@ -14,6 +14,8 @@ function Menu() {
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
   const [profile, setProfile] = useProfile();
+  const [menu, setMenu] = useMenu();
+  if (!menu) {return <div/>};
   if (search) {
     return <SearchMenu />;
   }
@@ -50,11 +52,8 @@ function Menu() {
         minHeight: "100vh",
       }}
     >
-      {!data.length ? (
-        <LinearProgress style={{ width: "100%" }} color="secondary" />
-      ) : (
-        <div />
-      )}
+      {!data.length &&
+        <LinearProgress style={{ width: "100%" }} color="secondary" />}
       <MenuTop
         title={cat.name}
         refresh={() => {
@@ -68,11 +67,7 @@ function Menu() {
         buttons={buttons}
       />
       <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 91px)" }}>
-        {!data.length ? (
-          <div />
-        ) : data[0] === 404 ? (
-          <div />
-        ) : (
+        {!!(data.length && data[0] !== 404) &&
           <div
             style={{
               display: "flex",
@@ -86,9 +81,9 @@ function Menu() {
               </div>
             ))}
           </div>
-        )}
+        }
       </Paper>
     </Box>
   );
 }
-export default memo(Menu);
+export default Menu;

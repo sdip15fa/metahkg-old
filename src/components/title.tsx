@@ -3,12 +3,15 @@ import {
   ArrowBack as ArrowBackIcon,
   Share as ShareIcon,
   Reply as ReplyIcon,
+  Link as LinkIcon,
   ContentCopy,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PopUp } from "../lib/popup";
 import { Notification } from "../lib/notification";
+import { isMobile } from "react-device-detect";
+import { useHistory } from "./HistoryProvider";
 export default function Title(props: {
   category: number | string;
   title: string;
@@ -16,6 +19,7 @@ export default function Title(props: {
 }) {
   const [open, setOpen] = useState(false);
   const [notify, setNotify] = useState({ open: false, text: "" });
+  const [history, setHistory] = useHistory();
   const copytext =
     props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
   return (
@@ -36,7 +40,7 @@ export default function Title(props: {
           }}
         >
           <TextField
-            sx={{ borderRadius: "0px", minWidth: "500px" }}
+            sx={{ borderRadius: "0px", minWidth: isMobile ? "300px" : "500px" }}
             multiline
             variant="outlined"
             fullWidth
@@ -44,14 +48,26 @@ export default function Title(props: {
             value={copytext}
           />
           <br />
+          <Tooltip title="Copy">
           <IconButton
             onClick={() => {
-              navigator.clipboard.writeText(copytext);
+              navigator.clipboard.writeText(props.slink);
               setNotify({ open: true, text: "Copied to Clipboard!" });
             }}
           >
             <ContentCopy sx={{ textAlign: "start" }} />
           </IconButton>
+          </Tooltip>
+          <Tooltip title="Copy link">
+          <IconButton
+             onClick={() => {
+              navigator.clipboard.writeText(props.slink);
+              setNotify({ open: true, text: "Link copied to Clipboard!" });
+            }}
+          >
+            <LinkIcon/>
+          </IconButton>
+          </Tooltip>
         </div>
       </PopUp>
       <div
@@ -76,7 +92,7 @@ export default function Title(props: {
             height: "100%",
           }}
         >
-          <Link to={`/category/${props.category}`}>
+          <Link to={history ||`/category/${props.category}`}>
             <IconButton>
               <ArrowBackIcon color="secondary" />
             </IconButton>
