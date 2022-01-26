@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { isMobile } from "react-device-detect";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import isInteger from 'is-sn-integer';
+import isInteger from "is-sn-integer";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";

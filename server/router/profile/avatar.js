@@ -21,7 +21,7 @@ async function uploadtos3(filename) {
       .pop()
       .replace("jpg", "jpeg")
       .replace("svg", "svg+xml")}`,
-    CacheConfig: "no-cache"
+    CacheConfig: "no-cache",
   };
   const fileStream = fs.createReadStream(filename);
   fileStream.on("error", function (err) {
