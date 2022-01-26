@@ -4,7 +4,7 @@ export function roundup(num: number, precision = 0): number {
   precision = Math.pow(10, precision);
   return Math.ceil(num * precision) / precision;
 }
-export function timetoword(sdate: string) : string {
+export function timetoword(sdate: string): string {
   const startDate = new Date(sdate);
   const endDate = new Date();
   const diff = endDate.getTime() - startDate.getTime();
@@ -16,7 +16,7 @@ export function timetoword(sdate: string) : string {
   r = r.split(" ");
   return r[0];
 }
-export function timetoword_long(sdate: string) : string {
+export function timetoword_long(sdate: string): string {
   const startDate = new Date(sdate);
   const endDate = new Date();
   const diff = endDate.getTime() - startDate.getTime();
