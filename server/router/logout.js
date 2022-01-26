@@ -1,5 +1,5 @@
-//logout
-//GET /api/logout
+// logout
+// GET /api/logout
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();

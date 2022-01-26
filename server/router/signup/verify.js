@@ -1,11 +1,11 @@
-//verify email
-/*Syntax: POST /api/verify
+// verify email
+/* Syntax: POST /api/verify
   {
     email (email used in sign up): string,
     code (verification code sent to user's email address): string
   }
 */
-//if successfully verified, sets a cookie "key" of user's key which is randomly generated
+// if successfully verified, sets a cookie "key" of user's key which is randomly generated
 require("dotenv").config();
 const express = require("express");
 const { MongoClient } = require("mongodb");

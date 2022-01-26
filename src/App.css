@@ -63,7 +63,8 @@ a:active {
   color: #fbc308;
   will-change: color;
 }
-.votearrow svg:hover, .close svg:hover {
+.votearrow svg:hover,
+.close svg:hover {
   color: white;
   will-change: color;
 }
@@ -77,5 +78,6 @@ a:active {
   border-radius: 0;
 }
 .svgwhite {
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%)
+    contrast(103%);
 }
