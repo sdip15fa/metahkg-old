@@ -27,8 +27,13 @@ export default function Empty() {
         }}
       >
         <div style={{ margin: "50px", width: "100%" }}>
-          <div style={{display: 'flex', alignItems: "center"}}>
-            <img className="svgwhite" height="40px" width="50px" src="/logo.svg"/>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              className="svgwhite"
+              height="40px"
+              width="50px"
+              src="/logo.svg"
+            />
             <h1 style={{ color: "white" }}>Metahkg</h1>
           </div>
           <List>

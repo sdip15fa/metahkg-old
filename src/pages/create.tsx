@@ -115,7 +115,7 @@ export default function Create() {
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
-        width: "100%"
+        width: "100%",
       }}
     >
       <div style={{ width: isMobile ? "100vw" : "80vw" }}>

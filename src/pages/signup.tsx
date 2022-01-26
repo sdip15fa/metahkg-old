@@ -158,7 +158,7 @@ export default function Register() {
         justifyContent: "center",
         minHeight: "100vh",
         height: "100%",
-        width: "100%"
+        width: "100%",
       }}
     >
       <Box sx={{ minHeight: "50vh", width: isMobile ? "100vw" : "50vw" }}>

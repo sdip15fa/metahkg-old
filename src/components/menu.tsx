@@ -15,7 +15,9 @@ function Menu() {
   const [search, setSearch] = useSearch();
   const [profile, setProfile] = useProfile();
   const [menu, setMenu] = useMenu();
-  if (!menu) {return <div/>};
+  if (!menu) {
+    return <div />;
+  }
   if (search) {
     return <SearchMenu />;
   }
@@ -52,8 +54,9 @@ function Menu() {
         minHeight: "100vh",
       }}
     >
-      {!data.length &&
-        <LinearProgress style={{ width: "100%" }} color="secondary" />}
+      {!data.length && (
+        <LinearProgress style={{ width: "100%" }} color="secondary" />
+      )}
       <MenuTop
         title={cat.name}
         refresh={() => {
@@ -67,7 +70,7 @@ function Menu() {
         buttons={buttons}
       />
       <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 91px)" }}>
-        {!!(data.length && data[0] !== 404) &&
+        {!!(data.length && data[0] !== 404) && (
           <div
             style={{
               display: "flex",
@@ -81,7 +84,7 @@ function Menu() {
               </div>
             ))}
           </div>
-        }
+        )}
       </Paper>
     </Box>
   );

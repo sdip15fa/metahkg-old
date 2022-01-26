@@ -140,11 +140,10 @@ export default function Profile() {
   const [history, setHistory] = useHistory();
   if (history !== window.location.pathname) {
     setHistory(window.location.pathname);
-  } 
+  }
   if (!menu && !isMobile) {
     setMenu(true);
-  }
-  else if (menu && isMobile) {
+  } else if (menu && isMobile) {
     setMenu(false);
   }
   if (profile !== Number(params.id) || "self") {
@@ -211,11 +210,13 @@ export default function Profile() {
                         alignSelf: "center",
                         paddingTop: params.id === "self" ? "50px" : "0px",
                         wordBreak: "break-all",
-                        maxWidth: isMobile ? "calc(100vw - 260px)" : "calc(70vw - 260px)",
+                        maxWidth: isMobile
+                          ? "calc(100vw - 260px)"
+                          : "calc(70vw - 260px)",
                         textOverflow: "ellipsis",
                         overflow: "hidden",
                         lineHeight: "35px",
-                        maxHeight: "35px"
+                        maxHeight: "35px",
                       }}
                     >
                       <span

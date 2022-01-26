@@ -83,7 +83,7 @@ export default function AddComment() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%"
+        width: "100%",
       }}
     >
       <div style={{ width: isMobile ? "100vw" : "80vw" }}>
