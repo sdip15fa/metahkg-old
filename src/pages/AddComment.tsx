@@ -4,11 +4,16 @@ import React, { useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { useMenu } from "../components/MenuProvider";
 import TextEditor from "../components/texteditor";
 import type { severity } from "../lib/common";
 let inittext = "";
 export default function AddComment() {
   const navigate = useNavigate();
+  const [menu, setMenu] = useMenu();
+  if (menu) {
+    setMenu(false);
+  }
   const [state, setState] = React.useState<{
     comment: string;
     disabled: boolean;
@@ -78,6 +83,7 @@ export default function AddComment() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        width: "100%"
       }}
     >
       <div style={{ width: isMobile ? "100vw" : "80vw" }}>

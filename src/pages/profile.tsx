@@ -16,10 +16,11 @@ import { isMobile } from "react-device-detect";
 import { useParams } from "react-router";
 import MenuThread from "../components/menu/thread";
 import MenuTop from "../components/menu/top";
-import { useProfile, useSearch } from "../components/MenuProvider";
+import { useMenu, useProfile, useSearch } from "../components/MenuProvider";
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
 import { Link } from "react-router-dom";
+import { useHistory } from "../components/HistoryProvider";
 export function ProfileMenu() {
   const [user, setUser] = useState("Metahkg");
   const [profile, setProfile] = useProfile();
@@ -105,14 +106,14 @@ function DataTable(props: { user: any }) {
               <TableCell
                 component="th"
                 scope="row"
-                style={{ fontSize: "18px" }}
+                style={{ fontSize: "16px" }}
               >
                 {tablerows[index]}
               </TableCell>
               <TableCell
                 component="th"
                 scope="row"
-                style={{ fontSize: "18px" }}
+                style={{ fontSize: "16px" }}
               >
                 {item}
               </TableCell>
@@ -128,12 +129,23 @@ export default function Profile() {
   const [profile, setProfile] = useProfile();
   const [search, setSearch] = useSearch();
   const [user, setUser] = useState<any>({});
+  const [menu, setMenu] = useMenu();
   async function fetch() {
     await axios
       .get(`/api/profile/${Number(params.id) || "self"}`)
       .then((res) => {
         setUser(res.data);
       });
+  }
+  const [history, setHistory] = useHistory();
+  if (history !== window.location.pathname) {
+    setHistory(window.location.pathname);
+  } 
+  if (!menu && !isMobile) {
+    setMenu(true);
+  }
+  else if (menu && isMobile) {
+    setMenu(false);
   }
   if (profile !== Number(params.id) || "self") {
     setProfile(Number(params.id) || "self");
@@ -154,7 +166,6 @@ export default function Profile() {
           flexDirection: "row",
         }}
       >
-        {!isMobile && <Menu key={profile && search} />}
         {!Object.keys(user).length ? (
           <LinearProgress sx={{ width: "100%" }} color="secondary" />
         ) : (
@@ -196,8 +207,15 @@ export default function Profile() {
                     <h1
                       style={{
                         color: "white",
+                        fontSize: "30px",
                         alignSelf: "center",
                         paddingTop: params.id === "self" ? "50px" : "0px",
+                        wordBreak: "break-all",
+                        maxWidth: isMobile ? "calc(100vw - 260px)" : "calc(70vw - 260px)",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        lineHeight: "35px",
+                        maxHeight: "35px"
                       }}
                     >
                       <span

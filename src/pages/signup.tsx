@@ -17,9 +17,14 @@ import HCaptcha from "@hcaptcha/react-hcaptcha";
 import isInteger from 'is-sn-integer';
 import queryString from "query-string";
 import { useNavigate } from "react-router";
+import { useMenu } from "../components/MenuProvider";
 declare const hcaptcha: any;
 function Sex(props: any) {
   const [sex, setSex] = React.useState("");
+  const [menu, setMenu] = useMenu();
+  if (menu) {
+    setMenu(false);
+  }
   const changeHandler = (e: any) => {
     props.changeHandler(e);
     setSex(e.target.value);
@@ -153,6 +158,7 @@ export default function Register() {
         justifyContent: "center",
         minHeight: "100vh",
         height: "100%",
+        width: "100%"
       }}
     >
       <Box sx={{ minHeight: "50vh", width: isMobile ? "100vw" : "50vw" }}>

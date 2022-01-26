@@ -9,7 +9,8 @@ import queryString from "query-string";
 import { useNavigate } from "react-router";
 import Empty from "../components/empty";
 import Menu from "../components/menu";
-import { useCat, useId, useSearch } from "../components/MenuProvider";
+import { useCat, useId, useMenu, useSearch } from "../components/MenuProvider";
+import { useHistory } from "../components/HistoryProvider";
 export function SearchMenu() {
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
@@ -111,6 +112,14 @@ export default function Search() {
   const [id, setId] = useId();
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
+  const [menu, setMenu] = useMenu();
+  const [history, setHistory] = useHistory();
+  if (history !== window.location.pathname) {
+    setHistory(window.location.pathname + window.location.search);
+  } 
+  if (!menu) {
+    setMenu(true);
+  }
   if (!search) {
     setSearch(true);
   }
@@ -123,7 +132,6 @@ export default function Search() {
         flexDirection: "row",
       }}
     >
-      <Menu key={search} />
       {!isMobile ? (
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
           <div

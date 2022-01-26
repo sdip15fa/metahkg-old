@@ -61,13 +61,23 @@ export default function SideBar() {
         >
           <div
             style={{
-              marginTop: "20px",
               maxWidth: "100%",
               width: "100%",
               justifyContent: "center",
-              display: "flex",
             }}
           >
+            <List style={{width: "100%"}}>
+            <Link to="/" style={{textDecoration: "none", color: "white"}}>
+              <ListItem button>
+                <ListItemIcon>
+                  <img className="svgwhite" width="24px" height="24px" src="/logo.svg"/>
+                </ListItemIcon>
+                <ListItemText>
+                  Metahkg
+                </ListItemText>
+              </ListItem>
+            </Link>
+            </List>
             <div style={{ marginLeft: "10px", marginRight: "10px" }}>
               <SearchBar
                 onChange={(e) => {

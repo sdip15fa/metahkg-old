@@ -2,19 +2,29 @@ import { Box } from "@mui/material";
 import { isMobile } from "react-device-detect";
 import { useParams } from "react-router";
 import Empty from "../components/empty";
+import { useHistory } from "../components/HistoryProvider";
 import Menu from "../components/menu";
 import {
   useCat,
   useId,
+  useMenu,
   useProfile,
   useSearch,
 } from "../components/MenuProvider";
 export default function Category() {
   const params = useParams();
   const [id, setId] = useId();
+  const [menu, setMenu] = useMenu();
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
   const [profile, setProfile] = useProfile();
+  const [history, setHistory] = useHistory();
+  if (history !== window.location.pathname) {
+    setHistory(window.location.pathname);
+  }
+  if (!menu) {
+    setMenu(true);
+  }
   if (category !== Number(params.category)) {
     setCategory(Number(params.category));
     setId(0);
@@ -34,9 +44,6 @@ export default function Category() {
         maxHeight: "100vh",
       }}
     >
-      <div style={{ width: isMobile ? "100vw" : "30vw" }}>
-        <Menu key={category} />
-      </div>
       {!isMobile && <Empty />}
     </Box>
   );

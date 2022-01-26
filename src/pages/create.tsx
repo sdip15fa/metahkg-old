@@ -14,6 +14,7 @@ import { isMobile } from "react-device-detect";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useMenu } from "../components/MenuProvider";
 declare const hcaptcha: any;
 type severity = "success" | "info" | "warning" | "error";
 function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
@@ -57,6 +58,10 @@ function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
 }
 export default function Create() {
   const navigate = useNavigate();
+  const [menu, setMenu] = useMenu();
+  if (menu) {
+    setMenu(false);
+  }
   const [state, setState] = React.useState<{
     htoken: string;
     title: string;
@@ -110,6 +115,7 @@ export default function Create() {
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
+        width: "100%"
       }}
     >
       <div style={{ width: isMobile ? "100vw" : "80vw" }}>

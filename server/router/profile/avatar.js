@@ -28,13 +28,7 @@ async function uploadtos3(filename) {
     console.log("File Error", err);
   });
   uploadParams.Body = fileStream;
-  const result = await s3.upload(uploadParams).promise();
-    if (result.err) {
-      console.log("Error", result.err);
-    }
-    if (result.data) {
-      console.log("Upload Success", result.data.Location);
-    }
+  await s3.upload(uploadParams).promise();
 }
 async function compress(filename) {
   const width = 200,

@@ -3,12 +3,19 @@ import { Box } from "@mui/material";
 import { useParams } from "react-router";
 import Menu from "../components/menu";
 import { isMobile } from "react-device-detect";
-import { useCat, useId, useSearch } from "../components/MenuProvider";
+import { useCat, useId, useMenu, useSearch } from "../components/MenuProvider";
 export default function Thread() {
   const params: any = useParams();
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
   const [id, setId] = useId();
+  const [menu, setMenu] = useMenu();
+  if (!menu && !isMobile) {
+    setMenu(true);
+  }
+  else if (menu && isMobile) {
+    setMenu(false);
+  }
   if (!category && !id) {
     const i = window.location.pathname.split("/");
     setId(i.pop() || i.pop());
@@ -22,11 +29,6 @@ export default function Thread() {
         flexDirection: "row",
       }}
     >
-      {!isMobile && (
-        <div style={{ width: "30vw" }}>
-          <Menu key={category && search} />
-        </div>
-      )}
       <div key={params.id} style={{ width: isMobile ? "100vw" : "70vw" }}>
         <Conversation id={params.id} />
       </div>

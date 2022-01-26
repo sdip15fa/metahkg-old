@@ -6,9 +6,14 @@ import { isMobile } from "react-device-detect";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import queryString from "query-string";
+import { useMenu } from "../components/MenuProvider";
 type severity = "success" | "info" | "warning" | "error";
 export default function Signin() {
   const navigate = useNavigate();
+  const [menu, setMenu] = useMenu();
+  if (menu) {
+    setMenu(false);
+  }
   const [state, setState] = React.useState<{
     user: string;
     pwd: string;
@@ -66,6 +71,7 @@ export default function Signin() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        width: '100%'
       }}
     >
       <Box sx={{ minHeight: "50vh", width: isMobile ? "100vw" : "50vw" }}>
