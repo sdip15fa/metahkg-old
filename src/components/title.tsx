@@ -50,6 +50,7 @@ export default function Title(props: {
           />
           <br />
           <Tooltip title="Copy">
+<<<<<<< HEAD
           <IconButton
             onClick={async () => {
               await navigator.clipboard.writeText(props.slink);
@@ -68,6 +69,26 @@ export default function Title(props: {
           >
             <LinkIcon/>
           </IconButton>
+=======
+            <IconButton
+              onClick={() => {
+                navigator.clipboard.writeText(props.slink);
+                setNotify({ open: true, text: "Copied to Clipboard!" });
+              }}
+            >
+              <ContentCopy sx={{ textAlign: "start" }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Copy link">
+            <IconButton
+              onClick={() => {
+                navigator.clipboard.writeText(props.slink);
+                setNotify({ open: true, text: "Link copied to Clipboard!" });
+              }}
+            >
+              <LinkIcon />
+            </IconButton>
+>>>>>>> 1f18e4a60c08ae4e95c0870002b40cf6dcbb6135
           </Tooltip>
         </div>
       </PopUp>
@@ -89,7 +110,7 @@ export default function Title(props: {
             height: "100%",
           }}
         >
-          <Link to={history ||`/category/${props.category}`}>
+          <Link to={history || `/category/${props.category}`}>
             <IconButton>
               <ArrowBackIcon color="secondary" />
             </IconButton>

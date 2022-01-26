@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { isMobile } from "react-device-detect";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import isInteger from 'is-sn-integer';
+import isInteger from "is-sn-integer";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
@@ -159,7 +159,7 @@ export default function Register() {
         justifyContent: "center",
         minHeight: "100vh",
         height: "100%",
-        width: "100%"
+        width: "100%",
       }}
     >
       <Box sx={{ minHeight: "50vh", width: isMobile ? "100vw" : "50vw" }}>

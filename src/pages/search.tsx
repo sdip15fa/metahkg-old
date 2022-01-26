@@ -115,7 +115,7 @@ export default function Search() {
   const [history, setHistory] = useHistory();
   if (history !== window.location.pathname) {
     setHistory(window.location.pathname + window.location.search);
-  } 
+  }
   if (!menu) {
     setMenu(true);
   }

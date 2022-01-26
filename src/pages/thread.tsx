@@ -10,8 +10,7 @@ export default function Thread() {
   const [menu, setMenu] = useMenu();
   if (!menu && !isMobile) {
     setMenu(true);
-  }
-  else if (menu && isMobile) {
+  } else if (menu && isMobile) {
     setMenu(false);
   }
   if (!category && !id) {

@@ -71,7 +71,7 @@ export default function Signin() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: '100%'
+        width: "100%",
       }}
     >
       <Box sx={{ minHeight: "50vh", width: isMobile ? "100vw" : "50vw" }}>

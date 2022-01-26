@@ -12,19 +12,19 @@ export default function History() {
   const [history, setHistory] = useHistory();
   if (!isMobile) {
     navigate(`/profile/${params.id}`);
+  } else {
+    if (!menu) {
+      setMenu(true);
+    }
+    if (history !== window.location.pathname) {
+      setHistory(window.location.pathname);
+    }
+    if (profile !== Number(params.id) || "self") {
+      setProfile(Number(params.id) || "self");
+    }
+    if (search) {
+      setSearch(false);
+    }
   }
-  else {
-  if (!menu) {
-    setMenu(true);
-  }
-  if (history !== window.location.pathname) {
-    setHistory(window.location.pathname);
-  }
-  if (profile !== Number(params.id) || "self") {
-    setProfile(Number(params.id) || "self");
-  }
-  if (search) {
-    setSearch(false);
-  }}
-  return <div/>;
+  return <div />;
 }
