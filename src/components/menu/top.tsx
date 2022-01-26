@@ -1,10 +1,10 @@
+import React from 'react';
 import {
   Add as AddIcon,
   Autorenew as AutorenewIcon,
 } from "@mui/icons-material";
 import { Box, Button, Divider, IconButton, Tooltip } from "@mui/material";
-import axios from "axios";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../sidebar";
 
@@ -23,26 +23,17 @@ export default function MenuTop(props: {
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
             width: "100%",
             alignItems: "center",
             height: "50px",
+            justifyContent: "space-between"
           }}
         >
-          <div style={{ paddingLeft: "10px" }}>
-            <SideBar />
+          <div style={{ paddingLeft: "10px", marginRight: "40px" }}>
+            <SideBar/>
           </div>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
             <p
               style={{
-                textAlign: "center",
                 color: "#F5BD1F",
                 fontSize: "18px",
                 marginTop: "0px",
@@ -52,8 +43,7 @@ export default function MenuTop(props: {
             >
               {props.title}
             </p>
-          </div>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <div style={{ display: "flex" }}>
             <Tooltip title="Refresh" arrow>
               <IconButton onClick={props.refresh}>
                 <AutorenewIcon style={{ color: "white" }} />
@@ -72,7 +62,6 @@ export default function MenuTop(props: {
           style={{
             fontSize: "20px",
             display: "flex",
-            flexDirection: "row",
             width: "100%",
             alignItems: "flex-end",
             height: "40px",

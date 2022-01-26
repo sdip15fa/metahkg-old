@@ -1,3 +1,4 @@
+import React from 'react';
 import { Close, Notifications } from "@mui/icons-material";
 import { Box, Snackbar } from "@mui/material";
 export function Notification(props: {

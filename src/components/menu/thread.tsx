@@ -1,3 +1,4 @@
+import React from 'react';
 import { Divider, Button, Typography } from "@mui/material";
 import {
   ThumbUp as ThumbUpIcon,
@@ -5,37 +6,32 @@ import {
 } from "@mui/icons-material";
 import { timetoword, roundup } from "../../lib/common";
 import { Link } from "react-router-dom";
-export default function MenuThread(props: { thread: any; category: number }) {
+export default function MenuThread(props: { thread: {op: string, id: number, title: string, category: number, sex:string, c: number, vote: number, catname: string, lastModified: string, createdAt: string}; category: number }) {
   return (
     <div>
       <Link
         style={{ width: "100%", textDecoration: "none" }}
         to={`/thread/${props.thread.id}`}
       >
-        <Button
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <Button sx={{width: "100%", display: "flex", flexDirection: "column"}}>
           <div
             style={{
               textTransform: "none",
               height: "35px",
-              width: "100%",
+              width: "100%"
             }}
           >
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
                 alignItems: "center",
                 width: "100%",
                 height: "35px",
                 marginLeft: "10px",
+                justifyContent: "space-between"
               }}
             >
+              <div style={{display: 'flex', alignItems: "center"}}>
               <p
                 style={{
                   color: props.thread.sex === "male" ? "#0277bd" : "red",
@@ -81,46 +77,28 @@ export default function MenuThread(props: { thread: any; category: number }) {
               >
                 {props.thread.vote}
               </p>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  width: "100%",
-                  paddingRight: "10px",
-                }}
-              >
+              </div>
                 <p
                   style={{
-                    textAlign: "end",
                     color: "#aca9a9",
                     fontSize: "12px",
+                    paddingRight: "10px"
                   }}
                 >
                   {roundup(props.thread.c / 10) +
                     ` page${roundup(props.thread.c / 10) > 1 ? "s" : ""}`}
                 </p>
-              </div>
             </div>
           </div>
           <div
             style={{
               display: "flex",
-              textTransform: "none",
-              height: "auto",
               width: "100%",
+              justifyContent: "space-between",
+              textTransform: "none",
+              alignItems: "center"
             }}
           >
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "left",
-                alignItems: "center",
-                lineHeight: "24px",
-                overflow: "hidden",
-                paddingRight: "30px",
-              }}
-            >
               <p
                 style={{
                   color: "white",
@@ -135,11 +113,11 @@ export default function MenuThread(props: { thread: any; category: number }) {
                   maxHeight: "40px",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  paddingRight: "30px",
                 }}
               >
                 {props.thread.title}
               </p>
-            </div>
             {props.category === 1 && (
               <Link
                 to={`/category/${props.thread.category}`}

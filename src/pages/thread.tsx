@@ -1,13 +1,11 @@
 import Conversation from "../components/conversation";
 import { Box } from "@mui/material";
 import { useParams } from "react-router";
-import Menu from "../components/menu";
 import { isMobile } from "react-device-detect";
 import { useCat, useId, useMenu, useSearch } from "../components/MenuProvider";
 export default function Thread() {
-  const params: any = useParams();
+  const params = useParams();
   const [category, setCategory] = useCat();
-  const [search, setSearch] = useSearch();
   const [id, setId] = useId();
   const [menu, setMenu] = useMenu();
   if (!menu && !isMobile) {
@@ -30,7 +28,7 @@ export default function Thread() {
       }}
     >
       <div key={params.id} style={{ width: isMobile ? "100vw" : "70vw" }}>
-        <Conversation id={params.id} />
+        <Conversation id={Number(params.id)} />
       </div>
     </Box>
   );

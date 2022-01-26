@@ -1,3 +1,4 @@
+import React from 'react';
 import { createContext, useContext, useState } from "react";
 const HistoryContext = createContext<any>({});
 export default function HistoryProvider(props: {children: JSX.Element}) {

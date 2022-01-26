@@ -1,3 +1,4 @@
+import React from 'react';
 import { Alert, Box } from "@mui/material";
 import axios from "axios";
 async function logout() {
@@ -6,7 +7,10 @@ async function logout() {
   window.history.back();
 }
 export default function Logout() {
-  logout();
+  logout().then(
+    () => {},
+    () => {},
+  );
   return (
     <Box
       sx={{

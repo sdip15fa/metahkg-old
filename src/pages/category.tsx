@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box } from "@mui/material";
 import { isMobile } from "react-device-detect";
 import { useParams } from "react-router";

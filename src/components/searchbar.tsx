@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled, alpha, InputBase } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import { KeyboardEventHandler } from "react";

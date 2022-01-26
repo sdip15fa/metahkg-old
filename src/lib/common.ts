@@ -1,6 +1,6 @@
 import humanizeDurationShortened from "humanize-duration-shortened-english";
 import humanizeDuration from "humanize-duration";
-export function roundup(num: number, precision: number = 0) {
+export function roundup(num: number, precision = 0): number {
   precision = Math.pow(10, precision);
   return Math.ceil(num * precision) / precision;
 }

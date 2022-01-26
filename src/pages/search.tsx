@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, LinearProgress, Paper } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
@@ -8,7 +9,6 @@ import SearchBar from "../components/searchbar";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import Empty from "../components/empty";
-import Menu from "../components/menu";
 import { useCat, useId, useMenu, useSearch } from "../components/MenuProvider";
 import { useHistory } from "../components/HistoryProvider";
 export function SearchMenu() {
@@ -36,7 +36,10 @@ export function SearchMenu() {
       });
   }
   if (!data.length) {
-    fetch();
+    fetch().then(
+      () => {},
+      () => {},
+    );
   }
   return (
     <Box
@@ -92,12 +95,8 @@ export function SearchMenu() {
         <Paper style={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
-              {!data.length ? (
-                <div />
-              ) : data[0] === 404 ? (
-                <div />
-              ) : (
-                data.map((thread: any) => (
+              {!!(data.length && data[0] !== 404) && (
+                data.map((thread: {op: string, id: number, title: string, category: number, sex:string, c: number, vote: number, catname: string, lastModified: string, createdAt: string}) => (
                   <MenuThread thread={thread} category={0} />
                 ))
               )}

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
 import parse from "html-react-parser";

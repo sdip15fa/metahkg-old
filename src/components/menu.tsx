@@ -42,7 +42,10 @@ function Menu() {
     setCat(ca);
   }
   if (!data.length) {
-    fetch();
+    fetch().then(
+      () => {},
+      () => {},
+    );
   }
   return (
     <Box

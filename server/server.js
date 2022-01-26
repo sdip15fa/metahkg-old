@@ -21,7 +21,7 @@ app.use(function (req, res, next) {
 app.use(cookieParser());
 app.use(require("./router"));
 app.use(express.static("build"));
-rootRouter.get("(/*)?", async (req, res, next) => {
+rootRouter.get("(/*)?", async (req, res) => {
   res.sendFile("index.html", { root: "build" });
 });
 app.use(rootRouter);

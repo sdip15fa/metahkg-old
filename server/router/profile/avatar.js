@@ -85,7 +85,7 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
     const url = `https://metahkg.s3.ap-northeast-1.amazonaws.com/avatars/${user.id}`;
     await users.updateOne({ id: user.id }, { $set: { avatar: url } });
     res.redirect("/profile/self");
-    fs.rm(`uploads/${file.originalname}`, (err) => {});
+    fs.rm(`uploads/${file.originalname}`, () => {});
   } finally {
     await client.close();
   }

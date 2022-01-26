@@ -11,6 +11,7 @@ import {
   MenuItem,
   InputLabel,
   Alert,
+  SelectChangeEvent,
 } from "@mui/material";
 import { isMobile } from "react-device-detect";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
@@ -18,15 +19,15 @@ import isInteger from 'is-sn-integer';
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
-declare const hcaptcha: any;
-function Sex(props: any) {
+declare const hcaptcha: {render: Function, remove: Function, execute: Function, reset: Function, close: Function, setData: Function, getResponse: Function, getRespKey: Function};
+function Sex(props: {changeHandler: ((e: SelectChangeEvent<string>, child: React.ReactNode | undefined) => void), disabled: boolean}) {
   const [sex, setSex] = React.useState("");
   const [menu, setMenu] = useMenu();
   if (menu) {
     setMenu(false);
   }
-  const changeHandler = (e: any) => {
-    props.changeHandler(e);
+  const changeHandler = (e: SelectChangeEvent<string>) => {
+    props.changeHandler(e, undefined);
     setSex(e.target.value);
   };
   return (
@@ -227,7 +228,7 @@ export default function Register() {
           >
             <Sex
               disabled={state.waiting}
-              changeHandler={(e: any) => {
+              changeHandler={(e) => {
                 setState({ ...state, sex: e.target.value ? "male" : "female" });
               }}
             />

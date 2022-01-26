@@ -1,4 +1,5 @@
 import "./App.css";
+import React from 'react';
 import Theme from "./lib/theme";
 import {
   BrowserRouter as Router,

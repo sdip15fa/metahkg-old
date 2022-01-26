@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import {
   ArrowBack as ArrowBackIcon,
@@ -50,8 +51,8 @@ export default function Title(props: {
           <br />
           <Tooltip title="Copy">
           <IconButton
-            onClick={() => {
-              navigator.clipboard.writeText(props.slink);
+            onClick={async () => {
+              await navigator.clipboard.writeText(props.slink);
               setNotify({ open: true, text: "Copied to Clipboard!" });
             }}
           >
@@ -60,8 +61,8 @@ export default function Title(props: {
           </Tooltip>
           <Tooltip title="Copy link">
           <IconButton
-             onClick={() => {
-              navigator.clipboard.writeText(props.slink);
+             onClick={async () => {
+              await navigator.clipboard.writeText(props.slink);
               setNotify({ open: true, text: "Link copied to Clipboard!" });
             }}
           >
@@ -73,22 +74,18 @@ export default function Title(props: {
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
           marginLeft: "10px",
           marginRight: "20px",
-          justifyContent: "flex-end",
           alignItems: "center",
           height: "100%",
+          justifyContent: "space-between"
         }}
       >
         <div
           style={{
-            width: "100%",
             maxWidth: "100%",
             display: "flex",
-            justifyContent: "left",
             alignItems: "center",
-            overflow: "hidden",
             height: "100%",
           }}
         >

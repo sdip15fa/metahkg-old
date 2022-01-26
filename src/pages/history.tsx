@@ -1,3 +1,4 @@
+import React from 'react';
 import { isMobile } from "react-device-detect";
 import { useNavigate, useParams } from "react-router";
 import { useMenu, useProfile, useSearch } from "../components/MenuProvider";

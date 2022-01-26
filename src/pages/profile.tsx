@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Button,
@@ -40,7 +41,10 @@ export function ProfileMenu() {
     });
   }
   if (!data.length) {
-    fetch();
+    fetch().then(
+      () => {},
+      () => {},
+    );
   }
   return (
     <Box
@@ -154,7 +158,10 @@ export default function Profile() {
     setSearch(false);
   }
   if (!Object.keys(user).length) {
-    fetch();
+    fetch().then(
+      () => {},
+      () => {},
+    );
   }
   return (
     <div>
