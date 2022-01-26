@@ -1,7 +1,7 @@
-//get conversation
-//Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
-//conversation: main conversation content
-//users: content of users involved in the conversation
+// get conversation
+// Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
+// conversation: main conversation content
+// users: content of users involved in the conversation
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");

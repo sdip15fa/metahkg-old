@@ -1,6 +1,6 @@
-//get summary 20 latest modified threads in a category
-//note: category 1 returns all categories
-//Syntax: GET /api/newest/<category id>
+// get summary 20 latest modified threads in a category
+// note: category 1 returns all categories
+// Syntax: GET /api/newest/<category id>
 const express = require("express");
 const isInteger = require("is-sn-integer");
 const { MongoClient } = require("mongodb");

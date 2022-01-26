@@ -21,7 +21,7 @@ async function uploadtos3(filename) {
       .pop()
       .replace("jpg", "jpeg")
       .replace("svg", "svg+xml")}`,
-    CacheConfig: "no-cache"
+    CacheConfig: "no-cache",
   };
   const fileStream = fs.createReadStream(filename);
   fileStream.on("error", function (err) {
@@ -31,11 +31,11 @@ async function uploadtos3(filename) {
   await s3.upload(uploadParams).promise();
 }
 async function compress(filename) {
-  const width = 200,
-    r = width / 2,
-    circleShape = Buffer.from(
-      `<svg><circle cx="${r}" cy="${r}" r="${r}" /></svg>`
-    );
+  const width = 200;
+  const r = width / 2;
+  const circleShape = Buffer.from(
+    `<svg><circle cx="${r}" cy="${r}" r="${r}" /></svg>`
+  );
   await sharp(filename)
     .resize(width, width)
     .composite([
@@ -46,7 +46,6 @@ async function compress(filename) {
     ])
     .toFile(`${filename}.png`);
   fs.rm(filename, () => {});
-  return;
 }
 router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
   const client = new MongoClient(mongouri);
