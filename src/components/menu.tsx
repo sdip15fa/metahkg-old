@@ -52,8 +52,10 @@ function Menu() {
     setCat(ca);
   }
   if (!data.length) {
-    fetch().then(() => {},
-    () => {});
+    fetch().then(
+      () => {},
+      () => {}
+    );
   }
   return (
     <Box

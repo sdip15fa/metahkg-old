@@ -150,7 +150,7 @@ export default function Register() {
           ...state,
           alert: { severity: "error", text: err.response.data },
           disabled: false,
-          htoken: ""
+          htoken: "",
         });
         hcaptcha.reset("");
       });
@@ -198,18 +198,18 @@ export default function Register() {
           )}
           {["user", "email", "pwd"].map((item, index) => (
             <TextField
-            sx={{ marginBottom: "20px", input: { color: "white" } }}
-            color="secondary"
-            disabled={state.waiting}
-            variant="filled"
-            type={item === "pwd" ? "password" : "text"}
-            onChange={(e) => {
-              setState({ ...state, [item]: e.target.value });
-            }}
-            label={["Username", "Email", "Password"][index]}
-            required
-            fullWidth
-          />
+              sx={{ marginBottom: "20px", input: { color: "white" } }}
+              color="secondary"
+              disabled={state.waiting}
+              variant="filled"
+              type={item === "pwd" ? "password" : "text"}
+              onChange={(e) => {
+                setState({ ...state, [item]: e.target.value });
+              }}
+              label={["Username", "Email", "Password"][index]}
+              required
+              fullWidth
+            />
           ))}
           <div
             style={width < 760 ? {} : { display: "flex", flexDirection: "row" }}

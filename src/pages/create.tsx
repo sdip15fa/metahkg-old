@@ -18,7 +18,10 @@ import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
 declare const hcaptcha: { reset: (e: string) => void };
-function ChooseCat(props: { errorHandler: (e:string) => void; changeHandler: (e:SelectChangeEvent<number>) => void; }) {
+function ChooseCat(props: {
+  errorHandler: (e: string) => void;
+  changeHandler: (e: SelectChangeEvent<number>) => void;
+}) {
   const [state, setState] = React.useState<{ data: any; cat: number }>({
     data: {},
     cat: 0,

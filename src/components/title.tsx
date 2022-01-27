@@ -75,9 +75,13 @@ export default function Title(props: {
             </IconButton>
           </Tooltip>
           <Tooltip title="Share on Telegram">
-            <a href={`tg://msg_url?text=${encodeURIComponent(props.title + "\n- Shared from Metahkg forum")}&url=${props.slink}`}>
+            <a
+              href={`tg://msg_url?text=${encodeURIComponent(
+                props.title + "\n- Shared from Metahkg forum"
+              )}&url=${props.slink}`}
+            >
               <IconButton>
-                <Telegram/>
+                <Telegram />
               </IconButton>
             </a>
           </Tooltip>

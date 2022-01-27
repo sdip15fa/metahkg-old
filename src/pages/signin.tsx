@@ -9,7 +9,7 @@ import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
 export default function Signin() {
-  document.title = "Sign in | Metahkg"
+  document.title = "Sign in | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();

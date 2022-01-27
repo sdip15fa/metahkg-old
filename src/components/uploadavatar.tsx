@@ -5,7 +5,8 @@ import { useRef } from "react";
 const Input = styled("input")({
   display: "none",
 });
-export default function UploadAvatar() { //button for uploading avatar
+export default function UploadAvatar() {
+  //button for uploading avatar
   const formRef = useRef<HTMLFormElement>(null);
   return (
     <Box>
