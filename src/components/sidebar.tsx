@@ -175,7 +175,7 @@ export default function SideBar() {
               </Link>
             ))}
           </List>
-          {localStorage.signedin &&
+          {localStorage.signedin && (
             <div>
               <Divider />
               <List>
@@ -192,7 +192,7 @@ export default function SideBar() {
                 </Link>
               </List>
             </div>
-          }
+          )}
         </Box>
       </Drawer>
     </div>

@@ -12,7 +12,7 @@ export default function MenuTop(props: {
   refresh: MouseEventHandler<HTMLButtonElement>;
   buttons: (string | undefined)[];
   selected: number;
-  onClick: (e:number) => void;
+  onClick: (e: number) => void;
 }) {
   return (
     <div>

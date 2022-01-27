@@ -41,8 +41,10 @@ export function ProfileMenu() {
     });
   }
   if (!data.length) {
-    fetch().then(() => {},
-    () => {});
+    fetch().then(
+      () => {},
+      () => {}
+    );
   }
   return (
     <Box

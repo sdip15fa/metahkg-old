@@ -38,8 +38,10 @@ export function SearchMenu() {
       });
   }
   if (!data.length) {
-    fetch().then(() => {},
-    () => {});
+    fetch().then(
+      () => {},
+      () => {}
+    );
   }
   return (
     <Box
@@ -141,7 +143,7 @@ export default function Search() {
         flexDirection: "row",
       }}
     >
-      {!(width < 760) &&
+      {!(width < 760) && (
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
           <div
             style={{
@@ -154,7 +156,7 @@ export default function Search() {
             <Empty />
           </div>
         </Paper>
-      }
+      )}
     </Box>
   );
 }
