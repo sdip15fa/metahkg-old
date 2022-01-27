@@ -48,9 +48,7 @@ export default function Empty() {
             <Link
               style={{ textDecoration: "none", color: "white" }}
               to={
-                localStorage.signedin
-                  ? "/logout"
-                  : `/signin?returnto=${window.location.pathname}`
+                `/${localStorage.signedin ? "logout" : "signin"}?returnto=${window.location.pathname}`
               }
             >
               <ListItem button sx={{ width: "100%" }}>

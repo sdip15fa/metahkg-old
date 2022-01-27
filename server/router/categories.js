@@ -37,7 +37,7 @@ router.get("/api/categories/:id", body_parser.json(), async (req, res) => {
       const s = await summary.findOne({
         id: Number(req.params.id.replace("bytid", "")),
       });
-      const c = await categories.findOne({ id: s.category });
+      const c = await categories.findOne({ id: s?.category });
       if (!c) {
         res.status(404);
         res.send("Not found.");

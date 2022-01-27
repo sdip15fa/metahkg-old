@@ -120,9 +120,7 @@ export default function SideBar() {
             <Link
               style={{ textDecoration: "none", color: "white" }}
               to={
-                localStorage.signedin
-                  ? "/logout"
-                  : `/signin?returnto=${window.location.pathname}`
+                `/${localStorage.signedin ? "logout" : "signin"}?returnto=${window.location.pathname}`
               }
             >
               <ListItem button onClick={onClick}>
