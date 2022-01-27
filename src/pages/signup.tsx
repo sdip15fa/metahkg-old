@@ -188,14 +188,14 @@ export default function Register() {
           >
             Register a Metahkg account
           </h1>
-          {state.alert.text &&
+          {state.alert.text && (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "30px" }}
               severity={state.alert.severity}
             >
               {state.alert.text}
             </Alert>
-          }
+          )}
           {["user", "email", "pwd"].map((item, index) => (
             <TextField
             sx={{ marginBottom: "20px", input: { color: "white" } }}
@@ -212,11 +212,7 @@ export default function Register() {
           />
           ))}
           <div
-            style={
-              width < 760
-                ? {}
-                : { display: "flex", flexDirection: "row" }
-            }
+            style={width < 760 ? {} : { display: "flex", flexDirection: "row" }}
           >
             <Sex
               disabled={state.waiting}
