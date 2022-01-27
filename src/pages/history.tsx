@@ -10,7 +10,7 @@ export default function History() {
   const [search, setSearch] = useSearch();
   const [menu, setMenu] = useMenu();
   const [history, setHistory] = useHistory();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   if (!(width < 760)) {
     navigate(`/profile/${params.id}`);
   } else {

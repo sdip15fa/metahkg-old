@@ -8,14 +8,13 @@ import { useCat, useId, useProfile, useSearch, useMenu } from "./MenuProvider";
 import { ProfileMenu } from "../pages/profile";
 function Menu() {
   const [data, setData] = React.useState<any>([]);
-  console.log(data);
   const [cat, setCat] = React.useState({ id: 0, name: "Metahkg" });
   const [selected, setSelected] = React.useState(0);
-  const [id, setId] = useId();
-  const [category, setCategory] = useCat();
-  const [search, setSearch] = useSearch();
-  const [profile, setProfile] = useProfile();
-  const [menu, setMenu] = useMenu();
+  const [id] = useId();
+  const [category] = useCat();
+  const [search] = useSearch();
+  const [profile] = useProfile();
+  const [menu] = useMenu();
   if (search) {
     return (
       <div style={{ display: menu ? "flex" : "none" }}>
@@ -53,7 +52,8 @@ function Menu() {
     setCat(ca);
   }
   if (!data.length) {
-    fetch().then(function () {});
+    fetch().then(() => {},
+    () => {});
   }
   return (
     <Box

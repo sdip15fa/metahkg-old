@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 const MenuContext = createContext<any>({});
 export default function MenuProvider(props: { children: JSX.Element }) {
   const [category, setCategory] = useState(0);

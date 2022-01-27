@@ -42,6 +42,9 @@ export default function SideBar() {
       }
       setOpen(o);
     };
+  function onClick() {
+    setOpen(false);
+  }
   const links = ["/about", "/source"];
   let tempq = "";
   return (
@@ -73,13 +76,14 @@ export default function SideBar() {
           >
             <List sx={{ width: "100%" }}>
               <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                <ListItem button>
+                <ListItem button onClick={onClick}>
                   <ListItemIcon>
                     <img
                       className="svgwhite"
                       width="24px"
                       height="24px"
                       src="/logo.svg"
+                      alt="Metahkg"
                     />
                   </ListItemIcon>
                   <ListItemText>Metahkg</ListItemText>
@@ -115,7 +119,7 @@ export default function SideBar() {
                   : `/signin?returnto=${window.location.pathname}`
               }
             >
-              <ListItem button>
+              <ListItem button onClick={onClick}>
                 <ListItemIcon>
                   <AccountCircleIcon />
                 </ListItemIcon>
@@ -128,7 +132,7 @@ export default function SideBar() {
               style={{ textDecoration: "none", color: "white" }}
               to="/create"
             >
-              <ListItem button>
+              <ListItem button onClick={onClick}>
                 <ListItemIcon>
                   <CreateIcon />
                 </ListItemIcon>
@@ -149,6 +153,7 @@ export default function SideBar() {
                   fontSize: "16px",
                   lineHeight: "35px",
                 }}
+                onClick={onClick}
               >
                 {category[1]}
               </Link>
@@ -161,7 +166,7 @@ export default function SideBar() {
                 style={{ textDecoration: "none", color: "white" }}
                 to={links[index]}
               >
-                <ListItem button key={text}>
+                <ListItem button key={text} onClick={onClick}>
                   <ListItemIcon>
                     {index === 0 ? <InfoIcon /> : <CodeIcon />}
                   </ListItemIcon>
@@ -170,9 +175,7 @@ export default function SideBar() {
               </Link>
             ))}
           </List>
-          {!localStorage.signedin ? (
-            <div />
-          ) : (
+          {localStorage.signedin &&
             <div>
               <Divider />
               <List>
@@ -180,7 +183,7 @@ export default function SideBar() {
                   to="/profile/self"
                   style={{ textDecoration: "none", color: "white" }}
                 >
-                  <ListItem button>
+                  <ListItem button onClick={onClick}>
                     <ListItemIcon>
                       <ManageAccountsIcon />
                     </ListItemIcon>
@@ -189,7 +192,7 @@ export default function SideBar() {
                 </Link>
               </List>
             </div>
-          )}
+          }
         </Box>
       </Drawer>
     </div>

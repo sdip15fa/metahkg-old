@@ -7,18 +7,18 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import TextEditor from "../components/texteditor";
-
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
+import { severity } from "../lib/common";
 declare const hcaptcha: { reset: (e: string) => void };
-type severity = "success" | "info" | "warning" | "error";
-function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
+function ChooseCat(props: { errorHandler: (e:string) => void; changeHandler: (e:SelectChangeEvent<number>) => void; }) {
   const [state, setState] = React.useState<{ data: any; cat: number }>({
     data: {},
     cat: 0,
@@ -33,8 +33,8 @@ function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
         props.errorHandler(err.response.data);
       });
   }, []);
-  const changeHandler = (e: any) => {
-    setState({ ...state, cat: e.target.value });
+  const changeHandler = (e: SelectChangeEvent<number>) => {
+    setState({ ...state, cat: Number(e.target.value) });
     props.changeHandler(e);
   };
   return (
@@ -48,7 +48,7 @@ function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
             label="Category"
             onChange={changeHandler}
           >
-            {Object.entries(state.data).map((d: any, i) => (
+            {Object.entries(state.data).map((d: [string, any]) => (
               <MenuItem value={Number(d[0])}>{d[1]}</MenuItem>
             ))}
           </Select>
@@ -58,9 +58,10 @@ function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
   );
 }
 export default function Create() {
+  document.title = "Create topic | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   if (menu) {
     setMenu(false);
   }

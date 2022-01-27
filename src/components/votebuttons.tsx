@@ -4,7 +4,7 @@ import { Button, ButtonGroup, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { Notification } from "../lib/notification";
-export default function VoteButtons(props: {
+export default function VoteButtons(props: { //buttons for voting
   vote: "up" | "down" | undefined;
   id: number;
   cid: number;

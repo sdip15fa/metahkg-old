@@ -6,6 +6,7 @@ import {
   Reply as ReplyIcon,
   Link as LinkIcon,
   ContentCopy,
+  Telegram,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -19,8 +20,8 @@ export default function Title(props: {
 }) {
   const [open, setOpen] = useState(false);
   const [notify, setNotify] = useState({ open: false, text: "" });
-  const [history, setHistory] = useHistory();
-  const [width, setWidth] = useWidth();
+  const [history] = useHistory();
+  const [width] = useWidth();
   const copytext =
     props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
   return (
@@ -60,7 +61,7 @@ export default function Title(props: {
                 setNotify({ open: true, text: "Copied to Clipboard!" });
               }}
             >
-              <ContentCopy sx={{ textAlign: "start" }} />
+              <ContentCopy sx={{ textAlign: "start", fontSize: "22px" }} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Copy link">
@@ -72,6 +73,13 @@ export default function Title(props: {
             >
               <LinkIcon />
             </IconButton>
+          </Tooltip>
+          <Tooltip title="Share on Telegram">
+            <a href={`tg://msg_url?text=${encodeURIComponent(props.title + "\n- Shared from Metahkg forum")}&url=${props.slink}`}>
+              <IconButton>
+                <Telegram/>
+              </IconButton>
+            </a>
           </Tooltip>
         </div>
       </PopUp>

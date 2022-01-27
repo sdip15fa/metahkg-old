@@ -26,9 +26,10 @@ function Source() {
   return <div />;
 }
 export default function App() {
-  const [category, setCategory] = useCat();
-  const [menu, setMenu] = useMenu();
-  const [width, setWidth] = useWidth();
+  document.title = "Metahkg";
+  const [category] = useCat();
+  const [menu] = useMenu();
+  const [width] = useWidth();
   return (
     <Theme
       primary={{ main: "#222222" }}

@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { FormEventHandler, useRef } from "react";
+import { useRef } from "react";
 const Input = styled("input")({
   display: "none",
 });
-export default function UploadAvatar() {
+export default function UploadAvatar() { //button for uploading avatar
   const formRef = useRef<HTMLFormElement>(null);
   return (
     <Box>

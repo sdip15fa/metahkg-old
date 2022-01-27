@@ -101,7 +101,7 @@ export default function MenuThread(props: {
                   paddingRight: "10px",
                 }}
               >
-                {roundup(props.thread.c / 10) +
+                {String(roundup(props.thread.c / 10)) +
                   ` page${roundup(props.thread.c / 10) > 1 ? "s" : ""}`}
               </p>
             </div>

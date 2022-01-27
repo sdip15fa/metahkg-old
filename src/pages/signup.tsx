@@ -13,13 +13,13 @@ import {
   Alert,
   SelectChangeEvent,
 } from "@mui/material";
-
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import isInteger from "is-sn-integer";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
+import { severity } from "../lib/common";
 declare const hcaptcha: { reset: (e: string) => void };
 function Sex(props: {
   changeHandler: (
@@ -53,10 +53,10 @@ function Sex(props: {
     </FormControl>
   );
 }
-type severity = "success" | "info" | "warning" | "error";
 export default function Register() {
+  document.title = "Register | Metahkg";
   const navigate = useNavigate();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   const [state, setState] = React.useState<{
     user: string;
     email: string;
@@ -150,6 +150,7 @@ export default function Register() {
           ...state,
           alert: { severity: "error", text: err.response.data },
           disabled: false,
+          htoken: ""
         });
         hcaptcha.reset("");
       });
@@ -195,45 +196,21 @@ export default function Register() {
               {state.alert.text}
             </Alert>
           }
-          <TextField
+          {["user", "email", "pwd"].map((item, index) => (
+            <TextField
             sx={{ marginBottom: "20px", input: { color: "white" } }}
             color="secondary"
             disabled={state.waiting}
             variant="filled"
-            type="text"
+            type={item === "pwd" ? "password" : "text"}
             onChange={(e) => {
-              setState({ ...state, user: e.target.value });
+              setState({ ...state, [item]: e.target.value });
             }}
-            label="Username"
+            label={["Username", "Email", "Password"][index]}
             required
             fullWidth
           />
-          <TextField
-            sx={{ marginBottom: "20px", input: { color: "white" } }}
-            color="secondary"
-            disabled={state.waiting}
-            variant="filled"
-            type="email"
-            onChange={(e) => {
-              setState({ ...state, email: e.target.value });
-            }}
-            label="Email"
-            required
-            fullWidth
-          />
-          <TextField
-            sx={{ marginBottom: "20px", input: { color: "white" } }}
-            color="secondary"
-            disabled={state.waiting}
-            variant="filled"
-            type="password"
-            onChange={(e) => {
-              setState({ ...state, pwd: e.target.value });
-            }}
-            label="Password"
-            required
-            fullWidth
-          />
+          ))}
           <div
             style={
               width < 760

@@ -1,7 +1,6 @@
 import { Alert, Box, Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect } from "react";
-
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useWidth } from "../components/ContextProvider";
@@ -10,9 +9,10 @@ import TextEditor from "../components/texteditor";
 import type { severity } from "../lib/common";
 let inittext = "";
 export default function AddComment() {
+  document.title = "Comment | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   if (menu) {
     setMenu(false);
   }
