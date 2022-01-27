@@ -1,10 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Allow: /$
-Allow: /category/
-Allow: /thread/
-Allow: /register
-Allow: /signin
-Allow: /profile/
-Disallow: /
+Allow: /
 Sitemap: /sitemap.xml
