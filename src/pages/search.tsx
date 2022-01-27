@@ -12,15 +12,15 @@ import { useMenu, useSearch } from "../components/MenuProvider";
 import { useHistory, useWidth } from "../components/ContextProvider";
 import { summary } from "../lib/common";
 /*
-* Search menu component, rendered in ../components/menu if search is true
-* Returns a menu similar to the default one
-*/
+ * Search menu component, rendered in ../components/menu if search is true
+ * Returns a menu similar to the default one
+ */
 export function SearchMenu() {
   document.title = "Search | Metahkg";
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
   const [query, setQuery] = useState("");
-  const [,setHistory] = useHistory();
+  const [, setHistory] = useHistory();
   const [width] = useWidth();
   let tempq = "";
   const buttons = ["Relevance", "Created", "Last Comment"];
@@ -104,9 +104,9 @@ export function SearchMenu() {
           {
             <div style={{ maxWidth: "99%" }}>
               {!!(data.length && data[0] !== 404) &&
-                data.map(
-                  (thread: summary) => <MenuThread thread={thread} category={0} />
-                )}
+                data.map((thread: summary) => (
+                  <MenuThread thread={thread} category={0} />
+                ))}
             </div>
           }
         </Paper>

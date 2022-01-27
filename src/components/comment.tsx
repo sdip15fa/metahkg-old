@@ -8,11 +8,11 @@ import VoteButtons from "./votebuttons";
 import { PopUp } from "../lib/popup";
 import { useState } from "react";
 /*
-* Comment component renders a comment
-* which includes a title (Tag)
-* the comment body
-* and upvote and downvote buttons
-*/
+ * Comment component renders a comment
+ * which includes a title (Tag)
+ * the comment body
+ * and upvote and downvote buttons
+ */
 export default function Comment(props: {
   op: boolean; //is original poster (true | false)
   sex: boolean; //user sex
@@ -27,10 +27,10 @@ export default function Comment(props: {
   vote: "up" | "down" | undefined; //user's vote, if not voted or not signed in it would be undefined
 }) {
   /*
-  * Tag serves as a title for the comment
-  * renders user id, username (as children), 
-  * and a quote button for users to quote the comment
-  */
+   * Tag serves as a title for the comment
+   * renders user id, username (as children),
+   * and a quote button for users to quote the comment
+   */
   function Tag(tprops: { children: string | JSX.Element | JSX.Element[] }) {
     const [open, setOpen] = useState(false);
     return (

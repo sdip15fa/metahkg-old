@@ -8,15 +8,15 @@ import { useCat, useId, useProfile, useSearch, useMenu } from "./MenuProvider";
 import { ProfileMenu } from "../pages/profile";
 import { summary } from "../lib/common";
 /*
-* variables are from MenuProvider and can be changed in any components
-* returns SearchMenu if search = true
-* returns ProfileMenu if profile = true
-* else:
-* data is fetched by category or thread id
-* two tabs, newest and hottest which fetch different api urls:
-* /api/<"newest" | "hottest">/<category | 'bytid<thread id>'>
-* MenuThreads are rendered after data is fetched
-*/
+ * variables are from MenuProvider and can be changed in any components
+ * returns SearchMenu if search = true
+ * returns ProfileMenu if profile = true
+ * else:
+ * data is fetched by category or thread id
+ * two tabs, newest and hottest which fetch different api urls:
+ * /api/<"newest" | "hottest">/<category | 'bytid<thread id>'>
+ * MenuThreads are rendered after data is fetched
+ */
 function Menu() {
   const [data, setData] = React.useState<any>([]);
   const [cat, setCat] = React.useState({ id: 0, name: "Metahkg" });

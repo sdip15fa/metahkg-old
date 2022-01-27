@@ -41,10 +41,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 /*
-* A search bar
-* onChange and onKeyPress are for actions after event like clearing the data and re-search
-* initialvalue sets the initial value of the search bar
-*/
+ * A search bar
+ * onChange and onKeyPress are for actions after event like clearing the data and re-search
+ * initialvalue sets the initial value of the search bar
+ */
 export default function SearchBar(props: {
   onKeyPress: KeyboardEventHandler<HTMLDivElement>;
   onChange:

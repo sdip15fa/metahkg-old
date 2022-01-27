@@ -9,10 +9,10 @@ async function logout() {
   localStorage.clear();
 }
 /*
-* Logs a user out by clearing localStorage and 
-* sending a GET request to /api/logout, the server 
-* would then remove user's cookie "key"
-*/
+ * Logs a user out by clearing localStorage and
+ * sending a GET request to /api/logout, the server
+ * would then remove user's cookie "key"
+ */
 export default function Logout() {
   const [menu, setMenu] = useMenu();
   const navigate = useNavigate();
@@ -20,10 +20,9 @@ export default function Logout() {
   if (menu) {
     setMenu(false);
   }
-  logout().then(
-    () => {navigate(String(params.returnto || '/'));
-  }
-  );
+  logout().then(() => {
+    navigate(String(params.returnto || "/"));
+  });
   return (
     <Box
       sx={{

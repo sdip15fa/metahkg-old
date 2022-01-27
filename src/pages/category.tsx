@@ -11,13 +11,13 @@ import {
   useSearch,
 } from "../components/MenuProvider";
 /*
-* Component for /category/1
-* returns a box with template if width > 760
-* controls the menu component
-*/
+ * Component for /category/1
+ * returns a box with template if width > 760
+ * controls the menu component
+ */
 export default function Category() {
   const params = useParams();
-  const [,setId] = useId();
+  const [, setId] = useId();
   const [menu, setMenu] = useMenu();
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();

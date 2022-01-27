@@ -21,10 +21,10 @@ import { timetoword_long } from "../lib/common";
 import { Link } from "react-router-dom";
 import { useHistory, useWidth } from "../components/ContextProvider";
 /*
-* ProfileMenu returns posts that a user has posted
-* Renders a Menu without any threads if the user has posted nothing
-* Used in /profile/:id (if width >= 750) and /history/:id (id width < 750)
-*/
+ * ProfileMenu returns posts that a user has posted
+ * Renders a Menu without any threads if the user has posted nothing
+ * Used in /profile/:id (if width >= 750) and /history/:id (id width < 750)
+ */
 export function ProfileMenu() {
   const [user, setUser] = useState("Metahkg");
   const [profile] = useProfile();

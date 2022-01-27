@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router";
 import { useMenu, useProfile, useSearch } from "../components/MenuProvider";
 import { useHistory, useWidth } from "../components/ContextProvider";
 /*
-* History component for /history/:id
-* Controls the menu to show ProfileMenu, retrns nothing
-* Does its work only if width < 760
-*/
+ * History component for /history/:id
+ * Controls the menu to show ProfileMenu, retrns nothing
+ * Does its work only if width < 760
+ */
 export default function History() {
   const navigate = useNavigate();
   const params = useParams();
