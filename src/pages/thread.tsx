@@ -5,9 +5,9 @@ import { useParams } from "react-router";
 import { useCat, useId, useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 /*
-* Thread Component for /thread/:id
-* controls the menu and returns a Conversation
-*/
+ * Thread Component for /thread/:id
+ * controls the menu and returns a Conversation
+ */
 export default function Thread() {
   const params = useParams();
   const [category] = useCat();

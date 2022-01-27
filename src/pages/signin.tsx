@@ -9,12 +9,12 @@ import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
 /*
-* /signin
-* The Signin component collects data from user then send to the server /api/signin
-* If sign in is successful, a cookie "key" would be set by the server, which is the api key
-* If user is already signed in, he is redirected to /
-* After signing in, user is redirected to params.returnto if it exists, otherwise /
-*/
+ * /signin
+ * The Signin component collects data from user then send to the server /api/signin
+ * If sign in is successful, a cookie "key" would be set by the server, which is the api key
+ * If user is already signed in, he is redirected to /
+ * After signing in, user is redirected to params.returnto if it exists, otherwise /
+ */
 export default function Signin() {
   document.title = "Sign in | Metahkg";
   const navigate = useNavigate();

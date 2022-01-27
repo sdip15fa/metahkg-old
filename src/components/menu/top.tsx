@@ -8,11 +8,11 @@ import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../sidebar";
 /*
-* The top part of the menu consists of a title part 
-* (sidebar, title, refresh and create topic button link)
-* and a buttons part (normally two to three buttons)
-* which serve as tabs to decide the data fetch location
-*/
+ * The top part of the menu consists of a title part
+ * (sidebar, title, refresh and create topic button link)
+ * and a buttons part (normally two to three buttons)
+ * which serve as tabs to decide the data fetch location
+ */
 export default function MenuTop(props: {
   title: string;
   refresh: MouseEventHandler<HTMLButtonElement>;

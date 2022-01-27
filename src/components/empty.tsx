@@ -15,9 +15,9 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 /*
-* just a template for large screens if there's no content
-* e.g. /category/:id, in which there's no main content but only the menu
-*/
+ * just a template for large screens if there's no content
+ * e.g. /category/:id, in which there's no main content but only the menu
+ */
 export default function Empty() {
   const listitems = ["Create Topic", "About", "Source code"];
   const links = ["/create", "/about", "/source"];
@@ -30,7 +30,7 @@ export default function Empty() {
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
-          backgroundColor: "parmary.dark"
+          backgroundColor: "parmary.dark",
         }}
       >
         <div style={{ margin: "50px", width: "100%" }}>
@@ -47,9 +47,9 @@ export default function Empty() {
           <List>
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={
-                `/${localStorage.signedin ? "logout" : "signin"}?returnto=${window.location.pathname}`
-              }
+              to={`/${localStorage.signedin ? "logout" : "signin"}?returnto=${
+                window.location.pathname
+              }`}
             >
               <ListItem button sx={{ width: "100%" }}>
                 <ListItemIcon>

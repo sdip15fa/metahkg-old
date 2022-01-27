@@ -19,10 +19,10 @@ import { useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
 declare const hcaptcha: { reset: (e: string) => void }; //the hcaptcha object, defined to use hcaptcha.reload("")
 /*
-* A select list to choose category
-* props.errorHandler: executed if categories cannot to fetched
-* props.changehandler: used as a callback after user changes category selection
-*/
+ * A select list to choose category
+ * props.errorHandler: executed if categories cannot to fetched
+ * props.changehandler: used as a callback after user changes category selection
+ */
 function ChooseCat(props: {
   errorHandler: (e: string) => void;
   changeHandler: (e: SelectChangeEvent<number>) => void;
@@ -66,11 +66,11 @@ function ChooseCat(props: {
   );
 }
 /*
-* Create component for /create
-* renders a tinymce editor (for content) and a textfield (for title)
-* A captcha must be completed before a user can create a thread
-* The user must be signed in, otherwise he would be redirected to /signin
-*/
+ * Create component for /create
+ * renders a tinymce editor (for content) and a textfield (for title)
+ * A captcha must be completed before a user can create a thread
+ * The user must be signed in, otherwise he would be redirected to /signin
+ */
 export default function Create() {
   document.title = "Create topic | Metahkg";
   const navigate = useNavigate();
@@ -94,7 +94,8 @@ export default function Create() {
     disabled: false,
     alert: { severity: "info", text: "" },
   });
-  function create() { //sends data to /api/create
+  function create() {
+    //sends data to /api/create
     setState({
       ...state,
       alert: { severity: "info", text: "Creating topic..." },
