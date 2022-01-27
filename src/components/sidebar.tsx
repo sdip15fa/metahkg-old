@@ -20,6 +20,12 @@ import {
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import SearchBar from "./searchbar";
+/*
+* The sidebar used by Menu
+* link to metahkg frontpage, search bar, sign in/register/logout,
+* create topic, link to categories, about and source code,
+* at the bottom, if signed in, a link to /profile/self
+*/
 export default function SideBar() {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();

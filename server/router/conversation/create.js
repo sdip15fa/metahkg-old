@@ -68,7 +68,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const users = client.db("metahkg-threads").collection("users");
     const hottest = client.db("metahkg-threads").collection("hottest");
     const newcid =
-      ((await conversation.find().sort({ id: -1 }).limit(1).toArray())[0].id ||
+      ((await summary.find({}, {id: 1, _id: 0}).sort({ id: -1 }).limit(1).toArray())[0].id ||
         (await conversation.countDocuments({}))) + 1;
     const date = new Date();
     const slink = `https://l.wcyat.me/${

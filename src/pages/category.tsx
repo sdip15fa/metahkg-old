@@ -10,15 +10,20 @@ import {
   useProfile,
   useSearch,
 } from "../components/MenuProvider";
+/*
+* Component for /category/1
+* returns a box with template if width > 760
+* controls the menu component
+*/
 export default function Category() {
   const params = useParams();
-  const [id, setId] = useId();
+  const [,setId] = useId();
   const [menu, setMenu] = useMenu();
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
   const [profile, setProfile] = useProfile();
   const [history, setHistory] = useHistory();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   if (history !== window.location.pathname) {
     setHistory(window.location.pathname);
   }

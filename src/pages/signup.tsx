@@ -21,6 +21,11 @@ import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
 declare const hcaptcha: { reset: (e: string) => void };
+/*
+* Sex selector
+* props.disabled: set the Select as disabled if true
+* props.changeHandler: callback to use when user changes selection
+*/
 function Sex(props: {
   changeHandler: (
     e: SelectChangeEvent<string>,
@@ -53,6 +58,18 @@ function Sex(props: {
     </FormControl>
   );
 }
+/*
+* Register component for /register
+* initially 3 text fields and a Select list (Sex)
+* When verification is pending 
+* (waiting for user to type verification code sent to their email address),
+* there would be another textfield alongside Sex for the verification code
+* a captcha must be completed before registering, if registering fails,
+* the captcha would reload
+* process: register --> verify --> account created -->
+* redirect to params.returnto if exists, otherwise homepage after verification
+* If user already signed in, he is redirected to /
+*/
 export default function Register() {
   document.title = "Register | Metahkg";
   const navigate = useNavigate();

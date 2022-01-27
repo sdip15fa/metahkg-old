@@ -10,6 +10,10 @@ let conversation: any = {};
 let users: any = {};
 let uservotes: any = {};
 let slink = "";
+/*
+* Conversation component gets data from /api/thread/<thread id(props.id)>/<conversation/users>
+* Then renders it as Comments
+*/
 function Conversation(props: { id: number }) {
   const [state, setState] = React.useState<{ ready: boolean; error: string }>({
     ready: false,

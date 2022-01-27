@@ -10,12 +10,17 @@ import { useNavigate } from "react-router";
 import Empty from "../components/empty";
 import { useMenu, useSearch } from "../components/MenuProvider";
 import { useHistory, useWidth } from "../components/ContextProvider";
+import { summary } from "../lib/common";
+/*
+* Search menu component, rendered in ../components/menu if search is true
+* Returns a menu similar to the default one
+*/
 export function SearchMenu() {
   document.title = "Search | Metahkg";
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
   const [query, setQuery] = useState("");
-  const [history, setHistory] = useHistory();
+  const [,setHistory] = useHistory();
   const [width] = useWidth();
   let tempq = "";
   const buttons = ["Relevance", "Created", "Last Comment"];
@@ -100,18 +105,7 @@ export function SearchMenu() {
             <div style={{ maxWidth: "99%" }}>
               {!!(data.length && data[0] !== 404) &&
                 data.map(
-                  (thread: {
-                    op: string;
-                    id: number;
-                    title: string;
-                    category: number;
-                    sex: string;
-                    c: number;
-                    vote: number;
-                    catname: string;
-                    lastModified: string;
-                    createdAt: string;
-                  }) => <MenuThread thread={thread} category={0} />
+                  (thread: summary) => <MenuThread thread={thread} category={0} />
                 )}
             </div>
           }

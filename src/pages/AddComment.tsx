@@ -7,7 +7,15 @@ import { useWidth } from "../components/ContextProvider";
 import { useMenu } from "../components/MenuProvider";
 import TextEditor from "../components/texteditor";
 import type { severity } from "../lib/common";
-let inittext = "";
+let inittext = ""; //used for quoting
+/*
+* AddComment component for /comment/:id adds a comment
+* if user not signed in, he would be redirected to /signin
+* if thread with the specified id is not found, user would be redirected to /
+* Renders a tinymce editor for editing comment
+* if localStorage.reply exists, tinymce's initial content is set to localStorage.reply
+* captcha not needed
+*/
 export default function AddComment() {
   document.title = "Comment | Metahkg";
   const navigate = useNavigate();
@@ -52,7 +60,7 @@ export default function AddComment() {
       }
     });
   }, []);
-  function addcomment() {
+  function addcomment() { //send data to server /api/comment
     setState({
       ...state,
       disabled: true,
@@ -94,17 +102,16 @@ export default function AddComment() {
             Add a comment to thread id {id}:{" "}
             <Link to={`/thread/${id}`}>link</Link>
           </h2>
-          {!state.alert.text ? (
-            <div />
-          ) : (
+          {state.alert.text &&
             <Alert
               sx={{ marginTop: "10px", marginBottom: "10px" }}
               severity={state.alert.severity}
             >
               {state.alert.text}
             </Alert>
-          )}
+          }
           <TextEditor
+            key={id}
             text={inittext}
             changehandler={(v: any, e: any) => {
               setState({ ...state, comment: e.getContent() });

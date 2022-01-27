@@ -8,6 +8,11 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+/*
+* Template for browsers that are not supported
+* Currently not used
+* Does not work on IE
+*/
 export default function NotSupported() {
   return (
     <Box sx={{ backgroundColor: "primary.dark", minHeight: "100vh" }}>

@@ -4,8 +4,15 @@ import { Button, ButtonGroup, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { Notification } from "../lib/notification";
+/*
+* Buttons for voting
+* Disabled if user is not signed in
+* If upvote is clicked or has been previously clicked using a same account,
+* upvote button text color changes to green and downvote button disables.
+* For downvote, the same but color is red
+* Generates a notification in case of errors
+*/
 export default function VoteButtons(props: {
-  //buttons for voting
   vote: "up" | "down" | undefined;
   id: number;
   cid: number;

@@ -6,6 +6,7 @@ import {
   Info as InfoIcon,
 } from "@mui/icons-material";
 import {
+  Box,
   List,
   ListItem,
   ListItemIcon,
@@ -13,18 +14,23 @@ import {
   Paper,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+/*
+* just a template for large screens if there's no content
+* e.g. /category/:id, in which there's no main content but only the menu
+*/
 export default function Empty() {
   const listitems = ["Create Topic", "About", "Source code"];
   const links = ["/create", "/about", "/source"];
   const icons: JSX.Element[] = [<CreateIcon />, <InfoIcon />, <CodeIcon />];
   return (
     <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
-      <div
-        style={{
+      <Box
+        sx={{
           width: "70vw",
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
+          backgroundColor: "parmary.dark"
         }}
       >
         <div style={{ margin: "50px", width: "100%" }}>
@@ -69,7 +75,7 @@ export default function Empty() {
             ))}
           </List>
         </div>
-      </div>
+      </Box>
     </Paper>
   );
 }

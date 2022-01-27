@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 const MenuContext = createContext<any>({});
+/*
+* PRovide global values for controlling the menu
+*/
 export default function MenuProvider(props: { children: JSX.Element }) {
   const [category, setCategory] = useState(0);
   const [id, setId] = useState(0);

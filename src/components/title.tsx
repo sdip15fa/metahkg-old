@@ -13,8 +13,19 @@ import { useState } from "react";
 import { PopUp } from "../lib/popup";
 import { Notification } from "../lib/notification";
 import { useHistory, useWidth } from "./ContextProvider";
+/*
+* Thread title component
+* props.category: category of the thread'
+* props.title: title of the thread
+* props.slink: shortened link of the thread
+* renders: a link arrow to the previous category / search / profile / history, 
+* or if this is the first page of this session, /category/>category id>
+* title beside the arrow
+* comment (/comment) and share buttons at the right
+* share button opens a popup 
+*/
 export default function Title(props: {
-  category: number | string;
+  category: number;
   title: string;
   slink: string;
 }) {

@@ -46,7 +46,7 @@ router.post("/api/verify", body_parser.json(), async (req, res) => {
       digits: 30,
     });
     data.id =
-      ((await users.find().sort({ id: -1 }).limit(1).toArray())[0].id ||
+      ((await users.find({}, {id: 1, _id: 0}).sort({ id: -1 }).limit(1).toArray())[0].id ||
         (await users.countDocuments({}))) + 1;
     await users.insertOne(data);
     res.cookie("key", data.key, {

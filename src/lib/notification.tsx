@@ -1,6 +1,9 @@
 import React from "react";
 import { Close, Notifications } from "@mui/icons-material";
 import { Box, Snackbar } from "@mui/material";
+/*
+* Display a notification at the top right corner
+*/
 export function Notification(props: {
   notify: { open: boolean; text: string };
   setNotify: React.Dispatch<

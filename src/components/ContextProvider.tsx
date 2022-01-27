@@ -1,6 +1,11 @@
 import React from "react";
 import { createContext, useContext, useState } from "react";
 const Context = createContext<any>({});
+/*
+* allows components to access and change variables "history" and "width"
+* width is used to rerender the app to fit device size
+* history is used for the thread arrow
+*/
 export default function ContextProvider(props: { children: JSX.Element }) {
   const [history, setHistory] = useState("");
   const [width, setWidth] = useState(window.innerWidth);

@@ -35,8 +35,9 @@ export type summary = {
   op: string;
   sex: string;
   title: string;
-  category: string;
+  category: number;
   lastModified: string;
   createdAt: string;
   catname: string;
+  vote: number;
 };

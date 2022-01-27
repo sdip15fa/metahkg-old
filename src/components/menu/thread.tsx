@@ -4,21 +4,15 @@ import {
   ThumbUp as ThumbUpIcon,
   ThumbDown as ThumbDownIcon,
 } from "@mui/icons-material";
-import { timetoword, roundup } from "../../lib/common";
+import { timetoword, roundup, summary } from "../../lib/common";
 import { Link } from "react-router-dom";
+/*
+* A thread in the menu
+* Basic information about the thread is needed (see type summary in ../../lib/common)
+* category of the current menu is needed to decide whether category lebel is rendered or not
+*/
 export default function MenuThread(props: {
-  thread: {
-    op: string;
-    id: number;
-    title: string;
-    category: number;
-    sex: string;
-    c: number;
-    vote: number;
-    catname: string;
-    lastModified: string;
-    createdAt: string;
-  };
+  thread: summary;
   category: number;
 }) {
   return (

@@ -7,6 +7,11 @@ async function logout() {
   localStorage.clear();
   window.history.back();
 }
+/*
+* Logs a user out by clearing localStorage and 
+* sending a GET request to /api/logout, the server 
+* would then remove user's cookie "key"
+*/
 export default function Logout() {
   const [menu, setMenu] = useMenu();
   if (menu) {
