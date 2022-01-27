@@ -1,12 +1,12 @@
-//Create a topic
-/*Syntax: POST /api/create 
+// Create a topic
+/* Syntax: POST /api/create
 {
   icomment (initial comment) : string,
   htoken (hcaptcha token) : string,
   title : string,
   category : number
-}*/
-//only for human
+} */
+// only for human
 const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
@@ -68,8 +68,13 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const users = client.db("metahkg-threads").collection("users");
     const hottest = client.db("metahkg-threads").collection("hottest");
     const newcid =
-      ((await summary.find({}, {id: 1, _id: 0}).sort({ id: -1 }).limit(1).toArray())[0].id ||
-        (await conversation.countDocuments({}))) + 1;
+      ((
+        await summary
+          .find({}, { id: 1, _id: 0 })
+          .sort({ id: -1 })
+          .limit(1)
+          .toArray()
+      )[0].id || (await conversation.countDocuments({}))) + 1;
     const date = new Date();
     const slink = `https://l.wcyat.me/${
       (

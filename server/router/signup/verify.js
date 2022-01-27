@@ -1,11 +1,11 @@
-//verify email
-/*Syntax: POST /api/verify
+// verify email
+/* Syntax: POST /api/verify
   {
     email (email used in sign up): string,
     code (verification code sent to user's email address): string
   }
 */
-//if successfully verified, sets a cookie "key" of user's key which is randomly generated
+// if successfully verified, sets a cookie "key" of user's key which is randomly generated
 require("dotenv").config();
 const express = require("express");
 const { MongoClient } = require("mongodb");
@@ -46,8 +46,13 @@ router.post("/api/verify", body_parser.json(), async (req, res) => {
       digits: 30,
     });
     data.id =
-      ((await users.find({}, {id: 1, _id: 0}).sort({ id: -1 }).limit(1).toArray())[0].id ||
-        (await users.countDocuments({}))) + 1;
+      ((
+        await users
+          .find({}, { id: 1, _id: 0 })
+          .sort({ id: -1 })
+          .limit(1)
+          .toArray()
+      )[0].id || (await users.countDocuments({}))) + 1;
     await users.insertOne(data);
     res.cookie("key", data.key, {
       domain: process.env.domain,
