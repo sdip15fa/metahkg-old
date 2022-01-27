@@ -7,13 +7,12 @@ import { Box, Button, Divider, IconButton, Tooltip } from "@mui/material";
 import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../sidebar";
-
 export default function MenuTop(props: {
   title: string;
   refresh: MouseEventHandler<HTMLButtonElement>;
   buttons: (string | undefined)[];
   selected: number;
-  onClick: Function;
+  onClick: (e:number) => void;
 }) {
   return (
     <div>

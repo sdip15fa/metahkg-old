@@ -8,7 +8,10 @@
   background-color: #404040;
   border-radius: 10px;
 }
-
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #404040 #151515;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

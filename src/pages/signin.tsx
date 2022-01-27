@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import { Alert, Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import hash from "hash.js";
-
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import queryString from "query-string";
 import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
-type severity = "success" | "info" | "warning" | "error";
+import { severity } from "../lib/common";
 export default function Signin() {
+  document.title = "Sign in | Metahkg"
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   if (menu) {
     setMenu(false);
   }

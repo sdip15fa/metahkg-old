@@ -22,10 +22,10 @@ import { Link } from "react-router-dom";
 import { useHistory, useWidth } from "../components/ContextProvider";
 export function ProfileMenu() {
   const [user, setUser] = useState("Metahkg");
-  const [profile, setProfile] = useProfile();
+  const [profile] = useProfile();
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   const buttons = ["Created", "Last Comment"];
   async function fetch() {
     await axios
@@ -37,10 +37,12 @@ export function ProfileMenu() {
       });
     await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
       setUser(res.data.user);
+      document.title = `${res.data.user} | Metahkg`;
     });
   }
   if (!data.length) {
-    fetch().then(() => {});
+    fetch().then(() => {},
+    () => {});
   }
   return (
     <Box
@@ -117,12 +119,13 @@ export default function Profile() {
   const [search, setSearch] = useSearch();
   const [user, setUser] = useState<any>({});
   const [menu, setMenu] = useMenu();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   async function fetch() {
     await axios
       .get(`/api/profile/${Number(params.id) || "self"}`)
       .then((res) => {
         setUser(res.data);
+        document.title = `${res.data.user} | Metahkg`;
       });
   }
   const [history, setHistory] = useHistory();
@@ -184,6 +187,7 @@ export default function Profile() {
                       user?.avatar ||
                       "https://metahkg.s3.ap-northeast-1.amazonaws.com/avatars/noavatar.png"
                     }
+                    alt="User avatar"
                   />
                   <br />
                   <div

@@ -8,14 +8,15 @@ import SearchBar from "../components/searchbar";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import Empty from "../components/empty";
-import { useCat, useId, useMenu, useSearch } from "../components/MenuProvider";
+import { useMenu, useSearch } from "../components/MenuProvider";
 import { useHistory, useWidth } from "../components/ContextProvider";
 export function SearchMenu() {
+  document.title = "Search | Metahkg";
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
   const [query, setQuery] = useState("");
   const [history, setHistory] = useHistory();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   let tempq = "";
   const buttons = ["Relevance", "Created", "Last Comment"];
   const params = queryString.parse(window.location.search);
@@ -37,7 +38,8 @@ export function SearchMenu() {
       });
   }
   if (!data.length) {
-    fetch().then(() => {});
+    fetch().then(() => {},
+    () => {});
   }
   return (
     <Box
@@ -117,12 +119,10 @@ export function SearchMenu() {
   );
 }
 export default function Search() {
-  const [id, setId] = useId();
-  const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
   const [menu, setMenu] = useMenu();
   const [history, setHistory] = useHistory();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   if (history !== window.location.pathname) {
     setHistory(window.location.pathname + window.location.search);
   }
@@ -141,7 +141,7 @@ export default function Search() {
         flexDirection: "row",
       }}
     >
-      {!(width < 760) ? (
+      {!(width < 760) &&
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
           <div
             style={{
@@ -154,9 +154,7 @@ export default function Search() {
             <Empty />
           </div>
         </Paper>
-      ) : (
-        <div />
-      )}
+      }
     </Box>
   );
 }

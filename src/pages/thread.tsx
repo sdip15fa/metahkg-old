@@ -1,14 +1,15 @@
+import React from 'react';
 import Conversation from "../components/conversation";
 import { Box } from "@mui/material";
 import { useParams } from "react-router";
-import { useCat, useId, useMenu, useSearch } from "../components/MenuProvider";
+import { useCat, useId, useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 export default function Thread() {
   const params = useParams();
-  const [category, setCategory] = useCat();
+  const [category] = useCat();
   const [id, setId] = useId();
   const [menu, setMenu] = useMenu();
-  const [width, setWidth] = useWidth();
+  const [width] = useWidth();
   if (!menu && !(width < 760)) {
     setMenu(true);
   } else if (menu && width < 760) {

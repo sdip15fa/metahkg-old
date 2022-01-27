@@ -29,3 +29,4 @@ export function timetoword_long(sdate: string): string {
   return r[0];
 }
 export type severity = "success" | "info" | "warning" | "error";
+export type summary = {c: number, id: number, op: string, sex: string, title: string, category: string, lastModified: string, createdAt: string, catname: string}

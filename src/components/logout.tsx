@@ -1,12 +1,17 @@
 import React from "react";
 import { Alert, Box } from "@mui/material";
 import axios from "axios";
+import { useMenu } from "./MenuProvider";
 async function logout() {
   await axios.get("/api/logout");
   localStorage.clear();
   window.history.back();
 }
 export default function Logout() {
+  const [menu, setMenu] = useMenu();
+  if (menu) {
+    setMenu(false);
+  }
   logout().then(
     () => {},
     () => {}
