@@ -187,14 +187,14 @@ export default function Register() {
           >
             Register a Metahkg account
           </h1>
-          {state.alert.text &&
+          {state.alert.text && (
             <Alert
               sx={{ marginTop: "10px", marginBottom: "30px" }}
               severity={state.alert.severity}
             >
               {state.alert.text}
             </Alert>
-          }
+          )}
           <TextField
             sx={{ marginBottom: "20px", input: { color: "white" } }}
             color="secondary"
@@ -235,11 +235,7 @@ export default function Register() {
             fullWidth
           />
           <div
-            style={
-              width < 760
-                ? {}
-                : { display: "flex", flexDirection: "row" }
-            }
+            style={width < 760 ? {} : { display: "flex", flexDirection: "row" }}
           >
             <Sex
               disabled={state.waiting}
