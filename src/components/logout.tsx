@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Alert, Box } from "@mui/material";
 import axios from "axios";
 async function logout() {
@@ -9,7 +9,7 @@ async function logout() {
 export default function Logout() {
   logout().then(
     () => {},
-    () => {},
+    () => {}
   );
   return (
     <Box
@@ -21,7 +21,7 @@ export default function Logout() {
       }}
     >
       <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
-        <Alert style={{ marginTop: "30px", width: "50%" }} severity="info">
+        <Alert sx={{ marginTop: "30px", width: "50%" }} severity="info">
           Logging you out...
         </Alert>
       </div>

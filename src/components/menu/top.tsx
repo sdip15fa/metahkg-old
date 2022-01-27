@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Add as AddIcon,
   Autorenew as AutorenewIcon,
@@ -26,33 +26,33 @@ export default function MenuTop(props: {
             width: "100%",
             alignItems: "center",
             height: "50px",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <div style={{ paddingLeft: "10px", marginRight: "40px" }}>
-            <SideBar/>
+            <SideBar />
           </div>
-            <p
-              style={{
-                color: "#F5BD1F",
-                fontSize: "18px",
-                marginTop: "0px",
-                marginBottom: "0px",
-                userSelect: "none",
-              }}
-            >
-              {props.title}
-            </p>
+          <p
+            style={{
+              color: "#F5BD1F",
+              fontSize: "18px",
+              marginTop: "0px",
+              marginBottom: "0px",
+              userSelect: "none",
+            }}
+          >
+            {props.title}
+          </p>
           <div style={{ display: "flex" }}>
             <Tooltip title="Refresh" arrow>
               <IconButton onClick={props.refresh}>
-                <AutorenewIcon style={{ color: "white" }} />
+                <AutorenewIcon sx={{ color: "white" }} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Create topic" arrow>
               <Link style={{ display: "flex" }} to="/create">
                 <IconButton sx={{ marginRight: "10px" }}>
-                  <AddIcon style={{ color: "white" }} />
+                  <AddIcon sx={{ color: "white" }} />
                 </IconButton>
               </Link>
             </Tooltip>

@@ -1,8 +1,8 @@
-import React from 'react';
-import { isMobile } from "react-device-detect";
+import React from "react";
+
 import { useNavigate, useParams } from "react-router";
 import { useMenu, useProfile, useSearch } from "../components/MenuProvider";
-import { useHistory } from "../components/HistoryProvider";
+import { useHistory, useWidth } from "../components/ContextProvider";
 export default function History() {
   const navigate = useNavigate();
   const params = useParams();
@@ -10,7 +10,8 @@ export default function History() {
   const [search, setSearch] = useSearch();
   const [menu, setMenu] = useMenu();
   const [history, setHistory] = useHistory();
-  if (!isMobile) {
+  const [width, setWidth] = useWidth();
+  if (!(width < 760)) {
     navigate(`/profile/${params.id}`);
   } else {
     if (!menu) {

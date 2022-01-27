@@ -1,8 +1,7 @@
-import React from 'react';
+import React from "react";
 import { Box, LinearProgress, Paper } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { isMobile } from "react-device-detect";
 import MenuThread from "../components/menu/thread";
 import MenuTop from "../components/menu/top";
 import SearchBar from "../components/searchbar";
@@ -10,11 +9,13 @@ import queryString from "query-string";
 import { useNavigate } from "react-router";
 import Empty from "../components/empty";
 import { useCat, useId, useMenu, useSearch } from "../components/MenuProvider";
-import { useHistory } from "../components/HistoryProvider";
+import { useHistory, useWidth } from "../components/ContextProvider";
 export function SearchMenu() {
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
   const [query, setQuery] = useState("");
+  const [history, setHistory] = useHistory();
+  const [width, setWidth] = useWidth();
   let tempq = "";
   const buttons = ["Relevance", "Created", "Last Comment"];
   const params = queryString.parse(window.location.search);
@@ -36,10 +37,7 @@ export function SearchMenu() {
       });
   }
   if (!data.length) {
-    fetch().then(
-      () => {},
-      () => {},
-    );
+    fetch().then(() => {});
   }
   return (
     <Box
@@ -50,7 +48,7 @@ export function SearchMenu() {
         flexDirection: "row",
       }}
     >
-      <div style={{ width: isMobile ? "100vw" : "30vw" }}>
+      <div style={{ width: width < 760 ? "100vw" : "30vw" }}>
         {!data.length ? <LinearProgress color="secondary" /> : <div />}
         <MenuTop
           title="Search"
@@ -83,6 +81,7 @@ export function SearchMenu() {
                 if (e.key === "Enter" && tempq) {
                   setQuery(tempq);
                   setData([]);
+                  setHistory(`/search?q=${encodeURIComponent(tempq)}`);
                   navigate(`/search?q=${encodeURIComponent(tempq)}`);
                 }
               }}
@@ -92,14 +91,24 @@ export function SearchMenu() {
             />
           </div>
         </div>
-        <Paper style={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
+        <Paper sx={{ maxHeight: "calc(100vh - 151px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
-              {!!(data.length && data[0] !== 404) && (
-                data.map((thread: {op: string, id: number, title: string, category: number, sex:string, c: number, vote: number, catname: string, lastModified: string, createdAt: string}) => (
-                  <MenuThread thread={thread} category={0} />
-                ))
-              )}
+              {!!(data.length && data[0] !== 404) &&
+                data.map(
+                  (thread: {
+                    op: string;
+                    id: number;
+                    title: string;
+                    category: number;
+                    sex: string;
+                    c: number;
+                    vote: number;
+                    catname: string;
+                    lastModified: string;
+                    createdAt: string;
+                  }) => <MenuThread thread={thread} category={0} />
+                )}
             </div>
           }
         </Paper>
@@ -113,6 +122,7 @@ export default function Search() {
   const [search, setSearch] = useSearch();
   const [menu, setMenu] = useMenu();
   const [history, setHistory] = useHistory();
+  const [width, setWidth] = useWidth();
   if (history !== window.location.pathname) {
     setHistory(window.location.pathname + window.location.search);
   }
@@ -131,7 +141,7 @@ export default function Search() {
         flexDirection: "row",
       }}
     >
-      {!isMobile ? (
+      {!(width < 760) ? (
         <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
           <div
             style={{

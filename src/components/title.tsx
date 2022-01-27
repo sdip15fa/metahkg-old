@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import {
   ArrowBack as ArrowBackIcon,
@@ -11,8 +11,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PopUp } from "../lib/popup";
 import { Notification } from "../lib/notification";
-import { isMobile } from "react-device-detect";
-import { useHistory } from "./HistoryProvider";
+import { useHistory, useWidth } from "./ContextProvider";
 export default function Title(props: {
   category: number | string;
   title: string;
@@ -21,6 +20,7 @@ export default function Title(props: {
   const [open, setOpen] = useState(false);
   const [notify, setNotify] = useState({ open: false, text: "" });
   const [history, setHistory] = useHistory();
+  const [width, setWidth] = useWidth();
   const copytext =
     props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
   return (
@@ -41,7 +41,11 @@ export default function Title(props: {
           }}
         >
           <TextField
-            sx={{ borderRadius: "0px", minWidth: isMobile ? "300px" : "500px" }}
+            sx={{
+              borderRadius: "0px",
+              minWidth: width < 760 ? "300px" : "500px",
+              marginTop: 0,
+            }}
             multiline
             variant="outlined"
             fullWidth
@@ -50,29 +54,9 @@ export default function Title(props: {
           />
           <br />
           <Tooltip title="Copy">
-<<<<<<< HEAD
-          <IconButton
-            onClick={async () => {
-              await navigator.clipboard.writeText(props.slink);
-              setNotify({ open: true, text: "Copied to Clipboard!" });
-            }}
-          >
-            <ContentCopy sx={{ textAlign: "start" }} />
-          </IconButton>
-          </Tooltip>
-          <Tooltip title="Copy link">
-          <IconButton
-             onClick={async () => {
-              await navigator.clipboard.writeText(props.slink);
-              setNotify({ open: true, text: "Link copied to Clipboard!" });
-            }}
-          >
-            <LinkIcon/>
-          </IconButton>
-=======
             <IconButton
-              onClick={() => {
-                navigator.clipboard.writeText(props.slink);
+              onClick={async () => {
+                await navigator.clipboard.writeText(props.slink);
                 setNotify({ open: true, text: "Copied to Clipboard!" });
               }}
             >
@@ -81,14 +65,13 @@ export default function Title(props: {
           </Tooltip>
           <Tooltip title="Copy link">
             <IconButton
-              onClick={() => {
-                navigator.clipboard.writeText(props.slink);
+              onClick={async () => {
+                await navigator.clipboard.writeText(props.slink);
                 setNotify({ open: true, text: "Link copied to Clipboard!" });
               }}
             >
               <LinkIcon />
             </IconButton>
->>>>>>> 1f18e4a60c08ae4e95c0870002b40cf6dcbb6135
           </Tooltip>
         </div>
       </PopUp>
@@ -99,7 +82,7 @@ export default function Title(props: {
           marginRight: "20px",
           alignItems: "center",
           height: "100%",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
         }}
       >
         <div
@@ -145,7 +128,7 @@ export default function Title(props: {
             >
               <IconButton>
                 <ReplyIcon
-                  style={{ color: "white", height: "24px", width: "24px" }}
+                  sx={{ color: "white", height: "24px", width: "24px" }}
                 />
               </IconButton>
             </a>
@@ -156,7 +139,7 @@ export default function Title(props: {
                 setOpen(true);
               }}
             >
-              <ShareIcon style={{ color: "white", fontSize: "20px" }} />
+              <ShareIcon sx={{ color: "white", fontSize: "20px" }} />
             </IconButton>
           </Tooltip>
         </Box>

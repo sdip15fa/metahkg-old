@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { Box, LinearProgress, Paper } from "@mui/material";
 import Comment from "./comment";
 import Title from "./title";
@@ -10,7 +10,7 @@ let conversation: any = {};
 let users: any = {};
 let uservotes: any = {};
 let slink = "";
-export default function Conversation(props: { id: number }) {
+function Conversation(props: { id: number }) {
   const [state, setState] = React.useState<{ ready: boolean; error: string }>({
     ready: false,
     error: "",
@@ -45,6 +45,7 @@ export default function Conversation(props: { id: number }) {
           uservotes = res.data;
         });
     }
+    document.title = `${conversation.title} | Metahkg`;
     setState({ ...state, ready: true });
   }
   function build() {
@@ -85,7 +86,7 @@ export default function Conversation(props: { id: number }) {
             category={conversation.category}
             title={conversation.title}
           />
-          <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 61px)" }}>
+          <Paper sx={{ overflow: "auto", maxHeight: "calc(100vh - 61px)" }}>
             <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
               {o}
             </Box>
@@ -95,3 +96,4 @@ export default function Conversation(props: { id: number }) {
     </div>
   );
 }
+export default memo(Conversation);

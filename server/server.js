@@ -8,8 +8,9 @@ const app = express();
 setInterval(() => {
   setTimeout(() => {
     autodecrement();
-  }, 3600 * 1000);
-}, 3600 * 1000);
+  }, 7200 * 1000);
+}, 7200 * 1000);
+app.disable("x-powered-by");
 app.set("trust proxy", true);
 app.use(function (req, res, next) {
   res.setHeader(

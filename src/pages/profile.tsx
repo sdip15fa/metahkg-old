@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Button,
@@ -10,10 +10,8 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import Menu from "../components/menu";
 import axios from "axios";
 import { useState } from "react";
-import { isMobile } from "react-device-detect";
 import { useParams } from "react-router";
 import MenuThread from "../components/menu/thread";
 import MenuTop from "../components/menu/top";
@@ -21,12 +19,13 @@ import { useMenu, useProfile, useSearch } from "../components/MenuProvider";
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
 import { Link } from "react-router-dom";
-import { useHistory } from "../components/HistoryProvider";
+import { useHistory, useWidth } from "../components/ContextProvider";
 export function ProfileMenu() {
   const [user, setUser] = useState("Metahkg");
   const [profile, setProfile] = useProfile();
   const [data, setData] = useState<any>([]);
   const [selected, setSelected] = useState(0);
+  const [width, setWidth] = useWidth();
   const buttons = ["Created", "Last Comment"];
   async function fetch() {
     await axios
@@ -41,10 +40,7 @@ export function ProfileMenu() {
     });
   }
   if (!data.length) {
-    fetch().then(
-      () => {},
-      () => {},
-    );
+    fetch().then(() => {});
   }
   return (
     <Box
@@ -55,7 +51,7 @@ export function ProfileMenu() {
         flexDirection: "row",
       }}
     >
-      <div style={{ width: isMobile ? "100vw" : "30vw" }}>
+      <div style={{ width: width < 760 ? "100vw" : "30vw" }}>
         {!data.length && <LinearProgress color="secondary" />}
         <MenuTop
           title={user}
@@ -69,18 +65,13 @@ export function ProfileMenu() {
             setData([]);
           }}
         />
-        <Paper style={{ maxHeight: "calc(100vh - 91px)", overflow: "auto" }}>
+        <Paper sx={{ maxHeight: "calc(100vh - 91px)", overflow: "auto" }}>
           {
             <div style={{ maxWidth: "99%" }}>
-              {!data.length ? (
-                <div />
-              ) : data[0] === 404 ? (
-                <div />
-              ) : (
+              {!!(data.length && data[0] !== 404) &&
                 data.map((thread: any) => (
                   <MenuThread thread={thread} category={0} />
-                ))
-              )}
+                ))}
             </div>
           }
         </Paper>
@@ -107,18 +98,10 @@ function DataTable(props: { user: any }) {
             <TableRow
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell
-                component="th"
-                scope="row"
-                style={{ fontSize: "16px" }}
-              >
+              <TableCell component="th" scope="row" sx={{ fontSize: "16px" }}>
                 {tablerows[index]}
               </TableCell>
-              <TableCell
-                component="th"
-                scope="row"
-                style={{ fontSize: "16px" }}
-              >
+              <TableCell component="th" scope="row" sx={{ fontSize: "16px" }}>
                 {item}
               </TableCell>
             </TableRow>
@@ -134,6 +117,7 @@ export default function Profile() {
   const [search, setSearch] = useSearch();
   const [user, setUser] = useState<any>({});
   const [menu, setMenu] = useMenu();
+  const [width, setWidth] = useWidth();
   async function fetch() {
     await axios
       .get(`/api/profile/${Number(params.id) || "self"}`)
@@ -145,9 +129,9 @@ export default function Profile() {
   if (history !== window.location.pathname) {
     setHistory(window.location.pathname);
   }
-  if (!menu && !isMobile) {
+  if (!menu && !(width < 760)) {
     setMenu(true);
-  } else if (menu && isMobile) {
+  } else if (menu && width < 760) {
     setMenu(false);
   }
   if (profile !== Number(params.id) || "self") {
@@ -159,7 +143,7 @@ export default function Profile() {
   if (!Object.keys(user).length) {
     fetch().then(
       () => {},
-      () => {},
+      () => {}
     );
   }
   return (
@@ -189,7 +173,7 @@ export default function Profile() {
               >
                 <Box
                   sx={{
-                    width: isMobile ? "100vw" : "70vw",
+                    width: width < 760 ? "100vw" : "70vw",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -217,9 +201,10 @@ export default function Profile() {
                         alignSelf: "center",
                         paddingTop: params.id === "self" ? "50px" : "0px",
                         wordBreak: "break-all",
-                        maxWidth: isMobile
-                          ? "calc(100vw - 260px)"
-                          : "calc(70vw - 260px)",
+                        maxWidth:
+                          width < 760
+                            ? "calc(100vw - 260px)"
+                            : "calc(70vw - 260px)",
                         textOverflow: "ellipsis",
                         overflow: "hidden",
                         lineHeight: "35px",
@@ -256,7 +241,7 @@ export default function Profile() {
                 >
                   <DataTable user={user} />
                 </Box>
-                {isMobile && (
+                {width < 760 && (
                   <div style={{ marginTop: "20px" }}>
                     <Link
                       to={`/history/${params.id}`}

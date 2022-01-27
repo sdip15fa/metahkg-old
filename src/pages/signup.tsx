@@ -13,14 +13,21 @@ import {
   Alert,
   SelectChangeEvent,
 } from "@mui/material";
-import { isMobile } from "react-device-detect";
+
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import isInteger from "is-sn-integer";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
-declare const hcaptcha: {render: Function, remove: Function, execute: Function, reset: Function, close: Function, setData: Function, getResponse: Function, getRespKey: Function};
-function Sex(props: {changeHandler: ((e: SelectChangeEvent<string>, child: React.ReactNode | undefined) => void), disabled: boolean}) {
+import { useWidth } from "../components/ContextProvider";
+declare const hcaptcha: { reset: (e: string) => void };
+function Sex(props: {
+  changeHandler: (
+    e: SelectChangeEvent<string>,
+    child: React.ReactNode | undefined
+  ) => void;
+  disabled: boolean;
+}) {
   const [sex, setSex] = React.useState("");
   const [menu, setMenu] = useMenu();
   if (menu) {
@@ -49,6 +56,7 @@ function Sex(props: {changeHandler: ((e: SelectChangeEvent<string>, child: React
 type severity = "success" | "info" | "warning" | "error";
 export default function Register() {
   const navigate = useNavigate();
+  const [width, setWidth] = useWidth();
   const [state, setState] = React.useState<{
     user: string;
     email: string;
@@ -162,7 +170,12 @@ export default function Register() {
         width: "100%",
       }}
     >
-      <Box sx={{ minHeight: "50vh", width: isMobile ? "100vw" : "50vw" }}>
+      <Box
+        sx={{
+          minHeight: "50vh",
+          width: width < 760 ? "100vw" : "50vw",
+        }}
+      >
         <div style={{ margin: "50px" }}>
           <h1
             style={{
@@ -174,16 +187,14 @@ export default function Register() {
           >
             Register a Metahkg account
           </h1>
-          {!state.alert.text ? (
-            <div />
-          ) : (
+          {state.alert.text &&
             <Alert
               sx={{ marginTop: "10px", marginBottom: "30px" }}
               severity={state.alert.severity}
             >
               {state.alert.text}
             </Alert>
-          )}
+          }
           <TextField
             sx={{ marginBottom: "20px", input: { color: "white" } }}
             color="secondary"
@@ -224,7 +235,11 @@ export default function Register() {
             fullWidth
           />
           <div
-            style={isMobile ? {} : { display: "flex", flexDirection: "row" }}
+            style={
+              width < 760
+                ? {}
+                : { display: "flex", flexDirection: "row" }
+            }
           >
             <Sex
               disabled={state.waiting}
@@ -232,11 +247,11 @@ export default function Register() {
                 setState({ ...state, sex: e.target.value ? "male" : "female" });
               }}
             />
-            {isMobile ? <br /> : <div />}
+            {width < 760 ? <br /> : <div />}
             <div
               style={{
                 display: "flex",
-                justifyContent: isMobile ? "left" : "flex-end",
+                justifyContent: width < 760 ? "left" : "flex-end",
                 width: "100%",
               }}
             >
@@ -245,7 +260,9 @@ export default function Register() {
               ) : (
                 <TextField
                   color="secondary"
-                  style={{ marginTop: isMobile ? "20px" : "0px" }}
+                  sx={{
+                    marginTop: width < 760 ? "20px" : "0px",
+                  }}
                   variant="filled"
                   label="verification code"
                   onChange={(e) => {
@@ -258,7 +275,7 @@ export default function Register() {
           <br />
           <div
             style={
-              isMobile
+              width < 760
                 ? {}
                 : { display: "flex", flexDirection: "row", width: "100%" }
             }
@@ -277,10 +294,10 @@ export default function Register() {
             <div
               style={{
                 display: "flex",
-                justifyContent: isMobile ? "left" : "flex-end",
+                justifyContent: width < 760 ? "left" : "flex-end",
                 alignItems: "center",
                 width: "100%",
-                marginTop: isMobile ? "20px" : "0px",
+                marginTop: width < 760 ? "20px" : "0px",
               }}
             >
               <Button

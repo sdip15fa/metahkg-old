@@ -2,15 +2,17 @@ import React, { useEffect } from "react";
 import { Alert, Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import hash from "hash.js";
-import { isMobile } from "react-device-detect";
+
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import queryString from "query-string";
 import { useMenu } from "../components/MenuProvider";
+import { useWidth } from "../components/ContextProvider";
 type severity = "success" | "info" | "warning" | "error";
 export default function Signin() {
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
+  const [width, setWidth] = useWidth();
   if (menu) {
     setMenu(false);
   }
@@ -74,7 +76,12 @@ export default function Signin() {
         width: "100%",
       }}
     >
-      <Box sx={{ minHeight: "50vh", width: isMobile ? "100vw" : "50vw" }}>
+      <Box
+        sx={{
+          minHeight: "50vh",
+          width: width < 760 ? "100vw" : "50vw",
+        }}
+      >
         <div style={{ marginLeft: "50px", marginRight: "50px" }}>
           <div
             style={{

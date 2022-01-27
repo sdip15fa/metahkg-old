@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import MenuProvider from "./components/MenuProvider";
-import HistoryProvider from "./components/HistoryProvider";
+import ContextProvider from "./components/ContextProvider";
 ReactDOM.render(
-  <MenuProvider>
-    <HistoryProvider>
+  <ContextProvider>
+    <MenuProvider>
       <App />
-    </HistoryProvider>
-  </MenuProvider>,
+    </MenuProvider>
+  </ContextProvider>,
   document.getElementById("root")
 );

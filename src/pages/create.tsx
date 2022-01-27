@@ -10,12 +10,13 @@ import {
   TextField,
 } from "@mui/material";
 import TextEditor from "../components/texteditor";
-import { isMobile } from "react-device-detect";
+
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
-declare const hcaptcha: any;
+import { useWidth } from "../components/ContextProvider";
+declare const hcaptcha: { reset: (e: string) => void };
 type severity = "success" | "info" | "warning" | "error";
 function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
   const [state, setState] = React.useState<{ data: any; cat: number }>({
@@ -59,6 +60,7 @@ function ChooseCat(props: { errorHandler: Function; changeHandler: Function }) {
 export default function Create() {
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
+  const [width, setWidth] = useWidth();
   if (menu) {
     setMenu(false);
   }
@@ -118,7 +120,7 @@ export default function Create() {
         width: "100%",
       }}
     >
-      <div style={{ width: isMobile ? "100vw" : "80vw" }}>
+      <div style={{ width: width < 760 ? "100vw" : "80vw" }}>
         <div style={{ margin: "20px" }}>
           <h1 style={{ color: "white" }}>Create new topic</h1>
           {!state.alert.text ? (
@@ -132,7 +134,7 @@ export default function Create() {
             </Alert>
           )}
           <TextField
-            style={{ marginBottom: "20px" }}
+            sx={{ marginBottom: "20px" }}
             variant="outlined"
             color="secondary"
             fullWidth
@@ -159,7 +161,7 @@ export default function Create() {
           </div>
           <div
             style={
-              isMobile
+              width < 760
                 ? { marginTop: "20px" }
                 : {
                     display: "flex",
@@ -183,7 +185,7 @@ export default function Create() {
             <div
               style={{
                 display: "flex",
-                justifyContent: isMobile ? "left" : "flex-end",
+                justifyContent: width < 760 ? "left" : "flex-end",
                 alignItems: "center",
                 width: "100%",
               }}
@@ -193,7 +195,7 @@ export default function Create() {
                   state.disabled ||
                   !(state.icomment && state.title && state.htoken && state.cat)
                 }
-                style={{ marginTop: "20px", fontSize: "16px", height: "40px" }}
+                sx={{ marginTop: "20px", fontSize: "16px", height: "40px" }}
                 onClick={create}
                 variant="contained"
                 color="secondary"

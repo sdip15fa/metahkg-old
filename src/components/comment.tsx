@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
 import parse from "html-react-parser";
@@ -90,7 +90,7 @@ export default function Comment(props: {
               window.location.href = `/comment/${props.tid}`;
             }}
           >
-            <ReplyIcon style={{ fontSize: "19px", color: "#aca9a9" }} />
+            <ReplyIcon sx={{ fontSize: "19px", color: "#aca9a9" }} />
           </IconButton>
         </Tooltip>
       </div>

@@ -8,6 +8,7 @@ import { useCat, useId, useProfile, useSearch, useMenu } from "./MenuProvider";
 import { ProfileMenu } from "../pages/profile";
 function Menu() {
   const [data, setData] = React.useState<any>([]);
+  console.log(data);
   const [cat, setCat] = React.useState({ id: 0, name: "Metahkg" });
   const [selected, setSelected] = React.useState(0);
   const [id, setId] = useId();
@@ -15,18 +16,23 @@ function Menu() {
   const [search, setSearch] = useSearch();
   const [profile, setProfile] = useProfile();
   const [menu, setMenu] = useMenu();
-  if (!menu) {
-    return <div />;
-  }
   if (search) {
-    return <SearchMenu />;
+    return (
+      <div style={{ display: menu ? "flex" : "none" }}>
+        <SearchMenu />
+      </div>
+    );
   }
   if (profile) {
-    return <ProfileMenu />;
+    return (
+      <div style={{ display: menu ? "flex" : "none" }}>
+        <ProfileMenu />
+      </div>
+    );
   }
   const buttons = ["Newest", "Hottest"];
   async function fetch() {
-    const c = id ? `bytid${id}` : category;
+    const c: string | number = id ? `bytid${id}` : category;
     let d: any, ca: any;
     await axios
       .get(`/api/${selected === 0 ? "newest" : "hottest"}/${c}`)
@@ -40,14 +46,14 @@ function Menu() {
     await axios.get(`/api/categories/${c}`).then((res) => {
       ca = res.data;
     });
+    if (!id) {
+      document.title = `${ca.name} | Metahkg`;
+    }
     setData(d);
     setCat(ca);
   }
   if (!data.length) {
-    fetch().then(
-      () => {},
-      () => {},
-    );
+    fetch().then(function () {});
   }
   return (
     <Box
@@ -55,10 +61,12 @@ function Menu() {
         backgroundColor: "primary.dark",
         maxWidth: "100%",
         minHeight: "100vh",
+        display: menu ? "flex" : "none",
+        flexDirection: "column",
       }}
     >
       {!data.length && (
-        <LinearProgress style={{ width: "100%" }} color="secondary" />
+        <LinearProgress sx={{ width: "100%" }} color="secondary" />
       )}
       <MenuTop
         title={cat.name}
@@ -72,7 +80,7 @@ function Menu() {
         selected={selected}
         buttons={buttons}
       />
-      <Paper style={{ overflow: "auto", maxHeight: "calc(100vh - 91px)" }}>
+      <Paper sx={{ overflow: "auto", maxHeight: "calc(100vh - 91px)" }}>
         {!!(data.length && data[0] !== 404) && (
           <div
             style={{
@@ -92,4 +100,4 @@ function Menu() {
     </Box>
   );
 }
-export default Menu;
+export default memo(Menu);

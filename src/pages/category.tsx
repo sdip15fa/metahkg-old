@@ -1,10 +1,9 @@
-import React from 'react';
+import React from "react";
 import { Box } from "@mui/material";
-import { isMobile } from "react-device-detect";
+
 import { useParams } from "react-router";
 import Empty from "../components/empty";
-import { useHistory } from "../components/HistoryProvider";
-import Menu from "../components/menu";
+import { useHistory, useWidth } from "../components/ContextProvider";
 import {
   useCat,
   useId,
@@ -20,6 +19,7 @@ export default function Category() {
   const [search, setSearch] = useSearch();
   const [profile, setProfile] = useProfile();
   const [history, setHistory] = useHistory();
+  const [width, setWidth] = useWidth();
   if (history !== window.location.pathname) {
     setHistory(window.location.pathname);
   }
@@ -45,7 +45,7 @@ export default function Category() {
         maxHeight: "100vh",
       }}
     >
-      {!isMobile && <Empty />}
+      {!(width < 760) && <Empty />}
     </Box>
   );
 }

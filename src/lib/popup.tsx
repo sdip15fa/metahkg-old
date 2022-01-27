@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Close } from "@mui/icons-material";
 import {
   Button,
@@ -9,7 +9,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-
 export function PopUp(props: {
   title: string;
   open: boolean;
@@ -22,33 +21,34 @@ export function PopUp(props: {
     <Dialog
       open={props.open}
       PaperProps={{
-        style: {
+        sx: {
           backgroundImage: "none",
+          backgroundColor: "primary.main",
         },
       }}
     >
       <DialogTitle
         sx={{
           alignItems: "center",
+          justifyContent: "space-between",
           display: "flex",
-          justifyContent: "flex-end",
           padding: "0px",
           marginTop: "5px",
           marginBottom: "5px",
-          minWidth: "300px",
+          minWidth: "270px",
         }}
       >
-        <div
+        <p
           style={{
-            width: "100%",
-            justifyContent: "flex-start",
             marginLeft: "20px",
-            display: "flex",
+            marginTop: 0,
+            marginBottom: 0,
           }}
         >
           {props.title}
-        </div>
+        </p>
         <IconButton
+          className="close"
           onClick={() => {
             props.setOpen(false);
           }}

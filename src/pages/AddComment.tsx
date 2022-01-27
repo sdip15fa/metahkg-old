@@ -1,9 +1,10 @@
 import { Alert, Box, Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect } from "react";
-import { isMobile } from "react-device-detect";
+
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { useWidth } from "../components/ContextProvider";
 import { useMenu } from "../components/MenuProvider";
 import TextEditor from "../components/texteditor";
 import type { severity } from "../lib/common";
@@ -11,6 +12,7 @@ let inittext = "";
 export default function AddComment() {
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
+  const [width, setWidth] = useWidth();
   if (menu) {
     setMenu(false);
   }
@@ -86,7 +88,7 @@ export default function AddComment() {
         width: "100%",
       }}
     >
-      <div style={{ width: isMobile ? "100vw" : "80vw" }}>
+      <div style={{ width: width < 760 ? "100vw" : "80vw" }}>
         <div style={{ margin: "20px" }}>
           <h2 style={{ color: "white", fontSize: "22px" }}>
             Add a comment to thread id {id}:{" "}
@@ -110,7 +112,7 @@ export default function AddComment() {
           />
           <Button
             disabled={state.disabled || !state.comment}
-            style={{ marginTop: "20px", fontSize: "16px", height: "40px" }}
+            sx={{ marginTop: "20px", fontSize: "16px", height: "40px" }}
             onClick={addcomment}
             variant="contained"
             color="secondary"

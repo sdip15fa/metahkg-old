@@ -1,16 +1,17 @@
 import Conversation from "../components/conversation";
 import { Box } from "@mui/material";
 import { useParams } from "react-router";
-import { isMobile } from "react-device-detect";
 import { useCat, useId, useMenu, useSearch } from "../components/MenuProvider";
+import { useWidth } from "../components/ContextProvider";
 export default function Thread() {
   const params = useParams();
   const [category, setCategory] = useCat();
   const [id, setId] = useId();
   const [menu, setMenu] = useMenu();
-  if (!menu && !isMobile) {
+  const [width, setWidth] = useWidth();
+  if (!menu && !(width < 760)) {
     setMenu(true);
-  } else if (menu && isMobile) {
+  } else if (menu && width < 760) {
     setMenu(false);
   }
   if (!category && !id) {
@@ -26,7 +27,7 @@ export default function Thread() {
         flexDirection: "row",
       }}
     >
-      <div key={params.id} style={{ width: isMobile ? "100vw" : "70vw" }}>
+      <div key={params.id} style={{ width: width < 760 ? "100vw" : "70vw" }}>
         <Conversation id={Number(params.id)} />
       </div>
     </Box>

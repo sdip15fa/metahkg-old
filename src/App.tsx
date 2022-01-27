@@ -1,5 +1,5 @@
 import "./App.css";
-import React from 'react';
+import React from "react";
 import Theme from "./lib/theme";
 import {
   BrowserRouter as Router,
@@ -18,9 +18,9 @@ import Search from "./pages/search";
 import Profile from "./pages/profile";
 import History from "./pages/history";
 import Menu from "./components/menu";
-import { isMobile } from "react-device-detect";
 import { useCat, useMenu } from "./components/MenuProvider";
 import { Box } from "@mui/material";
+import { useWidth } from "./components/ContextProvider";
 function Source() {
   window.location.href = "https://gitlab.com/metahkg/metahkg";
   return <div />;
@@ -28,6 +28,7 @@ function Source() {
 export default function App() {
   const [category, setCategory] = useCat();
   const [menu, setMenu] = useMenu();
+  const [width, setWidth] = useWidth();
   return (
     <Theme
       primary={{ main: "#222222" }}
@@ -36,8 +37,8 @@ export default function App() {
       <Box sx={{ maxHeight: "100vh", backgroundColor: "primary.dark" }}>
         <Router>
           <div style={{ display: "flex", flexDirection: "row" }}>
-            {menu && (
-              <div style={{ width: isMobile ? "100vw" : "30vw" }}>
+            {(menu || window.location.pathname.split("/")[1] === "thread") && (
+              <div style={{ width: width < 760 ? "100vw" : "30vw" }}>
                 <Menu key={category} />
               </div>
             )}

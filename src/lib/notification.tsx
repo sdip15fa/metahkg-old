@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Close, Notifications } from "@mui/icons-material";
 import { Box, Snackbar } from "@mui/material";
 export function Notification(props: {
@@ -29,7 +29,7 @@ export function Notification(props: {
       }}
     >
       <Box
-        style={{
+        sx={{
           backgroundColor: "#444",
           width: "100%",
           borderRadius: "8px",
@@ -53,7 +53,7 @@ export function Notification(props: {
               width: "100%",
             }}
           >
-            <Notifications style={{ color: "#aca9a9", fontSize: "14px" }} />
+            <Notifications sx={{ color: "#aca9a9", fontSize: "14px" }} />
             <p
               style={{
                 color: "#aca9a9",

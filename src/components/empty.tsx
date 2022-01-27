@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   AccountCircle as AccountCircleIcon,
   Create as CreateIcon,
@@ -46,7 +46,7 @@ export default function Empty() {
                   : `/signin?returnto=${window.location.pathname}`
               }
             >
-              <ListItem button style={{ width: "100%" }}>
+              <ListItem button sx={{ width: "100%" }}>
                 <ListItemIcon>
                   <AccountCircleIcon />
                 </ListItemIcon>
@@ -60,7 +60,7 @@ export default function Empty() {
                 style={{ textDecoration: "none", color: "white" }}
                 to={links[index]}
               >
-                <ListItem button style={{ width: "100%" }}>
+                <ListItem button sx={{ width: "100%" }}>
                   <ListItemIcon>{icons[index]}</ListItemIcon>
                   <ListItemText>{item}</ListItemText>
                 </ListItem>

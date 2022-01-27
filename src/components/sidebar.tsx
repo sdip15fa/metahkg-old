@@ -51,22 +51,27 @@ export default function SideBar() {
           sx={{ height: "40px", width: "40px" }}
           onClick={toggleDrawer(true)}
         >
-          <MenuIcon style={{ color: "white" }} />
+          <MenuIcon sx={{ color: "white" }} />
         </IconButton>
       </div>
-      <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
-        <Box
-          sx={{ width: 250, backgroundColor: "primary.main", height: "100%" }}
-          role="presentation"
-        >
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={toggleDrawer(false)}
+        PaperProps={{
+          sx: {
+            backgroundImage: "none",
+            backgroundColor: "primary.main",
+          },
+        }}
+      >
+        <Box sx={{ width: 250 }} role="presentation">
           <div
             style={{
-              maxWidth: "100%",
               width: "100%",
-              justifyContent: "center",
             }}
           >
-            <List style={{ width: "100%" }}>
+            <List sx={{ width: "100%" }}>
               <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                 <ListItem button>
                   <ListItemIcon>

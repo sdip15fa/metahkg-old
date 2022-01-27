@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Button,
@@ -11,7 +11,7 @@ import {
 export default function NotSupported() {
   return (
     <Box sx={{ backgroundColor: "primary.dark", minHeight: "100vh" }}>
-      <Dialog open={true}>
+      <Dialog open>
         <DialogTitle>{"Browser not supported."}</DialogTitle>
         <DialogContent>
           <DialogContentText>
