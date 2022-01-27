@@ -3,7 +3,7 @@ import { Editor } from "@tinymce/tinymce-react";
 /*
 * Tinymce editor configured for Metahkg
 */
-export default function TextEditor(props: {changehandler: (a: string, editor: import("/home/johnniewong/dev/metahkg/node_modules/tinymce/tinymce").Editor) => void, text: string}) {
+export default function TextEditor(props: {changehandler: (a: string, editor: import("tinymce/tinymce").Editor) => void, text: string}) {
   return (
     <Editor
       onEditorChange={props.changehandler}
