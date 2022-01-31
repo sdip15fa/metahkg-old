@@ -7,7 +7,13 @@ import { Box, Divider, IconButton, Tooltip, Typography } from "@mui/material";
 import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../sidebar";
-import { useCat, useId, useProfile, useSearch, useTitle } from "../MenuProvider";
+import {
+  useCat,
+  useId,
+  useProfile,
+  useSearch,
+  useTitle,
+} from "../MenuProvider";
 import axios from "axios";
 /*
  * The top part of the menu consists of a title part
@@ -25,31 +31,33 @@ export default function MenuTop(props: {
   const [category] = useCat();
   const [id] = useId();
   const inittitle = {
-    "search": "Search",
-    "profile": "User Profile",
-    "menu": "Metahkg"
-  }[search ? "search" : profile ? "profile" : "menu"]
+    search: "Search",
+    profile: "User Profile",
+    menu: "Metahkg",
+  }[search ? "search" : profile ? "profile" : "menu"];
   const [title, setTitle] = useTitle();
   const tabs = {
-    "search": ["Relevance", "Created", "Last Comment"],
-    "profile":  ["Created", "Last Comment"],
-    "menu": ["Newest", "Hottest"]
+    search: ["Relevance", "Created", "Last Comment"],
+    profile: ["Created", "Last Comment"],
+    menu: ["Newest", "Hottest"],
   }[search ? "search" : profile ? "profile" : "menu"];
-  (!search && !title) && (async () => {
-    if (profile) {
-      await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
-        setTitle(res.data.user);
-        document.title = `${res.data.user} | Metahkg`;
-      });
-      return;
-    }
-    axios.get(`/api/categories/${category || `bytid${id}`}`).then((res) => {
-      setTitle(res.data.name);
-      if (!id) {
-        document.title = `${res.data.name} | Metahkg`;
+  !search &&
+    !title &&
+    (async () => {
+      if (profile) {
+        await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
+          setTitle(res.data.user);
+          document.title = `${res.data.user} | Metahkg`;
+        });
+        return;
       }
-    });
-  })();
+      axios.get(`/api/categories/${category || `bytid${id}`}`).then((res) => {
+        setTitle(res.data.name);
+        if (!id) {
+          document.title = `${res.data.name} | Metahkg`;
+        }
+      });
+    })();
   return (
     <div>
       <Box
@@ -117,10 +125,10 @@ export default function MenuTop(props: {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "100%"
+                height: "100%",
               }}
             >
-              <Typography sx={{color: "secondary.main", fontSize: "15px"}}>
+              <Typography sx={{ color: "secondary.main", fontSize: "15px" }}>
                 {tab}
               </Typography>
             </Box>

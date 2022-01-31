@@ -12,9 +12,7 @@ import { useCat, useProfile, useSearch } from "../MenuProvider";
  * Basic information about the thread is needed (see type summary in ../../lib/common)
  * category of the current menu is needed to decide whether category lebel is rendered or not
  */
-export default function MenuThread(props: {
-  thread: summary;
-}) {
+export default function MenuThread(props: { thread: summary }) {
   const [cat] = useCat();
   const [search] = useSearch();
   const [profile] = useProfile();
@@ -125,7 +123,7 @@ export default function MenuThread(props: {
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 paddingRight: "30px",
-                textAlign: "left"
+                textAlign: "left",
               }}
             >
               {props.thread.title}

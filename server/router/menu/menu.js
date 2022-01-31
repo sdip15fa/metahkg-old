@@ -12,7 +12,8 @@ router.get("/api/menu/:category", async (req, res) => {
       !req.params.category.startsWith("bytid")) ||
     (req.params.category.startsWith("bytid") &&
       !isInteger(req.params.category.replace("bytid", ""))) ||
-    !req.query.sort || ![0, 1].includes(Number(req.query.sort))
+    !req.query.sort ||
+    ![0, 1].includes(Number(req.query.sort))
   ) {
     res.status(400);
     res.send("Bad request.");
@@ -46,19 +47,23 @@ router.get("/api/menu/:category", async (req, res) => {
       res.send("Not found.");
       return;
     }
-    const data = sort ? await hottest
-    .find(category === 1 ? {} : { category: category })
-    .sort({ c: -1, lastModified: -1 })
-    .limit(20)
-    .toArray()
-    : await summary
-      .find(category === 1 ? {} : { category: category })
-      .sort({ lastModified: -1 })
-      .limit(20)
-      .toArray();
-    await (sort && (async () => {for (let index = 0; index < data.length; index++) {
-        data[index] = await summary.findOne({ id: data[index].id });
-      }})())
+    const data = sort
+      ? await hottest
+          .find(category === 1 ? {} : { category: category })
+          .sort({ c: -1, lastModified: -1 })
+          .limit(20)
+          .toArray()
+      : await summary
+          .find(category === 1 ? {} : { category: category })
+          .sort({ lastModified: -1 })
+          .limit(20)
+          .toArray();
+    await (sort &&
+      (async () => {
+        for (let index = 0; index < data.length; index++) {
+          data[index] = await summary.findOne({ id: data[index].id });
+        }
+      })());
     res.send(data.length ? data : [404]);
   } finally {
     await client.close();

@@ -1,7 +1,7 @@
 /*
-* To deploy this service you must have an aws account
-* Create a s3 bucket in a region you want
-*/
+ * To deploy this service you must have an aws account
+ * Create a s3 bucket in a region you want
+ */
 const express = require("express");
 const multer = require("multer"); //handle image uploads
 const AWS = require("aws-sdk");
@@ -13,8 +13,8 @@ const sharp = require("sharp"); //compress images
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 /*
-* Please specify awsRegion and s3Bucket in .env
-*/
+ * Please specify awsRegion and s3Bucket in .env
+ */
 const region = process.env.awsRegion || "ap-northeast-1";
 const bucket = process.env.s3Bucket || "metahkg";
 /*
@@ -23,12 +23,12 @@ const bucket = process.env.s3Bucket || "metahkg";
 */
 const credentials = new AWS.SharedIniFileCredentials({ profile: "s3" });
 AWS.config.credentials = credentials;
-AWS.config.update({ region: region});
+AWS.config.update({ region: region });
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 /*
-* Upload an avatar to s3
-* The path would be /avatars/<user-id>
-*/
+ * Upload an avatar to s3
+ * The path would be /avatars/<user-id>
+ */
 async function uploadtos3(filename) {
   const uploadParams = {
     Bucket: bucket, //change to your bucket name
@@ -53,9 +53,9 @@ async function uploadtos3(filename) {
   await s3.upload(uploadParams).promise();
 }
 /*
-* Compress the image to a 200px * 200px circle
-* Output is <original-filename>.png
-*/
+ * Compress the image to a 200px * 200px circle
+ * Output is <original-filename>.png
+ */
 async function compress(filename) {
   const width = 200;
   const r = width / 2;

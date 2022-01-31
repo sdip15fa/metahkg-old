@@ -34,7 +34,14 @@ export default function Comment(props: {
   function Tag(tprops: { children: string | JSX.Element | JSX.Element[] }) {
     const [open, setOpen] = useState(false);
     return (
-      <div style={{ display: "flex", fontSize: "16px", alignItems: "center", paddingTop: '10px' }}>
+      <div
+        style={{
+          display: "flex",
+          fontSize: "16px",
+          alignItems: "center",
+          paddingTop: "10px",
+        }}
+      >
         <PopUp
           withbutton
           open={open}
@@ -113,7 +120,14 @@ export default function Comment(props: {
     >
       <div style={{ marginLeft: "20px", marginRight: "20px" }}>
         <Tag>{props.name}</Tag>
-        <p style={{ color: "white", wordBreak: "break-word", marginTop: "10px", marginBottom: "10px" }}>
+        <p
+          style={{
+            color: "white",
+            wordBreak: "break-word",
+            marginTop: "10px",
+            marginBottom: "10px",
+          }}
+        >
           {parse(props.children)}
         </p>
         <div style={{ height: "2px" }} />

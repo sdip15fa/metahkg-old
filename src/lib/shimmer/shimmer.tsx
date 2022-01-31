@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+import React from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
 
-import './styles.css';
+import "./styles.css";
 
 const DEFAULT_DURATION_MS = 1600;
 const DEFAULT_HEIGHT = 400;
@@ -33,7 +33,7 @@ export const Shimmer = ({
   const shimmerStyle = calcShimmerStyle(width, height, duration);
   const style = { ...shimmerStyle, ...{ height, width } };
 
-  return <div className={clsx('shimmer', className)} style={style} />;
+  return <div className={clsx("shimmer", className)} style={style} />;
 };
 
 Shimmer.propTypes = {
