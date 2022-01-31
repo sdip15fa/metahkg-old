@@ -42,7 +42,8 @@ export default function Signin() {
         alert: { severity: "info", text: "Sign in to continue." },
       });
     }
-  }, [params.continue, state]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   function signin() {
     setState({
       ...state,
@@ -68,7 +69,7 @@ export default function Signin() {
       });
   }
   if (localStorage.user) {
-    window.location.replace("/");
+    navigate("/");
     return <div />;
   }
   return (
