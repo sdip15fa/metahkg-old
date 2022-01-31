@@ -50,7 +50,7 @@ export default function VoteButtons(props: {
       >
         <Button
           sx={{ padding: "0px", marginTop: "1.5px", marginBottom: "1.5px" }}
-          disabled={!localStorage.signedin || !!vote}
+          disabled={!localStorage.user || !!vote}
           onClick={() => {
             sendvote("up");
           }}
@@ -73,7 +73,7 @@ export default function VoteButtons(props: {
             marginBottom: "1.5px",
             marginRight: "5px",
           }}
-          disabled={!localStorage.signedin || !!vote}
+          disabled={!localStorage.user || !!vote}
           onClick={() => {
             sendvote("down");
           }}

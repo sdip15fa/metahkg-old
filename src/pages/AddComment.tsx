@@ -35,7 +35,7 @@ export default function AddComment() {
   });
   const params = useParams();
   const id = Number(params.id);
-  if (localStorage.reply && localStorage.signedin) {
+  if (localStorage.reply && localStorage.user) {
     inittext = `<blockquote style="color: #aca9a9; border-left: 2px solid #aca9a9; margin-left: 0"><div style="margin-left: 15px">${localStorage.reply}</div></blockquote><p></p>`;
     localStorage.removeItem("reply");
   }
@@ -80,7 +80,7 @@ export default function AddComment() {
         });
       });
   }
-  if (!localStorage.signedin) {
+  if (!localStorage.user) {
     window.location.replace(
       `/signin?continue=true&returnto=${window.location.pathname}`
     );

@@ -34,7 +34,7 @@ export default function Comment(props: {
   function Tag(tprops: { children: string | JSX.Element | JSX.Element[] }) {
     const [open, setOpen] = useState(false);
     return (
-      <div style={{ display: "flex", fontSize: "16px", alignItems: "center" }}>
+      <div style={{ display: "flex", fontSize: "16px", alignItems: "center", paddingTop: '10px' }}>
         <PopUp
           withbutton
           open={open}
@@ -48,24 +48,21 @@ export default function Comment(props: {
           </p>
         </PopUp>
         <p
+          className="novmargin"
           style={{
             color: props.op ? "#F5BD1F" : "#aca9a9",
-            marginTop: "15px",
-            marginBottom: "0px",
           }}
         >
           #{props.id}
         </p>
-        <a
-          className="cuserlink"
+        <p
+          className="cuserlink novmargin"
           onClick={() => {
             setOpen(true);
           }}
           style={{
             color: props.sex ? "#34aadc" : "red",
             marginLeft: "10px",
-            marginTop: "15px",
-            marginBottom: "0px",
             textOverflow: "ellipsis",
             maxWidth: "100%",
             overflow: "hidden",
@@ -76,18 +73,17 @@ export default function Comment(props: {
           }}
         >
           {tprops.children}
-        </a>
+        </p>
         <Tooltip
           title={date.format(new Date(props.date), "ddd, MMM DD YYYY HH:mm:ss")}
           arrow
         >
           <p
+            className="novmargin"
             style={{
               fontSize: "15px",
               color: "#aca9a9",
               marginLeft: "10px",
-              marginTop: "15.5px",
-              marginBottom: "0px",
             }}
           >
             {timetoword(props.date)}
@@ -95,7 +91,7 @@ export default function Comment(props: {
         </Tooltip>
         <Tooltip title="Quote" arrow>
           <IconButton
-            sx={{ marginTop: "16px", marginLeft: "3px" }}
+            sx={{ marginLeft: "10px", padding: 0 }}
             onClick={() => {
               localStorage.reply = props.children;
               window.location.href = `/comment/${props.tid}`;
@@ -117,7 +113,7 @@ export default function Comment(props: {
     >
       <div style={{ marginLeft: "20px", marginRight: "20px" }}>
         <Tag>{props.name}</Tag>
-        <p style={{ color: "white", wordBreak: "break-word" }}>
+        <p style={{ color: "white", wordBreak: "break-word", marginTop: "10px", marginBottom: "10px" }}>
           {parse(props.children)}
         </p>
         <div style={{ height: "2px" }} />

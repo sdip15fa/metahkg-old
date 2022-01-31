@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router";
-import { useMenu, useProfile, useSearch } from "../components/MenuProvider";
+import { useMenu, useProfile, useSearch, useSelected } from "../components/MenuProvider";
 import { useHistory, useWidth } from "../components/ContextProvider";
 /*
  * History component for /history/:id
@@ -15,6 +15,10 @@ export default function History() {
   const [menu, setMenu] = useMenu();
   const [history, setHistory] = useHistory();
   const [width] = useWidth();
+  const [selected, setSelected] = useSelected();
+  if (![0, 1].includes(selected)) {
+    setSelected(0);
+  }
   if (!(width < 760)) {
     navigate(`/profile/${params.id}`);
   } else {

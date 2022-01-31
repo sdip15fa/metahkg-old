@@ -2,6 +2,8 @@ import React from "react";
 import { styled, alpha, InputBase } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import { KeyboardEventHandler } from "react";
+import { useQuery } from "./ContextProvider";
+import queryString from "query-string";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -50,19 +52,24 @@ export default function SearchBar(props: {
   onChange:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
-  initvalue: string;
 }) {
+  console.log("rerendered search bar");
+  const [query] = useQuery();
+  const params = queryString.parse(window.location.search);
   return (
     <Search>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
+        key={query}
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
         onKeyPress={props.onKeyPress}
         onChange={props.onChange}
-        defaultValue={props.initvalue}
+        defaultValue={decodeURIComponent(
+          String(params.q || query || "")
+        )}
       />
     </Search>
   );

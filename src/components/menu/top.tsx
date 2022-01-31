@@ -3,10 +3,12 @@ import {
   Add as AddIcon,
   Autorenew as AutorenewIcon,
 } from "@mui/icons-material";
-import { Box, Button, Divider, IconButton, Tooltip } from "@mui/material";
+import { Box, Divider, IconButton, Tooltip, Typography } from "@mui/material";
 import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../sidebar";
+import { useCat, useId, useProfile, useSearch, useTitle } from "../MenuProvider";
+import axios from "axios";
 /*
  * The top part of the menu consists of a title part
  * (sidebar, title, refresh and create topic button link)
@@ -14,12 +16,40 @@ import SideBar from "../sidebar";
  * which serve as tabs to decide the data fetch location
  */
 export default function MenuTop(props: {
-  title: string;
   refresh: MouseEventHandler<HTMLButtonElement>;
-  buttons: (string | undefined)[];
   selected: number;
   onClick: (e: number) => void;
 }) {
+  const [search] = useSearch();
+  const [profile] = useProfile();
+  const [category] = useCat();
+  const [id] = useId();
+  const inittitle = {
+    "search": "Search",
+    "profile": "User Profile",
+    "menu": "Metahkg"
+  }[search ? "search" : profile ? "profile" : "menu"]
+  const [title, setTitle] = useTitle();
+  const tabs = {
+    "search": ["Relevance", "Created", "Last Comment"],
+    "profile":  ["Created", "Last Comment"],
+    "menu": ["Newest", "Hottest"]
+  }[search ? "search" : profile ? "profile" : "menu"];
+  (!search && !title) && (async () => {
+    if (profile) {
+      await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
+        setTitle(res.data.user);
+        document.title = `${res.data.user} | Metahkg`;
+      });
+      return;
+    }
+    axios.get(`/api/categories/${category || `bytid${id}`}`).then((res) => {
+      setTitle(res.data.name);
+      if (!id) {
+        document.title = `${res.data.name} | Metahkg`;
+      }
+    });
+  })();
   return (
     <div>
       <Box
@@ -46,7 +76,7 @@ export default function MenuTop(props: {
               userSelect: "none",
             }}
           >
-            {props.title}
+            {title || inittitle}
           </p>
           <div style={{ display: "flex" }}>
             <Tooltip title="Refresh" arrow>
@@ -72,25 +102,28 @@ export default function MenuTop(props: {
             height: "40px",
           }}
         >
-          {props.buttons.map((button, index) => (
-            <Button
-              variant="text"
-              color="secondary"
+          {tabs.map((tab, index) => (
+            <Box
               onClick={() => {
                 props.onClick(index);
               }}
               sx={{
+                cursor: "pointer",
                 marginLeft: index === 0 ? "10px" : "0px",
-                borderRadius: "0px",
-                textTransform: "none",
                 borderBottom:
-                  props.selected === index ? "3px solid rgb(245, 189, 31)" : "",
+                  props.selected === index ? "2px solid rgb(245, 189, 31)" : "",
                 width: "100%",
                 marginRight: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%"
               }}
             >
-              {button}
-            </Button>
+              <Typography sx={{color: "secondary.main", fontSize: "15px"}}>
+                {tab}
+              </Typography>
+            </Box>
           ))}
         </div>
       </Box>

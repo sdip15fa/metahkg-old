@@ -120,7 +120,7 @@ export default function Create() {
         hcaptcha.reset("");
       });
   }
-  if (!localStorage.signedin) {
+  if (!localStorage.user) {
     window.location.replace(
       `/signin?continue=true&returnto=${window.location.pathname}`
     );

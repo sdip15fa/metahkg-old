@@ -1,12 +1,15 @@
-import { Box, Paper, LinearProgress } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React, { memo } from "react";
 import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
-import { SearchMenu } from "../pages/search";
-import { useCat, useId, useProfile, useSearch, useMenu } from "./MenuProvider";
-import { ProfileMenu } from "../pages/profile";
+import { useCat, useId, useProfile, useSearch, useMenu, useSelected, useData } from "./MenuProvider";
 import { summary } from "../lib/common";
+import MenuPreload from "./menu/preload";
+import queryString from "query-string";
+import { useHistory, useQuery } from "./ContextProvider";
+import SearchBar from "./searchbar";
+import { useNavigate } from "react-router";
 /*
  * variables are from MenuProvider and can be changed in any components
  * returns SearchMenu if search = true
@@ -17,83 +20,38 @@ import { summary } from "../lib/common";
  * /api/<"newest" | "hottest">/<category | 'bytid<thread id>'>
  * MenuThreads are rendered after data is fetched
  */
-function Menu() {
-  const [data, setData] = React.useState<any>([]);
-  const [cat, setCat] = React.useState({ id: 0, name: "Metahkg" });
-  const [selected, setSelected] = React.useState(0);
-  const [id] = useId();
+function MainContent() {
+  const params = queryString.parse(window.location.search);
   const [category] = useCat();
   const [search] = useSearch();
   const [profile] = useProfile();
-  const [menu] = useMenu();
-  if (search) {
-    return (
-      <div style={{ display: menu ? "flex" : "none" }}>
-        <SearchMenu />
-      </div>
-    );
-  }
-  if (profile) {
-    return (
-      <div style={{ display: menu ? "flex" : "none" }}>
-        <ProfileMenu />
-      </div>
-    );
-  }
-  const buttons = ["Newest", "Hottest"];
-  async function fetch() {
+  const [selected] = useSelected();
+  const [query] = useQuery();
+  const [id] = useId();
+  const [data, setData] = useData();
+  const q = decodeURIComponent(String(params.q || query || ""));
+  function fetch() {
     const c: string | number = id ? `bytid${id}` : category;
-    let d: any, ca: any;
-    await axios
-      .get(`/api/${selected === 0 ? "newest" : "hottest"}/${c}`)
+    const url = {
+      "search": `/api/search?q=${q}&sort=${selected}`,
+      "profile": `/api/history/${profile}?sort=${selected ? "comments" : "post"}`,
+      "menu": `/api/menu/${c}?sort=${selected}`
+    }[search ? "search" : profile ? "profile" : "menu"];
+    axios
+      .get(url)
       .then((res) => {
         if (!res.data.length) {
           setData([404]);
           return;
         }
-        d = res.data;
+        setData(res.data);
       });
-    await axios.get(`/api/categories/${c}`).then((res) => {
-      ca = res.data;
-    });
-    if (!id) {
-      document.title = `${ca.name} | Metahkg`;
-    }
-    setData(d);
-    setCat(ca);
   }
-  if (!data.length) {
-    fetch().then(
-      () => {},
-      () => {}
-    );
+  if (!data.length && (category || id || profile || search)) {
+    fetch();
   }
   return (
-    <Box
-      sx={{
-        backgroundColor: "primary.dark",
-        maxWidth: "100%",
-        minHeight: "100vh",
-        display: menu ? "flex" : "none",
-        flexDirection: "column",
-      }}
-    >
-      {!data.length && (
-        <LinearProgress sx={{ width: "100%" }} color="secondary" />
-      )}
-      <MenuTop
-        title={cat.name}
-        refresh={() => {
-          setData([]);
-        }}
-        onClick={(e: number) => {
-          setSelected(e);
-          setData([]);
-        }}
-        selected={selected}
-        buttons={buttons}
-      />
-      <Paper sx={{ overflow: "auto", maxHeight: "calc(100vh - 91px)" }}>
+    <Paper sx={{ overflow: "auto", maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)" }}>
         {!!(data.length && data[0] !== 404) && (
           <div
             style={{
@@ -104,12 +62,76 @@ function Menu() {
           >
             {data.map((thread: summary) => (
               <div>
-                <MenuThread key={cat.id} thread={thread} category={cat.id} />
+                <MenuThread key={category} thread={thread}/>
               </div>
             ))}
           </div>
         )}
+        {!data.length && (
+          <MenuPreload/>
+        )}
       </Paper>
+  )
+}
+function Menu() {
+  const [selected, setSelected] = useSelected();
+  const [category] = useCat();
+  const [,setData] = useData();
+  const [menu] = useMenu();
+  const [search] = useSearch();
+  const [query, setQuery] = useQuery();
+  const [,setHistory] = useHistory();
+  const navigate = useNavigate();
+  let tempq = decodeURIComponent(query || "");
+  return (
+    <Box
+      sx={{
+        backgroundColor: "primary.dark",
+        maxWidth: "100%",
+        minHeight: "100vh",
+        display: menu ? "flex" : "none",
+        flexDirection: "column",
+      }}
+    >
+      <MenuTop
+        refresh={() => {
+          setData([]);
+        }}
+        onClick={(e: number) => {
+          if (selected !== e) {
+            setSelected(e);
+            setData([]);
+          }
+        }}
+        selected={selected}
+      />
+      {search && <div style={{ display: "flex", width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              height: "39px",
+              margin: "10px",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <SearchBar
+              onChange={(e) => {
+                tempq = e.target.value;
+              }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter" && tempq) {
+                  navigate(`/search?q=${encodeURIComponent(tempq)}`);
+                  setQuery(tempq);
+                  setData([]);
+                  setHistory(`/search?q=${encodeURIComponent(tempq)}`);
+                }
+              }}
+            />
+          </div>
+        </div>}
+      <MainContent key={category}/>
     </Box>
   );
 }

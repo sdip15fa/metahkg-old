@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   List,
@@ -20,6 +20,7 @@ import {
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import SearchBar from "./searchbar";
+import { useQuery } from "./ContextProvider";
 /*
  * The sidebar used by Menu
  * link to metahkg frontpage, search bar, sign in/register/logout,
@@ -27,7 +28,8 @@ import SearchBar from "./searchbar";
  * at the bottom, if signed in, a link to /profile/self
  */
 export default function SideBar() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useQuery();
   const navigate = useNavigate();
   const categories = {
     "1": "Chit-chat",
@@ -52,7 +54,7 @@ export default function SideBar() {
     setOpen(false);
   }
   const links = ["/about", "/source"];
-  let tempq = "";
+  let tempq = decodeURIComponent(query || "");
   return (
     <div>
       <div>
@@ -103,23 +105,18 @@ export default function SideBar() {
                 }}
                 onKeyPress={(e: any) => {
                   if (e.key === "Enter" && tempq) {
-                    if (window.location.pathname === "/search") {
-                      window.location.replace(
-                        `/search?q=${encodeURIComponent(tempq)}`
-                      );
-                    } else {
-                      navigate(`/search?q=${encodeURIComponent(tempq)}`);
-                    }
+                    navigate(`/search?q=${encodeURIComponent(tempq)}`);
+                    setOpen(false);
+                    setQuery(tempq);
                   }
                 }}
-                initvalue={tempq}
               />
             </div>
           </div>
           <List>
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={`/${localStorage.signedin ? "logout" : "signin"}?returnto=${
+              to={`/${localStorage.user ? "logout" : "signin"}?returnto=${
                 window.location.pathname
               }`}
             >
@@ -128,7 +125,7 @@ export default function SideBar() {
                   <AccountCircleIcon />
                 </ListItemIcon>
                 <ListItemText>
-                  {localStorage.signedin ? "Logout" : "Sign in / Register"}
+                  {localStorage.user ? "Logout" : "Sign in / Register"}
                 </ListItemText>
               </ListItem>
             </Link>
@@ -179,7 +176,7 @@ export default function SideBar() {
               </Link>
             ))}
           </List>
-          {localStorage.signedin && (
+          {localStorage.user && (
             <div>
               <Divider />
               <List>

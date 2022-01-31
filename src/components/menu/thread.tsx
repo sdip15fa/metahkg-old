@@ -6,6 +6,7 @@ import {
 } from "@mui/icons-material";
 import { timetoword, roundup, summary } from "../../lib/common";
 import { Link } from "react-router-dom";
+import { useCat, useProfile, useSearch } from "../MenuProvider";
 /*
  * A thread in the menu
  * Basic information about the thread is needed (see type summary in ../../lib/common)
@@ -13,8 +14,10 @@ import { Link } from "react-router-dom";
  */
 export default function MenuThread(props: {
   thread: summary;
-  category: number;
 }) {
+  const [cat] = useCat();
+  const [search] = useSearch();
+  const [profile] = useProfile();
   return (
     <div>
       <Link
@@ -95,8 +98,8 @@ export default function MenuThread(props: {
                   paddingRight: "10px",
                 }}
               >
-                {String(roundup(props.thread.c / 10)) +
-                  ` page${roundup(props.thread.c / 10) > 1 ? "s" : ""}`}
+                {String(roundup(props.thread.c / 25)) +
+                  ` page${roundup(props.thread.c / 25) > 1 ? "s" : ""}`}
               </p>
             </div>
           </div>
@@ -114,21 +117,20 @@ export default function MenuThread(props: {
                 color: "white",
                 fontSize: "16px",
                 paddingLeft: "10px",
-                maxWidth: "100%",
                 wordBreak: "break-word",
-                textAlign: "left",
-                marginTop: "5px",
+                marginTop: 0,
                 marginBottom: "5px",
                 lineHeight: "20px",
                 maxHeight: "40px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 paddingRight: "30px",
+                textAlign: "left"
               }}
             >
               {props.thread.title}
             </p>
-            {props.category === 1 && (
+            {(cat === 1 || search || profile) && (
               <Link
                 to={`/category/${props.thread.category}`}
                 style={{ textDecoration: "none" }}

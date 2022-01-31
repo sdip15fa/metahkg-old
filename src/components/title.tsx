@@ -7,6 +7,7 @@ import {
   Link as LinkIcon,
   ContentCopy,
   Telegram,
+  WhatsApp,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -36,7 +37,7 @@ export default function Title(props: {
   const copytext =
     props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
   return (
-    <Box sx={{ backgroundColor: "primary.main", height: "50px" }}>
+    <Box sx={{ backgroundColor: "primary.main", height: "47px" }}>
       <Notification notify={notify} setNotify={setNotify} />
       <PopUp
         withbutton={false}
@@ -85,7 +86,7 @@ export default function Title(props: {
               <LinkIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Share on Telegram">
+          <Tooltip title="Share to Telegram">
             <a
               href={`tg://msg_url?text=${encodeURIComponent(
                 props.title + "\n- Shared from Metahkg forum"
@@ -93,6 +94,13 @@ export default function Title(props: {
             >
               <IconButton>
                 <Telegram />
+              </IconButton>
+            </a>
+          </Tooltip>
+          <Tooltip title="Share to Whatsapp">
+            <a href={`whatsapp://send?text=${encodeURIComponent(copytext)}`}>
+              <IconButton>
+                <WhatsApp/>
               </IconButton>
             </a>
           </Tooltip>
@@ -104,29 +112,27 @@ export default function Title(props: {
           marginLeft: "10px",
           marginRight: "20px",
           alignItems: "center",
-          height: "100%",
           justifyContent: "space-between",
+          height: '100%'
         }}
       >
         <div
           style={{
             maxWidth: "100%",
             display: "flex",
-            alignItems: "center",
-            height: "100%",
+            alignItems: "center"
           }}
         >
           <Link to={history || `/category/${props.category}`}>
-            <IconButton>
+            <IconButton sx={{margin: 0, padding: 0}}>
               <ArrowBackIcon color="secondary" />
             </IconButton>
           </Link>
           <Typography
+            className="novmargin"
             sx={{
               color: "secondary.main",
               fontSize: "18px",
-              marginTop: "0px",
-              marginBottom: "0px",
               paddingLeft: "10px",
               lineHeight: "22px",
               maxHeight: "22px",

@@ -42,7 +42,7 @@ export default function Signin() {
         alert: { severity: "info", text: "Sign in to continue." },
       });
     }
-  }, []);
+  }, [params.continue, state]);
   function signin() {
     setState({
       ...state,
@@ -55,7 +55,6 @@ export default function Signin() {
         pwd: hash.sha256().update(state.pwd).digest("hex"),
       })
       .then((res) => {
-        localStorage.signedin = true;
         localStorage.user = res.data.user;
         localStorage.id = res.data.id;
         navigate(String(params.returnto || "/"));
@@ -68,7 +67,7 @@ export default function Signin() {
         });
       });
   }
-  if (localStorage.signedin) {
+  if (localStorage.user) {
     window.location.replace("/");
     return <div />;
   }

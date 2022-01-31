@@ -5,84 +5,62 @@ import Title from "./title";
 import axios from "axios";
 import DOMPurify from "dompurify";
 import { Notification } from "../lib/notification";
-let o: JSX.Element[] = [];
-let conversation: any = {};
-let users: any = {};
-let uservotes: any = {};
-let slink = "";
 /*
  * Conversation component gets data from /api/thread/<thread id(props.id)>/<conversation/users>
  * Then renders it as Comments
  */
+let slink = "";
 function Conversation(props: { id: number }) {
-  const [state, setState] = React.useState<{ ready: boolean; error: string }>({
-    ready: false,
-    error: "",
-  });
+  const [error, setError] = useState("");
   const [notify, setNotify] = useState({ open: false, text: "" });
-  async function getdata() {
-    await axios
+  const [conversation, setConversation] = useState<any>({});
+  const [users, setUsers] = useState<any>({});
+  const [votes, setVotes] = useState<any>({});
+  function getdata() {
+    axios
       .get(`/api/thread/${props.id}/conversation`)
       .then((res) => {
-        conversation = res.data;
+        (async () => {slink =
+          res.data.slink ||
+          `https://l.wcyat.me/${
+            (
+              await axios.post("https://api-us.wcyat.me/create", {
+                url: window.location.origin + window.location.pathname,
+              })
+            ).data.id
+        }`;})()
+        setConversation(res.data);
+        document.title = `${res.data.title} | Metahkg`;
       })
       .catch((err) => {
-        setState({ ...state, error: err.response.data });
+        setError(err.response.data);
         return;
       });
-    await axios.get(`/api/thread/${props.id}/users`).then((res) => {
-      users = res.data;
+    axios.get(`/api/thread/${props.id}/users`).then((res) => {
+      setUsers(res.data);
     });
-    slink =
-      conversation.slink ||
-      `https://l.wcyat.me/${
-        (
-          await axios.post("https://api-us.wcyat.me/create", {
-            url: window.location.origin + window.location.pathname,
-          })
-        ).data.id
-      }`;
-    if (localStorage.signedin) {
-      await axios
+    if (localStorage.user) {
+      axios
         .post("/api/getvotes", { id: Number(props.id) })
         .then((res) => {
-          uservotes = res.data;
+          setVotes(res.data);
         });
     }
-    document.title = `${conversation.title} | Metahkg`;
-    setState({ ...state, ready: true });
   }
-  function build() {
-    o = [];
-    Object.entries(conversation.conversation).map((entry: any): void => {
-      o.push(
-        <Comment
-          name={users?.[entry[1].user].name}
-          id={entry[0]}
-          op={users?.[entry[1].user].name === conversation.op ? true : false}
-          sex={users?.[entry[1].user].sex === "male" ? true : false}
-          date={entry[1].createdAt}
-          tid={props.id}
-          up={entry[1].up | 0}
-          down={entry[1].down | 0}
-          vote={uservotes?.[entry[0]]}
-          userid={entry[1].user}
-        >
-          {DOMPurify.sanitize(entry[1]?.comment)}
-        </Comment>
-      );
-    });
+  if (error && !notify.open) {
+    setNotify({ open: true, text: error });
   }
-  if (state.error && !notify.open) {
-    setNotify({ open: true, text: state.error });
+  if (!Object.keys(conversation).length && !Object.keys(users).length) {
+    getdata();
   }
-  !state.ready ? !state.error && getdata() : build();
+  const ready = !!(Object.keys(conversation).length && Object.keys(users).length
+  && (localStorage.user ? Object.keys(votes).length : 1));
   return (
     <div className="conversation" style={{ minHeight: "100vh" }}>
       <Notification notify={notify} setNotify={setNotify} />
-      {!state.error && (
+      {!error && (
         <div>
-          {!state.ready && (
+          {!ready && (
             <LinearProgress sx={{ width: "100%" }} color="secondary" />
           )}
           <Title
@@ -92,7 +70,22 @@ function Conversation(props: { id: number }) {
           />
           <Paper sx={{ overflow: "auto", maxHeight: "calc(100vh - 61px)" }}>
             <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
-              {o}
+              {ready && Object.entries(conversation.conversation).map((entry: any) => (
+        <Comment
+          name={users?.[entry[1].user].name}
+          id={entry[0]}
+          op={users?.[entry[1].user].name === conversation.op ? true : false}
+          sex={users?.[entry[1].user].sex === "male" ? true : false}
+          date={entry[1].createdAt}
+          tid={props.id}
+          up={entry[1].up | 0}
+          down={entry[1].down | 0}
+          vote={votes?.[entry[0]]}
+          userid={entry[1].user}
+        >
+          {DOMPurify.sanitize(entry[1]?.comment)}
+        </Comment>
+        ))}
             </Box>
           </Paper>
         </div>

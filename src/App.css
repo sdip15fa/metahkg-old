@@ -12,6 +12,9 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #404040 #151515;
 }
+body * {
+  font-family: 'Segoe UI', "Helvetica Neue", Helvetica, Tahoma, Geneva, Verdana, sans-serif;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -83,4 +86,20 @@ a:active {
 .svgwhite {
   filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%)
     contrast(103%);
+}
+.novmargin {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.nohmargin {
+  margin-left: 0;
+  margin-right: 0;
+}
+.novpadding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.nohpadding {
+  padding-left: 0;
+  padding-right: 0;
 }

@@ -1,6 +1,6 @@
 {
   "name": "metahkg",
-  "version": "0.2.0-beta",
+  "version": "0.3.0-beta",
   "author": "wcyat",
   "license": "MIT",
   "dependencies": {
@@ -43,7 +43,6 @@
     "mailgun-js": "^0.22.0",
     "mongodb": "^4.2.2",
     "multer": "^1.4.4",
-    "prettier": "^2.5.1",
     "query-string": "^7.1.0",
     "random": "^3.0.6",
     "react": "^17.0.2",
@@ -53,17 +52,20 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "sharp": "^0.29.3",
-    "typescript": "^4.5.4",
     "uuid": "^8.3.2",
     "wcyat-rg": "^1.0.1"
   },
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.5"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "start:api": "node server/server.js",
+    "start": "node server/server.js",
+    "start:api": "yarn run start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "yarn run build && node server/server.js"
+    "deploy": "yarn run build && yarn run start"
   },
   "eslintConfig": {
     "extends": [

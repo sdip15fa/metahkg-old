@@ -8,9 +8,12 @@ const Context = createContext<any>({});
  */
 export default function ContextProvider(props: { children: JSX.Element }) {
   const [history, setHistory] = useState("");
+  const [query, setQuery] = useState("");
   const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
   function updateSize() {
     setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
   }
   window.addEventListener("resize", updateSize);
   return (
@@ -18,6 +21,8 @@ export default function ContextProvider(props: { children: JSX.Element }) {
       value={{
         history: [history, setHistory],
         width: [width, setWidth],
+        query: [query, setQuery],
+        height: [height, setHeight]
       }}
     >
       {props.children}
@@ -31,4 +36,12 @@ export function useHistory() {
 export function useWidth() {
   const { width } = useContext(Context);
   return width;
+}
+export function useQuery() {
+  const { query } = useContext(Context);
+  return query;
+}
+export function useHeight() {
+  const { height } = useContext(Context);
+  return height;
 }

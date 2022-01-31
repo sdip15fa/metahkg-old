@@ -19,6 +19,10 @@ export default function Theme(props: any) {
       primary: props.primary,
       secondary: props.secondary,
     },
+    typography: {
+      fontFamily: [
+        'Segoe UI', "Tahoma", "Geneva", "Verdana", "sans-serif"].join(',')
+      }
   });
   return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
 }

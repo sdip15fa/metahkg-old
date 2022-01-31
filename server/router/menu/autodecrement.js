@@ -1,5 +1,9 @@
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
+/*
+* Decrease collection "hottest" documents count by 1
+  for sorting popularity
+*/
 async function autodecrement() {
   const client = new MongoClient(mongouri);
   try {

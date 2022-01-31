@@ -107,7 +107,6 @@ export default function Register() {
       .then((res) => {
         localStorage.user = state.user;
         localStorage.id = res.data.id;
-        localStorage.signedin = true;
         navigate(String(params.returnto || "/"));
       })
       .catch((err) => {
@@ -172,7 +171,7 @@ export default function Register() {
         hcaptcha.reset("");
       });
   }
-  if (localStorage.signedin) {
+  if (localStorage.user) {
     window.location.replace("/");
     return <div />;
   }

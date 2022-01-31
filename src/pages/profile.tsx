@@ -13,9 +13,7 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router";
-import MenuThread from "../components/menu/thread";
-import MenuTop from "../components/menu/top";
-import { useMenu, useProfile, useSearch } from "../components/MenuProvider";
+import { useData, useMenu, useProfile, useSearch, useSelected, useTitle } from "../components/MenuProvider";
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
 import { Link } from "react-router-dom";
@@ -25,69 +23,6 @@ import { useHistory, useWidth } from "../components/ContextProvider";
  * Renders a Menu without any threads if the user has posted nothing
  * Used in /profile/:id (if width >= 750) and /history/:id (id width < 750)
  */
-export function ProfileMenu() {
-  const [user, setUser] = useState("Metahkg");
-  const [profile] = useProfile();
-  const [data, setData] = useState<any>([]);
-  const [selected, setSelected] = useState(0);
-  const [width] = useWidth();
-  const buttons = ["Created", "Last Comment"];
-  async function fetch() {
-    await axios
-      .get(
-        `/api/history/${profile}?sort=${{ 0: "post", 1: "comments" }[selected]}`
-      )
-      .then((res) => {
-        setData(res.data);
-      });
-    await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
-      setUser(res.data.user);
-      document.title = `${res.data.user} | Metahkg`;
-    });
-  }
-  if (!data.length) {
-    fetch().then(
-      () => {},
-      () => {}
-    );
-  }
-  return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        backgroundColor: "primary.dark",
-        display: "flex",
-        flexDirection: "row",
-      }}
-    >
-      <div style={{ width: width < 760 ? "100vw" : "30vw" }}>
-        {!data.length && <LinearProgress color="secondary" />}
-        <MenuTop
-          title={user}
-          refresh={() => {
-            setData([]);
-          }}
-          buttons={buttons}
-          selected={selected}
-          onClick={(e: number) => {
-            setSelected(e);
-            setData([]);
-          }}
-        />
-        <Paper sx={{ maxHeight: "calc(100vh - 91px)", overflow: "auto" }}>
-          {
-            <div style={{ maxWidth: "99%" }}>
-              {!!(data.length && data[0] !== 404) &&
-                data.map((thread: any) => (
-                  <MenuThread thread={thread} category={0} />
-                ))}
-            </div>
-          }
-        </Paper>
-      </div>
-    </Box>
-  );
-}
 function DataTable(props: { user: any }) {
   const tablerows = ["Posts", "Sex", "Admin", "Joined"];
   const items = [
@@ -127,13 +62,21 @@ export default function Profile() {
   const [user, setUser] = useState<any>({});
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
-  async function fetch() {
-    await axios
+  const [,setData] = useData();
+  const [,setTitle] = useTitle();
+  const [selected, setSelected] = useSelected();
+  function fetch() {
+    axios
       .get(`/api/profile/${Number(params.id) || "self"}`)
       .then((res) => {
         setUser(res.data);
         document.title = `${res.data.user} | Metahkg`;
       });
+  }
+  function cleardata() {
+    setData([]);
+    setTitle("");
+    selected && setSelected(0);
   }
   const [history, setHistory] = useHistory();
   if (history !== window.location.pathname) {
@@ -144,17 +87,16 @@ export default function Profile() {
   } else if (menu && width < 760) {
     setMenu(false);
   }
-  if (profile !== Number(params.id) || "self") {
+  if (profile !== (Number(params.id) || "self")) {
     setProfile(Number(params.id) || "self");
+    cleardata();
   }
   if (search) {
     setSearch(false);
+    cleardata();
   }
   if (!Object.keys(user).length) {
-    fetch().then(
-      () => {},
-      () => {}
-    );
+    fetch();
   }
   return (
     <div>

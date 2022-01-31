@@ -47,7 +47,7 @@ export default function Empty() {
           <List>
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={`/${localStorage.signedin ? "logout" : "signin"}?returnto=${
+              to={`/${localStorage.user ? "logout" : "signin"}?returnto=${
                 window.location.pathname
               }`}
             >
@@ -56,7 +56,7 @@ export default function Empty() {
                   <AccountCircleIcon />
                 </ListItemIcon>
                 <ListItemText>
-                  {localStorage.signedin ? "Logout" : "Sign in / Register"}
+                  {localStorage.user ? "Logout" : "Sign in / Register"}
                 </ListItemText>
               </ListItem>
             </Link>

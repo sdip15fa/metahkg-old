@@ -18,7 +18,7 @@ import Search from "./pages/search";
 import Profile from "./pages/profile";
 import History from "./pages/history";
 import Menu from "./components/menu";
-import { useCat, useMenu } from "./components/MenuProvider";
+import { useMenu } from "./components/MenuProvider";
 import { Box } from "@mui/material";
 import { useWidth } from "./components/ContextProvider";
 function Source() {
@@ -30,8 +30,6 @@ function Source() {
  * Instead it is controlled by components inside Routes
  */
 export default function App() {
-  document.title = "Metahkg";
-  const [category] = useCat();
   const [menu] = useMenu();
   const [width] = useWidth();
   return (
@@ -44,7 +42,7 @@ export default function App() {
           <div style={{ display: "flex", flexDirection: "row" }}>
             {(menu || window.location.pathname.split("/")[1] === "thread") && (
               <div style={{ width: width < 760 ? "100vw" : "30vw" }}>
-                <Menu key={category} />
+                <Menu/>
               </div>
             )}
             <Routes>

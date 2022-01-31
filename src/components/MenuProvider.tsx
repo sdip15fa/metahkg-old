@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 const MenuContext = createContext<any>({});
 /*
- * PRovide global values for controlling the menu
+ * Provide global values for controlling the menu
  */
 export default function MenuProvider(props: { children: JSX.Element }) {
   const [category, setCategory] = useState(0);
@@ -9,6 +9,9 @@ export default function MenuProvider(props: { children: JSX.Element }) {
   const [profile, setProfile] = useState<number | "self">(0);
   const [search, useSearch] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const [data, setData] = useState([]);
+  const [title, setTitle] = useState("");
   return (
     <MenuContext.Provider
       value={{
@@ -17,6 +20,9 @@ export default function MenuProvider(props: { children: JSX.Element }) {
         search: [search, useSearch],
         profile: [profile, setProfile],
         menu: [menu, setMenu],
+        selected: [selected, setSelected],
+        data: [data, setData],
+        title: [title, setTitle]
       }}
     >
       {props.children}
@@ -39,7 +45,19 @@ export function useProfile() {
   const { profile } = useContext(MenuContext);
   return profile;
 }
-export function useMenu() {
+export function useMenu() : [boolean, React.Dispatch<React.SetStateAction<boolean>>] {
   const { menu } = useContext(MenuContext);
   return menu;
+}
+export function useSelected() : [number, React.Dispatch<React.SetStateAction<number>>] {
+  const { selected } = useContext(MenuContext);
+  return selected;
+}
+export function useData() {
+  const { data } = useContext(MenuContext);
+  return data;
+}
+export function useTitle() {
+  const { title } = useContext(MenuContext);
+  return title;
 }
