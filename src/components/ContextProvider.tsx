@@ -22,7 +22,7 @@ export default function ContextProvider(props: { children: JSX.Element }) {
         history: [history, setHistory],
         width: [width, setWidth],
         query: [query, setQuery],
-        height: [height, setHeight]
+        height: [height, setHeight],
       }}
     >
       {props.children}

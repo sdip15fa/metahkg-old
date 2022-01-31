@@ -6,8 +6,8 @@ const rootRouter = express.Router();
 require("dotenv").config();
 const app = express();
 /*
-* Decrease count by one in collection "hottest" every 2 hours
-*/
+ * Decrease count by one in collection "hottest" every 2 hours
+ */
 setInterval(() => {
   setTimeout(() => {
     autodecrement();
@@ -15,8 +15,8 @@ setInterval(() => {
 }, 7200 * 1000);
 app.disable("x-powered-by");
 /*
-* Get client ip from cloudflare
-*/
+ * Get client ip from cloudflare
+ */
 app.set("trust proxy", true);
 /*
 * Set content security policy
@@ -47,8 +47,8 @@ rootRouter.get("(/*)?", async (req, res) => {
 });
 app.use(rootRouter);
 /*
-* The port can be modified in .env
-*/
+ * The port can be modified in .env
+ */
 app.listen(process.env.port, () => {
   console.log(`listening at port ${process.env.port}`);
 });

@@ -4,10 +4,10 @@ const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 const router = express.Router();
 /*
-* get summary of threads created by a user
-* syntax: GET /api/history/<user-id | "self">
-* returns an array of objects
-*/
+ * get summary of threads created by a user
+ * syntax: GET /api/history/<user-id | "self">
+ * returns an array of objects
+ */
 router.get("/api/history/:id", async (req, res) => {
   if (
     (!isInteger(req.params.id) && !req.params.id === "self") ||

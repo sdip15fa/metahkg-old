@@ -1,6 +1,11 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router";
-import { useMenu, useProfile, useSearch, useSelected } from "../components/MenuProvider";
+import {
+  useMenu,
+  useProfile,
+  useSearch,
+  useSelected,
+} from "../components/MenuProvider";
 import { useHistory, useWidth } from "../components/ContextProvider";
 /*
  * History component for /history/:id

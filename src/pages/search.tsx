@@ -1,15 +1,21 @@
 import { Box, Paper } from "@mui/material";
 import Empty from "../components/empty";
-import { useData, useMenu, useSearch, useSelected, useTitle } from "../components/MenuProvider";
+import {
+  useData,
+  useMenu,
+  useSearch,
+  useSelected,
+  useTitle,
+} from "../components/MenuProvider";
 import { useHistory, useWidth } from "../components/ContextProvider";
 export default function Search() {
   const [search, setSearch] = useSearch();
   const [menu, setMenu] = useMenu();
   const [history, setHistory] = useHistory();
-  const [data ,setData] = useData();
+  const [data, setData] = useData();
   const [width] = useWidth();
   const [selected, setSelected] = useSelected();
-  const [,setTitle] = useTitle();
+  const [, setTitle] = useTitle();
   document.title = "Search | Metahkg";
   if (history !== window.location.pathname) {
     setHistory(window.location.pathname + window.location.search);

@@ -26,9 +26,9 @@ export default function Category() {
   const [search, setSearch] = useSearch();
   const [profile, setProfile] = useProfile();
   const [history, setHistory] = useHistory();
-  const [,setData] = useData();
+  const [, setData] = useData();
   const [width] = useWidth();
-  const [,setTitle] = useTitle();
+  const [, setTitle] = useTitle();
   const [selected, setSelected] = useSelected();
   function cleardata() {
     setData([]);

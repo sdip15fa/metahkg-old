@@ -19,9 +19,9 @@ router.get("/api/search", async (req, res) => {
     await client.connect();
     const summary = client.db("metahkg-threads").collection("summary");
     const sortc = {
-      "0": {},
-      "1": { createdAt: -1 },
-      "2": { lastModified: -1 },
+      0: {},
+      1: { createdAt: -1 },
+      2: { lastModified: -1 },
     }[req.query.sort];
     const data = await summary
       .find({ $text: { $search: req.query.q } })

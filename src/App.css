@@ -13,7 +13,8 @@ body {
   scrollbar-color: #404040 #151515;
 }
 body * {
-  font-family: 'Segoe UI', "Helvetica Neue", Helvetica, Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Tahoma, Geneva, Verdana,
+    sans-serif;
 }
 .App-logo {
   height: 40vmin;

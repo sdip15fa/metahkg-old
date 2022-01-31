@@ -67,9 +67,7 @@ export default function SearchBar(props: {
         inputProps={{ "aria-label": "search" }}
         onKeyPress={props.onKeyPress}
         onChange={props.onChange}
-        defaultValue={decodeURIComponent(
-          String(params.q || query || "")
-        )}
+        defaultValue={decodeURIComponent(String(params.q || query || ""))}
       />
     </Search>
   );

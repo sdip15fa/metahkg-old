@@ -2,8 +2,8 @@ require("dotenv").config();
 const mongouri = process.env.DB_URI; //mongo connection string
 const secret = process.env.hcaptchasecret; //hcaptcha secret used to cerify hcaptcha tokens
 /*
-* get difference in seconds between now and a time string
-*/
+ * get difference in seconds between now and a time string
+ */
 function timediff(sdate) {
   const startDate = new Date(sdate);
   const endDate = new Date();
@@ -35,9 +35,9 @@ return obj: {
   }
 }
 */
-function arrtoobj (arr) {
+function arrtoobj(arr) {
   const obj = {};
-  arr.forEach(item => {
+  arr.forEach((item) => {
     obj[item.id] = item;
     delete obj[item.id].id;
   });
@@ -46,13 +46,13 @@ function arrtoobj (arr) {
 /*
 reverted process of above
 */
-function objtoarr (obj) {
+function objtoarr(obj) {
   const arr = [];
   Object.entries(obj).forEach((item) => {
     const o = item[1];
     o.id = Number(item[0]);
     arr.push(o);
-  })
+  });
   return arr;
 }
 module.exports = { mongouri, secret, timediff, arrtoobj, objtoarr };

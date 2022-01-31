@@ -100,7 +100,7 @@ export default function Title(props: {
           <Tooltip title="Share to Whatsapp">
             <a href={`whatsapp://send?text=${encodeURIComponent(copytext)}`}>
               <IconButton>
-                <WhatsApp/>
+                <WhatsApp />
               </IconButton>
             </a>
           </Tooltip>
@@ -113,18 +113,18 @@ export default function Title(props: {
           marginRight: "20px",
           alignItems: "center",
           justifyContent: "space-between",
-          height: '100%'
+          height: "100%",
         }}
       >
         <div
           style={{
             maxWidth: "100%",
             display: "flex",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Link to={history || `/category/${props.category}`}>
-            <IconButton sx={{margin: 0, padding: 0}}>
+            <IconButton sx={{ margin: 0, padding: 0 }}>
               <ArrowBackIcon color="secondary" />
             </IconButton>
           </Link>

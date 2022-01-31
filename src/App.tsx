@@ -42,7 +42,7 @@ export default function App() {
           <div style={{ display: "flex", flexDirection: "row" }}>
             {(menu || window.location.pathname.split("/")[1] === "thread") && (
               <div style={{ width: width < 760 ? "100vw" : "30vw" }}>
-                <Menu/>
+                <Menu />
               </div>
             )}
             <Routes>

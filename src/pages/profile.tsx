@@ -13,7 +13,14 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router";
-import { useData, useMenu, useProfile, useSearch, useSelected, useTitle } from "../components/MenuProvider";
+import {
+  useData,
+  useMenu,
+  useProfile,
+  useSearch,
+  useSelected,
+  useTitle,
+} from "../components/MenuProvider";
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
 import { Link } from "react-router-dom";
@@ -62,16 +69,14 @@ export default function Profile() {
   const [user, setUser] = useState<any>({});
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
-  const [,setData] = useData();
-  const [,setTitle] = useTitle();
+  const [, setData] = useData();
+  const [, setTitle] = useTitle();
   const [selected, setSelected] = useSelected();
   function fetch() {
-    axios
-      .get(`/api/profile/${Number(params.id) || "self"}`)
-      .then((res) => {
-        setUser(res.data);
-        document.title = `${res.data.user} | Metahkg`;
-      });
+    axios.get(`/api/profile/${Number(params.id) || "self"}`).then((res) => {
+      setUser(res.data);
+      document.title = `${res.data.user} | Metahkg`;
+    });
   }
   function cleardata() {
     setData([]);

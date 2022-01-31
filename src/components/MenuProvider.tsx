@@ -22,7 +22,7 @@ export default function MenuProvider(props: { children: JSX.Element }) {
         menu: [menu, setMenu],
         selected: [selected, setSelected],
         data: [data, setData],
-        title: [title, setTitle]
+        title: [title, setTitle],
       }}
     >
       {props.children}
@@ -45,11 +45,17 @@ export function useProfile() {
   const { profile } = useContext(MenuContext);
   return profile;
 }
-export function useMenu() : [boolean, React.Dispatch<React.SetStateAction<boolean>>] {
+export function useMenu(): [
+  boolean,
+  React.Dispatch<React.SetStateAction<boolean>>
+] {
   const { menu } = useContext(MenuContext);
   return menu;
 }
-export function useSelected() : [number, React.Dispatch<React.SetStateAction<number>>] {
+export function useSelected(): [
+  number,
+  React.Dispatch<React.SetStateAction<number>>
+] {
   const { selected } = useContext(MenuContext);
   return selected;
 }
