@@ -53,7 +53,6 @@ export default function SearchBar(props: {
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
 }) {
-  console.log("rerendered search bar");
   const [query] = useQuery();
   const params = queryString.parse(window.location.search);
   return (
