@@ -1,5 +1,5 @@
-import { Box, Paper, Typography } from "@mui/material";
 import React, { memo, useState } from "react";
+import { Box, Paper, Typography } from "@mui/material";
 import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
@@ -49,6 +49,7 @@ function MainContent() {
       menu: `/api/menu/${c}?sort=${selected}`,
     }[search ? "search" : profile ? "profile" : "menu"];
     axios.get(url).then((res) => {
+      !(page === 1) && setPage(1);
       setUpdating(false);
       if (!res.data.length) {
         setData([404]);
@@ -86,16 +87,21 @@ function MainContent() {
   }
   return (
     <Paper
+      id="paper"
       sx={{
         overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
       }}
       onScroll={(e: any) => {
         if (!end && !updating) {
-        const diff = e.target.scrollHeight - e.target.scrollTop;
-        if (e.target.clientHeight >= diff - 1.5 && e.target.clientHeight <= diff + 1.5) {
-          update();
-        }}
+          const diff = e.target.scrollHeight - e.target.scrollTop;
+          if (
+            e.target.clientHeight >= diff - 1.5 &&
+            e.target.clientHeight <= diff + 1.5
+          ) {
+            update();
+          }
+        }
       }}
     >
       <Box
