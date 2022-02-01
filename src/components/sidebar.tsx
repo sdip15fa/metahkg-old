@@ -21,6 +21,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import SearchBar from "./searchbar";
 import { useQuery } from "./ContextProvider";
+import { categories } from "../lib/common";
+import { useData } from "./MenuProvider";
 /*
  * The sidebar used by Menu
  * link to metahkg frontpage, search bar, sign in/register/logout,
@@ -31,14 +33,6 @@ export default function SideBar() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useQuery();
   const navigate = useNavigate();
-  const categories = {
-    "1": "Chit-chat",
-    "2": "Stories",
-    "3": "School",
-    "4": "Admin",
-    "5": "Leisure",
-    "6": "IT",
-  };
   const toggleDrawer =
     (o: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -54,6 +48,7 @@ export default function SideBar() {
     setOpen(false);
   }
   const links = ["/about", "/source"];
+  const [data, setData] = useData();
   let tempq = decodeURIComponent(query || "");
   return (
     <div>
@@ -106,6 +101,7 @@ export default function SideBar() {
                 onKeyPress={(e: any) => {
                   if (e.key === "Enter" && tempq) {
                     navigate(`/search?q=${encodeURIComponent(tempq)}`);
+                    data && setData([]);
                     setOpen(false);
                     setQuery(tempq);
                   }
@@ -143,7 +139,7 @@ export default function SideBar() {
           </List>
           <Divider />
           <div className="catlink" style={{ margin: "20px" }}>
-            {Object.entries(categories).map((category: [string, string]) => (
+            {Object.entries(categories).map((category: any) => (
               <Link
                 to={`/category/${category[0]}`}
                 style={{

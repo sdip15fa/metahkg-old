@@ -71,7 +71,7 @@ function Conversation(props: { id: number }) {
             category={conversation.category}
             title={conversation.title}
           />
-          <Paper sx={{ overflow: "auto", maxHeight: "calc(100vh - 61px)" }}>
+          <Paper sx={{ overflow: "auto", maxHeight: "calc(100vh - 48px)" }}>
             <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
               {ready &&
                 Object.entries(conversation.conversation).map((entry: any) => (

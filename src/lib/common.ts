@@ -44,3 +44,11 @@ export type summary = {
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+export const categories = {
+  "1": "Chit-chat",
+  "2": "Stories",
+  "3": "School",
+  "4": "Admin",
+  "5": "Leisure",
+  "6": "IT",
+};
