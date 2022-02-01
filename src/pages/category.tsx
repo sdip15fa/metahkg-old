@@ -37,7 +37,7 @@ export default function Category() {
     setTitle("");
     setSelected(0);
   }
-  (history !== window.location.pathname) &&  setHistory(window.location.pathname);
+  history !== window.location.pathname && setHistory(window.location.pathname);
   !menu && setMenu(true);
   if (category !== Number(params.category) || id) {
     setCategory(Number(params.category));
@@ -52,7 +52,7 @@ export default function Category() {
     setProfile(0);
     cleardata();
   }
-  (![0, 1].includes(selected)) && setSelected(0);
+  ![0, 1].includes(selected) && setSelected(0);
   return (
     <Box
       sx={{

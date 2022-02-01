@@ -55,8 +55,8 @@ function MainContent() {
         return;
       }
       setData(res.data);
-      (res.data.length < 25 && !end) && setEnd(true);
-      (res.data.length >= 25 && end) && setEnd(false);
+      res.data.length < 25 && !end && setEnd(true);
+      res.data.length >= 25 && end && setEnd(false);
     });
   }
   function update() {
@@ -69,16 +69,17 @@ function MainContent() {
     axios.get(url).then((res) => {
       const d = data;
       if (res.data?.[0] !== 404) {
-      res.data.forEach((item:any) => {
-        d.push(item);
-      })
-      setData(d);}
+        res.data.forEach((item: any) => {
+          d.push(item);
+        });
+        setData(d);
+      }
       if (res.data.length < 25) {
         setEnd(true);
       }
-      setPage(page => page + 1);
+      setPage((page) => page + 1);
       setUpdating(false);
-    })
+    });
   }
   if (!data.length && (category || id || profile || search)) {
     fetch();
@@ -89,7 +90,7 @@ function MainContent() {
         overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
       }}
-      onScroll={(e:any) => {
+      onScroll={(e: any) => {
         if (!end && !updating) {
         const diff = e.target.scrollHeight - e.target.scrollTop;
         if (e.target.clientHeight >= diff - 1.5 && e.target.clientHeight <= diff + 1.5) {
@@ -97,28 +98,42 @@ function MainContent() {
         }}
       }}
     >
-      <Box sx={{
-        backgroundColor: "primary.main",
-        minHeight: "100%"}}>
-      {!!(data.length && data[0] !== 404) && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: "99%"
-          }}
-        >
-          {data.map((thread: summary) => (
-            <div>
-              <MenuThread key={category} thread={thread} />
-            </div>
-          ))}
-          {updating && <MenuPreload/>}
-          {end && <Typography sx={{fontSize: "20px", color: "secondary.main", textAlign: "center", marginTop: "10px", marginBottom: "10px"}}>
-            End</Typography>}
-        </Box>
-      )}
-      {!data.length && <MenuPreload />}
+      <Box
+        sx={{
+          backgroundColor: "primary.main",
+          minHeight: "100%",
+        }}
+      >
+        {!!(data.length && data[0] !== 404) && (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              maxWidth: "99%",
+            }}
+          >
+            {data.map((thread: summary) => (
+              <div>
+                <MenuThread key={category} thread={thread} />
+              </div>
+            ))}
+            {updating && <MenuPreload />}
+            {end && (
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  color: "secondary.main",
+                  textAlign: "center",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                }}
+              >
+                End
+              </Typography>
+            )}
+          </Box>
+        )}
+        {!data.length && <MenuPreload />}
       </Box>
     </Paper>
   );
@@ -184,7 +199,7 @@ function Menu() {
           </div>
         </div>
       )}
-      <MainContent key={`${search}${profile}${category}${selected}`}/>
+      <MainContent key={`${search}${profile}${category}${selected}`} />
     </Box>
   );
 }
