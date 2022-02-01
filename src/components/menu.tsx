@@ -92,7 +92,7 @@ function MainContent() {
       onScroll={(e:any) => {
         if (!end && !updating) {
         const diff = e.target.scrollHeight - e.target.scrollTop;
-        if ([diff - 1, diff, diff + 1].includes(e.target.clientHeight)) {
+        if (e.target.clientHeight >= diff - 1.5 && e.target.clientHeight <= diff + 1.5) {
           update();
         }}
       }}
