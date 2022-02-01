@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Alert,
   Box,
@@ -16,7 +16,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
-import { severity } from "../lib/common";
+import { categories, severity } from "../lib/common";
 declare const hcaptcha: { reset: (e: string) => void }; //the hcaptcha object, defined to use hcaptcha.reload("")
 /*
  * A select list to choose category
@@ -27,36 +27,23 @@ function ChooseCat(props: {
   errorHandler: (e: string) => void;
   changeHandler: (e: SelectChangeEvent<number>) => void;
 }) {
-  const [state, setState] = React.useState<{ data: any; cat: number }>({
-    data: {},
-    cat: 0,
-  });
-  useEffect(() => {
-    axios
-      .get("/api/categories/all")
-      .then((res) => {
-        setState({ ...state, data: res.data });
-      })
-      .catch((err) => {
-        props.errorHandler(err.response.data);
-      });
-  }, []);
+  const [cat, setCat] = React.useState(0);
   const changeHandler = (e: SelectChangeEvent<number>) => {
-    setState({ ...state, cat: Number(e.target.value) });
+    setCat(Number(e.target.value));
     props.changeHandler(e);
   };
   return (
     <div>
-      {Object.keys(state.data).length && (
+      {Object.keys(categories).length && (
         <FormControl sx={{ minWidth: "200px" }}>
           <InputLabel color="secondary">Category</InputLabel>
           <Select
             color="secondary"
-            value={state.cat}
+            value={cat}
             label="Category"
             onChange={changeHandler}
           >
-            {Object.entries(state.data).map((d: [string, any]) => (
+            {Object.entries(categories).map((d: [string, any]) => (
               <MenuItem value={Number(d[0])}>{d[1]}</MenuItem>
             ))}
           </Select>

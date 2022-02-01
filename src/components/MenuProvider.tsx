@@ -29,7 +29,10 @@ export default function MenuProvider(props: { children: JSX.Element }) {
     </MenuContext.Provider>
   );
 }
-export function useCat() {
+export function useCat(): [
+  1 | 2 | 3 | 4 | 5 | 6,
+  React.Dispatch<React.SetStateAction<number>>
+] {
   const { category } = useContext(MenuContext);
   return category;
 }

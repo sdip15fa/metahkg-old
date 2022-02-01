@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Paper } from "@mui/material";
+import { Box, Button, Divider } from "@mui/material";
 import { Shimmer } from "../../lib/shimmer/shimmer";
 import { roundup } from "../../lib/common";
 import { useSearch } from "../MenuProvider";
@@ -11,8 +11,7 @@ export default function MenuPreload() {
   const amount = roundup(totalheight / 72);
   const buttonwidth = width < 760 ? width : 0.3 * width;
   return (
-    <Paper sx={{ overflow: "auto", maxHeight: totalheight }}>
-      <Box sx={{ backgroundColor: "primary.dark", minHeight: totalheight }}>
+      <Box sx={{ backgroundColor: "#primary.main", minHeight: totalheight }}>
         {[...Array(amount)].map(() => (
           <div>
             <Button
@@ -33,6 +32,5 @@ export default function MenuPreload() {
           </div>
         ))}
       </Box>
-    </Paper>
   );
 }

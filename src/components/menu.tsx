@@ -1,5 +1,5 @@
-import { Box, Paper } from "@mui/material";
-import React, { memo } from "react";
+import { Box, Paper, Typography } from "@mui/material";
+import React, { memo, useState } from "react";
 import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
@@ -37,21 +37,48 @@ function MainContent() {
   const [query] = useQuery();
   const [id] = useId();
   const [data, setData] = useData();
+  const [page, setPage] = useState(1);
+  const [end, setEnd] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const q = decodeURIComponent(String(params.q || query || ""));
+  const c: string | number = id ? `bytid${id}` : category;
   function fetch() {
-    const c: string | number = id ? `bytid${id}` : category;
     const url = {
       search: `/api/search?q=${q}&sort=${selected}`,
-      profile: `/api/history/${profile}?sort=${selected ? "comments" : "post"}`,
+      profile: `/api/history/${profile}?sort=${selected}`,
       menu: `/api/menu/${c}?sort=${selected}`,
     }[search ? "search" : profile ? "profile" : "menu"];
     axios.get(url).then((res) => {
+      setUpdating(false);
       if (!res.data.length) {
         setData([404]);
         return;
       }
       setData(res.data);
+      (res.data.length < 25 && !end) && setEnd(true);
+      (res.data.length >= 25 && end) && setEnd(false);
     });
+  }
+  function update() {
+    setUpdating(true);
+    const url = {
+      search: `/api/search?q=${q}&sort=${selected}&page=${page + 1}`,
+      profile: `/api/history/${profile}?sort=${selected}&page=${page + 1}`,
+      menu: `/api/menu/${c}?sort=${selected}&page=${page + 1}`,
+    }[search ? "search" : profile ? "profile" : "menu"];
+    axios.get(url).then((res) => {
+      const d = data;
+      if (res.data?.[0] !== 404) {
+      res.data.forEach((item:any) => {
+        d.push(item);
+      })
+      setData(d);}
+      if (res.data.length < 25) {
+        setEnd(true);
+      }
+      setPage(page => page + 1);
+      setUpdating(false);
+    })
   }
   if (!data.length && (category || id || profile || search)) {
     fetch();
@@ -62,13 +89,23 @@ function MainContent() {
         overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
       }}
+      onScroll={(e:any) => {
+        if (!end && !updating) {
+        const diff = e.target.scrollHeight - e.target.scrollTop;
+        if ([diff - 1, diff, diff + 1].includes(e.target.clientHeight)) {
+          update();
+        }}
+      }}
     >
+      <Box sx={{
+        backgroundColor: "primary.main",
+        minHeight: "100%"}}>
       {!!(data.length && data[0] !== 404) && (
-        <div
-          style={{
+        <Box
+          sx={{
             display: "flex",
             flexDirection: "column",
-            maxWidth: "99%",
+            maxWidth: "99%"
           }}
         >
           {data.map((thread: summary) => (
@@ -76,26 +113,31 @@ function MainContent() {
               <MenuThread key={category} thread={thread} />
             </div>
           ))}
-        </div>
+          {updating && <MenuPreload/>}
+          {end && <Typography sx={{fontSize: "20px", color: "secondary.main", textAlign: "center", marginTop: "10px", marginBottom: "10px"}}>
+            End</Typography>}
+        </Box>
       )}
       {!data.length && <MenuPreload />}
+      </Box>
     </Paper>
   );
 }
 function Menu() {
   const [selected, setSelected] = useSelected();
-  const [category] = useCat();
   const [, setData] = useData();
   const [menu] = useMenu();
   const [search] = useSearch();
   const [query, setQuery] = useQuery();
   const [, setHistory] = useHistory();
+  const [category] = useCat();
+  const [profile] = useProfile();
   const navigate = useNavigate();
   let tempq = decodeURIComponent(query || "");
   return (
     <Box
       sx={{
-        backgroundColor: "primary.dark",
+        backgroundColor: "primary.main",
         maxWidth: "100%",
         minHeight: "100vh",
         display: menu ? "flex" : "none",
@@ -142,7 +184,7 @@ function Menu() {
           </div>
         </div>
       )}
-      <MainContent key={category} />
+      <MainContent key={`${search}${profile}${category}${selected}`}/>
     </Box>
   );
 }

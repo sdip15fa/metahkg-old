@@ -13,6 +13,7 @@ import {
   useSelected,
   useTitle,
 } from "../components/MenuProvider";
+import { categories } from "../lib/common";
 /*
  * Component for /category/1
  * returns a box with template if width > 760
@@ -20,7 +21,7 @@ import {
  */
 export default function Category() {
   const params = useParams();
-  const [, setId] = useId();
+  const [id, setId] = useId();
   const [menu, setMenu] = useMenu();
   const [category, setCategory] = useCat();
   const [search, setSearch] = useSearch();
@@ -30,18 +31,15 @@ export default function Category() {
   const [width] = useWidth();
   const [, setTitle] = useTitle();
   const [selected, setSelected] = useSelected();
+  document.title = categories[category] + " | Metahkg";
   function cleardata() {
     setData([]);
     setTitle("");
     setSelected(0);
   }
-  if (history !== window.location.pathname) {
-    setHistory(window.location.pathname);
-  }
-  if (!menu) {
-    setMenu(true);
-  }
-  if (category !== Number(params.category)) {
+  (history !== window.location.pathname) &&  setHistory(window.location.pathname);
+  !menu && setMenu(true);
+  if (category !== Number(params.category) || id) {
     setCategory(Number(params.category));
     cleardata();
     setId(0);
@@ -54,9 +52,7 @@ export default function Category() {
     setProfile(0);
     cleardata();
   }
-  if (![0, 1].includes(selected)) {
-    setSelected(0);
-  }
+  (![0, 1].includes(selected)) && setSelected(0);
   return (
     <Box
       sx={{
