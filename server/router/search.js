@@ -30,7 +30,7 @@ router.get("/api/search", async (req, res) => {
       .sort(sortc)
       .skip(25 * (page - 1))
       .limit(25)
-      .project({_id: 0})
+      .project({ _id: 0 })
       .toArray();
     res.send(data);
   } finally {

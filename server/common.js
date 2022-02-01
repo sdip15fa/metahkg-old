@@ -1,6 +1,6 @@
 require("dotenv").config();
-const mongouri = process.env.DB_URI; //mongo connection string
-const secret = process.env.hcaptchasecret; //hcaptcha secret used to cerify hcaptcha tokens
+const mongouri = process.env.DB_URI; // mongo connection string
+const secret = process.env.hcaptchasecret; // hcaptcha secret used to cerify hcaptcha tokens
 /*
  * get difference in seconds between now and a time string
  */
