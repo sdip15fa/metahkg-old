@@ -11,26 +11,26 @@ export default function MenuPreload() {
   const amount = roundup(totalheight / 72);
   const buttonwidth = width < 760 ? width : 0.3 * width;
   return (
-      <Box sx={{ backgroundColor: "#primary.main", minHeight: totalheight }}>
-        {[...Array(amount)].map(() => (
-          <div>
-            <Button
-              sx={{
-                height: 72,
-                width: "99%",
-                display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <Shimmer height={20} width={buttonwidth * 0.45} />
-              <div style={{ height: "10px" }} />
-              <Shimmer height={24} width={buttonwidth * 0.8} />
-            </Button>
-            <Divider />
-          </div>
-        ))}
-      </Box>
+    <Box sx={{ backgroundColor: "#primary.main", minHeight: totalheight }}>
+      {[...Array(amount)].map(() => (
+        <div>
+          <Button
+            sx={{
+              height: 72,
+              width: "99%",
+              display: "flex",
+              alignItems: "flex-start",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Shimmer height={20} width={buttonwidth * 0.45} />
+            <div style={{ height: "10px" }} />
+            <Shimmer height={24} width={buttonwidth * 0.8} />
+          </Button>
+          <Divider />
+        </div>
+      ))}
+    </Box>
   );
 }
