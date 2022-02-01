@@ -94,10 +94,14 @@ function MainContent() {
       }}
       onScroll={(e: any) => {
         if (!end && !updating) {
-        const diff = e.target.scrollHeight - e.target.scrollTop;
-        if (e.target.clientHeight >= diff - 1.5 && e.target.clientHeight <= diff + 1.5) {
-          update();
-        }}
+          const diff = e.target.scrollHeight - e.target.scrollTop;
+          if (
+            e.target.clientHeight >= diff - 1.5 &&
+            e.target.clientHeight <= diff + 1.5
+          ) {
+            update();
+          }
+        }
       }}
     >
       <Box
