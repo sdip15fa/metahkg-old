@@ -1,5 +1,5 @@
-//check whether a thread exist
-//syntax: POST /api/check {id : number}
+// check whether a thread exist
+// syntax: POST /api/check {id : number}
 const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
