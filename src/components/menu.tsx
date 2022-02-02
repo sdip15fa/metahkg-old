@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
@@ -86,9 +86,8 @@ function MainContent() {
     fetch();
   }
   return (
-    <Paper
-      id="paper"
-      sx={{
+    <div
+      style={{
         overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
       }}
@@ -141,7 +140,7 @@ function MainContent() {
         )}
         {!data.length && <MenuPreload />}
       </Box>
-    </Paper>
+    </div>
   );
 }
 function Menu() {
@@ -154,6 +153,7 @@ function Menu() {
   const [category] = useCat();
   const [profile] = useProfile();
   const navigate = useNavigate();
+  const [n, setN] = useState(Math.random());
   let tempq = decodeURIComponent(query || "");
   return (
     <Box
@@ -168,6 +168,7 @@ function Menu() {
       <MenuTop
         refresh={() => {
           setData([]);
+          setN(Math.random());
         }}
         onClick={(e: number) => {
           if (selected !== e) {
@@ -205,7 +206,7 @@ function Menu() {
           </div>
         </div>
       )}
-      <MainContent key={`${search}${profile}${category}${selected}`} />
+      <MainContent key={`${search}${profile}${category}${selected}${n}`} />
     </Box>
   );
 }
