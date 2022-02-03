@@ -9,3 +9,5 @@ prettify:
     - git commit -a -m prettify
     - git remote set-url origin https://wcyat:$gitlab_token@gitlab.com/wcyat-me/metahkg.git
     - git push origin $CI_COMMIT_BRANCH
+  rules:
+    - if: $CI_COMMIT_AUTHOR == "wcyat"
