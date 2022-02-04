@@ -19,9 +19,9 @@ const { mongouri } = require("./common");
       },
     })
     .toArray();
-  const thread = await threads.findOne({id: 40});
-  console.log(thread?.conversation.findIndex(i => i.id === Number("1")));
-  console.log(thread?.conversation.findIndex(i => i.id === Number("4")));
+  const thread = await threads.findOne({ id: 40 });
+  console.log(thread?.conversation.findIndex((i) => i.id === Number("1")));
+  console.log(thread?.conversation.findIndex((i) => i.id === Number("4")));
   console.log(t);
   console.log(performance.now() - start);
   exit(0);

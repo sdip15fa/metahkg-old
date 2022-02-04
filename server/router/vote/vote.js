@@ -33,11 +33,8 @@ router.post("/api/vote", body_parser.json(), async (req, res) => {
       return;
     }
     const thread = await threads.findOne({ id: req.body.id });
-    const index = thread.conversation.findIndex(i => i.id === req.body.cid);
-    if (
-      !thread ||
-      index < 0
-    ) {
+    const index = thread.conversation.findIndex((i) => i.id === req.body.cid);
+    if (!thread || index < 0) {
       res.status(404);
       res.send("Not found.");
       return;

@@ -1,6 +1,6 @@
-//add a comment
-//Syntax: POST /api/comment {id (thread id) : number, comment : string}
-//client must have a cookie "key"
+// add a comment
+// Syntax: POST /api/comment {id (thread id) : number, comment : string}
+// client must have a cookie "key"
 const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
@@ -97,7 +97,7 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
       };
       await hottest.insertOne(o);
     }
-    res.send({id: newid});
+    res.send({ id: newid });
   } finally {
     await client.close();
   }

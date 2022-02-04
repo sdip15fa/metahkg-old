@@ -1,7 +1,7 @@
-//get conversation
-//Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
-//conversation: main conversation content
-//users: content of users involved in the conversation
+// get conversation
+// Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
+// conversation: main conversation content
+// users: content of users involved in the conversation
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");
@@ -16,7 +16,7 @@ const isInteger = require("is-sn-integer");
 router.get("/api/thread/:id", async (req, res) => {
   if (
     !isInteger(req.params.id) ||
-    ![0, 1, 2].includes(Number(req.query.type))  ||
+    ![0, 1, 2].includes(Number(req.query.type)) ||
     (Number(req.query.type) === 2 && !isInteger(req.query.page))
   ) {
     res.status(400);
@@ -30,7 +30,10 @@ router.get("/api/thread/:id", async (req, res) => {
   try {
     if (!type) {
       const users = client.db("metahkg-threads").collection("users");
-      const r = await users.findOne({id: Number(req.params.id)}, {projection: {_id: 0}});
+      const r = await users.findOne(
+        { id: Number(req.params.id) },
+        { projection: { _id: 0 } }
+      );
       if (!r) {
         res.status(404);
         res.send("Not found");
@@ -41,20 +44,40 @@ router.get("/api/thread/:id", async (req, res) => {
     }
     const threads = client.db("metahkg-threads").collection("conversation");
     const summary = client.db("metahkg-threads").collection("summary");
-    const result = type === 1 ? await summary.findOne({ id: Number(req.params.id) }, 
-    {projection: {_id:0, sex: 0, vote: 0, catname: 0, lastModified: 0, createdAt: 0}}) :
-     await threads.findOne({ id: Number(req.params.id) }, {projection: {
-        _id: 0,
-        conversation: {
-          $filter: {
-            input: "$conversation",
-            cond: {$and: [
-              {$gte: ["$$this.id", ((page - 1) * 25) + 1]},
-              {$lte: ["$$this.id", page * 25]}
-            ]}
-          }
-        }
-      }});
+    const result =
+      type === 1
+        ? await summary.findOne(
+            { id: Number(req.params.id) },
+            {
+              projection: {
+                _id: 0,
+                sex: 0,
+                vote: 0,
+                catname: 0,
+                lastModified: 0,
+                createdAt: 0,
+              },
+            }
+          )
+        : await threads.findOne(
+            { id: Number(req.params.id) },
+            {
+              projection: {
+                _id: 0,
+                conversation: {
+                  $filter: {
+                    input: "$conversation",
+                    cond: {
+                      $and: [
+                        { $gte: ["$$this.id", (page - 1) * 25 + 1] },
+                        { $lte: ["$$this.id", page * 25] },
+                      ],
+                    },
+                  },
+                },
+              },
+            }
+          );
     if (!result) {
       res.status(404);
       res.send("Not found");

@@ -24,8 +24,10 @@ router.post("/api/getvotes", bodyParser.json(), async (req, res) => {
       res.send("User not found");
       return;
     }
-    const uservotes = await votes
-      .findOne({ id: user.id }, {projection: { [req.body.id]: 1, _id: 0 }})
+    const uservotes = await votes.findOne(
+      { id: user.id },
+      { projection: { [req.body.id]: 1, _id: 0 } }
+    );
     res.send(uservotes?.[req.body.id] || { none: "none" });
   } finally {
     await client.close();
