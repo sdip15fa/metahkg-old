@@ -33,7 +33,11 @@ router.post("/api/vote", body_parser.json(), async (req, res) => {
       return;
     }
     const thread = await threads.findOne({ id: req.body.id });
-    if (!thread || !thread.conversation[req.body.cid]) {
+    const index = thread.conversation.findIndex(i => i.id === req.body.cid);
+    if (
+      !thread ||
+      index < 0
+    ) {
       res.status(404);
       res.send("Not found.");
       return;
@@ -50,15 +54,15 @@ router.post("/api/vote", body_parser.json(), async (req, res) => {
       { id: user.id },
       { $set: { [`${req.body.id}.${req.body.cid}`]: req.body.vote } }
     );
-    if (!thread.conversation?.[req.body.cid]?.[req.body.vote]) {
+    if (!thread.conversation[index]?.[req.body.vote]) {
       await threads.updateOne(
         { id: req.body.id },
-        { $set: { [`conversation.${req.body.cid}.${req.body.vote}`]: 0 } }
+        { $set: { [`conversation.${index}.${req.body.vote}`]: 0 } }
       );
     }
     await threads.updateOne(
       { id: req.body.id },
-      { $inc: { [`conversation.${req.body.cid}.${req.body.vote}`]: 1 } }
+      { $inc: { [`conversation.${index}.${req.body.vote}`]: 1 } }
     );
     if (req.body.cid === 1) {
       await summary.updateOne(

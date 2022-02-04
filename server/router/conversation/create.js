@@ -70,11 +70,12 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const newcid =
       ((
         await summary
-          .find({}, { id: 1, _id: 0 })
+          .find()
           .sort({ id: -1 })
           .limit(1)
+          .project({ id: 1, _id: 0 })
           .toArray()
-      )[0].id || (await conversation.countDocuments({}))) + 1;
+      )[0].id || (await conversation.countDocuments())) + 1;
     const date = new Date();
     const slink = `https://l.wcyat.me/${
       (
@@ -89,9 +90,9 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
       title: req.body.title,
       category: category.id,
       slink: slink,
-      conversation: {
-        1: { user: user.id, comment: req.body.icomment, createdAt: date },
-      },
+      conversation: [
+        { id: 1, user: user.id, comment: req.body.icomment, createdAt: date },
+      ],
       lastModified: date,
     });
     await users.insertOne({
