@@ -97,7 +97,7 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
       };
       await hottest.insertOne(o);
     }
-    res.send({id: newid});
+    res.send({ id: newid });
   } finally {
     await client.close();
   }

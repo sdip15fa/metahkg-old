@@ -147,10 +147,11 @@ function Conversation(props: { id: number }) {
                 }
               }
               if (lastHeight !== e.target.scrollTop) {
-                if(lastHeight && !pageUpdated) {
-                  const p = e.target.scrollTop > lastHeight ? stpage : stpage - 1;
+                if (lastHeight && !pageUpdated) {
+                  const p =
+                    e.target.scrollTop > lastHeight ? stpage : stpage - 1;
                   if (p !== Number(params.page) && p) {
-                    navigate(`${window.location.pathname}?page=${p}`)
+                    navigate(`${window.location.pathname}?page=${p}`);
                     setPageUpdated(true);
                   }
                 }
@@ -162,39 +163,44 @@ function Conversation(props: { id: number }) {
               {ready &&
                 [...Array(pages)].map((p, index) => (
                   <Box>
-                    <ReactVisibilitySensor onChange={(isVisible) => {
-                      if (isVisible && conversation.length) {
-                        setStpage(roundup(conversation[0].id / 25) + index);
-                        console.log(roundup(conversation[0].id / 25) + index, index + 1);
-                        setPageUpdated(false);
-                      }
-                    }}>
-                    <PageTop
-                      pages={roundup(details.c / 25)}
-                      page={roundup(conversation[0].id / 25) + index}
-                      onChange={(e: any) => {
-                        setConversation([]);
-                        setStpage(e.target.value);
-                        setPages(1);
-                        setPage(e.target.value);
-                        setPageUpdated(true);
-                        setEnd(false);
-                        setN(Math.random());
-                        navigate(
-                          `${window.location.pathname}?page=${e.target.value}`
-                        );
-                        axios
-                          .get(
-                            `/api/thread/${props.id}?type=2&page=${e.target.value}`
-                          )
-                          .then((res) => {
-                            setConversation(res.data);
-                            if (res.data.length % 25) {
-                              setEnd(true);
-                            }
-                          });
+                    <ReactVisibilitySensor
+                      onChange={(isVisible) => {
+                        if (isVisible && conversation.length) {
+                          setStpage(roundup(conversation[0].id / 25) + index);
+                          console.log(
+                            roundup(conversation[0].id / 25) + index,
+                            index + 1
+                          );
+                          setPageUpdated(false);
+                        }
                       }}
-                    />
+                    >
+                      <PageTop
+                        pages={roundup(details.c / 25)}
+                        page={roundup(conversation[0].id / 25) + index}
+                        onChange={(e: any) => {
+                          setConversation([]);
+                          setStpage(e.target.value);
+                          setPages(1);
+                          setPage(e.target.value);
+                          setPageUpdated(true);
+                          setEnd(false);
+                          setN(Math.random());
+                          navigate(
+                            `${window.location.pathname}?page=${e.target.value}`
+                          );
+                          axios
+                            .get(
+                              `/api/thread/${props.id}?type=2&page=${e.target.value}`
+                            )
+                            .then((res) => {
+                              setConversation(res.data);
+                              if (res.data.length % 25) {
+                                setEnd(true);
+                              }
+                            });
+                        }}
+                      />
                     </ReactVisibilitySensor>
                     {splitarray(
                       conversation,
