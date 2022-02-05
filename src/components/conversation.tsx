@@ -5,6 +5,7 @@ import {
   CircularProgress,
   LinearProgress,
   Paper,
+  SelectChangeEvent,
 } from "@mui/material";
 import queryString from "query-string";
 import Comment from "./comment";
@@ -37,6 +38,7 @@ function Conversation(props: { id: number }) {
   const [n, setN] = useState(Math.random());
   const [pageUpdated, setPageUpdated] = useState(false);
   const navigate = useNavigate();
+  !params.page && navigate(`${window.location.pathname}?page=1`);
   function getdata() {
     axios
       .get(`/api/thread/${props.id}?type=1`)
@@ -97,6 +99,10 @@ function Conversation(props: { id: number }) {
           setPage((page) => page + 1);
           setPages(Math.floor((c[c.length - 1].id - c[0].id) / 25) + 1);
           navigate(`/thread/${props.id}?page=${page + 1}`);
+          document.getElementById(String(page + 1))?.scrollIntoView();
+          const croot = document.getElementById("croot");
+          // @ts-ignore
+          croot.scrollTop -= croot?.clientHeight / 5;
         } else {
           setEnd(true);
         }
@@ -119,6 +125,23 @@ function Conversation(props: { id: number }) {
     Object.keys(details).length &&
     (localStorage.user ? Object.keys(votes).length : 1)
   );
+  function changePage(p: number) {
+    ![p - 1, p, p + 1].includes(page) && setConversation([]);
+    setStpage(page);
+    setPages(1);
+    setPage(page);
+    setPageUpdated(true);
+    setEnd(false);
+    setN(Math.random());
+    navigate(`${window.location.pathname}?page=${p}`);
+    axios.get(`/api/thread/${props.id}?type=2&page=${p}`).then((res) => {
+      setConversation(res.data);
+      if (res.data.length % 25) {
+        setEnd(true);
+      }
+      document.getElementById(String(page))?.scrollIntoView();
+    });
+  }
   return (
     <div className="conversation" style={{ minHeight: "100vh" }}>
       <Notification notify={notify} setNotify={setNotify} />
@@ -133,6 +156,7 @@ function Conversation(props: { id: number }) {
             title={details.title}
           />
           <Paper
+            id="croot"
             key={n}
             sx={{ overflow: "auto", maxHeight: "calc(100vh - 48px)" }}
             onScroll={(e: any) => {
@@ -147,10 +171,11 @@ function Conversation(props: { id: number }) {
                 }
               }
               if (lastHeight !== e.target.scrollTop) {
-                if(lastHeight && !pageUpdated) {
-                  const p = e.target.scrollTop > lastHeight ? stpage : stpage - 1;
+                if (lastHeight && !pageUpdated) {
+                  const p =
+                    e.target.scrollTop > lastHeight ? stpage : stpage - 1;
                   if (p !== Number(params.page) && p) {
-                    navigate(`${window.location.pathname}?page=${p}`)
+                    navigate(`${window.location.pathname}?page=${p}`);
                     setPageUpdated(true);
                   }
                 }
@@ -162,39 +187,31 @@ function Conversation(props: { id: number }) {
               {ready &&
                 [...Array(pages)].map((p, index) => (
                   <Box>
-                    <ReactVisibilitySensor onChange={(isVisible) => {
-                      if (isVisible && conversation.length) {
-                        setStpage(roundup(conversation[0].id / 25) + index);
-                        console.log(roundup(conversation[0].id / 25) + index, index + 1);
-                        setPageUpdated(false);
-                      }
-                    }}>
-                    <PageTop
-                      pages={roundup(details.c / 25)}
-                      page={roundup(conversation[0].id / 25) + index}
-                      onChange={(e: any) => {
-                        setConversation([]);
-                        setStpage(e.target.value);
-                        setPages(1);
-                        setPage(e.target.value);
-                        setPageUpdated(true);
-                        setEnd(false);
-                        setN(Math.random());
-                        navigate(
-                          `${window.location.pathname}?page=${e.target.value}`
-                        );
-                        axios
-                          .get(
-                            `/api/thread/${props.id}?type=2&page=${e.target.value}`
-                          )
-                          .then((res) => {
-                            setConversation(res.data);
-                            if (res.data.length % 25) {
-                              setEnd(true);
-                            }
-                          });
+                    <ReactVisibilitySensor
+                      onChange={(isVisible) => {
+                        if (isVisible && conversation.length) {
+                          setStpage(roundup(conversation[0].id / 25) + index);
+                          setPageUpdated(false);
+                        }
                       }}
-                    />
+                    >
+                      <PageTop
+                        key={roundup(conversation[0].id / 25) + index}
+                        id={roundup(conversation[0].id / 25) + index}
+                        pages={roundup(details.c / 25)}
+                        page={roundup(conversation[0].id / 25) + index}
+                        onChange={(e: SelectChangeEvent<number>) => {
+                          changePage(Number(e.target.value));
+                        }}
+                        last={!(page === 1 && !index)}
+                        next={page !== roundup(details.c / 25)}
+                        onLastClicked={() => {
+                          changePage(page - 1);
+                        }}
+                        onNextClicked={() => {
+                          changePage(page + 1);
+                        }}
+                      />
                     </ReactVisibilitySensor>
                     {splitarray(
                       conversation,
