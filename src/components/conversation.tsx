@@ -126,10 +126,10 @@ function Conversation(props: { id: number }) {
     (localStorage.user ? Object.keys(votes).length : 1)
   );
   function changePage(p: number) {
-    ![p - 1, p, p + 1].includes(page) && setConversation([]);
-    setStpage(page);
+    setConversation([]);
+    setStpage(p);
     setPages(1);
-    setPage(page);
+    setPage(p);
     setPageUpdated(true);
     setEnd(false);
     setN(Math.random());
@@ -196,20 +196,19 @@ function Conversation(props: { id: number }) {
                       }}
                     >
                       <PageTop
-                        key={roundup(conversation[0].id / 25) + index}
                         id={roundup(conversation[0].id / 25) + index}
                         pages={roundup(details.c / 25)}
                         page={roundup(conversation[0].id / 25) + index}
                         onChange={(e: SelectChangeEvent<number>) => {
                           changePage(Number(e.target.value));
                         }}
-                        last={!(page === 1 && !index)}
-                        next={page !== roundup(details.c / 25)}
+                        last={!(roundup(conversation[0].id / 25) + index === 1 && !index)}
+                        next={roundup(conversation[0].id / 25) + index !== roundup(details.c / 25)}
                         onLastClicked={() => {
-                          changePage(page - 1);
+                          changePage(roundup(conversation[0].id / 25) + index - 1);
                         }}
                         onNextClicked={() => {
-                          changePage(page + 1);
+                          changePage(roundup(conversation[0].id / 25) + index + 1);
                         }}
                       />
                     </ReactVisibilitySensor>
