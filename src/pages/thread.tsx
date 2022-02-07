@@ -14,8 +14,8 @@ export default function Thread() {
   const [id, setId] = useId();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
-  (!menu && !(width < 760)) && setMenu(true);
-  (menu && width < 760) && setMenu(false);
+  !menu && !(width < 760) && setMenu(true);
+  menu && width < 760 && setMenu(false);
   if (!category && !id) {
     const i = window.location.pathname.split("/");
     setId(i.pop() || i.pop());
