@@ -204,13 +204,25 @@ function Conversation(props: { id: number }) {
                         onChange={(e: SelectChangeEvent<number>) => {
                           changePage(Number(e.target.value));
                         }}
-                        last={!(roundup(conversation[0].id / 25) + index === 1 && !index)}
-                        next={roundup(conversation[0].id / 25) + index !== roundup(details.c / 25)}
+                        last={
+                          !(
+                            roundup(conversation[0].id / 25) + index === 1 &&
+                            !index
+                          )
+                        }
+                        next={
+                          roundup(conversation[0].id / 25) + index !==
+                          roundup(details.c / 25)
+                        }
                         onLastClicked={() => {
-                          changePage(roundup(conversation[0].id / 25) + index - 1);
+                          changePage(
+                            roundup(conversation[0].id / 25) + index - 1
+                          );
                         }}
                         onNextClicked={() => {
-                          changePage(roundup(conversation[0].id / 25) + index + 1);
+                          changePage(
+                            roundup(conversation[0].id / 25) + index + 1
+                          );
                         }}
                       />
                     </ReactVisibilitySensor>
