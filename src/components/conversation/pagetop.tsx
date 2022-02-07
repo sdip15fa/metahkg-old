@@ -17,7 +17,6 @@ export default function PageTop(props: {
   ref?: string;
   id?: number | string;
 }) {
-  console.log(props.last, props.next);
   return (
     <Box
       sx={{

@@ -21,9 +21,7 @@ export default function AddComment() {
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
-  if (menu) {
-    setMenu(false);
-  }
+  menu && setMenu(false);
   const [state, setState] = React.useState<{
     comment: string;
     disabled: boolean;

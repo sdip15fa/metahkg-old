@@ -34,9 +34,7 @@ function Conversation(props: { id: number }) {
   const [updating, setUpdating] = useState(false);
   const [pages, setPages] = useState(1);
   const [end, setEnd] = useState(false);
-  const [stpage, setStpage] = useState(Number(params.page) || 1);
   const [n, setN] = useState(Math.random());
-  const [pageUpdated, setPageUpdated] = useState(false);
   const navigate = useNavigate();
   !params.page && navigate(`${window.location.pathname}?page=1`);
   function getdata() {
@@ -87,6 +85,7 @@ function Conversation(props: { id: number }) {
           ) {
             c.push(res.data?.[i]);
           }
+          lastHeight = 0;
           setConversation(c);
           setEnd(true);
         } else if (res.data.length) {
@@ -102,7 +101,10 @@ function Conversation(props: { id: number }) {
           document.getElementById(String(page + 1))?.scrollIntoView();
           const croot = document.getElementById("croot");
           // @ts-ignore
-          croot.scrollTop -= croot?.clientHeight / 5;
+          if (!(croot?.clientHeight / 5 + 60 >= croot?.clientHeight) && (croot?.scrollHeight - croot?.scrollTop > croot?.clientHeight)) {
+            // @ts-ignore
+            croot.scrollTop -= croot?.clientHeight / 5;
+          }
         } else {
           setEnd(true);
         }
@@ -126,11 +128,11 @@ function Conversation(props: { id: number }) {
     (localStorage.user ? Object.keys(votes).length : 1)
   );
   function changePage(p: number) {
-    setConversation([]);
-    setStpage(p);
+    //const reset = ![page - 1, page, page + 1].includes(p);
+    /*reset &&*/ setConversation([]);
     setPages(1);
     setPage(p);
-    setPageUpdated(true);
+    lastHeight = 0;
     setEnd(false);
     setN(Math.random());
     navigate(`${window.location.pathname}?page=${p}`);
@@ -170,17 +172,6 @@ function Conversation(props: { id: number }) {
                   update();
                 }
               }
-              if (lastHeight !== e.target.scrollTop) {
-                if (lastHeight && !pageUpdated) {
-                  const p =
-                    e.target.scrollTop > lastHeight ? stpage : stpage - 1;
-                  if (p !== Number(params.page) && p) {
-                    navigate(`${window.location.pathname}?page=${p}`);
-                    setPageUpdated(true);
-                  }
-                }
-                lastHeight = e.target.scrollTop;
-              }
             }}
           >
             <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
@@ -189,9 +180,20 @@ function Conversation(props: { id: number }) {
                   <Box>
                     <ReactVisibilitySensor
                       onChange={(isVisible) => {
-                        if (isVisible && conversation.length) {
-                          setStpage(roundup(conversation[0].id / 25) + index);
-                          setPageUpdated(false);
+                        const croot = document.getElementById("croot");
+                        let page = roundup(conversation[0].id / 25) + index;
+                        if (isVisible) {
+                          lastHeight = croot?.scrollTop || lastHeight; 
+                          navigate(`${window.location.pathname}?page=${page}`);
+                        }
+                        if (!isVisible && conversation.length) {
+                          if (lastHeight !== croot?.scrollTop) {
+                              // @ts-ignore
+                              page = croot.scrollTop > lastHeight ? page : page - 1;
+                              if (lastHeight && page !== Number(params.page) && page) {
+                                navigate(`${window.location.pathname}?page=${page}`);
+                              }
+                            }
                         }
                       }}
                     >
