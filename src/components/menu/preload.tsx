@@ -21,7 +21,7 @@ export default function MenuPreload() {
               display: "flex",
               alignItems: "flex-start",
               flexDirection: "column",
-              justifyContent: "center"
+              justifyContent: "center",
             }}
           >
             <Shimmer height={20} width={buttonwidth * 0.45} />
