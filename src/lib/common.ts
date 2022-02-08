@@ -52,3 +52,10 @@ export const categories = {
   "5": "Leisure",
   "6": "IT",
 };
+export function splitarray(arr: [], start: number, end: number) {
+  const r: [] = [];
+  for (let i = start; i <= end; i++) {
+    arr[i] !== undefined && r.push(arr[i]);
+  }
+  return r;
+}

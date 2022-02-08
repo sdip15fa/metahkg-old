@@ -84,9 +84,7 @@ export default function Profile() {
     selected && setSelected(0);
   }
   const [history, setHistory] = useHistory();
-  if (history !== window.location.pathname) {
-    setHistory(window.location.pathname);
-  }
+  history !== window.location.pathname && setHistory(window.location.pathname);
   if (!menu && !(width < 760)) {
     setMenu(true);
   } else if (menu && width < 760) {
@@ -100,9 +98,7 @@ export default function Profile() {
     setSearch(false);
     cleardata();
   }
-  if (!Object.keys(user).length) {
-    fetch();
-  }
+  !Object.keys(user).length && fetch();
   return (
     <div>
       <Box
@@ -139,7 +135,7 @@ export default function Profile() {
                   <img
                     src={
                       user?.avatar ||
-                      "https://metahkg.s3.ap-northeast-1.amazonaws.com/avatars/noavatar.png"
+                      "https://metahkg.s3.amazonaws.com/avatars/noavatar.png"
                     }
                     alt="User avatar"
                   />

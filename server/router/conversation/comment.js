@@ -42,6 +42,7 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
       res.send("Not found.");
       return;
     }
+    const newid = (await summary.findOne({ id: req.body.id })).c + 1;
     if ((await limit.countDocuments({ id: user.id, type: "comment" })) >= 300) {
       res.status(429);
       res.send("You cannot add more than 300 comments a day.");
@@ -50,10 +51,9 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
     await conversation.updateOne(
       { id: req.body.id },
       {
-        $set: {
-          [`conversation.${
-            (await summary.findOne({ id: req.body.id })).c + 1
-          }`]: {
+        $push: {
+          conversation: {
+            id: newid,
             user: user.id,
             comment: DOMPurify.sanitize(req.body.comment),
             createdAt: new Date(),
@@ -97,7 +97,7 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
       };
       await hottest.insertOne(o);
     }
-    res.send("ok");
+    res.send({ id: newid });
   } finally {
     await client.close();
   }

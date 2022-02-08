@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useWidth } from "../components/ContextProvider";
 import { useMenu } from "../components/MenuProvider";
 import TextEditor from "../components/texteditor";
-import type { severity } from "../lib/common";
+import { roundup, severity } from "../lib/common";
 let inittext = ""; //used for quoting
 /*
  * AddComment component for /comment/:id adds a comment
@@ -21,9 +21,7 @@ export default function AddComment() {
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
-  if (menu) {
-    setMenu(false);
-  }
+  menu && setMenu(false);
   const [state, setState] = React.useState<{
     comment: string;
     disabled: boolean;
@@ -59,6 +57,7 @@ export default function AddComment() {
         });
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   function addcomment() {
     //send data to server /api/comment
@@ -69,8 +68,8 @@ export default function AddComment() {
     });
     axios
       .post("/api/comment", { id: id, comment: state.comment })
-      .then(() => {
-        navigate(`/thread/${id}`);
+      .then((res) => {
+        navigate(`/thread/${id}?page=${roundup(res.data.id / 25)}`);
       })
       .catch((err) => {
         setState({

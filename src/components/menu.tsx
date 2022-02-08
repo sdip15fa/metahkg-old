@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
 import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
@@ -43,6 +43,7 @@ function MainContent() {
   const q = decodeURIComponent(String(params.q || query || ""));
   const c: string | number = id ? `bytid${id}` : category;
   function fetch() {
+    setUpdating(true);
     const url = {
       search: `/api/search?q=${q}&sort=${selected}`,
       profile: `/api/history/${profile}?sort=${selected}`,
@@ -50,7 +51,6 @@ function MainContent() {
     }[search ? "search" : profile ? "profile" : "menu"];
     axios.get(url).then((res) => {
       !(page === 1) && setPage(1);
-      setUpdating(false);
       if (!res.data.length) {
         setData([404]);
         return;
@@ -58,6 +58,7 @@ function MainContent() {
       setData(res.data);
       res.data.length < 25 && !end && setEnd(true);
       res.data.length >= 25 && end && setEnd(false);
+      setUpdating(false);
     });
   }
   function update() {
@@ -82,11 +83,11 @@ function MainContent() {
       setUpdating(false);
     });
   }
-  if (!data.length && (category || id || profile || search)) {
+  if (!data.length && (category || id || profile || search) && !updating) {
     fetch();
   }
   return (
-    <div
+    <Paper
       style={{
         overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
@@ -140,7 +141,7 @@ function MainContent() {
         )}
         {!data.length && <MenuPreload />}
       </Box>
-    </div>
+    </Paper>
   );
 }
 function Menu() {
