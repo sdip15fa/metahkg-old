@@ -128,8 +128,7 @@ function Conversation(props: { id: number }) {
     (localStorage.user ? Object.keys(votes).length : 1)
   );
   function changePage(p: number) {
-    //const reset = ![page - 1, page, page + 1].includes(p);
-    /*reset &&*/ setConversation([]);
+    setConversation([]);
     setPages(1);
     setPage(p);
     lastHeight = 0;
@@ -144,6 +143,7 @@ function Conversation(props: { id: number }) {
       document.getElementById(String(page))?.scrollIntoView();
     });
   }
+
   return (
     <div className="conversation" style={{ minHeight: "100vh" }}>
       <Notification notify={notify} setNotify={setNotify} />
@@ -255,6 +255,8 @@ function Conversation(props: { id: number }) {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                bgcolor: "primary.dark",
+                border: "0px"
               }}
             >
               {!updating ? (

@@ -35,7 +35,7 @@ export default function App() {
   return (
     <Theme
       primary={{ main: "#222222" }}
-      secondary={{ main: "#F5BD1F", dark: "#ffc100" }}
+      secondary={{ main: "#f5bd1f", dark: "#ffc100" }}
     >
       <Box sx={{ maxHeight: "100vh", backgroundColor: "primary.dark" }}>
         <Router>
