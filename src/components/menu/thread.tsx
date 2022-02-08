@@ -20,7 +20,7 @@ export default function MenuThread(props: { thread: summary }) {
     <div>
       <Link
         style={{ width: "100%", textDecoration: "none" }}
-        to={`/thread/${props.thread.id}`}
+        to={`/thread/${props.thread.id}?page=1`}
       >
         <Button
           sx={{ width: "100%", display: "flex", flexDirection: "column" }}

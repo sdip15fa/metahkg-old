@@ -1,5 +1,5 @@
-import { Box, Paper, Typography } from "@mui/material";
 import React, { memo, useState } from "react";
+import { Box, Typography, Paper } from "@mui/material";
 import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
@@ -43,13 +43,14 @@ function MainContent() {
   const q = decodeURIComponent(String(params.q || query || ""));
   const c: string | number = id ? `bytid${id}` : category;
   function fetch() {
+    setUpdating(true);
     const url = {
       search: `/api/search?q=${q}&sort=${selected}`,
       profile: `/api/history/${profile}?sort=${selected}`,
       menu: `/api/menu/${c}?sort=${selected}`,
     }[search ? "search" : profile ? "profile" : "menu"];
     axios.get(url).then((res) => {
-      setUpdating(false);
+      !(page === 1) && setPage(1);
       if (!res.data.length) {
         setData([404]);
         return;
@@ -57,6 +58,7 @@ function MainContent() {
       setData(res.data);
       res.data.length < 25 && !end && setEnd(true);
       res.data.length >= 25 && end && setEnd(false);
+      setUpdating(false);
     });
   }
   function update() {
@@ -81,12 +83,12 @@ function MainContent() {
       setUpdating(false);
     });
   }
-  if (!data.length && (category || id || profile || search)) {
+  if (!data.length && (category || id || profile || search) && !updating) {
     fetch();
   }
   return (
     <Paper
-      sx={{
+      style={{
         overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
       }}
@@ -152,6 +154,7 @@ function Menu() {
   const [category] = useCat();
   const [profile] = useProfile();
   const navigate = useNavigate();
+  const [n, setN] = useState(Math.random());
   let tempq = decodeURIComponent(query || "");
   return (
     <Box
@@ -166,6 +169,7 @@ function Menu() {
       <MenuTop
         refresh={() => {
           setData([]);
+          setN(Math.random());
         }}
         onClick={(e: number) => {
           if (selected !== e) {
@@ -203,7 +207,7 @@ function Menu() {
           </div>
         </div>
       )}
-      <MainContent key={`${search}${profile}${category}${selected}`} />
+      <MainContent key={`${search}${profile}${category}${selected}${n}`} />
     </Box>
   );
 }
