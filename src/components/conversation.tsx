@@ -193,7 +193,7 @@ function Conversation(props: { id: number }) {
                         if (!isVisible && conversation.length) {
                           if (lastHeight !== croot?.scrollTop) {
                             page =
-                            // @ts-ignore
+                              // @ts-ignore
                               croot.scrollTop > lastHeight ? page : page - 1;
                             if (
                               lastHeight &&
@@ -267,7 +267,7 @@ function Conversation(props: { id: number }) {
                 justifyContent: "center",
                 alignItems: "center",
                 bgcolor: "primary.dark",
-                border: "0px"
+                border: "0px",
               }}
             >
               {!updating ? (
