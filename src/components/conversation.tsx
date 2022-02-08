@@ -100,9 +100,10 @@ function Conversation(props: { id: number }) {
           navigate(`/thread/${props.id}?page=${page + 1}`);
           document.getElementById(String(page + 1))?.scrollIntoView();
           const croot = document.getElementById("croot");
-          // @ts-ignore
           if (
+            // @ts-ignore
             !(croot?.clientHeight / 5 + 60 >= croot?.clientHeight) &&
+            // @ts-ignore
             croot?.scrollHeight - croot?.scrollTop > croot?.clientHeight
           ) {
             // @ts-ignore
@@ -191,8 +192,8 @@ function Conversation(props: { id: number }) {
                         }
                         if (!isVisible && conversation.length) {
                           if (lastHeight !== croot?.scrollTop) {
-                            // @ts-ignore
                             page =
+                            // @ts-ignore
                               croot.scrollTop > lastHeight ? page : page - 1;
                             if (
                               lastHeight &&
