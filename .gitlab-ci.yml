@@ -1,5 +1,5 @@
 prettify:
-  image: node:16.13.1
+  image: node:17.4.0
   script:
     - git checkout $CI_COMMIT_BRANCH
     - npm install prettier
