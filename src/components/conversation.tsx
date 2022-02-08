@@ -101,7 +101,10 @@ function Conversation(props: { id: number }) {
           document.getElementById(String(page + 1))?.scrollIntoView();
           const croot = document.getElementById("croot");
           // @ts-ignore
-          if (!(croot?.clientHeight / 5 + 60 >= croot?.clientHeight) && (croot?.scrollHeight - croot?.scrollTop > croot?.clientHeight)) {
+          if (
+            !(croot?.clientHeight / 5 + 60 >= croot?.clientHeight) &&
+            croot?.scrollHeight - croot?.scrollTop > croot?.clientHeight
+          ) {
             // @ts-ignore
             croot.scrollTop -= croot?.clientHeight / 5;
           }
@@ -183,17 +186,24 @@ function Conversation(props: { id: number }) {
                         const croot = document.getElementById("croot");
                         let page = roundup(conversation[0].id / 25) + index;
                         if (isVisible) {
-                          lastHeight = croot?.scrollTop || lastHeight; 
+                          lastHeight = croot?.scrollTop || lastHeight;
                           navigate(`${window.location.pathname}?page=${page}`);
                         }
                         if (!isVisible && conversation.length) {
                           if (lastHeight !== croot?.scrollTop) {
-                              // @ts-ignore
-                              page = croot.scrollTop > lastHeight ? page : page - 1;
-                              if (lastHeight && page !== Number(params.page) && page) {
-                                navigate(`${window.location.pathname}?page=${page}`);
-                              }
+                            // @ts-ignore
+                            page =
+                              croot.scrollTop > lastHeight ? page : page - 1;
+                            if (
+                              lastHeight &&
+                              page !== Number(params.page) &&
+                              page
+                            ) {
+                              navigate(
+                                `${window.location.pathname}?page=${page}`
+                              );
                             }
+                          }
                         }
                       }}
                     >
