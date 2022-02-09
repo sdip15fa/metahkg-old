@@ -4,10 +4,7 @@ const { mongouri } = require("../../common");
 const isInteger = require("is-sn-integer");
 const router = express.Router();
 router.get("/api/getvotes", async (req, res) => {
-  if (
-    !req.query.id ||
-    !isInteger(req.query.id)
-  ) {
+  if (!req.query.id || !isInteger(req.query.id)) {
     res.status(400);
     res.send("Bad request.");
     return;
