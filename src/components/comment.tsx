@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
 import parse from "html-react-parser";
@@ -13,7 +13,7 @@ import { useState } from "react";
  * the comment body
  * and upvote and downvote buttons
  */
-export default function Comment(props: {
+function Comment(props: {
   op: boolean; //is original poster (true | false)
   sex: boolean; //user sex
   id: number; //comment id
@@ -146,3 +146,4 @@ export default function Comment(props: {
     </Box>
   );
 }
+export default memo(Comment);

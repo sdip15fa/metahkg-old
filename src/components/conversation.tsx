@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -35,9 +35,11 @@ function Conversation(props: { id: number }) {
   const [pages, setPages] = useState(1);
   const [end, setEnd] = useState(false);
   const [n, setN] = useState(Math.random());
+  const fetching = useRef(false);
   const navigate = useNavigate();
   !params.page && navigate(`${window.location.pathname}?page=1`);
   function getdata() {
+    fetching.current = true;
     axios
       .get(`/api/thread/${props.id}?type=1`)
       .then((res) => {
@@ -119,11 +121,22 @@ function Conversation(props: { id: number }) {
     setNotify({ open: true, text: error });
   }
   if (
+    !fetching.current &&
     !conversation.length &&
     !Object.keys(users).length &&
-    !Object.keys(details).length
+    !Object.keys(details).length &&
+    (localStorage.user ? !Object.keys(votes).length : true)
   ) {
     getdata();
+  }
+  else if (
+    fetching.current &&
+    conversation.length &&
+    Object.keys(users).length &&
+    Object.keys(details).length &&
+    (localStorage.user ? Object.keys(votes).length : true)
+  ) {
+    fetching.current = false;
   }
   const ready = !!(
     conversation.length &&

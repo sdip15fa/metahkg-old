@@ -172,9 +172,9 @@ export default function SideBar() {
               </Link>
             ))}
           </List>
+          <Divider />
           {localStorage.user && (
             <div>
-              <Divider />
               <List>
                 <Link
                   to="/profile/self"
@@ -188,8 +188,10 @@ export default function SideBar() {
                   </ListItem>
                 </Link>
               </List>
+              <Divider />
             </div>
           )}
+          <p style={{color: "white", paddingLeft: "5px"}}>Metahkg build {process.env.REACT_APP_build || "1.0.0-custom"}</p>
         </Box>
       </Drawer>
     </div>

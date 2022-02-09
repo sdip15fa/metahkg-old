@@ -28,7 +28,7 @@ export default function MenuTop(props: {
 }) {
   const [search] = useSearch();
   const [profile] = useProfile();
-  const [category] = useCat();
+  const [category, setCat] = useCat();
   const [id] = useId();
   const inittitle = {
     search: "Search",
@@ -54,6 +54,7 @@ export default function MenuTop(props: {
       }
       axios.get(`/api/categories/${category || `bytid${id}`}`).then((res) => {
         setTitle(res.data.name);
+        !category && setCat(res.data.id);
         if (!id) {
           document.title = `${res.data.name} | Metahkg`;
         }
