@@ -201,7 +201,9 @@ function Conversation(props: { id: number }) {
                         let page = roundup(conversation[0].id / 25) + index;
                         if (isVisible) {
                           lastHeight = croot?.scrollTop || lastHeight;
-                          navigate(`${window.location.pathname}?page=${page}`);
+                          if (page !== Number(params.page) && page) {
+                            navigate(`${window.location.pathname}?page=${page}`);
+                          }
                         }
                         if (!isVisible && conversation.length) {
                           if (lastHeight !== croot?.scrollTop) {

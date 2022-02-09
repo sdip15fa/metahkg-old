@@ -53,6 +53,7 @@ function MainContent() {
       !(page === 1) && setPage(1);
       if (!res.data.length) {
         setData([404]);
+        setUpdating(false);
         return;
       }
       setData(res.data);
