@@ -17,7 +17,7 @@ let inittext = ""; //used for quoting
  * captcha not needed
  */
 export default function AddComment() {
-  document.title = "Comment | METAHKG";
+  document.title = "Comment | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();

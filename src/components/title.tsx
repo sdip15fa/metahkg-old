@@ -35,7 +35,7 @@ export default function Title(props: {
   const [history] = useHistory();
   const [width] = useWidth();
   const copytext =
-    props.title + "\n" + props.slink + "\n- Shared from METAHKG forum";
+    props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
   return (
     <Box sx={{ backgroundColor: "primary.main", height: "47px" }}>
       <Notification notify={notify} setNotify={setNotify} />
@@ -89,7 +89,7 @@ export default function Title(props: {
           <Tooltip title="Share to Telegram">
             <a
               href={`tg://msg_url?text=${encodeURIComponent(
-                props.title + "\n- Shared from METAHKG forum"
+                props.title + "\n- Shared from Metahkg forum"
               )}&url=${props.slink}`}
             >
               <IconButton>

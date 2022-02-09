@@ -44,7 +44,7 @@ function Conversation(props: { id: number }) {
       .get(`/api/thread/${props.id}?type=1`)
       .then((res) => {
         setDetails(res.data);
-        document.title = `${res.data.title} | METAHKG`;
+        document.title = `${res.data.title} | Metahkg`;
       })
       .catch((err) => {
         setError(err.response.data);

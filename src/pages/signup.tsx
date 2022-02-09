@@ -71,7 +71,7 @@ function Sex(props: {
  * If user already signed in, he is redirected to /
  */
 export default function Register() {
-  document.title = "Register | METAHKG";
+  document.title = "Register | Metahkg";
   const navigate = useNavigate();
   const [width] = useWidth();
   const [state, setState] = React.useState<{
@@ -202,7 +202,7 @@ export default function Register() {
               marginBottom: "20px",
             }}
           >
-            Register a METAHKG account
+            Register a Metahkg account
           </h1>
           {state.alert.text && (
             <Alert

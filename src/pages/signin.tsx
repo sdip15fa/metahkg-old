@@ -16,7 +16,7 @@ import { severity } from "../lib/common";
  * After signing in, user is redirected to params.returnto if it exists, otherwise /
  */
 export default function Signin() {
-  document.title = "Sign in | METAHKG";
+  document.title = "Sign in | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
@@ -124,7 +124,7 @@ export default function Signin() {
               marginBottom: "20px",
             }}
           >
-            Sign in to your METAHKG account
+            Sign in to your Metahkg account
           </h1>
           {!state.alert.text ? (
             <div />

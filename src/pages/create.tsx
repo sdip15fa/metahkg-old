@@ -59,7 +59,7 @@ function ChooseCat(props: {
  * The user must be signed in, otherwise he would be redirected to /signin
  */
 export default function Create() {
-  document.title = "Create topic | METAHKG";
+  document.title = "Create topic | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();

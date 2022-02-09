@@ -31,7 +31,7 @@ export default function Category() {
   const [width] = useWidth();
   const [, setTitle] = useTitle();
   const [selected, setSelected] = useSelected();
-  document.title = categories[category] + " | METAHKG";
+  document.title = categories[category] + " | Metahkg";
   function cleardata() {
     setData([]);
     setTitle("");
