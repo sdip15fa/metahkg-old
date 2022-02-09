@@ -128,8 +128,7 @@ function Conversation(props: { id: number }) {
     (localStorage.user ? !Object.keys(votes).length : true)
   ) {
     getdata();
-  }
-  else if (
+  } else if (
     fetching.current &&
     conversation.length &&
     Object.keys(users).length &&
@@ -202,7 +201,9 @@ function Conversation(props: { id: number }) {
                         if (isVisible) {
                           lastHeight = croot?.scrollTop || lastHeight;
                           if (page !== Number(params.page) && page) {
-                            navigate(`${window.location.pathname}?page=${page}`);
+                            navigate(
+                              `${window.location.pathname}?page=${page}`
+                            );
                           }
                         }
                         if (!isVisible && conversation.length) {
