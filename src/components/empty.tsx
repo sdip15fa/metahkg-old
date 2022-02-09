@@ -40,9 +40,9 @@ export default function Empty() {
               height="40px"
               width="50px"
               src="/logo.svg"
-              alt="Metahkg"
+              alt="METAHKG"
             />
-            <h1 style={{ color: "white" }}>Metahkg</h1>
+            <h1 style={{ color: "white" }}>METAHKG</h1>
           </div>
           <List>
             <Link

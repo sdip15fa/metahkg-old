@@ -1,4 +1,4 @@
-# Deploying Metahkg
+# Deploying METAHKG
 
 ## Prerequisites
 

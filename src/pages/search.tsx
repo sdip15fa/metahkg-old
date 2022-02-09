@@ -17,7 +17,7 @@ export default function Search() {
   const [width] = useWidth();
   const [selected, setSelected] = useSelected();
   const [, setTitle] = useTitle();
-  document.title = "Search | Metahkg";
+  document.title = "Search | METAHKG";
   history !== window.location.pathname &&
     setHistory(window.location.pathname + window.location.search);
   !menu && setMenu(true);

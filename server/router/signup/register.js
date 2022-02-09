@@ -93,9 +93,9 @@ router.post("/api/register", body_parser.json(), async (req, res) => {
   const verification = client.db("metahkg-users").collection("verification");
   const code = random.int(100000, 999999);
   const verify = {
-    from: "Metahkg support <support@metahkg.wcyat.me>",
+    from: "METAHKG support <support@metahkg.wcyat.me>",
     to: req.body.email,
-    subject: "Metahkg verification code",
+    subject: "METAHKG verification code",
     text: `Your verification code is ${code}.`,
   };
   await mg.messages().send(verify, function (error, body) {

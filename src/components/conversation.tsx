@@ -44,7 +44,7 @@ function Conversation(props: { id: number }) {
       .get(`/api/thread/${props.id}?type=1`)
       .then((res) => {
         setDetails(res.data);
-        document.title = `${res.data.title} | Metahkg`;
+        document.title = `${res.data.title} | METAHKG`;
       })
       .catch((err) => {
         setError(err.response.data);
@@ -60,7 +60,7 @@ function Conversation(props: { id: number }) {
       }
     });
     if (localStorage.user) {
-      axios.post("/api/getvotes", { id: Number(props.id) }).then((res) => {
+      axios.get(`/api/getvotes?id=${Number(props.id)}`).then((res) => {
         setVotes(res.data);
       });
     }

@@ -1,6 +1,6 @@
 {
   "name": "metahkg",
-  "version": "0.5.1-patch1",
+  "version": "0.5.1-dev1",
   "author": "wcyat",
   "license": "MIT",
   "dependencies": {

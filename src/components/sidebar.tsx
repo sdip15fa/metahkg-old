@@ -86,10 +86,10 @@ export default function SideBar() {
                       width="24px"
                       height="24px"
                       src="/logo.svg"
-                      alt="Metahkg"
+                      alt="METAHKG"
                     />
                   </ListItemIcon>
-                  <ListItemText>Metahkg</ListItemText>
+                  <ListItemText>METAHKG</ListItemText>
                 </ListItem>
               </Link>
             </List>
@@ -192,7 +192,7 @@ export default function SideBar() {
             </div>
           )}
           <p style={{ color: "white", paddingLeft: "5px" }}>
-            Metahkg build {process.env.REACT_APP_build || "1.0.0-custom"}
+            METAHKG build {process.env.REACT_APP_build || "1.0.0-custom"}
           </p>
         </Box>
       </Drawer>

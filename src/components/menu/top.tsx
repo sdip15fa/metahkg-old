@@ -33,7 +33,7 @@ export default function MenuTop(props: {
   const inittitle = {
     search: "Search",
     profile: "User Profile",
-    menu: "Metahkg",
+    menu: "METAHKG",
   }[search ? "search" : profile ? "profile" : "menu"];
   const [title, setTitle] = useTitle();
   const tabs = {
@@ -48,7 +48,7 @@ export default function MenuTop(props: {
       if (profile) {
         await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
           setTitle(res.data.user);
-          document.title = `${res.data.user} | Metahkg`;
+          document.title = `${res.data.user} | METAHKG`;
         });
         return;
       }
@@ -56,7 +56,7 @@ export default function MenuTop(props: {
         setTitle(res.data.name);
         !category && setCat(res.data.id);
         if (!id) {
-          document.title = `${res.data.name} | Metahkg`;
+          document.title = `${res.data.name} | METAHKG`;
         }
       });
     })();
