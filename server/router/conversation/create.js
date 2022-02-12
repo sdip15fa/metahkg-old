@@ -75,7 +75,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
           .limit(1)
           .project({ id: 1, _id: 0 })
           .toArray()
-      )[0].id || (await conversation.countDocuments())) + 1;
+      )[0]?.id || (await conversation.countDocuments())) + 1;
     const date = new Date();
     const slink = `https://l.wcyat.me/${
       (
