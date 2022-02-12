@@ -45,7 +45,7 @@ export default function MenuThread(props: { thread: summary }) {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <p
                   style={{
-                    color: props.thread.sex === "male" ? "#0277bd" : "red",
+                    color: props.thread.sex ? "#0277bd" : "red",
                     fontSize: "16px",
                     textAlign: "left",
                   }}

@@ -167,7 +167,7 @@ export default function Profile() {
                     >
                       <span
                         style={{
-                          color: user.sex === "male" ? "#34aadc" : "red",
+                          color: user.sex ? "#34aadc" : "red",
                         }}
                       >
                         {user.user}

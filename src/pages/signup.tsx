@@ -78,7 +78,7 @@ export default function Register() {
     user: string;
     email: string;
     pwd: string;
-    sex: string;
+    sex: boolean;
     disabled: boolean;
     waiting: boolean;
     htoken: string;
@@ -88,7 +88,7 @@ export default function Register() {
     user: "",
     email: "",
     pwd: "",
-    sex: "",
+    sex: true,
     disabled: false,
     waiting: false,
     htoken: "",
@@ -233,7 +233,7 @@ export default function Register() {
             <Sex
               disabled={state.waiting}
               changeHandler={(e) => {
-                setState({ ...state, sex: e.target.value ? "male" : "female" });
+                setState({ ...state, sex: Boolean(e.target.value) });
               }}
             />
             {width < 760 ? <br /> : <div />}

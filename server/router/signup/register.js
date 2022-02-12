@@ -6,7 +6,7 @@
   pwd (password, sha256 hashed): string,
   email: string,
   htoken (hcaptcha token): string,
-  sex: "male" | "female"
+  sex: boolean
 }
 */
 require("dotenv").config();
@@ -35,10 +35,9 @@ async function valid(req, res) {
       typeof req.body.user === "string" &&
       typeof req.body.pwd === "string" &&
       typeof req.body.email === "string" &&
-      typeof req.body.htoken === "string"
-    ) ||
-    (req.body.sex !== "female" && req.body.sex !== "male") ||
-    Object.keys(req.body).length > 5 ||
+      typeof req.body.htoken === "string" &&
+      typeof req.body.sex === "boolean"
+    ) || Object.keys(req.body).length > 5 ||
     !EmailValidator.validate(req.body.email)
   ) {
     res.status(400);

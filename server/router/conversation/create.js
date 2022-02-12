@@ -80,7 +80,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const slink = `https://l.wcyat.me/${
       (
         await axios.post("https://api-us.wcyat.me/create", {
-          url: `https://metahkg.wcyat.me/thread/${newcid}`,
+          url: `https://metahkg.wcyat.me/thread/${newcid}?page=1`,
         })
       ).data.id
     }`;

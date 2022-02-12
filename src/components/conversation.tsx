@@ -262,7 +262,7 @@ function Conversation(props: { id: number }) {
                         name={users?.[entry.user].name}
                         id={entry.id}
                         op={users?.[entry.user].name === details.op}
-                        sex={users?.[entry.user].sex === "male" ? true : false}
+                        sex={users?.[entry.user].sex}
                         date={entry.createdAt}
                         tid={props.id}
                         up={entry.up | 0}

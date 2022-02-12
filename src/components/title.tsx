@@ -66,7 +66,7 @@ export default function Title(props: {
             value={copytext}
           />
           <br />
-          <Tooltip title="Copy">
+          <Tooltip arrow title="Copy">
             <IconButton
               onClick={async () => {
                 await navigator.clipboard.writeText(props.slink);
@@ -76,7 +76,7 @@ export default function Title(props: {
               <ContentCopy sx={{ textAlign: "start", fontSize: "22px" }} />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Copy link">
+          <Tooltip arrow title="Copy link">
             <IconButton
               onClick={async () => {
                 await navigator.clipboard.writeText(props.slink);
@@ -86,7 +86,7 @@ export default function Title(props: {
               <LinkIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Share to Telegram">
+          <Tooltip arrow title="Share to Telegram">
             <a
               href={`tg://msg_url?text=${encodeURIComponent(
                 props.title + "\n- Shared from Metahkg forum"
@@ -97,7 +97,7 @@ export default function Title(props: {
               </IconButton>
             </a>
           </Tooltip>
-          <Tooltip title="Share to Whatsapp">
+          <Tooltip arrow title="Share to Whatsapp">
             <a href={`whatsapp://send?text=${encodeURIComponent(copytext)}`}>
               <IconButton>
                 <WhatsApp />
