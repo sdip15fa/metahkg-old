@@ -26,3 +26,6 @@ uploads/
 
 # vscode
 .vscode/
+
+# local scripts
+deploy.sh
