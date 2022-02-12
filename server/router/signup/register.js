@@ -1,6 +1,6 @@
-//Signup for an account
-//humans only
-/*Syntax: POST /api/register
+// Signup for an account
+// humans only
+/* Syntax: POST /api/register
 {
   user (username): string,
   pwd (password, sha256 hashed): string,
@@ -37,7 +37,8 @@ async function valid(req, res) {
       typeof req.body.email === "string" &&
       typeof req.body.htoken === "string" &&
       typeof req.body.sex === "boolean"
-    ) || Object.keys(req.body).length > 5 ||
+    ) ||
+    Object.keys(req.body).length > 5 ||
     !EmailValidator.validate(req.body.email)
   ) {
     res.status(400);
