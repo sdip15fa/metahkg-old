@@ -33,7 +33,7 @@ export type summary = {
   c: number;
   id: number;
   op: string;
-  sex: string;
+  sex: boolean;
   title: string;
   category: number;
   lastModified: string;
