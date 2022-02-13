@@ -1,6 +1,6 @@
-//Signup for an account
-//humans only
-/*Syntax: POST /api/register
+// Signup for an account
+// humans only
+/* Syntax: POST /api/register
 {
   user (username): string,
   pwd (password, sha256 hashed): string,
