@@ -21,24 +21,17 @@ export default function History() {
   const [history, setHistory] = useHistory();
   const [width] = useWidth();
   const [selected, setSelected] = useSelected();
-  if (![0, 1].includes(selected)) {
+  ![0, 1].includes(selected) &&
     setSelected(0);
-  }
   if (!(width < 760)) {
     navigate(`/profile/${params.id}`);
   } else {
-    if (!menu) {
-      setMenu(true);
-    }
-    if (history !== window.location.pathname) {
+    !menu && setMenu(true);
+    history !== window.location.pathname &&
       setHistory(window.location.pathname);
-    }
-    if (profile !== Number(params.id) || "self") {
+    (profile !== Number(params.id) || "self") && 
       setProfile(Number(params.id) || "self");
-    }
-    if (search) {
-      setSearch(false);
-    }
+    search && setSearch(false);
   }
   return <div />;
 }

@@ -71,12 +71,14 @@ export default function Profile() {
   const [width] = useWidth();
   const [, setData] = useData();
   const [, setTitle] = useTitle();
+  const [fetching, setFetching] = useState(false);
   const [selected, setSelected] = useSelected();
   function fetch() {
+    setFetching(true);
     axios.get(`/api/profile/${Number(params.id) || "self"}`).then((res) => {
       setUser(res.data);
-      setTitle(res.data.user);
       document.title = `${res.data.user} | Metahkg`;
+      setFetching(false);
     });
   }
   function cleardata() {
@@ -99,7 +101,7 @@ export default function Profile() {
     setSearch(false);
     cleardata();
   }
-  !Object.keys(user).length && fetch();
+  !Object.keys(user).length && !fetching && fetch();
   return (
     <div>
       <Box
