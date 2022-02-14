@@ -14,3 +14,8 @@ node server/migrate/migratetov0.5.2.js
 ## v0.5.2dev-patch1
 
 - patch profile not being able to display sex
+
+## v0.5.2dev1
+
+- minor changes to api
+- patch thread creation

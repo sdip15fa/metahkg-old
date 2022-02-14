@@ -2,8 +2,9 @@ prettify:
   image: node:16.13.1
   script:
     - git checkout $CI_COMMIT_BRANCH
-    - npx prettier --check . || (git checkout $CI_COMMIT_BRANCH && 
-      npx prettier --write . &&
+    - (npx prettier --check server && npx prettier --check src) || (git checkout $CI_COMMIT_BRANCH && 
+      npx prettier --write server &&
+      npx prettier --write src &&
       git config user.name wcyat-bot &b&
       git config user.email bot@wcyat.me &&
       git commit -a -m prettify &&
