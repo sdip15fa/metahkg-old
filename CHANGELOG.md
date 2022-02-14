@@ -23,3 +23,7 @@ node server/migrate/migratetov0.5.2.js
 ## v0.5.2dev2
 
 - adopt a more modern design for menu thread
+
+## v0.5.2dev3
+
+- use "now" for time less than a minute

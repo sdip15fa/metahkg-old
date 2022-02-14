@@ -8,13 +8,16 @@ export function timetoword(sdate: string): string {
   const startDate = new Date(sdate);
   const endDate = new Date();
   const diff = endDate.getTime() - startDate.getTime();
-  let r: any = humanizeDurationShortened(diff, {
+  const shortened: string = humanizeDurationShortened(diff, {
     round: true,
     spacer: "",
     delimiter: " ",
   });
-  r = r.split(" ");
-  return r[0];
+  let r : string = shortened.split(" ")[0];
+  if (r.endsWith("s")) {
+    r = "now";
+  }
+  return r;
 }
 export function timetoword_long(sdate: string): string {
   const startDate = new Date(sdate);
