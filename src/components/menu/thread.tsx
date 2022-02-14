@@ -1,8 +1,11 @@
 import React from "react";
-import { Divider, Button, Typography } from "@mui/material";
+import "./thread.css";
+import { Divider, Button, Box } from "@mui/material";
 import {
   ThumbUp as ThumbUpIcon,
   ThumbDown as ThumbDownIcon,
+  Article as ArticleIcon,
+  Comment as CommentIcon,
 } from "@mui/icons-material";
 import { timetoword, roundup, summary } from "../../lib/common";
 import { Link } from "react-router-dom";
@@ -16,149 +19,70 @@ export default function MenuThread(props: { thread: summary }) {
   const [cat] = useCat();
   const [search] = useSearch();
   const [profile] = useProfile();
+  const { thread } = props;
   return (
     <div>
       <Link
-        style={{ width: "100%", textDecoration: "none" }}
-        to={`/thread/${props.thread.id}?page=1`}
+        style={{ width: "99%", textDecoration: "none" }}
+        to={`/thread/${thread.id}?page=1`}
       >
-        <Button
-          sx={{ width: "100%", display: "flex", flexDirection: "column" }}
-        >
+        <Box className="menuthread">
           <div
             style={{
-              textTransform: "none",
               height: "35px",
               width: "100%",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                width: "100%",
-                height: "35px",
-                marginLeft: "10px",
-                justifyContent: "space-between",
-              }}
-            >
+            <div className="threadtop">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <p
+                  className="threadtoptext ml20"
                   style={{
-                    color: props.thread.sex ? "#0277bd" : "red",
+                    color: thread.sex ? "#0277bd" : "red",
                     fontSize: "16px",
-                    textAlign: "left",
                   }}
                 >
-                  {props.thread.op}
+                  {thread.op}
                 </p>
-                <p
-                  style={{
-                    marginLeft: "5px",
-                    fontSize: "12px",
-                    color: "#aca9a9",
-                    paddingTop: "1px",
-                  }}
-                >
-                  {timetoword(props.thread.lastModified)}
-                </p>
-                {props.thread.vote >= 0 ? (
-                  <ThumbUpIcon
-                    sx={{
-                      color: "#aca9a9",
-                      height: "12px",
-                      paddingTop: "1px",
-                    }}
-                  />
-                ) : (
-                  <ThumbDownIcon
-                    sx={{
-                      color: "#aca9a9",
-                      height: "12px",
-                      paddingTop: "1px",
-                    }}
-                  />
-                )}
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#aca9a9",
-                    paddingTop: "1px",
-                  }}
-                >
-                  {props.thread.vote}
+                <p className="threadtoptext ml5">
+                  {timetoword(thread.lastModified)}
                 </p>
               </div>
-              <p
-                style={{
-                  color: "#aca9a9",
-                  fontSize: "12px",
-                  paddingRight: "10px",
-                }}
-              >
-                {String(roundup(props.thread.c / 25)) +
-                  ` page${roundup(props.thread.c / 25) > 1 ? "s" : ""}`}
-              </p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {thread.vote >= 0 ? (
+                  <ThumbUpIcon className="threadicons" />
+                ) : (
+                  <ThumbDownIcon className="threadicons" />
+                )}
+                <p className="threadtoptext">{thread.vote}</p>
+                <CommentIcon className="threadicons" />
+                <p className="threadtoptext">{thread.c}</p>
+                <ArticleIcon className="threadicons" />
+                <p className="threadtoptext mr10">
+                  {String(roundup(thread.c / 25))}
+                </p>
+              </div>
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-between",
-              textTransform: "none",
-              alignItems: "center",
-            }}
-          >
-            <p
-              style={{
-                color: "white",
-                fontSize: "16px",
-                paddingLeft: "10px",
-                wordBreak: "break-word",
-                marginTop: 0,
-                marginBottom: "5px",
-                lineHeight: "20px",
-                maxHeight: "40px",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                paddingRight: "30px",
-                textAlign: "left",
-              }}
-            >
-              {props.thread.title}
-            </p>
-            {(cat === 1 || search || profile) && (
+          <div className="threadbottom">
+            <p className="ml20 threadtitle">{thread.title}</p>
+            {!!(cat === 1 || search || profile) && (
               <Link
-                to={`/category/${props.thread.category}`}
+                className="mr10"
+                to={`/category/${thread.category}`}
                 style={{ textDecoration: "none" }}
               >
                 <Button
                   variant="contained"
-                  sx={{
-                    borderRadius: "15px",
-                    textTransform: "none",
-                    backgroundColor: "#333",
-                    margin: "0px",
-                    padding: "0px",
-                  }}
+                  className="threadcatbtn"
+                  sx={{ backgroundColor: "#333" }}
                 >
-                  <Typography
-                    sx={{
-                      color: "white",
-                      fontSize: "12px",
-                      padding: "0px",
-                      margin: "0px",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {props.thread.catname}
-                  </Typography>
+                  <p className="threadcatname">{thread.catname}</p>
                 </Button>
               </Link>
             )}
           </div>
-        </Button>
+        </Box>
       </Link>
       <Divider />
     </div>
