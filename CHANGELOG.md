@@ -19,3 +19,7 @@ node server/migrate/migratetov0.5.2.js
 
 - minor changes to api
 - patch thread creation
+
+## v0.5.2dev2
+
+- adopt a more modern design for menu thread
