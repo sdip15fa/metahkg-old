@@ -75,6 +75,7 @@ export default function Profile() {
   function fetch() {
     axios.get(`/api/profile/${Number(params.id) || "self"}`).then((res) => {
       setUser(res.data);
+      setTitle(res.data.user);
       document.title = `${res.data.user} | Metahkg`;
     });
   }
