@@ -60,7 +60,7 @@ function Conversation(props: { id: number }) {
       }
     });
     if (localStorage.user) {
-      axios.post("/api/getvotes", { id: Number(props.id) }).then((res) => {
+      axios.get(`/api/getvotes?id=${Number(props.id)}`).then((res) => {
         setVotes(res.data);
       });
     }
@@ -128,8 +128,7 @@ function Conversation(props: { id: number }) {
     (localStorage.user ? !Object.keys(votes).length : true)
   ) {
     getdata();
-  }
-  else if (
+  } else if (
     fetching.current &&
     conversation.length &&
     Object.keys(users).length &&
@@ -202,7 +201,9 @@ function Conversation(props: { id: number }) {
                         if (isVisible) {
                           lastHeight = croot?.scrollTop || lastHeight;
                           if (page !== Number(params.page) && page) {
-                            navigate(`${window.location.pathname}?page=${page}`);
+                            navigate(
+                              `${window.location.pathname}?page=${page}`
+                            );
                           }
                         }
                         if (!isVisible && conversation.length) {
@@ -261,7 +262,7 @@ function Conversation(props: { id: number }) {
                         name={users?.[entry.user].name}
                         id={entry.id}
                         op={users?.[entry.user].name === details.op}
-                        sex={users?.[entry.user].sex === "male" ? true : false}
+                        sex={users?.[entry.user].sex}
                         date={entry.createdAt}
                         tid={props.id}
                         up={entry.up | 0}

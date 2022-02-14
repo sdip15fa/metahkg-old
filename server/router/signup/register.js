@@ -6,7 +6,7 @@
   pwd (password, sha256 hashed): string,
   email: string,
   htoken (hcaptcha token): string,
-  sex: "male" | "female"
+  sex: boolean
 }
 */
 require("dotenv").config();
@@ -19,8 +19,7 @@ const { verify } = require("hcaptcha");
 const random = require("random");
 const bcrypt = require("bcrypt");
 const mailgun = require("mailgun-js");
-const DOMAIN = "metahkg.wcyat.me";
-const mg = mailgun({ apiKey: process.env.api_key, domain: DOMAIN });
+const mg = mailgun({ apiKey: process.env.api_key, domain: "metahkg.wcyat.me" });
 const router = express.Router();
 async function valid(req, res) {
   if (
@@ -35,9 +34,9 @@ async function valid(req, res) {
       typeof req.body.user === "string" &&
       typeof req.body.pwd === "string" &&
       typeof req.body.email === "string" &&
-      typeof req.body.htoken === "string"
+      typeof req.body.htoken === "string" &&
+      typeof req.body.sex === "boolean"
     ) ||
-    (req.body.sex !== "female" && req.body.sex !== "male") ||
     Object.keys(req.body).length > 5 ||
     !EmailValidator.validate(req.body.email)
   ) {

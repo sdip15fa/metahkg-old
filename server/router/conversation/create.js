@@ -11,7 +11,7 @@ const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
 const { MongoClient } = require("mongodb");
-const { mongouri, secret } = require("../../common");
+const { mongouri, secret, domain } = require("../../common");
 const { verify } = require("hcaptcha");
 const axios = require("axios");
 router.post("/api/create", body_parser.json(), async (req, res) => {
@@ -80,7 +80,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const slink = `https://l.wcyat.me/${
       (
         await axios.post("https://api-us.wcyat.me/create", {
-          url: `https://metahkg.wcyat.me/thread/${newcid}?page=1`,
+          url: `https://${domain}/thread/${newcid}?page=1`,
         })
       ).data.id
     }`;

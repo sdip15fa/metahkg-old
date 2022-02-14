@@ -51,11 +51,6 @@ function MainContent() {
     }[search ? "search" : profile ? "profile" : "menu"];
     axios.get(url).then((res) => {
       !(page === 1) && setPage(1);
-      if (!res.data.length) {
-        setData([404]);
-        setUpdating(false);
-        return;
-      }
       setData(res.data);
       res.data.length < 25 && !end && setEnd(true);
       res.data.length >= 25 && end && setEnd(false);
@@ -71,7 +66,7 @@ function MainContent() {
     }[search ? "search" : profile ? "profile" : "menu"];
     axios.get(url).then((res) => {
       const d = data;
-      if (res.data?.[0] !== 404) {
+      if (res.data?.[0] !== null) {
         res.data.forEach((item: any) => {
           d.push(item);
         });
@@ -111,7 +106,7 @@ function MainContent() {
           minHeight: "100%",
         }}
       >
-        {!!(data.length && data[0] !== 404) && (
+        {!!(data.length && data[0] !== null) && (
           <Box
             sx={{
               display: "flex",

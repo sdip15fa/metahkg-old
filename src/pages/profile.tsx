@@ -34,7 +34,7 @@ function DataTable(props: { user: any }) {
   const tablerows = ["Posts", "Sex", "Admin", "Joined"];
   const items = [
     props.user.count,
-    props.user.sex,
+    props.user.sex ? "male" : "female",
     props.user?.admin ? "yes" : "no",
     `${timetoword_long(props.user.createdAt)} ago`,
   ];
@@ -112,7 +112,7 @@ export default function Profile() {
         {!Object.keys(user).length ? (
           <LinearProgress sx={{ width: "100%" }} color="secondary" />
         ) : (
-          user?.[0] !== 404 && (
+          user?.[0] !== null && (
             <Paper sx={{ maxHeight: "100vh", overflow: "auto" }}>
               <Box
                 sx={{
@@ -167,7 +167,7 @@ export default function Profile() {
                     >
                       <span
                         style={{
-                          color: user.sex === "male" ? "#34aadc" : "red",
+                          color: user.sex ? "#34aadc" : "red",
                         }}
                       >
                         {user.user}

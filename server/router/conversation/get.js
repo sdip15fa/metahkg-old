@@ -79,11 +79,10 @@ router.get("/api/thread/:id", async (req, res) => {
             }
           );
     if (!result) {
-      res.status(404);
-      res.send("Not found");
-    } else {
-      res.send(result?.conversation || result);
+      res.send([null]);
+      return;
     }
+    res.send(result?.conversation || result);
   } finally {
     await client.close();
   }

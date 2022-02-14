@@ -20,7 +20,7 @@ export default function PageTop(props: {
   return (
     <Box
       sx={{
-        height: "80px",
+        height: "70px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",

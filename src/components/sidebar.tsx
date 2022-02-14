@@ -191,7 +191,9 @@ export default function SideBar() {
               <Divider />
             </div>
           )}
-          <p style={{color: "white", paddingLeft: "5px"}}>Metahkg build {process.env.REACT_APP_build || "1.0.0-custom"}</p>
+          <p style={{ color: "white", paddingLeft: "5px" }}>
+            Metahkg build {process.env.REACT_APP_build || "0.5.2"}
+          </p>
         </Box>
       </Drawer>
     </div>

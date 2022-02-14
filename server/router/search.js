@@ -32,7 +32,7 @@ router.get("/api/search", async (req, res) => {
       .limit(25)
       .project({ _id: 0 })
       .toArray();
-    res.send(data);
+    res.send(data.length ? data : [null]);
   } finally {
     await client.close();
   }

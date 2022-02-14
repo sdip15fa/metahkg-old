@@ -68,7 +68,7 @@ router.get("/api/menu/:category", async (req, res) => {
           data[index] = await summary.findOne({ id: data[index].id });
         }
       })());
-    res.send(data.length ? data : [404]);
+    res.send(data.length ? data : [null]);
   } finally {
     await client.close();
   }

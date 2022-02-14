@@ -1,19 +1,16 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
+const isInteger = require("is-sn-integer");
 const router = express.Router();
-router.post("/api/getvotes", bodyParser.json(), async (req, res) => {
-  if (
-    !req.body.id ||
-    Object.keys(req.body).length > 1 ||
-    typeof req.body.id !== "number"
-  ) {
+router.get("/api/getvotes", async (req, res) => {
+  if (!req.query.id || !isInteger(req.query.id)) {
     res.status(400);
     res.send("Bad request.");
     return;
   }
   const client = new MongoClient(mongouri);
+  const id = Number(req.query.id);
   try {
     await client.connect();
     const votes = client.db("metahkg-users").collection("votes");
@@ -26,9 +23,9 @@ router.post("/api/getvotes", bodyParser.json(), async (req, res) => {
     }
     const uservotes = await votes.findOne(
       { id: user.id },
-      { projection: { [req.body.id]: 1, _id: 0 } }
+      { projection: { [id]: 1, _id: 0 } }
     );
-    res.send(uservotes?.[req.body.id] || { none: "none" });
+    res.send(uservotes?.[id] || { none: "none" });
   } finally {
     await client.close();
   }
