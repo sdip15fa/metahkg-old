@@ -112,7 +112,7 @@ export default function Profile() {
         {!Object.keys(user).length ? (
           <LinearProgress sx={{ width: "100%" }} color="secondary" />
         ) : (
-          user?.[0] !== 404 && (
+          user?.[0] !== null && (
             <Paper sx={{ maxHeight: "100vh", overflow: "auto" }}>
               <Box
                 sx={{

@@ -45,7 +45,7 @@ router.get("/api/history/:id", async (req, res) => {
       .project({ _id: 0 })
       .toArray();
     if (!history.length) {
-      res.send([404]);
+      res.send([null]);
       return;
     }
     res.send(history);

@@ -85,11 +85,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
       ).data.id
     }`;
     await conversation.insertOne({
-      op: user.user,
       id: newcid,
-      title: req.body.title,
-      category: category.id,
-      slink: slink,
       conversation: [
         { id: 1, user: user.id, comment: req.body.icomment, createdAt: date },
       ],
@@ -105,6 +101,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
       sex: user.sex,
       c: 1,
       vote: 0,
+      slink: slink,
       title: req.body.title,
       category: category.id,
       catname: category.name,
