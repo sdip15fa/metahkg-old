@@ -1,12 +1,12 @@
-//Create a topic
-/*Syntax: POST /api/create 
+// Create a topic
+/* Syntax: POST /api/create
 {
   icomment (initial comment) : string,
   htoken (hcaptcha token) : string,
   title : string,
   category : number
-}*/
-//only for human
+} */
+// only for human
 const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
