@@ -43,7 +43,7 @@ export default function MenuTop(props: {
   }[search ? "search" : profile ? "profile" : "menu"];
   !search &&
     !title &&
-    (category || id) &&
+    (category || profile) &&
     (async () => {
       if (profile) {
         await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
