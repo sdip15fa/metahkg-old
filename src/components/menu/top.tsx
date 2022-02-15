@@ -43,7 +43,7 @@ export default function MenuTop(props: {
   }[search ? "search" : profile ? "profile" : "menu"];
   !search &&
     !title &&
-    (category || profile) &&
+    (category || profile || id) &&
     (async () => {
       if (profile) {
         await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
@@ -54,6 +54,7 @@ export default function MenuTop(props: {
       }
       axios.get(`/api/categories/${category || `bytid${id}`}`).then((res) => {
         setTitle(res.data.name);
+        console.log(category);
         !category && setCat(res.data.id);
         if (!id) {
           document.title = `${res.data.name} | Metahkg`;
