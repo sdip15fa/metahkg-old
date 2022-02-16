@@ -79,7 +79,7 @@ function MainContent() {
       setUpdating(false);
     });
   }
-  if (!data.length && (category || id || profile || search) && !updating) {
+  if (!data.length && (category || profile || search || id) && !updating) {
     fetch();
   }
   return (
@@ -111,7 +111,7 @@ function MainContent() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              maxWidth: "99%",
+              maxWidth: "100%",
             }}
           >
             {data.map((thread: summary) => (

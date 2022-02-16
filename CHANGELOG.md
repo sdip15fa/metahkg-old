@@ -27,3 +27,7 @@ node server/migrate/migratetov0.5.2.js
 ## v0.5.2dev3
 
 - use "now" for time less than a minute
+
+## v0.5.2dev4
+
+- menu thread changes color on hover

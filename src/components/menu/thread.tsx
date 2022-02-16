@@ -23,7 +23,7 @@ export default function MenuThread(props: { thread: summary }) {
   return (
     <div>
       <Link
-        style={{ width: "99%", textDecoration: "none" }}
+        style={{ width: "100%", textDecoration: "none" }}
         to={`/thread/${thread.id}?page=1`}
       >
         <Box className="menuthread">

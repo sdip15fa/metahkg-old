@@ -54,7 +54,6 @@ export default function MenuTop(props: {
       }
       axios.get(`/api/categories/${category || `bytid${id}`}`).then((res) => {
         setTitle(res.data.name);
-        console.log(category);
         !category && setCat(res.data.id);
         if (!id) {
           document.title = `${res.data.name} | Metahkg`;

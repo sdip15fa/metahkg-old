@@ -49,7 +49,7 @@ function Comment(props: {
           title="User information"
           button={{ text: "View Profile", link: `/profile/${props.userid}` }}
         >
-          <p style={{ textAlign: "center" }}>
+          <p style={{ textAlign: "center", marginTop: "5px", marginBottom: "5px" }}>
             {props.name}
             <br />#{props.userid}
           </p>

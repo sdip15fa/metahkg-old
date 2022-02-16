@@ -65,7 +65,7 @@ export default function Title(props: {
             aria-readonly
             value={copytext}
           />
-          <br />
+          <div style={{marginTop: "5px"}}>
           <Tooltip arrow title="Copy">
             <IconButton
               onClick={async () => {
@@ -104,6 +104,7 @@ export default function Title(props: {
               </IconButton>
             </a>
           </Tooltip>
+          </div>
         </div>
       </PopUp>
       <div

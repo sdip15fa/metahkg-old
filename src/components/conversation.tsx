@@ -17,6 +17,7 @@ import { roundup, splitarray } from "../lib/common";
 import { useNavigate } from "react-router";
 import PageTop from "./conversation/pagetop";
 import ReactVisibilitySensor from "react-visibility-sensor";
+import { useCat } from "./MenuProvider";
 /*
  * Conversation component gets data from /api/thread/<thread id(props.id)>/<conversation/users>
  * Then renders it as Comments
@@ -35,6 +36,7 @@ function Conversation(props: { id: number }) {
   const [pages, setPages] = useState(1);
   const [end, setEnd] = useState(false);
   const [n, setN] = useState(Math.random());
+  const [cat, setCat] = useCat();
   const fetching = useRef(false);
   const navigate = useNavigate();
   !params.page && navigate(`${window.location.pathname}?page=1`);
@@ -44,6 +46,7 @@ function Conversation(props: { id: number }) {
       .get(`/api/thread/${props.id}?type=1`)
       .then((res) => {
         setDetails(res.data);
+        !cat && setCat(res.data.category);
         document.title = `${res.data.title} | Metahkg`;
       })
       .catch((err) => {

@@ -40,7 +40,7 @@ export default function Category() {
   history !== window.location.pathname && setHistory(window.location.pathname);
   !menu && setMenu(true);
   if (category !== Number(params.category) || id) {
-    setCategory(Number(params.category));
+    category !== Number(params.category) && setCategory(Number(params.category));
     cleardata();
     setId(0);
   }
