@@ -53,12 +53,16 @@ async function build() {
       console.log("building with react-scripts...");
       system("npx react-scripts build")
         .then(() => {
-          console.log(`done in ${Math.round((performance.now() - start) / 1000)} seconds`);
+          console.log(
+            `done in ${Math.round((performance.now() - start) / 1000)} seconds`
+          );
           exit(0);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
-          console.error("Some error occurred while building. Try npx react-scripts build.");
+          console.error(
+            "Some error occurred while building. Try npx react-scripts build."
+          );
           exit(1);
         });
     });

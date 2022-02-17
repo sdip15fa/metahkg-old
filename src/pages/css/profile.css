@@ -1,56 +1,57 @@
 .profile.root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: row;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
 }
 .profile.paper {
-    max-height: 100vh;
-    overflow: auto;
+  max-height: 100vh;
+  overflow: auto;
 }
 .profile.mainbox {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .profile.top {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .profile.toptextdiv {
-    margin-left: 20px;
-    height: 200px;
-    display: flex;
+  margin-left: 20px;
+  height: 200px;
+  display: flex;
 }
 .profile.toptext {
-    color: white;
-    font-size: 30px;
-    align-self: center;
-    line-height: 35px;
-    max-height: 35px;
+  color: white;
+  font-size: 30px;
+  align-self: center;
+  line-height: 35px;
+  max-height: 35px;
 }
-.profile.userspandiv, .profile.userspan {
-    overflow: hidden;
+.profile.userspandiv,
+.profile.userspan {
+  overflow: hidden;
 }
 .profile.userspan {
-    text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 .profile.uploaddiv {
-    align-self: flex-start,
+  align-self: flex-start;
 }
 .profile.tablebox {
-    margin-top: 20px;
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  margin-top: 20px;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 .profile.historybtn {
-    font-size: "16px"
+  font-size: "16px";
 }
 .profile.tablecontainer {
-    margin-left: 50px;
-    margin-right: 50px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
