@@ -30,21 +30,21 @@ export default function MenuProvider(props: { children: JSX.Element }) {
   );
 }
 export function useCat(): [
-  1 | 2 | 3 | 4 | 5 | 6,
+  number,
   React.Dispatch<React.SetStateAction<number>>
 ] {
   const { category } = useContext(MenuContext);
   return category;
 }
-export function useId() {
+export function useId(): [number, React.Dispatch<React.SetStateAction<number>>] {
   const { id } = useContext(MenuContext);
   return id;
 }
-export function useSearch() {
+export function useSearch(): [boolean, React.Dispatch<React.SetStateAction<boolean>>] {
   const { search } = useContext(MenuContext);
   return search;
 }
-export function useProfile() {
+export function useProfile(): [number | "self", React.Dispatch<React.SetStateAction<number | "self">>] {
   const { profile } = useContext(MenuContext);
   return profile;
 }
@@ -62,11 +62,11 @@ export function useSelected(): [
   const { selected } = useContext(MenuContext);
   return selected;
 }
-export function useData() {
+export function useData() : [(any)[], React.Dispatch<React.SetStateAction<(any)[]>>]{
   const { data } = useContext(MenuContext);
   return data;
 }
-export function useTitle() {
+export function useTitle() : [string, React.Dispatch<React.SetStateAction<string>>] {
   const { title } = useContext(MenuContext);
   return title;
 }

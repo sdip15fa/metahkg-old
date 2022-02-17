@@ -65,45 +65,45 @@ export default function Title(props: {
             aria-readonly
             value={copytext}
           />
-          <div style={{marginTop: "5px"}}>
-          <Tooltip arrow title="Copy">
-            <IconButton
-              onClick={async () => {
-                await navigator.clipboard.writeText(props.slink);
-                setNotify({ open: true, text: "Copied to Clipboard!" });
-              }}
-            >
-              <ContentCopy sx={{ textAlign: "start", fontSize: "22px" }} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip arrow title="Copy link">
-            <IconButton
-              onClick={async () => {
-                await navigator.clipboard.writeText(props.slink);
-                setNotify({ open: true, text: "Link copied to Clipboard!" });
-              }}
-            >
-              <LinkIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip arrow title="Share to Telegram">
-            <a
-              href={`tg://msg_url?text=${encodeURIComponent(
-                props.title + "\n- Shared from Metahkg forum"
-              )}&url=${props.slink}`}
-            >
-              <IconButton>
-                <Telegram />
+          <div style={{ marginTop: "5px" }}>
+            <Tooltip arrow title="Copy">
+              <IconButton
+                onClick={async () => {
+                  await navigator.clipboard.writeText(props.slink);
+                  setNotify({ open: true, text: "Copied to Clipboard!" });
+                }}
+              >
+                <ContentCopy sx={{ textAlign: "start", fontSize: "22px" }} />
               </IconButton>
-            </a>
-          </Tooltip>
-          <Tooltip arrow title="Share to Whatsapp">
-            <a href={`whatsapp://send?text=${encodeURIComponent(copytext)}`}>
-              <IconButton>
-                <WhatsApp />
+            </Tooltip>
+            <Tooltip arrow title="Copy link">
+              <IconButton
+                onClick={async () => {
+                  await navigator.clipboard.writeText(props.slink);
+                  setNotify({ open: true, text: "Link copied to Clipboard!" });
+                }}
+              >
+                <LinkIcon />
               </IconButton>
-            </a>
-          </Tooltip>
+            </Tooltip>
+            <Tooltip arrow title="Share to Telegram">
+              <a
+                href={`tg://msg_url?text=${encodeURIComponent(
+                  props.title + "\n- Shared from Metahkg forum"
+                )}&url=${props.slink}`}
+              >
+                <IconButton>
+                  <Telegram />
+                </IconButton>
+              </a>
+            </Tooltip>
+            <Tooltip arrow title="Share to Whatsapp">
+              <a href={`whatsapp://send?text=${encodeURIComponent(copytext)}`}>
+                <IconButton>
+                  <WhatsApp />
+                </IconButton>
+              </a>
+            </Tooltip>
           </div>
         </div>
       </PopUp>
@@ -119,9 +119,10 @@ export default function Title(props: {
       >
         <div
           style={{
-            maxWidth: "100%",
             display: "flex",
             alignItems: "center",
+            paddingRight: 10,
+            overflow: "hidden",
           }}
         >
           <Link to={history || `/category/${props.category}`}>
@@ -139,7 +140,6 @@ export default function Title(props: {
               maxHeight: "22px",
               textOverflow: "ellipsis",
               overflow: "hidden",
-              wordBreak: "keep-all",
             }}
           >
             {props.title}

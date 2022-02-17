@@ -22,6 +22,8 @@ export default function Theme(props: any) {
     typography: {
       fontFamily: [
         "Segoe UI",
+        "Helvetica Neue",
+        "Helvetica",
         "Tahoma",
         "Geneva",
         "Verdana",

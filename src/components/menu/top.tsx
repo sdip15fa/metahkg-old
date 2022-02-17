@@ -28,7 +28,7 @@ export default function MenuTop(props: {
 }) {
   const [search] = useSearch();
   const [profile] = useProfile();
-  const [category, setCat] = useCat();
+  const [category] = useCat();
   const [id] = useId();
   const inittitle = {
     search: "Search",
@@ -41,6 +41,7 @@ export default function MenuTop(props: {
     profile: ["Created", "Last Comment"],
     menu: ["Newest", "Hottest"],
   }[search ? "search" : profile ? "profile" : "menu"];
+
   !search &&
     !title &&
     (category || profile || id) &&
@@ -52,9 +53,8 @@ export default function MenuTop(props: {
         });
         return;
       }
-      axios.get(`/api/categories/${category || `bytid${id}`}`).then((res) => {
+      axios.get(`/api/category/${category || `bytid${id}`}`).then((res) => {
         setTitle(res.data.name);
-        !category && setCat(res.data.id);
         if (!id) {
           document.title = `${res.data.name} | Metahkg`;
         }

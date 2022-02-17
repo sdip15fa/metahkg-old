@@ -13,7 +13,7 @@ export function timetoword(sdate: string): string {
     spacer: "",
     delimiter: " ",
   });
-  let r : string = shortened.split(" ")[0];
+  let r: string = shortened.split(" ")[0];
   if (r.endsWith("s")) {
     r = "now";
   }
@@ -47,14 +47,7 @@ export type summary = {
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-export const categories = {
-  "1": "Chit-chat",
-  "2": "Stories",
-  "3": "School",
-  "4": "Admin",
-  "5": "Leisure",
-  "6": "IT",
-};
+export const categories:any = JSON.parse(process.env.REACT_APP_categories || "");
 export function splitarray(arr: [], start: number, end: number) {
   const r: [] = [];
   for (let i = start; i <= end; i++) {

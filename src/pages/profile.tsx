@@ -1,4 +1,5 @@
 import React from "react";
+import './css/profile.css';
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import { useState } from "react";
 import { useParams } from "react-router";
 import {
   useData,
+  useId,
   useMenu,
   useProfile,
   useSearch,
@@ -31,8 +33,9 @@ import { useHistory, useWidth } from "../components/ContextProvider";
  * Used in /profile/:id (if width >= 750) and /history/:id (id width < 750)
  */
 function DataTable(props: { user: any }) {
-  const tablerows = ["Posts", "Sex", "Admin", "Joined"];
+  const tablerows = ["Name", "Posts", "Sex", "Admin", "Joined"];
   const items = [
+    props.user.user,
     props.user.count,
     props.user.sex ? "male" : "female",
     props.user?.admin ? "yes" : "no",
@@ -40,10 +43,10 @@ function DataTable(props: { user: any }) {
   ];
   return (
     <TableContainer
-      sx={{ marginLeft: "50px", marginRight: "50px" }}
+      className="profile tablecontainer"
       component={Paper}
     >
-      <Table sx={{ width: "100%" }} aria-label="simple table">
+      <Table className="fullwidth" aria-label="simple table">
         <TableBody>
           {items.map((item, index) => (
             <TableRow
@@ -71,6 +74,7 @@ export default function Profile() {
   const [width] = useWidth();
   const [, setData] = useData();
   const [, setTitle] = useTitle();
+  const [id, setId] = useId();
   const [fetching, setFetching] = useState(false);
   const [selected, setSelected] = useSelected();
   function fetch() {
@@ -88,11 +92,8 @@ export default function Profile() {
   }
   const [history, setHistory] = useHistory();
   history !== window.location.pathname && setHistory(window.location.pathname);
-  if (!menu && !(width < 760)) {
-    setMenu(true);
-  } else if (menu && width < 760) {
-    setMenu(false);
-  }
+  (!menu && !(width < 760)) && setMenu(true);
+  (menu && width < 760) && setMenu(false);
   if (profile !== (Number(params.id) || "self")) {
     setProfile(Number(params.id) || "self");
     cleardata();
@@ -101,38 +102,25 @@ export default function Profile() {
     setSearch(false);
     cleardata();
   }
+  id && setId(0);
   !Object.keys(user).length && !fetching && fetch();
   return (
-    <div>
       <Box
+        className="profile root"
         sx={{
           backgroundColor: "primary.dark",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "row",
         }}
       >
         {!Object.keys(user).length ? (
-          <LinearProgress sx={{ width: "100%" }} color="secondary" />
+          <LinearProgress className="fullwidth" color="secondary" />
         ) : (
           user?.[0] !== null && (
-            <Paper sx={{ maxHeight: "100vh", overflow: "auto" }}>
-              <Box
-                sx={{
-                  backgroundColor: "primary.dark",
-                  minHeight: "100vh",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+            <Paper className="profile paper">
+              <Box className="profile mainbox">
                 <Box
+                  className="profile top"
                   sx={{
                     width: width < 760 ? "100vw" : "70vw",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
                   }}
                 >
                   <img
@@ -144,43 +132,41 @@ export default function Profile() {
                   />
                   <br />
                   <div
+                    className="profile toptextdiv"
                     style={{
-                      marginLeft: "20px",
-                      height: "200px",
-                      display: "flex",
                       flexDirection: params.id === "self" ? "column" : "row",
                     }}
                   >
                     <h1
+                      className="profile toptext"
                       style={{
-                        color: "white",
-                        fontSize: "30px",
-                        alignSelf: "center",
-                        paddingTop: params.id === "self" ? "50px" : "0px",
-                        wordBreak: "break-all",
-                        maxWidth:
-                          width < 760
-                            ? "calc(100vw - 260px)"
-                            : "calc(70vw - 260px)",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        lineHeight: "35px",
-                        maxHeight: "35px",
+                        paddingTop: params.id === "self" ? 25 : 0,
                       }}
                     >
-                      <span
+                      <div
+                        className="profile userspandiv"
                         style={{
-                          color: user.sex ? "#34aadc" : "red",
+                          maxWidth:
+                            width < 760
+                              ? "calc(100vw - 250px)"
+                              : "calc(70vw - 350px)",
                         }}
                       >
-                        {user.user}
-                      </span>{" "}
+                        <span
+                          className="profile userspan"
+                          style={{
+                            color: user.sex ? "#34aadc" : "red",
+                          }}
+                        >
+                          {user.user}
+                        </span>
+                      </div>
                       #{user.id}
                     </h1>
                     <div
+                      className="profile uploaddiv"
                       style={{
-                        alignSelf: "flex-start",
-                        marginTop: params.id === "self" ? "10px" : "0px",
+                        marginTop: params.id === "self" ? 25 : 0
                       }}
                     >
                       {params.id === "self" && <UploadAvatar />}
@@ -188,24 +174,18 @@ export default function Profile() {
                   </div>
                 </Box>
                 <Box
-                  sx={{
-                    marginTop: "20px",
-                    maxWidth: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                  }}
+                  className="profile tablebox"
                 >
                   <DataTable user={user} />
                 </Box>
                 {width < 760 && (
-                  <div style={{ marginTop: "20px" }}>
+                  <div className="mt20">
                     <Link
+                      className="notextdecoration"
                       to={`/history/${params.id}`}
-                      style={{ textDecoration: "none" }}
                     >
                       <Button
-                        sx={{ fontSize: "16px" }}
+                        className="profile historybtn"
                         variant="text"
                         color="secondary"
                       >
@@ -219,6 +199,5 @@ export default function Profile() {
           )
         )}
       </Box>
-    </div>
   );
 }

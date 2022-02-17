@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { Box, Typography, Paper } from "@mui/material";
+import { Box, Typography, Paper, Divider } from "@mui/material";
 import axios from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
@@ -65,16 +65,14 @@ function MainContent() {
       menu: `/api/menu/${c}?sort=${selected}&page=${page + 1}`,
     }[search ? "search" : profile ? "profile" : "menu"];
     axios.get(url).then((res) => {
-      const d = data;
+      const d:any = data;
       if (res.data?.[0] !== null) {
         res.data.forEach((item: any) => {
           d.push(item);
         });
         setData(d);
       }
-      if (res.data.length < 25) {
-        setEnd(true);
-      }
+      res.data.length < 25 && setEnd(true);
       setPage((page) => page + 1);
       setUpdating(false);
     });
@@ -106,7 +104,7 @@ function MainContent() {
           minHeight: "100%",
         }}
       >
-        {!!(data.length && data[0] !== null) && (
+        {!!(data.length && data?.[0] !== null) && (
           <Box
             sx={{
               display: "flex",
@@ -116,7 +114,11 @@ function MainContent() {
           >
             {data.map((thread: summary) => (
               <div>
-                <MenuThread key={category} thread={thread} />
+                <MenuThread
+                  key={`${category}${id === thread.id}`}
+                  thread={thread}
+                />
+                <Divider />
               </div>
             ))}
             {updating && <MenuPreload />}

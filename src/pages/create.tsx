@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Box,
@@ -14,7 +14,7 @@ import TextEditor from "../components/texteditor";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { useMenu } from "../components/MenuProvider";
+import { useCat, useData, useMenu, useProfile, useSearch } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 import { categories, severity } from "../lib/common";
 declare const hcaptcha: { reset: (e: string) => void }; //the hcaptcha object, defined to use hcaptcha.reload("")
@@ -24,13 +24,12 @@ declare const hcaptcha: { reset: (e: string) => void }; //the hcaptcha object, d
  * props.changehandler: used as a callback after user changes category selection
  */
 function ChooseCat(props: {
-  errorHandler: (e: string) => void;
-  changeHandler: (e: SelectChangeEvent<number>) => void;
+  cat: number;
+  setCat: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [cat, setCat] = React.useState(0);
+  const {cat, setCat} = props;
   const changeHandler = (e: SelectChangeEvent<number>) => {
     setCat(Number(e.target.value));
-    props.changeHandler(e);
   };
   return (
     <div>
@@ -63,20 +62,21 @@ export default function Create() {
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
-  if (menu) {
-    setMenu(false);
-  }
+  const [profile, setProfile] = useProfile();
+  const [cat, setCat] = useCat();
+  const [search, setSearch] = useSearch();
+  const [data, setData] = useData();
+  const [catchoosed, setCatchoosed] = useState<number>(cat);
+  menu && setMenu(false);
   const [state, setState] = React.useState<{
     htoken: string;
     title: string;
-    cat: number;
     icomment: string;
     disabled: boolean;
     alert: { severity: severity; text: string };
   }>({
     htoken: "",
     title: "",
-    cat: 0,
     icomment: "",
     disabled: false,
     alert: { severity: "info", text: "" },
@@ -91,11 +91,15 @@ export default function Create() {
     axios
       .post("/api/create", {
         title: state.title,
-        category: state.cat,
+        category: catchoosed,
         icomment: state.icomment,
         htoken: state.htoken,
       })
       .then((res) => {
+        cat && setCat(0);
+        search && setSearch(false);
+        profile && setProfile(0);
+        data.length && setData([]);
         navigate(`/thread/${res.data.id}`);
       })
       .catch((err) => {
@@ -153,14 +157,7 @@ export default function Create() {
             text=""
           />
           <div style={{ marginTop: "20px" }}>
-            <ChooseCat
-              changeHandler={(e: any) => {
-                setState({ ...state, cat: e.target.value });
-              }}
-              errorHandler={(e: any) => {
-                setState({ ...state, alert: { severity: "error", text: e } });
-              }}
-            />
+            <ChooseCat cat={catchoosed} setCat={setCatchoosed}/>
           </div>
           <div
             style={
@@ -196,7 +193,7 @@ export default function Create() {
               <Button
                 disabled={
                   state.disabled ||
-                  !(state.icomment && state.title && state.htoken && state.cat)
+                  !(state.icomment && state.title && state.htoken && catchoosed)
                 }
                 sx={{ marginTop: "20px", fontSize: "16px", height: "40px" }}
                 onClick={create}

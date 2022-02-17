@@ -31,3 +31,8 @@ node server/migrate/migratetov0.5.2.js
 ## v0.5.2dev4
 
 - menu thread changes color on hover
+
+## v0.5.3rc1
+
+- menu thread use a lighter color if selected
+- add user name to profile user information

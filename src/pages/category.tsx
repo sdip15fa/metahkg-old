@@ -39,11 +39,12 @@ export default function Category() {
   }
   history !== window.location.pathname && setHistory(window.location.pathname);
   !menu && setMenu(true);
-  if (category !== Number(params.category) || id) {
-    category !== Number(params.category) && setCategory(Number(params.category));
+  if (category !== Number(params.category)) {
+    category !== Number(params.category) &&
+      setCategory(Number(params.category));
     cleardata();
-    setId(0);
   }
+  id && setId(0);
   if (search) {
     setSearch(false);
     cleardata();

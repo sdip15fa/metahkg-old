@@ -17,7 +17,7 @@ import { roundup, splitarray } from "../lib/common";
 import { useNavigate } from "react-router";
 import PageTop from "./conversation/pagetop";
 import ReactVisibilitySensor from "react-visibility-sensor";
-import { useCat } from "./MenuProvider";
+import { useCat, useId } from "./MenuProvider";
 /*
  * Conversation component gets data from /api/thread/<thread id(props.id)>/<conversation/users>
  * Then renders it as Comments
@@ -37,6 +37,7 @@ function Conversation(props: { id: number }) {
   const [end, setEnd] = useState(false);
   const [n, setN] = useState(Math.random());
   const [cat, setCat] = useCat();
+  const [id, setId] = useId();
   const fetching = useRef(false);
   const navigate = useNavigate();
   !params.page && navigate(`${window.location.pathname}?page=1`);
@@ -47,6 +48,7 @@ function Conversation(props: { id: number }) {
       .then((res) => {
         setDetails(res.data);
         !cat && setCat(res.data.category);
+        id !== res.data.id && setId(res.data.id);
         document.title = `${res.data.title} | Metahkg`;
       })
       .catch((err) => {
@@ -162,7 +164,6 @@ function Conversation(props: { id: number }) {
       document.getElementById(String(page))?.scrollIntoView();
     });
   }
-
   return (
     <div className="conversation" style={{ minHeight: "100vh" }}>
       <Notification notify={notify} setNotify={setNotify} />
@@ -185,8 +186,7 @@ function Conversation(props: { id: number }) {
                 const diff = e.target.scrollHeight - e.target.scrollTop;
                 if (
                   e.target.clientHeight >= diff - 1.5 &&
-                  e.target.clientHeight <= diff + 1.5 &&
-                  !end
+                  e.target.clientHeight <= diff + 1.5
                 ) {
                   update();
                 }

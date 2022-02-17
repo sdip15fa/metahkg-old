@@ -1,6 +1,6 @@
 import React from "react";
 import "./thread.css";
-import { Divider, Button, Box } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import {
   ThumbUp as ThumbUpIcon,
   ThumbDown as ThumbDownIcon,
@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 import { timetoword, roundup, summary } from "../../lib/common";
 import { Link } from "react-router-dom";
-import { useCat, useProfile, useSearch } from "../MenuProvider";
+import { useCat, useId, useProfile, useSearch } from "../MenuProvider";
 /*
  * A thread in the menu
  * Basic information about the thread is needed (see type summary in ../../lib/common)
@@ -19,6 +19,7 @@ export default function MenuThread(props: { thread: summary }) {
   const [cat] = useCat();
   const [search] = useSearch();
   const [profile] = useProfile();
+  const [id] = useId();
   const { thread } = props;
   return (
     <div>
@@ -26,7 +27,10 @@ export default function MenuThread(props: { thread: summary }) {
         style={{ width: "100%", textDecoration: "none" }}
         to={`/thread/${thread.id}?page=1`}
       >
-        <Box className="menuthread">
+        <Box
+          className="menuthread"
+          sx={id === thread.id ? { bgcolor: "#303030" } : {}}
+        >
           <div
             style={{
               height: "35px",
@@ -84,7 +88,6 @@ export default function MenuThread(props: { thread: summary }) {
           </div>
         </Box>
       </Link>
-      <Divider />
     </div>
   );
 }

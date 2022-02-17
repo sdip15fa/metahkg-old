@@ -17,8 +17,7 @@ export default function Thread() {
   !menu && !(width < 760) && setMenu(true);
   menu && width < 760 && setMenu(false);
   if (!category && !id) {
-    const i = window.location.pathname.split("/");
-    setId(i.pop() || i.pop());
+    setId(Number(params.id));
   }
   return (
     <Box

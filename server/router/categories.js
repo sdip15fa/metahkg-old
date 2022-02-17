@@ -1,5 +1,5 @@
 //get categories
-//Syntax: GET /api/categories/<"all" | number(category id)>
+//Syntax: GET /api/category/<"all" | number(category id)>
 //"all" returns an array of all categories
 const express = require("express");
 const router = express.Router();
@@ -7,7 +7,7 @@ const body_parser = require("body-parser");
 const isInteger = require("is-sn-integer");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../common");
-router.get("/api/categories/:id", body_parser.json(), async (req, res) => {
+router.get("/api/category/:id", body_parser.json(), async (req, res) => {
   if (
     (req.params.id !== "all" &&
       !isInteger(req.params.id) &&
