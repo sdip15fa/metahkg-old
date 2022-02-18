@@ -1,6 +1,6 @@
 require("dotenv").config();
-const mongouri = process.env.DB_URI || "mongodb://localhost"; //mongo connection string
-const secret = process.env.hcaptchasecret; //hcaptcha secret used to cerify hcaptcha tokens
+const mongouri = process.env.DB_URI || "mongodb://localhost"; // mongo connection string
+const secret = process.env.hcaptchasecret; // hcaptcha secret used to cerify hcaptcha tokens
 /*
  * get difference in seconds between now and a time string
  */
@@ -55,5 +55,7 @@ function objtoarr(obj) {
   });
   return arr;
 }
-const domain = process.env.domain.startsWith(".") ? process.env.domain.replace(".", "") : process.env.domain;
+const domain = process.env.domain.startsWith(".")
+  ? process.env.domain.replace(".", "")
+  : process.env.domain;
 module.exports = { mongouri, secret, timediff, arrtoobj, objtoarr, domain };

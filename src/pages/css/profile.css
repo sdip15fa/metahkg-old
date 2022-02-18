@@ -1,53 +1,60 @@
-.profile.root, .profile.top, .profile.mainbox, .profile.toptextdiv, .profile.tablebox {
-    display: flex;
+.profile.root,
+.profile.top,
+.profile.mainbox,
+.profile.toptextdiv,
+.profile.tablebox {
+  display: flex;
 }
-.profile.root, .profile.mainbox {
-    min-height: 100vh;
+.profile.root,
+.profile.mainbox {
+  min-height: 100vh;
 }
-.profile.mainbox, .profile.top {
-    justify-content: center;
-    align-items: center;
+.profile.mainbox,
+.profile.top {
+  justify-content: center;
+  align-items: center;
 }
 .profile.root {
-    flex-direction: row;
+  flex-direction: row;
 }
 .profile.paper {
-    max-height: 100vh;
-    overflow: auto;
+  max-height: 100vh;
+  overflow: auto;
 }
 .profile.mainbox {
-    flex-direction: column;
+  flex-direction: column;
 }
 .profile.top {
-    max-width: 100%;
-    margin-top: 10px;
+  max-width: 100%;
+  margin-top: 10px;
 }
 .profile.toptextdiv {
-    height: 200px;
+  height: 200px;
 }
 .profile.toptext {
-    color: white;
-    font-size: 30px;
-    align-self: center;
-    line-height: 35px;
-    max-height: 35px;
+  color: white;
+  font-size: 30px;
+  align-self: center;
+  line-height: 35px;
+  max-height: 35px;
 }
-.profile.userspandiv, .profile.userspan {
-    overflow: hidden;
+.profile.userspandiv,
+.profile.userspan {
+  overflow: hidden;
 }
 .profile.userspan {
-    text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 .profile.uploaddiv {
-    align-self: flex-start,
+  align-self: flex-start;
 }
 .profile.tablebox {
-    justify-content: center;
+  justify-content: center;
 }
 .profile.historybtn {
-    font-size: 16px
+  font-size: 16px;
 }
 .profile.tablecontainer {
-    margin-left: 50px;
-    margin-right: 50px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
