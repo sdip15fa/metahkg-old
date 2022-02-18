@@ -67,6 +67,7 @@ echo "installing dependencies...";
     sudo corepack enable
 };
 yarn install;
+echo "setting up mongodb...";
 node mongo-setup.js;
 read -p "Copy templates/template.env to .env? (y/n) " reply;
 if [ $reply = "y" ]

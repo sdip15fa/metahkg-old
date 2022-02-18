@@ -1,8 +1,10 @@
 require("dotenv").config();
 const { MongoClient } = require('mongodb');
 const { exit } = require("process");
+const system = require("system-commands");
 const mongouri = process.env.DB_URI || "mongodb://localhost"; //mongo connection string
 async function setup() {
+    await system(`mongoimport -d=metahkg-threads --uri=${mongouri} templates/category.json`);
     const client = new MongoClient(mongouri);
     await client.connect();
     const metahkgthreads = client.db("metahkgthreads");
