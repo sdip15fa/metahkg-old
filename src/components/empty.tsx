@@ -3,7 +3,7 @@ import {
   AccountCircle as AccountCircleIcon,
   Create as CreateIcon,
   Code as CodeIcon,
-  Info as InfoIcon,
+  Telegram as TelegramIcon
 } from "@mui/icons-material";
 import {
   Box,
@@ -19,9 +19,9 @@ import { Link } from "react-router-dom";
  * e.g. /category/:id, in which there's no main content but only the menu
  */
 export default function Empty() {
-  const listitems = ["Create Topic", "About", "Source code"];
-  const links = ["/create", "/about", "/source"];
-  const icons: JSX.Element[] = [<CreateIcon />, <InfoIcon />, <CodeIcon />];
+  const listitems = ["Create Topic", "Telegram Group", "Source code"];
+  const links = ["/create", "/telegram", "/source"];
+  const icons: JSX.Element[] = [<CreateIcon />, <TelegramIcon />, <CodeIcon />];
   return (
     <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
       <Box

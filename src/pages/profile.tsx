@@ -22,6 +22,7 @@ import {
   useSearch,
   useSelected,
   useTitle,
+  useCat
 } from "../components/MenuProvider";
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
@@ -75,6 +76,7 @@ export default function Profile() {
   const [, setData] = useData();
   const [, setTitle] = useTitle();
   const [id, setId] = useId();
+  const [cat, setCat] = useCat();
   const [fetching, setFetching] = useState(false);
   const [selected, setSelected] = useSelected();
   function fetch() {
@@ -103,6 +105,7 @@ export default function Profile() {
     cleardata();
   }
   id && setId(0);
+  cat && setCat(0);
   !Object.keys(user).length && !fetching && fetch();
   return (
       <Box
@@ -129,10 +132,12 @@ export default function Profile() {
                       "https://metahkg.s3.amazonaws.com/avatars/noavatar.png"
                     }
                     alt="User avatar"
+                    height={width < 760 ? 150 : 200}
+                    width={width < 760 ? 150 : 200}
                   />
                   <br />
                   <div
-                    className="profile toptextdiv"
+                    className="profile toptextdiv ml20"
                     style={{
                       flexDirection: params.id === "self" ? "column" : "row",
                     }}
@@ -174,7 +179,7 @@ export default function Profile() {
                   </div>
                 </Box>
                 <Box
-                  className="profile tablebox"
+                  className="profile tablebox mt20 mb10 fullwidth"
                 >
                   <DataTable user={user} />
                 </Box>

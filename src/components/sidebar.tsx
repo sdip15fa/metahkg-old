@@ -13,7 +13,7 @@ import {
   Menu as MenuIcon,
   AccountCircle as AccountCircleIcon,
   Create as CreateIcon,
-  Info as InfoIcon,
+  Telegram as TelegramIcon,
   Code as CodeIcon,
   ManageAccounts as ManageAccountsIcon,
 } from "@mui/icons-material";
@@ -22,16 +22,19 @@ import { useNavigate } from "react-router";
 import SearchBar from "./searchbar";
 import { useQuery } from "./ContextProvider";
 import { categories } from "../lib/common";
-import { useData } from "./MenuProvider";
+import { useCat, useData, useProfile, useSearch } from "./MenuProvider";
 /*
  * The sidebar used by Menu
  * link to metahkg frontpage, search bar, sign in/register/logout,
- * create topic, link to categories, about and source code,
+ * create topic, link to categories, telegram group and source code,
  * at the bottom, if signed in, a link to /profile/self
  */
 export default function SideBar() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useQuery();
+  const [cat] = useCat();
+  const [profile] = useProfile();
+  const [search] = useSearch();
   const navigate = useNavigate();
   const toggleDrawer =
     (o: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -47,7 +50,7 @@ export default function SideBar() {
   function onClick() {
     setOpen(false);
   }
-  const links = ["/about", "/source"];
+  const links = ["https://t.me/+WbB7PyRovUY1ZDFl", "https://gitlab.com/metahkg/metahkg"];
   const [data, setData] = useData();
   let tempq = decodeURIComponent(query || "");
   return (
@@ -138,9 +141,10 @@ export default function SideBar() {
             </Link>
           </List>
           <Divider />
-          <div className="catlink" style={{ margin: "20px" }}>
+          <div style={{ margin: "20px" }}>
             {Object.entries(categories).map((category: any) => (
               <Link
+                className="catlink"
                 to={`/category/${category[0]}`}
                 style={{
                   textDecoration: "none",
@@ -149,6 +153,7 @@ export default function SideBar() {
                   width: "50%",
                   fontSize: "16px",
                   lineHeight: "35px",
+                  color: cat === Number(category[0]) && !(profile || search) ? "#fbc308" : "white"
                 }}
                 onClick={onClick}
               >
@@ -158,18 +163,18 @@ export default function SideBar() {
           </div>
           <Divider />
           <List>
-            {["About", "Source code"].map((text, index) => (
-              <Link
+            {["Telegram group", "Source code"].map((text, index) => (
+              <a
                 style={{ textDecoration: "none", color: "white" }}
-                to={links[index]}
+                href={links[index]}
               >
                 <ListItem button key={text} onClick={onClick}>
                   <ListItemIcon>
-                    {index === 0 ? <InfoIcon /> : <CodeIcon />}
+                    {index === 0 ? <TelegramIcon /> : <CodeIcon />}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
-              </Link>
+              </a>
             ))}
           </List>
           <Divider />

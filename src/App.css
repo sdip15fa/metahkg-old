@@ -66,14 +66,8 @@ a:active {
   background: #fbc308;
   color: black;
 }
-.catlink a,
-.catlink a:visited,
-.catlink a:active {
-  color: white;
-}
-.catlink a:hover {
-  color: #fbc308;
-  will-change: color;
+.catlink:hover {
+  color: #fbc308 !important;
 }
 .votearrow svg:hover,
 .close svg:hover {
@@ -92,53 +86,4 @@ a:active {
 .svgwhite {
   filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%)
     contrast(103%);
-}
-.novmargin {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-.nohmargin {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-.novpadding {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-.nohpadding {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-.ml5 {
-  margin-left: 5px !important;
-}
-.ml10 {
-  margin-left: 10px !important;
-}
-.ml20 {
-  margin-left: 20px !important;
-}
-.mr5 {
-  margin-right: 5px !important;
-}
-.mr10 {
-  margin-right: 10px !important;
-}
-.mr20 {
-  margin-right: 20px !important;
-}
-.mt5 {
-  margin-top: 5px !important;
-}
-.mt10 {
-  margin-top: 10px !important;
-}
-.mt20 {
-  margin-top: 20px !important;
-}
-.fullwidth {
-  width: 100%
-}
-.notextdecoration {
-  text-decoration: none;
 }

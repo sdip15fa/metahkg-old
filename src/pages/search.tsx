@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Paper } from "@mui/material";
 import Empty from "../components/empty";
 import {
+  useCat,
   useData,
   useId,
   useMenu,
@@ -19,11 +20,13 @@ export default function Search() {
   const [selected, setSelected] = useSelected();
   const [, setTitle] = useTitle();
   const [id, setId] = useId();
+  const [cat, setCat] = useCat();
   document.title = "Search | Metahkg";
   history !== window.location.pathname &&
     setHistory(window.location.pathname + window.location.search);
   !menu && setMenu(true);
   id && setId(0);
+  cat && setCat(0);
   if (!search) {
     setSearch(true);
     data && setData([]);

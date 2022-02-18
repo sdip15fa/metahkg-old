@@ -1,5 +1,6 @@
-import "./App.css";
 import React from "react";
+import "./App.css";
+import './common.css';
 import Theme from "./lib/theme";
 import {
   BrowserRouter as Router,
@@ -22,8 +23,12 @@ import { useMenu } from "./components/MenuProvider";
 import { Box } from "@mui/material";
 import { useWidth } from "./components/ContextProvider";
 function Source() {
-  window.location.href = "https://gitlab.com/metahkg/metahkg";
+  window.location.replace("https://gitlab.com/metahkg/metahkg");
   return <div />;
+}
+function Telegram() {
+  window.location.replace("https://t.me/+WbB7PyRovUY1ZDFl");
+  return <div/>
 }
 /*
  * Menu is not in the Routes to prevent unnecessary rerenders
@@ -56,7 +61,7 @@ export default function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/source" element={<Source />} />
-              <Route path="/about" element={<Source />} />
+              <Route path="/telegram" element={<Telegram />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/history/:id" element={<History />} />
             </Routes>

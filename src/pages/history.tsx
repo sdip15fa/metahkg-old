@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router";
 import {
+  useCat,
   useId,
   useMenu,
   useProfile,
@@ -23,6 +24,7 @@ export default function History() {
   const [width] = useWidth();
   const [selected, setSelected] = useSelected();
   const [id, setId] = useId();
+  const [cat, setCat]= useCat();
   if (!(width < 760)) {
     navigate(`/profile/${params.id}`);
   } else {
@@ -34,6 +36,7 @@ export default function History() {
     search && setSearch(false);
     selected && setSelected(0);
     id && setId(0);
+    cat && setCat(0);
   }
   return <div />;
 }

@@ -1,6 +1,8 @@
 # metahkg
 
-[metahkg.wcyat.me](https://metahkg.wcyat.me)
+stable: [metahkg.wcyat.me](https://metahkg.wcyat.me)
+
+dev build (probably daily): [metahkg.wcyat.engineer](https://metahkg.wcyat.engineer)
 
 [![DeepSource](https://deepsource.io/gh/metahkg/metahkg.svg/?label=active+issues&show_trend=true&token=y8Kga9A4TI3oImWWtY39BNUl)](https://deepsource.io/gh/metahkg/metahkg/?ref=repository-badge)
 [![DeepSource](https://deepsource.io/gh/metahkg/metahkg.svg/?label=resolved+issues&show_trend=true&token=y8Kga9A4TI3oImWWtY39BNUl)](https://deepsource.io/gh/metahkg/metahkg/?ref=repository-badge)

@@ -5,14 +5,7 @@
 - x86_64 debian linux (only tested on ubuntu)
 - mongodb, hcaptcha, mailgun, aws account (s3)
 
-## Build the React app
-
-```bash
-yarn install
-yarn run build
-```
-
-## Setting up for backend
+## Set up
 
 ### Mongodb
 
@@ -35,6 +28,13 @@ cp templates/template.env .env
 ```
 
 Then edit values in the .env file.
+
+## Build the React app
+
+```bash
+yarn install
+yarn run build
+```
 
 ## Deploying backend
 
