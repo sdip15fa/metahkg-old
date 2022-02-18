@@ -9,6 +9,8 @@ then
   exit 0
 fi
 unset reply;
+echo "Please type in your password if prompted.";
+sudo apt update;
 echo "checking mongodb installation...";
 {
     mongod --version > /dev/null &&
@@ -20,8 +22,9 @@ echo "checking mongodb installation...";
     if [ $reply = "y" ]
     then
       unset reply;
-      echo "Please type in your password if prompted.";
-      sudo echo "deb [arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" > /etc/apt/sources.list.d/mongodb-org-5.0.list;
+      sudo apt install wget gnupg -y;
+      wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -;
+      echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list;
       sudo apt update;
       sudo apt install mongodb-org-server mongodb-mongosh mongodb-database-tools -y;
       echo "mongodb and mongosh installed.";
@@ -34,13 +37,15 @@ echo "checking mongodb installation...";
     unset reply;
 }
 read -p "Install/upgrade nodejs to the latest LTS version? (y/n) " reply;
-if [ reply = "y" ]
+if [ $reply = "y" ]
 then 
   unset reply;
-  sudo apt insall curl -y;
+  sudo apt install curl -y;
   curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -;
   sudo apt update;
-  sudo apt install nodejs;
+  sudo apt install nodejs -y;
+  sudo corepack enable;
+  curl --compressed -o- -L https://yarnpkg.com/install.sh | bash;
 else
   unset reply;
   {
@@ -64,7 +69,7 @@ echo "installing dependencies...";
 yarn install;
 node mongo-setup.js;
 read -p "Copy templates/template.env to .env? (y/n) " reply;
-if [ reply = "y" ]
+if [ $reply = "y" ]
 then
   cp templates/template.env .env;
 fi

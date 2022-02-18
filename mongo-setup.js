@@ -1,6 +1,7 @@
+require("dotenv").config();
 const { MongoClient } = require('mongodb');
 const { exit } = require("process");
-const { mongouri } = require("./server/common");
+const mongouri = process.env.DB_URI || "mongodb://localhost"; //mongo connection string
 async function setup() {
     const client = new MongoClient(mongouri);
     await client.connect();
