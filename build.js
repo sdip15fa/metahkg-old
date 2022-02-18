@@ -53,15 +53,36 @@ async function build() {
       console.log("building with react-scripts...");
       system("npx react-scripts build")
         .then(() => {
-          console.log(`done in ${Math.round((performance.now() - start) / 1000)} seconds`);
+          console.log(
+            `done in ${Math.round((performance.now() - start) / 1000)} seconds`
+          );
           exit(0);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
-          console.error("Some error occurred while building. Try npx react-scripts build.");
+          console.error(
+            "Some error occurred while building. Try npx react-scripts build."
+          );
           exit(1);
         });
     });
   });
+}
+if (
+  !(
+    process.env.DB_URI &&
+    process.env.api_key &&
+    process.env.domain &&
+    process.env.port &&
+    process.env.hcaptchasecret &&
+    process.env.s3Bucket &&
+    process.env.awsRegion
+  )
+) {
+  console.error(
+    "Please config .env properly according to templates/template.env!"
+  );
+  console.log("Aborting!");
+  exit(1);
 }
 build();

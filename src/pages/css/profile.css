@@ -24,6 +24,7 @@
 }
 .profile.toptextdiv {
     height: 200px;
+    justify-content: center;
 }
 .profile.toptext {
     color: white;
@@ -37,9 +38,6 @@
 }
 .profile.userspan {
     text-overflow: ellipsis;
-}
-.profile.uploaddiv {
-    align-self: flex-start,
 }
 .profile.tablebox {
     justify-content: center;

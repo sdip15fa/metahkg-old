@@ -142,12 +142,7 @@ export default function Profile() {
                       flexDirection: params.id === "self" ? "column" : "row",
                     }}
                   >
-                    <h1
-                      className="profile toptext"
-                      style={{
-                        paddingTop: params.id === "self" ? 25 : 0,
-                      }}
-                    >
+                    <h1 className="profile toptext">
                       <div
                         className="profile userspandiv"
                         style={{

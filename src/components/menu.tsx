@@ -41,7 +41,7 @@ function MainContent() {
   const [end, setEnd] = useState(false);
   const [updating, setUpdating] = useState(false);
   const q = decodeURIComponent(String(params.q || query || ""));
-  const c: string | number = id ? `bytid${id}` : category;
+  const c: string | number = category || `bytid${id}`;
   function fetch() {
     setUpdating(true);
     const url = {
