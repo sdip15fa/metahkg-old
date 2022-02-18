@@ -1,6 +1,5 @@
 require("dotenv").config();
 const { exit } = require("process");
-const system = require("system-commands");
 if (
   !(
     process.env.DB_URI &&

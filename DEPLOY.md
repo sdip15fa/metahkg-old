@@ -7,6 +7,10 @@
 
 ## Set up
 
+Run `./setup.sh` for a fast setup. It will install all the dependencies for you.
+However, you will still need to configure the env variables.
+Alternatively, use the following step-by-step guide. It assumes that you have installed all the dependencies.
+
 ### Mongodb
 
 ```bash

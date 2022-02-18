@@ -6,8 +6,8 @@ const mongouri = process.env.DB_URI || "mongodb://localhost"; //mongo connection
 async function setup() {
     const client = new MongoClient(mongouri);
     await client.connect();
-    const metahkgthreads = client.db("metahkgthreads");
-    const metahkgusers = client.db("metahkgusers");
+    const metahkgthreads = client.db("metahkg-threads");
+    const metahkgusers = client.db("metahkg-users");
     if ((await metahkgthreads.collection("category").find().toArray()).length) {
         console.log("documents found. not inserting categories.");
     } else {

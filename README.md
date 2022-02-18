@@ -16,6 +16,11 @@ Currently, it aims to simulate the lihkg experience by resembling all of its fea
 
 As contrasted with lihkg, metahkg is open to everyone and anyone can create an account with a email address, no matter issued by a university or not.
 
+## Deploying
+
+See DEPLOY.md.
+For a fast setup run ./setup.sh.
+
 ## Logo
 
 Logo (public/logo.svg) originally by "white card", CC-BY-4.0.
