@@ -33,6 +33,8 @@ echo "checking mongodb installation...";
       sudo apt install mongodb-org-server -y;
     }
 }
+sudo mkdir -p /data/db;
+sudo chmod -R 0777 /data/db;
 echo "Install/upgrading nodejs to the latest LTS version...";
 sudo apt install curl -y;
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -;
@@ -43,7 +45,7 @@ curl --compressed -o- -L https://yarnpkg.com/install.sh | bash;
 echo "enabling mongodb autostart...";
 sudo systemctl enable mongod || echo "systemctl not available. Using service.";
 echo "starting mongodb...";
-sudo systemctl start mongod || sudo service mongod start;
+sudo systemctl start mongod || sudo service mongod start || mongod &
 echo "installing dependencies...";
 {
     yarn --version > /dev/null
