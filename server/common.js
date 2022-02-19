@@ -55,5 +55,7 @@ function objtoarr(obj) {
   });
   return arr;
 }
-const domain = process.env.domain.startsWith(".") ? process.env.domain.replace(".", "") : process.env.domain;
+const domain = process.env.domain.startsWith(".")
+  ? process.env.domain.replace(".", "")
+  : process.env.domain;
 module.exports = { mongouri, secret, timediff, arrtoobj, objtoarr, domain };

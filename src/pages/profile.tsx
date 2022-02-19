@@ -1,5 +1,5 @@
 import React from "react";
-import './css/profile.css';
+import "./css/profile.css";
 import {
   Box,
   Button,
@@ -22,7 +22,7 @@ import {
   useSearch,
   useSelected,
   useTitle,
-  useCat
+  useCat,
 } from "../components/MenuProvider";
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
@@ -43,10 +43,7 @@ function DataTable(props: { user: any }) {
     `${timetoword_long(props.user.createdAt)} ago`,
   ];
   return (
-    <TableContainer
-      className="profile tablecontainer"
-      component={Paper}
-    >
+    <TableContainer className="profile tablecontainer" component={Paper}>
       <Table className="fullwidth" aria-label="simple table">
         <TableBody>
           {items.map((item, index) => (
@@ -94,8 +91,8 @@ export default function Profile() {
   }
   const [history, setHistory] = useHistory();
   history !== window.location.pathname && setHistory(window.location.pathname);
-  (!menu && !(width < 760)) && setMenu(true);
-  (menu && width < 760) && setMenu(false);
+  !menu && !(width < 760) && setMenu(true);
+  menu && width < 760 && setMenu(false);
   if (profile !== (Number(params.id) || "self")) {
     setProfile(Number(params.id) || "self");
     cleardata();
@@ -108,96 +105,94 @@ export default function Profile() {
   cat && setCat(0);
   !Object.keys(user).length && !fetching && fetch();
   return (
-      <Box
-        className="profile root"
-        sx={{
-          backgroundColor: "primary.dark",
-        }}
-      >
-        {!Object.keys(user).length ? (
-          <LinearProgress className="fullwidth" color="secondary" />
-        ) : (
-          user?.[0] !== null && (
-            <Paper className="profile paper">
-              <Box className="profile mainbox">
-                <Box
-                  className="profile top"
-                  sx={{
-                    width: width < 760 ? "100vw" : "70vw",
+    <Box
+      className="profile root"
+      sx={{
+        backgroundColor: "primary.dark",
+      }}
+    >
+      {!Object.keys(user).length ? (
+        <LinearProgress className="fullwidth" color="secondary" />
+      ) : (
+        user?.[0] !== null && (
+          <Paper className="profile paper">
+            <Box className="profile mainbox">
+              <Box
+                className="profile top"
+                sx={{
+                  width: width < 760 ? "100vw" : "70vw",
+                }}
+              >
+                <img
+                  src={
+                    user?.avatar ||
+                    "https://metahkg.s3.amazonaws.com/avatars/noavatar.png"
+                  }
+                  alt="User avatar"
+                  height={width < 760 ? 150 : 200}
+                  width={width < 760 ? 150 : 200}
+                />
+                <br />
+                <div
+                  className="profile toptextdiv ml20"
+                  style={{
+                    flexDirection: params.id === "self" ? "column" : "row",
                   }}
                 >
-                  <img
-                    src={
-                      user?.avatar ||
-                      "https://metahkg.s3.amazonaws.com/avatars/noavatar.png"
-                    }
-                    alt="User avatar"
-                    height={width < 760 ? 150 : 200}
-                    width={width < 760 ? 150 : 200}
-                  />
-                  <br />
-                  <div
-                    className="profile toptextdiv ml20"
-                    style={{
-                      flexDirection: params.id === "self" ? "column" : "row",
-                    }}
-                  >
-                    <h1 className="profile toptext">
-                      <div
-                        className="profile userspandiv"
-                        style={{
-                          maxWidth:
-                            width < 760
-                              ? "calc(100vw - 250px)"
-                              : "calc(70vw - 350px)",
-                        }}
-                      >
-                        <span
-                          className="profile userspan"
-                          style={{
-                            color: user.sex ? "#34aadc" : "red",
-                          }}
-                        >
-                          {user.user}
-                        </span>
-                      </div>
-                      #{user.id}
-                    </h1>
+                  <h1 className="profile toptext">
                     <div
-                      className="profile uploaddiv"
+                      className="profile userspandiv"
                       style={{
-                        marginTop: params.id === "self" ? 25 : 0
+                        maxWidth:
+                          width < 760
+                            ? "calc(100vw - 250px)"
+                            : "calc(70vw - 350px)",
                       }}
                     >
-                      {params.id === "self" && <UploadAvatar />}
-                    </div>
-                  </div>
-                </Box>
-                <Box
-                  className="profile tablebox mt20 mb10 fullwidth"
-                >
-                  <DataTable user={user} />
-                </Box>
-                {width < 760 && (
-                  <div className="mt20">
-                    <Link
-                      className="notextdecoration"
-                      to={`/history/${params.id}`}
-                    >
-                      <Button
-                        className="profile historybtn"
-                        variant="text"
-                        color="secondary"
+                      <span
+                        className="profile userspan"
+                        style={{
+                          color: user.sex ? "#34aadc" : "red",
+                        }}
                       >
-                        View History
-                      </Button>
-                    </Link>
+                        {user.user}
+                      </span>
+                    </div>
+                    #{user.id}
+                  </h1>
+                  <div
+                    className="profile uploaddiv"
+                    style={{
+                      marginTop: params.id === "self" ? 25 : 0,
+                    }}
+                  >
+                    {params.id === "self" && <UploadAvatar />}
                   </div>
-                )}
+                </div>
               </Box>
-            </Paper>
-          )
-        )}
-      </Box>
+              <Box className="profile tablebox mt20 mb10 fullwidth">
+                <DataTable user={user} />
+              </Box>
+              {width < 760 && (
+                <div className="mt20">
+                  <Link
+                    className="notextdecoration"
+                    to={`/history/${params.id}`}
+                  >
+                    <Button
+                      className="profile historybtn"
+                      variant="text"
+                      color="secondary"
+                    >
+                      View History
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </Box>
+          </Paper>
+        )
+      )}
+    </Box>
   );
 }

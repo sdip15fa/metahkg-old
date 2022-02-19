@@ -24,7 +24,7 @@ export default function History() {
   const [width] = useWidth();
   const [selected, setSelected] = useSelected();
   const [id, setId] = useId();
-  const [cat, setCat]= useCat();
+  const [cat, setCat] = useCat();
   if (!(width < 760)) {
     navigate(`/profile/${params.id}`);
   } else {

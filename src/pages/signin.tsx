@@ -58,7 +58,7 @@ export default function Signin() {
       .then((res) => {
         localStorage.user = res.data.user;
         localStorage.id = res.data.id;
-        navigate(String(params.returnto || "/"));
+        navigate(decodeURIComponent(String(params.returnto || "/")));
       })
       .catch((err) => {
         setState({

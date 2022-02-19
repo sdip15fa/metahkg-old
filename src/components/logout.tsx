@@ -21,7 +21,7 @@ export default function Logout() {
     setMenu(false);
   }
   logout().then(() => {
-    navigate(String(params.returnto || "/"));
+    navigate(decodeURIComponent(String(params.returnto || "/")));
   });
   return (
     <Box

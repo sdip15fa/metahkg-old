@@ -14,6 +14,12 @@
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+.nomargin {
+  margin: 0;
+}
+.nopadding {
+  padding: 0;
+}
 .ml5 {
   margin-left: 5px !important;
 }
@@ -55,6 +61,9 @@
 }
 .notextdecoration {
   text-decoration: none;
+}
+.notexttransform {
+  text-transform: none;
 }
 .flex {
   display: flex;

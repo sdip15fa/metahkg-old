@@ -107,7 +107,7 @@ export default function Register() {
       .then((res) => {
         localStorage.user = state.user;
         localStorage.id = res.data.id;
-        navigate(String(params.returnto || "/"));
+        navigate(decodeURIComponent(String(params.returnto || "/")));
       })
       .catch((err) => {
         setState({

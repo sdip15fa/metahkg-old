@@ -65,7 +65,7 @@ function MainContent() {
       menu: `/api/menu/${c}?sort=${selected}&page=${page + 1}`,
     }[search ? "search" : profile ? "profile" : "menu"];
     axios.get(url).then((res) => {
-      const d:any = data;
+      const d: any = data;
       if (res.data?.[0] !== null) {
         res.data.forEach((item: any) => {
           d.push(item);

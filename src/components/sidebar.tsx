@@ -50,7 +50,10 @@ export default function SideBar() {
   function onClick() {
     setOpen(false);
   }
-  const links = ["https://t.me/+WbB7PyRovUY1ZDFl", "https://gitlab.com/metahkg/metahkg"];
+  const links = [
+    "https://t.me/+WbB7PyRovUY1ZDFl",
+    "https://gitlab.com/metahkg/metahkg",
+  ];
   const [data, setData] = useData();
   let tempq = decodeURIComponent(query || "");
   return (
@@ -115,9 +118,12 @@ export default function SideBar() {
           <List>
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={`/${localStorage.user ? "logout" : "signin"}?returnto=${
-                window.location.pathname
-              }`}
+              to={`/${
+                localStorage.user ? "logout" : "signin"
+              }?returnto=${encodeURIComponent(window.location.href.replace(
+                window.location.origin,
+                ""
+              ))}`}
             >
               <ListItem button onClick={onClick}>
                 <ListItemIcon>
@@ -153,7 +159,10 @@ export default function SideBar() {
                   width: "50%",
                   fontSize: "16px",
                   lineHeight: "35px",
-                  color: cat === Number(category[0]) && !(profile || search) ? "#fbc308" : "white"
+                  color:
+                    cat === Number(category[0]) && !(profile || search)
+                      ? "#fbc308"
+                      : "white",
                 }}
                 onClick={onClick}
               >

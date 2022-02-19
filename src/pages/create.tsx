@@ -14,7 +14,13 @@ import TextEditor from "../components/texteditor";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { useCat, useData, useMenu, useProfile, useSearch } from "../components/MenuProvider";
+import {
+  useCat,
+  useData,
+  useMenu,
+  useProfile,
+  useSearch,
+} from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 import { categories, severity } from "../lib/common";
 declare const hcaptcha: { reset: (e: string) => void }; //the hcaptcha object, defined to use hcaptcha.reload("")
@@ -27,7 +33,7 @@ function ChooseCat(props: {
   cat: number;
   setCat: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const {cat, setCat} = props;
+  const { cat, setCat } = props;
   const changeHandler = (e: SelectChangeEvent<number>) => {
     setCat(Number(e.target.value));
   };
@@ -113,7 +119,10 @@ export default function Create() {
   }
   if (!localStorage.user) {
     window.location.replace(
-      `/signin?continue=true&returnto=${window.location.pathname}`
+      `/signin?continue=true&returnto=${encodeURIComponent(window.location.href.replace(
+        window.location.origin,
+        ""
+      ))}`
     );
     return <div />;
   }
@@ -157,7 +166,7 @@ export default function Create() {
             text=""
           />
           <div style={{ marginTop: "20px" }}>
-            <ChooseCat cat={catchoosed} setCat={setCatchoosed}/>
+            <ChooseCat cat={catchoosed} setCat={setCatchoosed} />
           </div>
           <div
             style={

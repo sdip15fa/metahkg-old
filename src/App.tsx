@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import './common.css';
+import "./common.css";
 import Theme from "./lib/theme";
 import {
   BrowserRouter as Router,
@@ -28,7 +28,7 @@ function Source() {
 }
 function Telegram() {
   window.location.replace("https://t.me/+WbB7PyRovUY1ZDFl");
-  return <div/>
+  return <div />;
 }
 /*
  * Menu is not in the Routes to prevent unnecessary rerenders

@@ -3,7 +3,7 @@ import {
   AccountCircle as AccountCircleIcon,
   Create as CreateIcon,
   Code as CodeIcon,
-  Telegram as TelegramIcon
+  Telegram as TelegramIcon,
 } from "@mui/icons-material";
 import {
   Box,
@@ -47,9 +47,12 @@ export default function Empty() {
           <List>
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={`/${localStorage.user ? "logout" : "signin"}?returnto=${
-                window.location.pathname
-              }`}
+              to={`/${
+                localStorage.user ? "logout" : "signin"
+              }?returnto=${encodeURIComponent(window.location.href.replace(
+                window.location.origin,
+                ""
+              ))}`}
             >
               <ListItem button sx={{ width: "100%" }}>
                 <ListItemIcon>

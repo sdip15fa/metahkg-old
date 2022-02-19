@@ -1,40 +1,45 @@
-.menuthread,
-.threadtop,
-.threadbottom {
+.menuthread.root,
+.menuthread.top,
+.menuthread.bottom {
   display: flex;
-  width: 100%;
 }
-.threadtop,
-.threadbottom {
+.menuthread.top,
+.menuthread.bottom {
   justify-content: space-between;
   align-items: center;
 }
-.threadtitle,
-.threadcatname {
+.menuthread.title,
+.menuthread.catname {
   color: white;
 }
-.threadtitle,
-.threadcatname,
-.threadtoptext {
+.menuthread.title,
+.menuthread.catname,
+.menuthread.toptext {
   margin: 0px;
 }
-.menuthread {
-  flex-direction: column;
-}
-.menuthread:hover {
-  background-color: #303030 !important;
-}
-.threadtoptext {
+.menuthread.toptext,
+.menuthread.op,
+.menuthread.icons {
   color: #aca9a9;
+}
+.menuthread.toptext,
+.menuthread.icons {
   font-size: 13px;
 }
-.threadicons {
-  color: #aca9a9 !important;
-  font-size: 13px !important;
+.menuthread.root {
+  flex-direction: column;
+}
+.menuthread.root:hover {
+  background-color: #282828;
+}
+.menuthread.op {
+  font-size: 16px;
+}
+.menuthread.icons {
   margin-left: 5px;
   margin-right: 2px;
 }
-.threadtitle {
+.menuthread.title {
   font-size: 16px;
   word-break: break-word;
   line-height: 20px;
@@ -44,20 +49,16 @@
   padding-right: 30px;
   text-align: left;
 }
-.threadcatbtn {
+.menuthread.catbtn {
   border-radius: 15px !important;
   text-transform: none !important;
   margin: 0px !important;
   padding: 0px !important;
+  background-color: #333;
 }
-.threadcatname {
+.menuthread.catname {
   font-size: 12px;
-  padding: 0px;
 }
-.threadtop {
+.menuthread.top {
   height: 35px;
-}
-.threadbottom {
-  margin-bottom: 10px;
-  text-transform: none;
 }
