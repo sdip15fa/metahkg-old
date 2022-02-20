@@ -1,4 +1,4 @@
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -41,7 +41,7 @@ function Conversation(props: { id: number }) {
   const fetching = useRef(false);
   const navigate = useNavigate();
   !params.page && navigate(`${window.location.pathname}?page=1`);
-  function getdata() {
+  useEffect(() => {
     fetching.current = true;
     axios
       .get(`/api/thread/${props.id}?type=1`)
@@ -69,7 +69,7 @@ function Conversation(props: { id: number }) {
         setVotes(res.data);
       });
     }
-  }
+  }, [n])
   function update() {
     setUpdating(true);
     axios
@@ -124,23 +124,6 @@ function Conversation(props: { id: number }) {
   }
   if (error && !notify.open) {
     setNotify({ open: true, text: error });
-  }
-  if (
-    !fetching.current &&
-    !conversation.length &&
-    !Object.keys(users).length &&
-    !Object.keys(details).length &&
-    (localStorage.user ? !Object.keys(votes).length : true)
-  ) {
-    getdata();
-  } else if (
-    fetching.current &&
-    conversation.length &&
-    Object.keys(users).length &&
-    Object.keys(details).length &&
-    (localStorage.user ? Object.keys(votes).length : true)
-  ) {
-    fetching.current = false;
   }
   const ready = !!(
     conversation.length &&

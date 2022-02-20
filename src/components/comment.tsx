@@ -118,6 +118,7 @@ function Comment(props: {
   }
   return (
     <Box
+      id={`c${props.id}`}
       sx={{
         backgroundColor: "primary.main",
         textAlign: "left",

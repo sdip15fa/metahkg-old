@@ -8,11 +8,6 @@
   background-color: #464646;
   border-radius: 10px;
 }
-p,
-span,
-a {
-  white-space: nowrap;
-}
 body {
   scrollbar-width: thin;
   scrollbar-color: #464646 #151515;

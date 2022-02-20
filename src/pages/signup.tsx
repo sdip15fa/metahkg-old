@@ -1,3 +1,4 @@
+import './css/signup.css';
 import React from "react";
 import axios from "axios";
 import hash from "hash.js";
@@ -29,7 +30,6 @@ declare const hcaptcha: { reset: (e: string) => void };
 function Sex(props: {
   changeHandler: (
     e: SelectChangeEvent<string>,
-    child: React.ReactNode | undefined
   ) => void;
   disabled: boolean;
 }) {
@@ -39,7 +39,7 @@ function Sex(props: {
     setMenu(false);
   }
   const changeHandler = (e: SelectChangeEvent<string>) => {
-    props.changeHandler(e, undefined);
+    props.changeHandler(e);
     setSex(e.target.value);
   };
   return (
@@ -177,14 +177,9 @@ export default function Register() {
   }
   return (
     <Box
+      className="signup root"
       sx={{
         backgroundColor: "primary.dark",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        height: "100%",
-        width: "100%",
       }}
     >
       <Box
@@ -194,19 +189,10 @@ export default function Register() {
         }}
       >
         <div style={{ margin: "50px" }}>
-          <h1
-            style={{
-              textAlign: "center",
-              fontSize: "25px",
-              color: "white",
-              marginBottom: "20px",
-            }}
-          >
-            Register a Metahkg account
-          </h1>
+          <h1 className="signup title">Register a Metahkg account</h1>
           {state.alert.text && (
             <Alert
-              sx={{ marginTop: "10px", marginBottom: "30px" }}
+              className="signup alert"
               severity={state.alert.severity}
             >
               {state.alert.text}
