@@ -1,18 +1,18 @@
 .signup.root {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    height: 100%;
-    width: 100%,
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
 }
 .signup.title {
-    text-align: center;
-    font-size: 25px;
-    color: white;
-    margin-bottom: 20px;
+  text-align: center;
+  font-size: 25px;
+  color: white;
+  margin-bottom: 20px;
 }
 .signup.alert {
-    margin-top: 10px;
-    margin-bottom: 30px;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
