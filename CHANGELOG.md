@@ -36,3 +36,8 @@ node server/migrate/migratetov0.5.2.js
 
 - menu thread use a lighter color if selected
 - add user name to profile user information
+
+## v0.5.3rc2
+
+- general changes
+- fixed avatar bug

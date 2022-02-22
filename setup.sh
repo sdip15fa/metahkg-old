@@ -1,15 +1,14 @@
-#!/bin/bash
-echo "This script is for ubuntu 20.04 or above only. If you are not using debian based systems DO NOT use this script.";
-echo "This set up uses the local mongodb by default. Please set DB_URI=<connection string> in .env if you are not deploying mongodb locally or you have set a password.";
-read -p "ok? (y/n) " reply;
-if [ $reply != "y" ]
-then
-  unset reply;
-  echo "exiting..."
-  exit 0
-fi
-unset reply;
+# !/bin/bash
 echo "Please type in your password if prompted.";
+echo "Checking root access...";
+sudo -l > /dev/null || {
+  if [ `whoami` != root ]; then
+    echo "No root privileges detected. Aborting...;"
+    exit 1;
+  else
+    sudo || apt update && apt install sudo;
+  fi
+}
 sudo apt update;
 sudo apt upgrade -y;
 echo "checking mongodb installation...";
@@ -41,26 +40,53 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -;
 sudo apt update;
 sudo apt install nodejs -y;
 sudo corepack enable;
+echo "installing latest version of yarn...";
 curl --compressed -o- -L https://yarnpkg.com/install.sh | bash;
-echo "enabling mongodb autostart...";
+echo "enabling mongod autostart...";
 sudo systemctl enable mongod || echo "systemctl not available. Using service.";
-echo "starting mongodb...";
-sudo systemctl start mongod || sudo service mongod start || mongod &
+echo "starting mongod...";
+sudo systemctl start mongod || sudo service mongod start || {
+  echo "failed to start mongod using service. Using immortal." &&
+  curl -s https://packagecloud.io/install/repositories/immortal/immortal/script.deb.sh | sudo bash &&
+  sudo apt update &&
+  sudo apt install immortal &&
+  immortal mongod
+}
 echo "installing dependencies...";
-{
-    yarn --version > /dev/null
-} || {
-    sudo corepack enable
-};
 yarn install;
 echo "setting up mongodb...";
 node mongo-setup.js;
-{
-  test -f .env &&
-  echo ".env found. Not copying templates/template.env to .env"
-} || {
-  echo "Copying templates/template.env to .env...";
-  cp templates/template.env .env;
-}
-echo "Setup complete. Please configure your environmental variables using a .env file. Reference templates/template.env for details.";
+read -p "Configure environment variables here (If you do not, you will have to do so manually.)? " reply;
+if [ $reply = "y" ]; then
+  read -p "MongoDB connection string: " reply;
+  echo "DB_URI=$reply" > .env.save;
+  read -p "Mailgun api key: " reply;
+  echo "mailgun_key=$reply" >> .env.save;
+  read -p "Domain: " reply;
+  echo "domain=$reply" >> .env.save;
+  read -p "Port (that metahkg will run on): " reply;
+  echo "port=$reply" >> .env.save;
+  read -p "hCaptcha secret: " reply;
+  echo "hcaptchasecret=$reply" >> .env.save;
+  read -p "AWS Region: " reply;
+  echo "awsRegion=$reply" >> .env.save;
+  read -p "s3 Bucket name: " reply;
+  echo "s3Bucket=$reply" >> .env.save;
+  {
+    test -f .env &&
+    echo ".env found. Saving configuration to .env.save"
+  } || {
+    mv .env.save .env
+  }
+else
+  {
+    test -f .env &&
+    echo ".env found. Not copying templates/template.env to .env"
+  } || {
+    echo "Copying templates/template.env to .env...";
+    cp templates/template.env .env;
+  }
+  echo "Please configure your environmental variables using a .env file. Reference templates/template.env for details."
+fi
+echo "Setup complete.";
 echo "Run 'yarn run deploy' to deploy the app.";

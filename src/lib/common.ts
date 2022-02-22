@@ -1,5 +1,6 @@
 import humanizeDurationShortened from "humanize-duration-shortened-english";
 import humanizeDuration from "humanize-duration";
+import axios from "axios";
 export function roundup(num: number, precision = 0): number {
   precision = Math.pow(10, precision);
   return Math.ceil(num * precision) / precision;
@@ -56,4 +57,8 @@ export function splitarray(arr: [], start: number, end: number) {
     arr[i] !== undefined && r.push(arr[i]);
   }
   return r;
+}
+export async function logout () {
+  localStorage.clear();
+  await axios.get("/api/logout");
 }

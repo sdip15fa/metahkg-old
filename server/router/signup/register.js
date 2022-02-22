@@ -19,7 +19,7 @@ const { verify } = require("hcaptcha");
 const random = require("random");
 const bcrypt = require("bcrypt");
 const mailgun = require("mailgun-js");
-const mg = mailgun({ apiKey: process.env.api_key, domain: "metahkg.wcyat.me" });
+const mg = mailgun({ apiKey: process.env.mailgun_key, domain: "metahkg.wcyat.me" });
 const router = express.Router();
 async function valid(req, res) {
   if (

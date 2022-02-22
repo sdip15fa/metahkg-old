@@ -1,9 +1,14 @@
 {
   "name": "metahkg",
-  "version": "0.5.3rc1",
+  "version": "0.5.3rc2",
   "author": "wcyat",
-  "license": "MIT",
+  "license": "MPL-2.0",
+  "keywords": [
+    "forum",
+    "react"
+  ],
   "dependencies": {
+    "@anzerr/file.type": "^1.0.10",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@hcaptcha/react-hcaptcha": "^1.0.0",

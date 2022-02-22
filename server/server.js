@@ -49,6 +49,6 @@ app.use(rootRouter);
 /*
  * The port can be modified in .env
  */
-app.listen(process.env.port, () => {
-  console.log(`listening at port ${process.env.port}`);
+app.listen(process.env.port || 3000, () => {
+  console.log(`listening at port ${process.env.port || 3000}`);
 });

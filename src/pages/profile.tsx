@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   useData,
   useId,
@@ -76,6 +76,8 @@ export default function Profile() {
   const [cat, setCat] = useCat();
   const [fetching, setFetching] = useState(false);
   const [selected, setSelected] = useSelected();
+  const [history, setHistory] = useHistory();
+  const navigate = useNavigate();
   function fetch() {
     setFetching(true);
     axios.get(`/api/profile/${Number(params.id) || "self"}`).then((res) => {
@@ -89,7 +91,7 @@ export default function Profile() {
     setTitle("");
     selected && setSelected(0);
   }
-  const [history, setHistory] = useHistory();
+  params?.id === "self" && !localStorage.user && navigate('/');
   history !== window.location.pathname && setHistory(window.location.pathname);
   !menu && !(width < 760) && setMenu(true);
   menu && width < 760 && setMenu(false);

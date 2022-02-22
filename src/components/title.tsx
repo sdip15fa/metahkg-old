@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Divider, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import {
   ArrowBack as ArrowBackIcon,
   Share as ShareIcon,
@@ -9,6 +9,7 @@ import {
   Telegram,
   WhatsApp,
 } from "@mui/icons-material";
+import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PopUp } from "../lib/popup";
@@ -34,6 +35,7 @@ export default function Title(props: {
   const [notify, setNotify] = useState({ open: false, text: "" });
   const [history] = useHistory();
   const [width] = useWidth();
+  const params = useParams();
   const copytext =
     props.title + "\n" + props.slink + "\n- Shared from Metahkg forum";
   return (
@@ -125,19 +127,19 @@ export default function Title(props: {
             overflow: "hidden",
           }}
         >
-          <Link to={history || `/category/${props.category}`}>
+          {(history || props.category) && <Link to={history || `/category/${props.category}`}>
             <IconButton sx={{ margin: 0, padding: 0 }}>
               <ArrowBackIcon color="secondary" />
             </IconButton>
-          </Link>
+          </Link>}
           <Typography
             className="novmargin"
             sx={{
               color: "secondary.main",
               fontSize: "18px",
               paddingLeft: "10px",
-              lineHeight: "22px",
-              maxHeight: "22px",
+              lineHeight: "24px",
+              maxHeight: "24px",
               textOverflow: "ellipsis",
               overflow: "hidden",
             }}
@@ -149,12 +151,7 @@ export default function Title(props: {
           <Tooltip title="Comment" arrow>
             <a
               style={{ textDecoration: "none" }}
-              href={`/comment/${
-                window.location.pathname.split("/").pop() ||
-                window.location.pathname.split("/")[
-                  window.location.pathname.split("/").length - 2
-                ]
-              }`}
+              href={`/comment/${params.id}`}
             >
               <IconButton>
                 <ReplyIcon
@@ -174,6 +171,7 @@ export default function Title(props: {
           </Tooltip>
         </Box>
       </div>
+      <Divider className="fullwidth"/>
     </Box>
   );
 }

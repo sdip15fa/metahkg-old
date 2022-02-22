@@ -69,7 +69,11 @@ function Conversation(props: { id: number }) {
         setVotes(res.data);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [n])
+  /**
+   * @description get new comments or next page (if last comment id % 25 = 0)
+   */
   function update() {
     setUpdating(true);
     axios

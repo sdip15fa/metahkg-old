@@ -3,7 +3,7 @@ const { exit } = require("process");
 if (
   !(
     process.env.DB_URI &&
-    process.env.api_key &&
+    process.env.mailgun_key &&
     process.env.domain &&
     process.env.port &&
     process.env.hcaptchasecret &&
