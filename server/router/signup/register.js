@@ -1,6 +1,6 @@
-//Signup for an account
-//humans only
-/*Syntax: POST /api/register
+// Signup for an account
+// humans only
+/* Syntax: POST /api/register
 {
   user (username): string,
   pwd (password, sha256 hashed): string,
@@ -19,7 +19,10 @@ const { verify } = require("hcaptcha");
 const random = require("random");
 const bcrypt = require("bcrypt");
 const mailgun = require("mailgun-js");
-const mg = mailgun({ apiKey: process.env.mailgun_key, domain: "metahkg.wcyat.me" });
+const mg = mailgun({
+  apiKey: process.env.mailgun_key,
+  domain: "metahkg.wcyat.me",
+});
 const router = express.Router();
 async function valid(req, res) {
   if (
