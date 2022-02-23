@@ -1,3 +1,4 @@
+
 /*
  * To deploy this service you must have an aws account
  * Create a s3 bucket in a region you want
@@ -18,9 +19,9 @@ const upload = multer({ dest: "uploads/" });
 const region = process.env.awsRegion || "ap-northeast-1";
 const bucket = process.env.s3Bucket || "metahkg";
 /*
-* aws credentials are fetched from a
-  profile "s3" set in ~/.aws/credentials
-*/
+ * aws credentials are fetched from a
+ * profile "s3" set in ~/.aws/credentials
+ */
 const credentials = new AWS.SharedIniFileCredentials({ profile: "s3" });
 AWS.config.credentials = credentials;
 AWS.config.update({ region: region });
@@ -84,17 +85,22 @@ async function compress(filename) {
 * Image is delted locally after the process
 */
 router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
+  if (!req?.file?.size) {
+    res.status(400);
+    res.send("Bad request.");
+    return;
+  }
   const client = new MongoClient(mongouri);
   if (
     //check if file type is not aupported
-    ["jpg", "svg", "png", "jpeg"].indexOf(
+    !["jpg", "svg", "png", "jpeg"].includes(
       req?.file?.originalname.split(".").pop()
-    ) === -1
+    )
   ) {
     res.status(400);
     res.send("File type not supported.");
     //remove the file
-    fs.rm(`uploads/${req?.file?.originalname}`);
+    fs.rm(req?.file?.path, () => {});
     return;
   }
   try {
@@ -106,7 +112,7 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
     if (!user) {
       res.status(404);
       res.send("Not found.");
-      fs.rm(`uploads/${req.file.originalname}`);
+      fs.rm(`uploads/${req.file.originalname}`, () => {});
       return;
     }
     //rename file to <user-id>.<extension>
@@ -114,18 +120,23 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
     fs.rename(
       `uploads/${req.file.filename}`,
       `uploads/${newfilename}`,
-      (err) => {
-        console.log(err);
-      }
+      () => {}
     );
     //compress the file
-    await compress(`uploads/${newfilename}`);
-    newfilename += ".png";
-    //upload file to s3
-    await uploadtos3(`uploads/${newfilename}`);
-    const url = `https://${bucket}.s3.amazonaws.com/avatars/${user.id}`;
-    //save avatar url to db
-    await users.updateOne({ id: user.id }, { $set: { avatar: url } });
+    try {
+      await compress(`uploads/${newfilename}`);
+      newfilename += ".png";
+      //upload file to s3
+      await uploadtos3(`uploads/${newfilename}`);
+      const url = `https://${bucket}.s3.amazonaws.com/avatars/${user.id}`;
+      //save avatar url to db
+      await users.updateOne({ id: user.id }, { $set: { avatar: url } });
+    } catch {
+      res.status(422);
+      res.send("Could not complete the request. Please check your file.");
+      fs.rm(`uploads/${newfilename}`, () => {});
+      return;
+    }
     //redirect user back to /profile/self
     res.redirect("/profile/self");
     //remove the file locally
