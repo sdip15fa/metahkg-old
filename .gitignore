@@ -29,3 +29,4 @@ uploads/
 
 # internal
 deploy.sh
+.lh/
