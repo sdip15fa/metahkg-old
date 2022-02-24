@@ -1,7 +1,7 @@
-//get conversation
-//Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
-//conversation: main conversation content
-//users: content of users involved in the conversation
+// get conversation
+// Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
+// conversation: main conversation content
+// users: content of users involved in the conversation
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");
@@ -42,7 +42,9 @@ router.get("/api/thread/:id", async (req, res) => {
       res.send(r);
       return;
     }
-    const conversation = client.db("metahkg-threads").collection("conversation");
+    const conversation = client
+      .db("metahkg-threads")
+      .collection("conversation");
     const summary = client.db("metahkg-threads").collection("summary");
     const result =
       type === 1

@@ -58,7 +58,7 @@ export function splitarray(arr: [], start: number, end: number) {
   }
   return r;
 }
-export async function logout () {
+export async function logout() {
   localStorage.clear();
   await axios.get("/api/logout");
 }

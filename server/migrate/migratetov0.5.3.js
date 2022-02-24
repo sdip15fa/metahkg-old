@@ -52,10 +52,7 @@ async function updatesex() {
   });
   users.find().forEach((i) => {
     if (typeof i.sex === "boolean") {
-      users.updateOne(
-        { _id: i._id },
-        { $set: { sex: i.sex ? "M" : "F" } }
-      );
+      users.updateOne({ _id: i._id }, { $set: { sex: i.sex ? "M" : "F" } });
     }
   });
   verification.find().forEach((i) => {
@@ -68,45 +65,45 @@ async function updatesex() {
   });
 }
 async function updatevotes() {
-    const client = new MongoClient(mongouri);
-    await client.connect();
-    const metahkgthreads = client.db("metahkg-threads");
-    const metahkgusers = client.db("metahkg-users");
-    const conversation = metahkgthreads.collection("conversation");
-    const uservotes = metahkgusers.collection("votes");
-    conversation.find().forEach(async (i) => {
-        const c = i.conversation;
-        const o = [];
-        c.forEach((n) => {
-            if (n?.up) {
-                n["U"] = n.up;
-                delete n.up;
-            }
-            if (n?.down) {
-                n["D"] = n.down;
-                delete n.down;
-            }
-            o.push(n);
-        });
-        await conversation.updateOne({_id: i._id}, {$set: {conversation : o}});
+  const client = new MongoClient(mongouri);
+  await client.connect();
+  const metahkgthreads = client.db("metahkg-threads");
+  const metahkgusers = client.db("metahkg-users");
+  const conversation = metahkgthreads.collection("conversation");
+  const uservotes = metahkgusers.collection("votes");
+  conversation.find().forEach(async (i) => {
+    const c = i.conversation;
+    const o = [];
+    c.forEach((n) => {
+      if (n?.up) {
+        n.U = n.up;
+        delete n.up;
+      }
+      if (n?.down) {
+        n.D = n.down;
+        delete n.down;
+      }
+      o.push(n);
     });
-    uservotes.find().forEach((i) => {
-        Object.entries(i).forEach(async (n) => {
-            if (isInteger(n[0])) {
-                const o = {};
-                Object.entries(n[1]).forEach((v) => {
-                    if (v[1] === "up") {
-                        v[1] = "U";
-                    }
-                    if (v[1] === "down") {
-                        v[1] = "D";
-                    }
-                    o[v[0]] = v[1];
-                })
-                await uservotes.updateOne({_id: i._id}, {$set: {[n[0]] : o}});
-            }
-        })
-    })
+    await conversation.updateOne({ _id: i._id }, { $set: { conversation: o } });
+  });
+  uservotes.find().forEach((i) => {
+    Object.entries(i).forEach(async (n) => {
+      if (isInteger(n[0])) {
+        const o = {};
+        Object.entries(n[1]).forEach((v) => {
+          if (v[1] === "up") {
+            v[1] = "U";
+          }
+          if (v[1] === "down") {
+            v[1] = "D";
+          }
+          o[v[0]] = v[1];
+        });
+        await uservotes.updateOne({ _id: i._id }, { $set: { [n[0]]: o } });
+      }
+    });
+  });
 }
 updateconversation();
 updatesex();
