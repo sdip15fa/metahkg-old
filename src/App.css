@@ -61,24 +61,6 @@ a:active {
   background: #fbc308;
   color: black;
 }
-.catlink:hover {
-  color: #fbc308 !important;
-}
-.votearrow svg:hover,
-.close svg:hover {
-  color: white;
-  will-change: color;
-}
-.cuserlink:active {
-  text-decoration: none;
-}
-.cuserlink:hover {
-  text-decoration: underline;
-}
 .TextField-without-border-radius fieldset {
   border-radius: 0;
-}
-.svgwhite {
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%)
-    contrast(103%);
 }

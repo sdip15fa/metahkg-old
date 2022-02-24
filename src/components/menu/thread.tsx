@@ -1,5 +1,5 @@
 import React from "react";
-import "./thread.css";
+import "./css/thread.css";
 import { Button, Box } from "@mui/material";
 import {
   ThumbUp as ThumbUpIcon,
@@ -35,7 +35,7 @@ export default function MenuThread(props: { thread: summary }) {
             <p
               className="menuthread op ml20"
               style={{
-                color: thread.sex ? "#0277bd" : "red",
+                color: thread.sex === "M" ? "#0277bd" : "red",
               }}
             >
               {thread.op}

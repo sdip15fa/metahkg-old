@@ -1,3 +1,4 @@
+import "./css/comment.css";
 import React, { memo } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
@@ -15,7 +16,7 @@ import { useState } from "react";
  */
 function Comment(props: {
   op: boolean; //is original poster (true | false)
-  sex: boolean; //user sex
+  sex: "M" | "F"; //user sex
   id: number; //comment id
   tid: number; //thread id
   userid: number; //user's id
@@ -24,7 +25,7 @@ function Comment(props: {
   date: string; //comment date
   up: number; //number of upvotes
   down: number; //number of downvotes
-  vote: "up" | "down" | undefined; //user's vote, if not voted or not signed in it would be undefined
+  vote?: "U" | "D"; //user's vote, if not voted or not signed in it would be undefined
 }) {
   /*
    * Tag serves as a title for the comment
@@ -69,12 +70,12 @@ function Comment(props: {
           #{props.id}
         </p>
         <p
-          className="cuserlink novmargin"
+          className="comment-userlink novmargin"
           onClick={() => {
             setOpen(true);
           }}
           style={{
-            color: props.sex ? "#34aadc" : "red",
+            color: props.sex === "M" ? "#34aadc" : "red",
             marginLeft: "10px",
             textOverflow: "ellipsis",
             maxWidth: "100%",

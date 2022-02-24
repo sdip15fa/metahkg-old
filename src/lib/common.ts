@@ -37,7 +37,7 @@ export type summary = {
   c: number;
   id: number;
   op: string;
-  sex: boolean;
+  sex: "M" | "F";
   title: string;
   category: number;
   lastModified: string;

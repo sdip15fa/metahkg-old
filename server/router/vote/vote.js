@@ -2,6 +2,7 @@ const body_parser = require("body-parser");
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
+const isInteger = require("is-sn-integer");
 const router = express.Router();
 router.post("/api/vote", body_parser.json(), async (req, res) => {
   if (
@@ -12,7 +13,10 @@ router.post("/api/vote", body_parser.json(), async (req, res) => {
     !(
       typeof req.body.cid === "number" &&
       typeof req.body.id === "number" &&
-      ["up", "down"].includes(req.body.vote)
+      isInteger(req.body.cid) &&
+      req.body.cid > 0 &&
+      req.body.id > 0 &&
+      ["U", "D"].includes(req.body.vote)
     )
   ) {
     res.status(400);
@@ -22,7 +26,9 @@ router.post("/api/vote", body_parser.json(), async (req, res) => {
   const client = new MongoClient(mongouri);
   try {
     await client.connect();
-    const threads = client.db("metahkg-threads").collection("conversation");
+    const conversation = client
+      .db("metahkg-threads")
+      .collection("conversation");
     const summary = client.db("metahkg-threads").collection("summary");
     const users = client.db("metahkg-users").collection("users");
     const votes = client.db("metahkg-users").collection("votes");
@@ -32,13 +38,32 @@ router.post("/api/vote", body_parser.json(), async (req, res) => {
       res.send("User not found.");
       return;
     }
-    const thread = await threads.findOne({ id: req.body.id });
-    const index = thread.conversation.findIndex((i) => i.id === req.body.cid);
-    if (!thread || index < 0) {
+    const thread = await conversation.findOne(
+      { id: req.body.id },
+      {
+        projection: {
+          conversation: {
+            $filter: {
+              input: "$conversation",
+              cond: {
+                $and: [
+                  {
+                    $gte: ["$$this.id", req.body.cid],
+                  },
+                  { $lte: ["$$this.id", req.body.cid] },
+                ],
+              },
+            },
+          },
+        },
+      }
+    );
+    if (!thread) {
       res.status(404);
       res.send("Not found.");
       return;
     }
+    const index = req.body.cid - 1;
     const uservotes = await votes.findOne({ id: user.id });
     if (!uservotes) {
       await votes.insertOne({ id: user.id });
@@ -52,19 +77,19 @@ router.post("/api/vote", body_parser.json(), async (req, res) => {
       { $set: { [`${req.body.id}.${req.body.cid}`]: req.body.vote } }
     );
     if (!thread.conversation[index]?.[req.body.vote]) {
-      await threads.updateOne(
+      await conversation.updateOne(
         { id: req.body.id },
         { $set: { [`conversation.${index}.${req.body.vote}`]: 0 } }
       );
     }
-    await threads.updateOne(
+    await conversation.updateOne(
       { id: req.body.id },
       { $inc: { [`conversation.${index}.${req.body.vote}`]: 1 } }
     );
     if (req.body.cid === 1) {
       await summary.updateOne(
         { id: req.body.id },
-        { $inc: { vote: req.body.vote === "up" ? 1 : -1 } }
+        { $inc: { vote: req.body.vote === "U" ? 1 : -1 } }
       );
     }
     res.send("ok");

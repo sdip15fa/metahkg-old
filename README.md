@@ -23,6 +23,6 @@ For a fast setup run ./setup.sh.
 
 ## Logo
 
-Logo (public/logo.svg) originally by "white card", CC-BY-4.0.
+Logo (public/images/logo.svg) originally by "white card", CC-BY-4.0.
 Modified versions by wcyat, CC0.
 See public/LICENSE for details.

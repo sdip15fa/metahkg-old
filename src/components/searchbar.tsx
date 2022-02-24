@@ -62,7 +62,7 @@ export default function SearchBar(props: {
       </SearchIconWrapper>
       <StyledInputBase
         key={query}
-        placeholder="Search…"
+        placeholder="Search"
         inputProps={{ "aria-label": "search" }}
         onKeyPress={props.onKeyPress}
         onChange={props.onChange}

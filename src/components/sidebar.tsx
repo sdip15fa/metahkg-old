@@ -1,3 +1,4 @@
+import "./css/sidebar.css";
 import React, { useState } from "react";
 import {
   Box,
@@ -23,6 +24,7 @@ import SearchBar from "./searchbar";
 import { useQuery } from "./ContextProvider";
 import { categories } from "../lib/common";
 import { useCat, useData, useProfile, useSearch } from "./MenuProvider";
+import MetahkgLogo from "./logo";
 /*
  * The sidebar used by Menu
  * link to metahkg frontpage, search bar, sign in/register/logout,
@@ -87,13 +89,7 @@ export default function SideBar() {
               <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                 <ListItem button onClick={onClick}>
                   <ListItemIcon>
-                    <img
-                      className="svgwhite"
-                      width="24px"
-                      height="24px"
-                      src="/logo.svg"
-                      alt="Metahkg"
-                    />
+                    <MetahkgLogo height={24} width={24} svg light/>
                   </ListItemIcon>
                   <ListItemText>Metahkg</ListItemText>
                 </ListItem>
@@ -150,7 +146,7 @@ export default function SideBar() {
           <div style={{ margin: "20px" }}>
             {Object.entries(categories).map((category: any) => (
               <Link
-                className="catlink"
+                className="sidebar-catlink"
                 to={`/category/${category[0]}`}
                 style={{
                   textDecoration: "none",
@@ -206,7 +202,7 @@ export default function SideBar() {
             </div>
           )}
           <p style={{ color: "white", paddingLeft: "5px" }}>
-            Metahkg build {process.env.REACT_APP_build || "0.5.3rc2"}
+            Metahkg build {process.env.REACT_APP_build || "0.5.3rc3"}
           </p>
         </Box>
       </Drawer>

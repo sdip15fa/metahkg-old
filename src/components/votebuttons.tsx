@@ -13,7 +13,7 @@ import { Notification } from "../lib/notification";
  * Generates a notification in case of errors
  */
 export default function VoteButtons(props: {
-  vote: "up" | "down" | undefined;
+  vote?: "U" | "D";
   id: number;
   cid: number;
   up: number;
@@ -26,8 +26,8 @@ export default function VoteButtons(props: {
     open: boolean;
     text: string;
   }>({ open: false, text: "" });
-  const sendvote = (v: "up" | "down") => {
-    v === "up" ? setUp(up + 1) : setDown(down + 1);
+  const sendvote = (v: "U" | "D") => {
+    v === "U" ? setUp(up + 1) : setDown(down + 1);
     setVote(v);
     axios
       .post("/api/vote", {
@@ -36,7 +36,7 @@ export default function VoteButtons(props: {
         vote: v,
       })
       .catch((err) => {
-        v === "up" ? setUp(up) : setDown(down);
+        v === "U" ? setUp(up) : setDown(down);
         setVote(undefined);
         setNotify({ open: true, text: err.response.data });
       });
@@ -52,14 +52,14 @@ export default function VoteButtons(props: {
           sx={{ padding: "0px", marginTop: "1.5px", marginBottom: "1.5px" }}
           disabled={!localStorage.user || !!vote}
           onClick={() => {
-            sendvote("up");
+            sendvote("U");
           }}
         >
           <Typography
-            className="votearrow"
+            className="icon-white-onhover"
             sx={{
               display: "flex",
-              color: vote === "up" ? "green" : "#aaa",
+              color: vote === "U" ? "green" : "#aaa",
             }}
           >
             <ArrowDropUp />
@@ -75,13 +75,13 @@ export default function VoteButtons(props: {
           }}
           disabled={!localStorage.user || !!vote}
           onClick={() => {
-            sendvote("down");
+            sendvote("D");
           }}
         >
           <Typography
-            className="votearrow"
+            className="icon-white-onhover"
             sx={{
-              color: vote === "down" ? "red" : "#aaa",
+              color: vote === "D" ? "red" : "#aaa",
               display: "flex",
             }}
           >

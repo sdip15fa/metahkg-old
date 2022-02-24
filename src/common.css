@@ -15,10 +15,10 @@
   padding-right: 0 !important;
 }
 .nomargin {
-  margin: 0;
+  margin: 0 !important;
 }
 .nopadding {
-  padding: 0;
+  padding: 0 !important;
 }
 .ml5 {
   margin-left: 5px !important;
@@ -59,6 +59,9 @@
 .fullwidth {
   width: 100%;
 }
+.fullheight {
+  height: 100%;
+}
 .notextdecoration {
   text-decoration: none;
 }
@@ -67,4 +70,14 @@
 }
 .flex {
   display: flex;
+}
+.icon-white-onhover svg:hover {
+  color: white !important;
+  will-change: color;
+}
+.justify-center {
+  justify-content: center;
+}
+.align-center {
+  align-items: center;
 }

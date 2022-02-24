@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import queryString from "query-string";
 import Comment from "./comment";
-import Title from "./title";
+import Title from "./conversation/title";
 import axios from "axios";
 import DOMPurify from "dompurify";
 import { Notification } from "../lib/notification";
@@ -79,12 +79,12 @@ function Conversation(props: { id: number }) {
     axios
       .get(
         `/api/thread/${props.id}?type=2&page=${
-          conversation[conversation.length - 1].id % 25 ? page : page + 1
+          conversation.length % 25 ? page : page + 1
         }`
       )
       .then((res) => {
         if (
-          conversation?.[conversation.length - 1]?.id % 25 &&
+          conversation.length % 25 &&
           res.data.length
         ) {
           const c = conversation;
@@ -107,7 +107,7 @@ function Conversation(props: { id: number }) {
           setConversation(c);
           setUpdating(false);
           setPage((page) => page + 1);
-          setPages(Math.floor((c[c.length - 1].id - c[0].id) / 25) + 1);
+          setPages(Math.floor((c.length - 1) / 25) + 1);
           navigate(`/thread/${props.id}?page=${page + 1}`);
           document.getElementById(String(page + 1))?.scrollIntoView();
           const croot = document.getElementById("croot");
@@ -247,20 +247,20 @@ function Conversation(props: { id: number }) {
                       conversation,
                       index * 25,
                       (index + 1) * 25 - 1
-                    ).map((entry: any) => (
-                      <Comment
-                        name={users?.[entry.user].name}
-                        id={entry.id}
-                        op={users?.[entry.user].name === details.op}
-                        sex={users?.[entry.user].sex}
-                        date={entry.createdAt}
+                    ).map((comment: any) => (
+                      !comment?.removed && <Comment
+                        name={users?.[comment.user].name}
+                        id={comment.id}
+                        op={users?.[comment.user].name === details.op}
+                        sex={users?.[comment.user].sex}
+                        date={comment.createdAt}
                         tid={props.id}
-                        up={entry.up | 0}
-                        down={entry.down | 0}
-                        vote={votes?.[entry.id]}
-                        userid={entry.user}
+                        up={comment?.["U"] | 0}
+                        down={comment?.["D"] | 0}
+                        vote={votes?.[comment.id]}
+                        userid={comment.user}
                       >
-                        {DOMPurify.sanitize(entry?.comment)}
+                        {DOMPurify.sanitize(comment?.comment)}
                       </Comment>
                     ))}
                   </Box>

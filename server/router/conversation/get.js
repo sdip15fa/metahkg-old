@@ -42,7 +42,7 @@ router.get("/api/thread/:id", async (req, res) => {
       res.send(r);
       return;
     }
-    const threads = client.db("metahkg-threads").collection("conversation");
+    const conversation = client.db("metahkg-threads").collection("conversation");
     const summary = client.db("metahkg-threads").collection("summary");
     const result =
       type === 1
@@ -59,7 +59,7 @@ router.get("/api/thread/:id", async (req, res) => {
               },
             }
           )
-        : await threads.findOne(
+        : await conversation.findOne(
             { id: Number(req.params.id) },
             {
               projection: {

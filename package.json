@@ -1,6 +1,6 @@
 {
   "name": "metahkg",
-  "version": "0.5.3rc2",
+  "version": "0.5.3rc3",
   "author": "wcyat",
   "license": "MPL-2.0",
   "keywords": [
@@ -37,6 +37,7 @@
     "html-react-parser": "^1.4.5",
     "humanize-duration": "^3.27.1",
     "humanize-duration-shortened-english": "^3.27.1-ts2",
+    "img-reduce-size-js": "^1.4.0",
     "is-sn-integer": "^0.2.0",
     "jsdom": "^19.0.0",
     "mailgun-js": "^0.22.0",

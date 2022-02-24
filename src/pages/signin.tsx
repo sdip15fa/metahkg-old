@@ -1,3 +1,4 @@
+import "./css/signin.css";
 import React, { useEffect } from "react";
 import { Alert, Box, Button, TextField } from "@mui/material";
 import axios from "axios";
@@ -8,6 +9,7 @@ import queryString from "query-string";
 import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
+import MetahkgLogo from "../components/logo";
 /*
  * /signin
  * The Signin component collects data from user then send to the server /api/signin
@@ -116,16 +118,10 @@ export default function Signin() {
               </Button>
             </Link>
           </div>
-          <h1
-            style={{
-              textAlign: "center",
-              fontSize: "25px",
-              color: "white",
-              marginBottom: "20px",
-            }}
-          >
-            Sign in to your Metahkg account
-          </h1>
+          <div className="flex justify-center align-center">
+            <MetahkgLogo height={50} width={40} svg light className="mb10" />
+            <h1 className="signin-title-text mb20">Sign in</h1>
+          </div>
           {!state.alert.text ? (
             <div />
           ) : (

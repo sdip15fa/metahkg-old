@@ -6,7 +6,7 @@
   pwd (password, sha256 hashed): string,
   email: string,
   htoken (hcaptcha token): string,
-  sex: boolean
+  sex: string
 }
 */
 require("dotenv").config();
@@ -35,7 +35,7 @@ async function valid(req, res) {
       typeof req.body.pwd === "string" &&
       typeof req.body.email === "string" &&
       typeof req.body.htoken === "string" &&
-      typeof req.body.sex === "boolean"
+      (req.body.sex === "M" || req.body.sex === "F")
     ) ||
     Object.keys(req.body).length > 5 ||
     !EmailValidator.validate(req.body.email)
@@ -81,10 +81,10 @@ async function exceptions(req, res, client) {
   return true;
 }
 router.post("/api/register", body_parser.json(), async (req, res) => {
-  const client = new MongoClient(mongouri);
   if (!(await valid(req, res))) {
     return;
   }
+  const client = new MongoClient(mongouri);
   await client.connect();
   if (!(await exceptions(req, res, client))) {
     return;

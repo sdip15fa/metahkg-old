@@ -38,12 +38,12 @@ function DataTable(props: { user: any }) {
   const items = [
     props.user.user,
     props.user.count,
-    props.user.sex ? "male" : "female",
+    props.user.sex === "M" ? "male" : "female",
     props.user?.admin ? "yes" : "no",
     `${timetoword_long(props.user.createdAt)} ago`,
   ];
   return (
-    <TableContainer className="profile tablecontainer" component={Paper}>
+    <TableContainer className="profile-tablecontainer" component={Paper}>
       <Table className="fullwidth" aria-label="simple table">
         <TableBody>
           {items.map((item, index) => (
@@ -108,7 +108,7 @@ export default function Profile() {
   !Object.keys(user).length && !fetching && fetch();
   return (
     <Box
-      className="profile root"
+      className="profile-root"
       sx={{
         backgroundColor: "primary.dark",
       }}
@@ -117,10 +117,10 @@ export default function Profile() {
         <LinearProgress className="fullwidth" color="secondary" />
       ) : (
         user?.[0] !== null && (
-          <Paper className="profile paper">
-            <Box className="profile mainbox">
+          <Paper className="profile-paper">
+            <Box className="profile-mainbox">
               <Box
-                className="profile top"
+                className="profile-top"
                 sx={{
                   width: width < 760 ? "100vw" : "70vw",
                 }}
@@ -136,14 +136,14 @@ export default function Profile() {
                 />
                 <br />
                 <div
-                  className="profile toptextdiv ml20"
+                  className="profile-toptextdiv ml20"
                   style={{
                     flexDirection: params.id === "self" ? "column" : "row",
                   }}
                 >
-                  <h1 className="profile toptext">
+                  <h1 className="profile-toptext">
                     <div
-                      className="profile userspandiv"
+                      className="profile-userspandiv"
                       style={{
                         maxWidth:
                           width < 760
@@ -152,9 +152,9 @@ export default function Profile() {
                       }}
                     >
                       <span
-                        className="profile userspan"
+                        className="profile-userspan"
                         style={{
-                          color: user.sex ? "#34aadc" : "red",
+                          color: user.sex === "M" ? "#34aadc" : "red",
                         }}
                       >
                         {user.user}
@@ -163,7 +163,7 @@ export default function Profile() {
                     #{user.id}
                   </h1>
                   <div
-                    className="profile uploaddiv"
+                    className="profile-uploaddiv"
                     style={{
                       marginTop: params.id === "self" ? 25 : 0,
                     }}
@@ -172,7 +172,7 @@ export default function Profile() {
                   </div>
                 </div>
               </Box>
-              <Box className="profile tablebox mt20 mb10 fullwidth">
+              <Box className="profile-tablebox mt20 mb10 fullwidth">
                 <DataTable user={user} />
               </Box>
               {width < 760 && (
@@ -182,7 +182,7 @@ export default function Profile() {
                     to={`/history/${params.id}`}
                   >
                     <Button
-                      className="profile historybtn"
+                      className="profile-historybtn"
                       variant="text"
                       color="secondary"
                     >

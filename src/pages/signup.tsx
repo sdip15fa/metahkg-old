@@ -1,4 +1,4 @@
-import './css/signup.css';
+import "./css/signup.css";
 import React from "react";
 import axios from "axios";
 import hash from "hash.js";
@@ -21,6 +21,7 @@ import { useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
 import { useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
+import MetahkgLogo from "../components/logo";
 declare const hcaptcha: { reset: (e: string) => void };
 /*
  * Sex selector
@@ -28,9 +29,7 @@ declare const hcaptcha: { reset: (e: string) => void };
  * props.changeHandler: callback to use when user changes selection
  */
 function Sex(props: {
-  changeHandler: (
-    e: SelectChangeEvent<string>,
-  ) => void;
+  changeHandler: (e: SelectChangeEvent<string>) => void;
   disabled: boolean;
 }) {
   const [sex, setSex] = React.useState("");
@@ -78,7 +77,7 @@ export default function Register() {
     user: string;
     email: string;
     pwd: string;
-    sex: boolean;
+    sex: "M" | "F";
     disabled: boolean;
     waiting: boolean;
     htoken: string;
@@ -88,7 +87,7 @@ export default function Register() {
     user: "",
     email: "",
     pwd: "",
-    sex: true,
+    sex: "M",
     disabled: false,
     waiting: false,
     htoken: "",
@@ -177,7 +176,7 @@ export default function Register() {
   }
   return (
     <Box
-      className="signup root"
+      className="signup-root flex fullwidth fullheight justify-center align-center"
       sx={{
         backgroundColor: "primary.dark",
       }}
@@ -189,12 +188,12 @@ export default function Register() {
         }}
       >
         <div style={{ margin: "50px" }}>
-          <h1 className="signup title">Register a Metahkg account</h1>
+          <div className="flex justify-center align-center">
+            <MetahkgLogo svg light height={50} width={40} className="mb10"/>
+            <h1 className="signup-title-text mb20">Register</h1>
+          </div>
           {state.alert.text && (
-            <Alert
-              className="signup alert"
-              severity={state.alert.severity}
-            >
+            <Alert className="signup-alert mt10" severity={state.alert.severity}>
               {state.alert.text}
             </Alert>
           )}
@@ -219,7 +218,7 @@ export default function Register() {
             <Sex
               disabled={state.waiting}
               changeHandler={(e) => {
-                setState({ ...state, sex: Boolean(e.target.value) });
+                setState({ ...state, sex: e.target.value ? "M" : "F" });
               }}
             />
             {width < 760 ? <br /> : <div />}

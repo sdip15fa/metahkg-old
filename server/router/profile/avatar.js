@@ -9,7 +9,8 @@ const fs = require("fs");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 require("dotenv").config();
-const sharp = require("sharp"); //compress images
+const sharp = require("sharp"); //reshape images to circle
+const { imageResize } =  require("img-reduce-size-js"); //compress images
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 /*
@@ -57,6 +58,10 @@ async function uploadtos3(filename) {
  * Output is <original-filename>.png
  */
 async function compress(filename) {
+  await imageResize({
+    file: filename,
+    maxSize: 250, //max size
+  })
   const width = 200;
   const r = width / 2;
   const circleShape = Buffer.from(
@@ -80,7 +85,7 @@ async function compress(filename) {
 * Image is saved to uploads/ upon uploading
 * only jpg, svg, png and jpeg are allowed
 * Image is renamed to <user-id>.<png/svg/jpg/jpeg>
-  Then compressed and uploaded to s3
+*  Then compressed and uploaded to s3
 * Image is delted locally after the process
 */
 router.post("/api/avatar", upload.single("avatar"), async (req, res) => {

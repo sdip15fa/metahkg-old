@@ -35,8 +35,8 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
     const key = req.cookies.key;
     const user = await metahkgusers.findOne({ key: key });
     if (
-      !(await metahkgusers.findOne({ key: key })) ||
-      !(await conversation.findOne({ id: req.body.id }))
+      !(await metahkgusers.countDocuments({ key: key })) ||
+      !(await conversation.countDocuments({ id: req.body.id }))
     ) {
       res.status(404);
       res.send("Not found.");
@@ -66,7 +66,7 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
       { id: req.body.id },
       { $inc: { c: 1 }, $currentDate: { lastModified: true } }
     );
-    if (!(await users.findOne({ id: req.body.id })[user.id])) {
+    if (!(await users.findOne({ id: req.body.id })?.[user.id])) {
       await users.updateOne(
         { id: req.body.id },
         { $set: { [user.id]: { sex: user.sex, name: user.user } } }

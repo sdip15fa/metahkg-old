@@ -41,3 +41,11 @@ node server/migrate/migratetov0.5.2.js
 
 - general changes
 - fixed avatar bug
+
+## v0.5.3rc3
+
+- use M/F for sex and U/D for vote
+- decomplicate conversation
+- security fix (avatar)
+- improve signin / register page (visual)
+- Metahkg logo as an element
