@@ -10,7 +10,6 @@ const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 require("dotenv").config();
 const sharp = require("sharp"); //reshape images to circle
-const { imageResize } =  require("img-reduce-size-js"); //compress images
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 /*
@@ -58,10 +57,6 @@ async function uploadtos3(filename) {
  * Output is <original-filename>.png
  */
 async function compress(filename) {
-  await imageResize({
-    file: filename,
-    maxSize: 250, //max size
-  })
   const width = 200;
   const r = width / 2;
   const circleShape = Buffer.from(
@@ -92,6 +87,12 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
   if (!req?.file?.size) {
     res.status(400);
     res.send("Bad request.");
+    return;
+  }
+  if (req?.file?.size > 250000) {
+    res.status(422);
+    res.send("file too large.");
+    fs.rm(req?.file?.path, () => {});
     return;
   }
   const client = new MongoClient(mongouri);
@@ -135,7 +136,8 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
       const url = `https://${bucket}.s3.amazonaws.com/avatars/${user.id}`;
       //save avatar url to db
       await users.updateOne({ id: user.id }, { $set: { avatar: url } });
-    } catch {
+    } catch (err) {
+      console.log(err);
       res.status(422);
       res.send("Could not complete the request. Please check your file.");
       fs.rm(`uploads/${newfilename}`, () => {});
