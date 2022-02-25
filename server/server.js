@@ -20,7 +20,7 @@ app.set("trust proxy", true);
 /*
 * Set content security policy
 * js.hcaptcha.com: hcaptcha
-* sa.wcyat.engineer, analytics.wcyat.me, 
+* sa.wcyat.engineer, analytics.wcyat.me,
   static.cloudflareinsights.com: analytics
 * cdnjs.cloudflare.com: deliver axios
   for usage in the browser console

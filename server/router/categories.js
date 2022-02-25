@@ -1,6 +1,6 @@
-//get categories
-//Syntax: GET /api/category/<"all" | number(category id)>
-//"all" returns an array of all categories
+// get categories
+// Syntax: GET /api/category/<"all" | number(category id)>
+// "all" returns an array of all categories
 const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
