@@ -29,7 +29,7 @@ import { useNavigate } from "react-router";
  * MenuThreads are rendered after data is fetched
  */
 function MainContent() {
-  const params = queryString.parse(window.location.search);
+  const querystring = queryString.parse(window.location.search);
   const [category] = useCat();
   const [search] = useSearch();
   const [profile] = useProfile();
@@ -40,7 +40,7 @@ function MainContent() {
   const [page, setPage] = useState(1);
   const [end, setEnd] = useState(false);
   const [updating, setUpdating] = useState(false);
-  const q = decodeURIComponent(String(params.q || query || ""));
+  const q = decodeURIComponent(String(querystring.q || query || ""));
   const c: string | number = category || `bytid${id}`;
   function fetch() {
     setUpdating(true);

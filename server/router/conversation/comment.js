@@ -19,7 +19,7 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
     !(typeof req.body.id === "number" && typeof req.body.comment === "string")
   ) {
     res.status(400);
-    res.send("Bad request");
+    res.send({ error: "Bad request" });
     return;
   }
   await client.connect();
@@ -39,13 +39,13 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
       !(await conversation.countDocuments({ id: req.body.id }))
     ) {
       res.status(404);
-      res.send("Not found.");
+      res.send({ error: "Not found." });
       return;
     }
     const newid = (await summary.findOne({ id: req.body.id })).c + 1;
     if ((await limit.countDocuments({ id: user.id, type: "comment" })) >= 300) {
       res.status(429);
-      res.send("You cannot add more than 300 comments a day.");
+      res.send({ error: "You cannot add more than 300 comments a day." });
       return;
     }
     await conversation.updateOne(

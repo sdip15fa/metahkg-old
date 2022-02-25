@@ -7,15 +7,19 @@ const router = express.Router();
  * get summary of threads created by a user
  * syntax: GET /api/history/<user-id | "self">
  * returns an array of objects
+ * sort:
+ * 0: by creation time //default
+ * 1: by last modification time
  */
 router.get("/api/history/:id", async (req, res) => {
   if (
     (!isInteger(req.params.id) && !req.params.id === "self") ||
-    ![0, 1].includes(Number(req.query.sort)) ||
-    (req.query.page && !isInteger(req.query.page))
+    (req.query.sort && ![0, 1].includes(Number(req.query.sort))) ||
+    (req.query.page &&
+      (!isInteger(req.query.page) || Number(req.query.page) < 1))
   ) {
     res.status(400);
-    res.send("Bad request.");
+    res.send({ error: "Bad request." });
     return;
   }
   const client = new MongoClient(mongouri);
@@ -29,14 +33,14 @@ router.get("/api/history/:id", async (req, res) => {
       req.params.id === "self" ? { key: key } : { id: Number(req.params.id) }
     );
     if (!user) {
-      res.status(404);
-      res.send("User not found.");
+      res.status(400);
+      res.send({ error: "User not found." });
       return;
     }
     const sort = {
       0: { createdAt: -1 },
       1: { lastModified: -1 },
-    }[req.query.sort];
+    }[Number(req.query.sort ?? 0)];
     const history = await summary
       .find({ op: user.user })
       .sort(sort)

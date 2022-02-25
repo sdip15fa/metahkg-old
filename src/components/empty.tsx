@@ -36,7 +36,7 @@ export default function Empty() {
       >
         <div style={{ margin: "50px", width: "100%" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <MetahkgLogo height={40} width={50} svg light/>
+            <MetahkgLogo height={40} width={50} svg light />
             <h1 style={{ color: "white" }}>Metahkg</h1>
           </div>
           <List>
@@ -44,10 +44,9 @@ export default function Empty() {
               style={{ textDecoration: "none", color: "white" }}
               to={`/${
                 localStorage.user ? "logout" : "signin"
-              }?returnto=${encodeURIComponent(window.location.href.replace(
-                window.location.origin,
-                ""
-              ))}`}
+              }?returnto=${encodeURIComponent(
+                window.location.href.replace(window.location.origin, "")
+              )}`}
             >
               <ListItem button sx={{ width: "100%" }}>
                 <ListItemIcon>

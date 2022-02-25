@@ -77,21 +77,21 @@ async function compress(filename) {
   fs.rm(filename, () => {});
 }
 /*
-* Image is saved to uploads/ upon uploading
-* only jpg, svg, png and jpeg are allowed
-* Image is renamed to <user-id>.<png/svg/jpg/jpeg>
-*  Then compressed and uploaded to s3
-* Image is delted locally after the process
-*/
+ * Image is saved to uploads/ upon uploading
+ * only jpg, svg, png and jpeg are allowed
+ * Image is renamed to <user-id>.<png/svg/jpg/jpeg>
+ *  Then compressed and uploaded to s3
+ * Image is delted locally after the process
+ */
 router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
   if (!req?.file?.size) {
     res.status(400);
-    res.send("Bad request.");
+    res.send({ error: "Bad request." });
     return;
   }
   if (req?.file?.size > 250000) {
     res.status(422);
-    res.send("file too large.");
+    res.send({ error: "file too large." });
     fs.rm(req?.file?.path, () => {});
     return;
   }
@@ -103,7 +103,7 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
     )
   ) {
     res.status(400);
-    res.send("File type not supported.");
+    res.send({ error: "File type not supported." });
     //remove the file
     fs.rm(req?.file?.path, () => {});
     return;
@@ -115,8 +115,8 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
     const user = await users.findOne({ key: req.cookies.key });
     //send 404 if no such user
     if (!user) {
-      res.status(404);
-      res.send("Not found.");
+      res.status(400);
+      res.send({ error: "User not found." });
       fs.rm(`uploads/${req.file.originalname}`, () => {});
       return;
     }
@@ -136,10 +136,11 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
       const url = `https://${bucket}.s3.amazonaws.com/avatars/${user.id}`;
       //save avatar url to db
       await users.updateOne({ id: user.id }, { $set: { avatar: url } });
-    } catch (err) {
-      console.log(err);
+    } catch {
       res.status(422);
-      res.send("Could not complete the request. Please check your file.");
+      res.send({
+        error: "Could not complete the request. Please check your file.",
+      });
       fs.rm(`uploads/${newfilename}`, () => {});
       return;
     }

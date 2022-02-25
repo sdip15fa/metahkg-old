@@ -4,7 +4,9 @@ const { exit } = require("process");
 (async () => {
   const client = new MongoClient(mongouri);
   await client.connect();
-  const conversation = client.db("metahkg-conversation").collection("conversation");
+  const conversation = client
+    .db("metahkg-conversation")
+    .collection("conversation");
   const summary = client.db("metahkg-conversation").collection("summary");
   conversation
     .find()

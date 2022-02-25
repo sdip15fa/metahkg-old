@@ -81,10 +81,9 @@ export default function AddComment() {
   }
   if (!localStorage.user) {
     window.location.replace(
-      `/signin?continue=true&returnto=${encodeURIComponent(window.location.href.replace(
-        window.location.origin,
-        ""
-      ))}`
+      `/signin?continue=true&returnto=${encodeURIComponent(
+        window.location.href.replace(window.location.origin, "")
+      )}`
     );
     return <div />;
   }

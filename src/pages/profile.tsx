@@ -91,7 +91,7 @@ export default function Profile() {
     setTitle("");
     selected && setSelected(0);
   }
-  params?.id === "self" && !localStorage.user && navigate('/');
+  params?.id === "self" && !localStorage.user && navigate("/");
   history !== window.location.pathname && setHistory(window.location.pathname);
   !menu && !(width < 760) && setMenu(true);
   menu && width < 760 && setMenu(false);

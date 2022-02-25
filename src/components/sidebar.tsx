@@ -89,7 +89,7 @@ export default function SideBar() {
               <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                 <ListItem button onClick={onClick}>
                   <ListItemIcon>
-                    <MetahkgLogo height={24} width={24} svg light/>
+                    <MetahkgLogo height={24} width={24} svg light />
                   </ListItemIcon>
                   <ListItemText>Metahkg</ListItemText>
                 </ListItem>
@@ -116,10 +116,9 @@ export default function SideBar() {
               style={{ textDecoration: "none", color: "white" }}
               to={`/${
                 localStorage.user ? "logout" : "signin"
-              }?returnto=${encodeURIComponent(window.location.href.replace(
-                window.location.origin,
-                ""
-              ))}`}
+              }?returnto=${encodeURIComponent(
+                window.location.href.replace(window.location.origin, "")
+              )}`}
             >
               <ListItem button onClick={onClick}>
                 <ListItemIcon>
@@ -202,7 +201,7 @@ export default function SideBar() {
             </div>
           )}
           <p style={{ color: "white", paddingLeft: "5px" }}>
-            Metahkg build {process.env.REACT_APP_build || "0.5.3rc3"}
+            Metahkg build {process.env.REACT_APP_build || "v0.5.3rc3"}
           </p>
         </Box>
       </Drawer>

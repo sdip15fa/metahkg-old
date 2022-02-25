@@ -71,13 +71,30 @@
 .flex {
   display: flex;
 }
-.icon-white-onhover svg:hover {
+.icon-white-onhover:hover {
   color: white !important;
-  will-change: color;
 }
 .justify-center {
   justify-content: center;
 }
 .align-center {
   align-items: center;
+}
+.justify-space-between {
+  justify-content: space-between;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.text-overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.white {
+  color: white;
+}
+.force-white {
+  color: white !important;
 }

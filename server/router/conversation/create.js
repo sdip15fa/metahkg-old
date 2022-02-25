@@ -30,13 +30,13 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     )
   ) {
     res.status(400);
-    res.send("Bad request.");
+    res.send({ error: "Bad request." });
     return;
   }
   const hvalid = await verify(secret, req.body.htoken);
   if (!hvalid.success) {
     res.status(400);
-    res.send("hCaptcha token invalid.");
+    res.send({ error: "hCaptcha token invalid." });
     return;
   }
   try {
@@ -44,21 +44,21 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const metahkgusers = client.db("metahkg-users").collection("users");
     const user = await metahkgusers.findOne({ key: req.cookies.key });
     if (!user) {
-      res.status(404);
+      res.status(400);
       res.send("User not found.");
       return;
     }
     const limit = client.db("metahkg-users").collection("limit");
     if ((await limit.countDocuments({ id: user.id, type: "create" })) >= 10) {
       res.status(429);
-      res.send("You cannot create more than 10 topics a day.");
+      res.send({ error: "You cannot create more than 10 topics a day." });
       return;
     }
     const categories = client.db("metahkg-threads").collection("category");
     const category = await categories.findOne({ id: req.body.category });
     if (!category) {
       res.status(404);
-      res.send("Category not found.");
+      res.send({ error: "Category not found." });
       return;
     }
     const summary = client.db("metahkg-threads").collection("summary");

@@ -15,16 +15,14 @@ import MetahkgLogo from "../components/logo";
  * The Signin component collects data from user then send to the server /api/signin
  * If sign in is successful, a cookie "key" would be set by the server, which is the api key
  * If user is already signed in, he is redirected to /
- * After signing in, user is redirected to params.returnto if it exists, otherwise /
+ * After signing in, user is redirected to query.returnto if it exists, otherwise /
  */
 export default function Signin() {
   document.title = "Sign in | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
-  if (menu) {
-    setMenu(false);
-  }
+  menu && setMenu(false);
   const [state, setState] = React.useState<{
     user: string;
     pwd: string;
@@ -36,9 +34,9 @@ export default function Signin() {
     disabled: false,
     alert: { severity: "info", text: "" },
   });
-  const params = queryString.parse(window.location.search);
+  const query = queryString.parse(window.location.search);
   useEffect(() => {
-    if (params.continue) {
+    if (query.continue) {
       setState({
         ...state,
         alert: { severity: "info", text: "Sign in to continue." },
@@ -60,7 +58,7 @@ export default function Signin() {
       .then((res) => {
         localStorage.user = res.data.user;
         localStorage.id = res.data.id;
-        navigate(decodeURIComponent(String(params.returnto || "/")));
+        navigate(decodeURIComponent(String(query.returnto || "/")));
       })
       .catch((err) => {
         setState({

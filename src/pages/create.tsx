@@ -118,11 +118,11 @@ export default function Create() {
       });
   }
   if (!localStorage.user) {
-    window.location.replace(
-      `/signin?continue=true&returnto=${encodeURIComponent(window.location.href.replace(
-        window.location.origin,
-        ""
-      ))}`
+    navigate(
+      `/signin?continue=true&returnto=${encodeURIComponent(
+        window.location.href.replace(window.location.origin, "")
+      )}`,
+      { replace: true }
     );
     return <div />;
   }

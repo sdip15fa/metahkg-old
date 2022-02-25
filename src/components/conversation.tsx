@@ -1,4 +1,11 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  memo,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Box,
   Button,
@@ -10,25 +17,25 @@ import {
 import queryString from "query-string";
 import Comment from "./comment";
 import Title from "./conversation/title";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import DOMPurify from "dompurify";
-import { Notification } from "../lib/notification";
 import { roundup, splitarray } from "../lib/common";
 import { useNavigate } from "react-router";
 import PageTop from "./conversation/pagetop";
 import ReactVisibilitySensor from "react-visibility-sensor";
 import { useCat, useId } from "./MenuProvider";
+import { useNotification } from "./ContextProvider";
+import Share from "./conversation/share";
 /*
  * Conversation component gets data from /api/thread/<thread id(props.id)>/<conversation/users>
  * Then renders it as Comments
  */
-let lastHeight = 0;
+const ShareContext = createContext<any>({});
 function Conversation(props: { id: number }) {
-  const params = queryString.parse(window.location.search);
-  const [error, setError] = useState("");
-  const [notify, setNotify] = useState({ open: false, text: "" });
+  const query = queryString.parse(window.location.search);
+  const [notification, setNotification] = useNotification();
   const [conversation, setConversation] = useState<any>([]);
-  const [page, setPage] = useState(Number(params.page) || 1);
+  const [page, setPage] = useState(Number(query.page) || 1);
   const [users, setUsers] = useState<any>({});
   const [details, setDetails] = useState<any>({});
   const [votes, setVotes] = useState<any>({});
@@ -36,11 +43,21 @@ function Conversation(props: { id: number }) {
   const [pages, setPages] = useState(1);
   const [end, setEnd] = useState(false);
   const [n, setN] = useState(Math.random());
+  const [shareOpen, setShareOpen] = useState(false);
+  const [shareTitle, setShareTitle] = useState("");
+  const [shareLink, setShareLink] = useState("");
+  const lastHeight = useRef(0);
   const [cat, setCat] = useCat();
   const [id, setId] = useId();
   const fetching = useRef(false);
   const navigate = useNavigate();
-  !params.page && navigate(`${window.location.pathname}?page=1`);
+  const onError = function (err: AxiosError) {
+    !notification.open &&
+      setNotification({ open: true, text: err?.response?.data.error });
+    err?.response?.status === 404 && navigate("/404", { replace: true });
+  };
+  !query.page &&
+    navigate(`${window.location.pathname}?page=1`, { replace: true });
   useEffect(() => {
     fetching.current = true;
     axios
@@ -51,26 +68,30 @@ function Conversation(props: { id: number }) {
         id !== res.data.id && setId(res.data.id);
         document.title = `${res.data.title} | Metahkg`;
       })
-      .catch((err) => {
-        setError(err.response.data);
-        return;
-      });
-    axios.get(`/api/thread/${props.id}?type=0`).then((res) => {
-      setUsers(res.data);
-    });
-    axios.get(`/api/thread/${props.id}?type=2&page=${page}`).then((res) => {
-      setConversation(res.data);
-      if (res.data.length % 25) {
-        setEnd(true);
-      }
-    });
+      .catch(onError);
+    axios
+      .get(`/api/thread/${props.id}?type=0`)
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch(onError);
+    axios
+      .get(`/api/thread/${props.id}?type=2&page=${page}`)
+      .then((res) => {
+        setConversation(res.data);
+        res.data.length % 25 && setEnd(true);
+      })
+      .catch(onError);
     if (localStorage.user) {
-      axios.get(`/api/getvotes?id=${Number(props.id)}`).then((res) => {
-        setVotes(res.data);
-      });
+      axios
+        .get(`/api/getvotes?id=${Number(props.id)}`)
+        .then((res) => {
+          setVotes(res.data);
+        })
+        .catch(onError);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [n])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [n]);
   /**
    * @description get new comments or next page (if last comment id % 25 = 0)
    */
@@ -83,10 +104,7 @@ function Conversation(props: { id: number }) {
         }`
       )
       .then((res) => {
-        if (
-          conversation.length % 25 &&
-          res.data.length
-        ) {
+        if (conversation.length % 25 && res.data.length) {
           const c = conversation;
           for (
             let i =
@@ -96,7 +114,7 @@ function Conversation(props: { id: number }) {
           ) {
             c.push(res.data?.[i]);
           }
-          lastHeight = 0;
+          lastHeight.current = 0;
           setConversation(c);
           setEnd(true);
         } else if (res.data.length) {
@@ -108,7 +126,7 @@ function Conversation(props: { id: number }) {
           setUpdating(false);
           setPage((page) => page + 1);
           setPages(Math.floor((c.length - 1) / 25) + 1);
-          navigate(`/thread/${props.id}?page=${page + 1}`);
+          navigate(`/thread/${props.id}?page=${page + 1}`, { replace: true });
           document.getElementById(String(page + 1))?.scrollIntoView();
           const croot = document.getElementById("croot");
           if (
@@ -126,9 +144,6 @@ function Conversation(props: { id: number }) {
         setUpdating(false);
       });
   }
-  if (error && !notify.open) {
-    setNotify({ open: true, text: error });
-  }
   const ready = !!(
     conversation.length &&
     Object.keys(users).length &&
@@ -139,10 +154,10 @@ function Conversation(props: { id: number }) {
     setConversation([]);
     setPages(1);
     setPage(p);
-    lastHeight = 0;
+    lastHeight.current = 0;
     setEnd(false);
     setN(Math.random());
-    navigate(`${window.location.pathname}?page=${p}`);
+    navigate(`${window.location.pathname}?page=${p}`, { replace: true });
     axios.get(`/api/thread/${props.id}?type=2&page=${p}`).then((res) => {
       setConversation(res.data);
       if (res.data.length % 25) {
@@ -152,149 +167,180 @@ function Conversation(props: { id: number }) {
     });
   }
   return (
-    <div className="conversation" style={{ minHeight: "100vh" }}>
-      <Notification notify={notify} setNotify={setNotify} />
-      {!error && (
-        <div>
-          {!ready && (
-            <LinearProgress sx={{ width: "100%" }} color="secondary" />
-          )}
-          <Title
-            slink={details.slink}
-            category={details.category}
-            title={details.title}
-          />
-          <Paper
-            id="croot"
-            key={n}
-            sx={{ overflow: "auto", maxHeight: "calc(100vh - 48px)" }}
-            onScroll={(e: any) => {
-              if (!end && !updating) {
-                const diff = e.target.scrollHeight - e.target.scrollTop;
-                if (
-                  e.target.clientHeight >= diff - 1.5 &&
-                  e.target.clientHeight <= diff + 1.5
-                ) {
-                  update();
-                }
+    <ShareContext.Provider
+      value={{
+        shareOpen: [shareOpen, setShareOpen],
+        shareTitle: [shareTitle, setShareTitle],
+        shareLink: [shareLink, setShareLink],
+      }}
+    >
+      <Share />
+      <div className="conversation" style={{ minHeight: "100vh" }}>
+        {!ready && <LinearProgress sx={{ width: "100%" }} color="secondary" />}
+        <Title
+          slink={details.slink}
+          category={details.category}
+          title={details.title}
+        />
+        <Paper
+          id="croot"
+          key={n}
+          sx={{ overflow: "auto", maxHeight: "calc(100vh - 48px)" }}
+          onScroll={(e: any) => {
+            if (!end && !updating) {
+              const diff = e.target.scrollHeight - e.target.scrollTop;
+              if (
+                (e.target.clientHeight >= diff - 1.5 &&
+                  e.target.clientHeight <= diff + 1.5) ||
+                diff < e.target.clientHeight
+              ) {
+                update();
               }
-            }}
-          >
-            <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
-              {ready &&
-                [...Array(pages)].map((p, index) => (
-                  <Box>
-                    <ReactVisibilitySensor
-                      onChange={(isVisible) => {
-                        const croot = document.getElementById("croot");
-                        let page = roundup(conversation[0].id / 25) + index;
-                        if (isVisible) {
-                          lastHeight = croot?.scrollTop || lastHeight;
-                          if (page !== Number(params.page) && page) {
+            }
+          }}
+        >
+          <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
+            {ready &&
+              [...Array(pages)].map((p, index) => (
+                <Box>
+                  <ReactVisibilitySensor
+                    onChange={(isVisible) => {
+                      const croot = document.getElementById("croot");
+                      let page = roundup(conversation[0].id / 25) + index;
+                      if (isVisible) {
+                        lastHeight.current =
+                          croot?.scrollTop || lastHeight.current;
+                        if (page !== Number(query.page) && page) {
+                          navigate(`${window.location.pathname}?page=${page}`, {
+                            replace: true,
+                          });
+                        }
+                      }
+                      if (!isVisible && conversation.length) {
+                        if (lastHeight.current !== croot?.scrollTop) {
+                          page =
+                            // @ts-ignore
+                            croot.scrollTop > lastHeight.current
+                              ? page
+                              : page - 1;
+                          if (
+                            lastHeight.current &&
+                            page !== Number(query.page) &&
+                            page
+                          ) {
                             navigate(
-                              `${window.location.pathname}?page=${page}`
+                              `${window.location.pathname}?page=${page}`,
+                              { replace: true }
                             );
                           }
                         }
-                        if (!isVisible && conversation.length) {
-                          if (lastHeight !== croot?.scrollTop) {
-                            page =
-                              // @ts-ignore
-                              croot.scrollTop > lastHeight ? page : page - 1;
-                            if (
-                              lastHeight &&
-                              page !== Number(params.page) &&
-                              page
-                            ) {
-                              navigate(
-                                `${window.location.pathname}?page=${page}`
-                              );
-                            }
-                          }
-                        }
+                      }
+                    }}
+                  >
+                    <PageTop
+                      id={roundup(conversation[0].id / 25) + index}
+                      pages={roundup(details.c / 25)}
+                      page={roundup(conversation[0].id / 25) + index}
+                      onChange={(e: SelectChangeEvent<number>) => {
+                        changePage(Number(e.target.value));
                       }}
-                    >
-                      <PageTop
-                        id={roundup(conversation[0].id / 25) + index}
-                        pages={roundup(details.c / 25)}
-                        page={roundup(conversation[0].id / 25) + index}
-                        onChange={(e: SelectChangeEvent<number>) => {
-                          changePage(Number(e.target.value));
-                        }}
-                        last={
-                          !(
-                            roundup(conversation[0].id / 25) + index === 1 &&
-                            !index
-                          )
-                        }
-                        next={
-                          roundup(conversation[0].id / 25) + index !==
-                          roundup(details.c / 25)
-                        }
-                        onLastClicked={() => {
-                          changePage(
-                            roundup(conversation[0].id / 25) + index - 1
-                          );
-                        }}
-                        onNextClicked={() => {
-                          changePage(
-                            roundup(conversation[0].id / 25) + index + 1
-                          );
-                        }}
-                      />
-                    </ReactVisibilitySensor>
-                    {splitarray(
-                      conversation,
-                      index * 25,
-                      (index + 1) * 25 - 1
-                    ).map((comment: any) => (
-                      !comment?.removed && <Comment
-                        name={users?.[comment.user].name}
-                        id={comment.id}
-                        op={users?.[comment.user].name === details.op}
-                        sex={users?.[comment.user].sex}
-                        date={comment.createdAt}
-                        tid={props.id}
-                        up={comment?.["U"] | 0}
-                        down={comment?.["D"] | 0}
-                        vote={votes?.[comment.id]}
-                        userid={comment.user}
-                      >
-                        {DOMPurify.sanitize(comment?.comment)}
-                      </Comment>
-                    ))}
-                  </Box>
-                ))}
-            </Box>
-            <Box
-              sx={{
-                height: "80px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                bgcolor: "primary.dark",
-                border: "0px",
-              }}
-            >
-              {!updating ? (
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => {
-                    setEnd(false);
-                    update();
-                  }}
-                >
-                  Update
-                </Button>
-              ) : (
-                <CircularProgress color="secondary" />
-              )}
-            </Box>
-          </Paper>
-        </div>
-      )}
-    </div>
+                      last={
+                        !(
+                          roundup(conversation[0].id / 25) + index === 1 &&
+                          !index
+                        )
+                      }
+                      next={
+                        roundup(conversation[0].id / 25) + index !==
+                        roundup(details.c / 25)
+                      }
+                      onLastClicked={() => {
+                        changePage(
+                          roundup(conversation[0].id / 25) + index - 1
+                        );
+                      }}
+                      onNextClicked={() => {
+                        changePage(
+                          roundup(conversation[0].id / 25) + index + 1
+                        );
+                      }}
+                    />
+                  </ReactVisibilitySensor>
+                  {splitarray(
+                    conversation,
+                    index * 25,
+                    (index + 1) * 25 - 1
+                  ).map(
+                    (comment: any) =>
+                      !comment?.removed && (
+                        <Comment
+                          name={users?.[comment.user].name}
+                          id={comment.id}
+                          op={users?.[comment.user].name === details.op}
+                          sex={users?.[comment.user].sex}
+                          date={comment.createdAt}
+                          tid={props.id}
+                          up={comment?.["U"] | 0}
+                          down={comment?.["D"] | 0}
+                          vote={votes?.[comment.id]}
+                          userid={comment.user}
+                        >
+                          {DOMPurify.sanitize(comment?.comment)}
+                        </Comment>
+                      )
+                  )}
+                </Box>
+              ))}
+          </Box>
+          <Box
+            sx={{
+              height: "80px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              bgcolor: "primary.dark",
+              border: "0px",
+            }}
+          >
+            {!updating ? (
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => {
+                  setEnd(false);
+                  update();
+                }}
+              >
+                Update
+              </Button>
+            ) : (
+              <CircularProgress color="secondary" />
+            )}
+          </Box>
+        </Paper>
+      </div>
+    </ShareContext.Provider>
   );
 }
 export default memo(Conversation);
+export function useShareOpen(): [
+  boolean,
+  React.Dispatch<React.SetStateAction<boolean>>
+] {
+  const { shareOpen } = useContext(ShareContext);
+  return shareOpen;
+}
+export function useShareTitle(): [
+  string,
+  React.Dispatch<React.SetStateAction<string>>
+] {
+  const { shareTitle } = useContext(ShareContext);
+  return shareTitle;
+}
+export function useShareLink(): [
+  string,
+  React.Dispatch<React.SetStateAction<string>>
+] {
+  const { shareLink } = useContext(ShareContext);
+  return shareLink;
+}

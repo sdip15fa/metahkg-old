@@ -25,7 +25,7 @@ router.post("/api/verify", body_parser.json(), async (req, res) => {
     req.body.code.toString().length !== 6
   ) {
     res.status(400);
-    res.send("Bad request");
+    res.send({ error: "Bad request." });
     return;
   }
   await client.connect();
@@ -34,10 +34,10 @@ router.post("/api/verify", body_parser.json(), async (req, res) => {
   const data = await verification.findOne({ email: req.body.email });
   if (!data) {
     res.status(404);
-    res.send("Not found. Your code night have expired.");
+    res.send({ error: "Not found. Your code night have expired." });
   } else if (data.code !== req.body.code) {
     res.status(401);
-    res.send("Code incorrect.");
+    res.send({ error: "Code incorrect." });
   } else {
     delete data._id;
     delete data.code;

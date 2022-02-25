@@ -5,19 +5,15 @@ import {
   Link as LinkIcon,
 } from "@mui/icons-material";
 import { IconButton, TextField, Tooltip } from "@mui/material";
-import { useState } from "react";
-import { Notification } from "../../lib/notification";
 import { PopUp } from "../../lib/popup";
-import { useWidth } from "../ContextProvider";
-export default function Share(props: {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  link: string;
-  title: string;
-}) {
-  const { open, setOpen, link, title } = props;
+import { useNotification, useWidth } from "../ContextProvider";
+import { useShareLink, useShareOpen, useShareTitle } from "../conversation";
+export default function Share() {
+  const [title] = useShareTitle();
+  const [link] = useShareLink();
+  const [open, setOpen] = useShareOpen();
   const text = title + "\n" + link + "\n- Shared from Metahkg forum";
-  const [notify, setNotify] = useState({ open: false, text: "" });
+  const [, setNotification] = useNotification();
   const [width] = useWidth();
   return (
     <PopUp
@@ -27,7 +23,6 @@ export default function Share(props: {
       title="Share"
       button={{ text: "", link: "" }}
     >
-      <Notification notify={notify} setNotify={setNotify} />
       <div
         style={{
           marginLeft: "10px",
@@ -52,7 +47,7 @@ export default function Share(props: {
             <IconButton
               onClick={async () => {
                 await navigator.clipboard.writeText(link);
-                setNotify({ open: true, text: "Copied to Clipboard!" });
+                setNotification({ open: true, text: "Copied to Clipboard!" });
               }}
             >
               <ContentCopy sx={{ textAlign: "start", fontSize: "22px" }} />
@@ -62,7 +57,10 @@ export default function Share(props: {
             <IconButton
               onClick={async () => {
                 await navigator.clipboard.writeText(link);
-                setNotify({ open: true, text: "Link copied to Clipboard!" });
+                setNotification({
+                  open: true,
+                  text: "Link copied to Clipboard!",
+                });
               }}
             >
               <LinkIcon />

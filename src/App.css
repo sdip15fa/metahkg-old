@@ -57,6 +57,18 @@ a:hover,
 a:active {
   color: #3498db;
 }
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+blockquote,
+q {
+  color: white;
+}
 .conversation *::selection {
   background: #fbc308;
   color: black;

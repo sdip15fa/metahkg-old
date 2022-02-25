@@ -16,12 +16,12 @@ async function logout() {
 export default function Logout() {
   const [menu, setMenu] = useMenu();
   const navigate = useNavigate();
-  const params = queryString.parse(window.location.search);
+  const query = queryString.parse(window.location.search);
   if (menu) {
     setMenu(false);
   }
   logout().then(() => {
-    navigate(decodeURIComponent(String(params.returnto || "/")));
+    navigate(decodeURIComponent(String(query.returnto || "/")));
   });
   return (
     <Box

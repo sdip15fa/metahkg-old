@@ -66,7 +66,7 @@ function Sex(props: {
  * a captcha must be completed before registering, if registering fails,
  * the captcha would reload
  * process: register --> verify --> account created -->
- * redirect to params.returnto if exists, otherwise homepage after verification
+ * redirect to query.returnto if exists, otherwise homepage after verification
  * If user already signed in, he is redirected to /
  */
 export default function Register() {
@@ -94,7 +94,7 @@ export default function Register() {
     code: "",
     alert: { severity: "info", text: "" },
   });
-  const params = queryString.parse(window.location.search);
+  const query = queryString.parse(window.location.search);
   function verify() {
     setState({
       ...state,
@@ -106,7 +106,7 @@ export default function Register() {
       .then((res) => {
         localStorage.user = state.user;
         localStorage.id = res.data.id;
-        navigate(decodeURIComponent(String(params.returnto || "/")));
+        navigate(decodeURIComponent(String(query.returnto || "/")));
       })
       .catch((err) => {
         setState({
@@ -189,11 +189,14 @@ export default function Register() {
       >
         <div style={{ margin: "50px" }}>
           <div className="flex justify-center align-center">
-            <MetahkgLogo svg light height={50} width={40} className="mb10"/>
+            <MetahkgLogo svg light height={50} width={40} className="mb10" />
             <h1 className="signup-title-text mb20">Register</h1>
           </div>
           {state.alert.text && (
-            <Alert className="signup-alert mt10" severity={state.alert.severity}>
+            <Alert
+              className="signup-alert mt10"
+              severity={state.alert.severity}
+            >
               {state.alert.text}
             </Alert>
           )}

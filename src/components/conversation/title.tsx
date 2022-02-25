@@ -1,3 +1,4 @@
+import "./css/title.css";
 import React from "react";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import {
@@ -7,9 +8,8 @@ import {
 } from "@mui/icons-material";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useHistory } from "../ContextProvider";
-import Share from "./share";
+import { useShareLink, useShareOpen, useShareTitle } from "../conversation";
 /*
  * Thread title component
  * category: category of the thread'
@@ -26,71 +26,54 @@ export default function Title(props: {
   title: string;
   slink: string;
 }) {
-  const [open, setOpen] = useState(false);
+  const { category, title, slink } = props;
+  const [shareOpen, setShareOpen] = useShareOpen();
+  const [shareTitle, setShareTitle] = useShareTitle();
+  const [shareLink, setShareLink] = useShareLink();
   const [history] = useHistory();
   const params = useParams();
-  const {category, title, slink} = props;
   return (
-    <Box sx={{ backgroundColor: "primary.main", height: "47px" }}>
-      <Share open={open} setOpen={setOpen} link={slink} title={title}/>
-      <div
-        style={{
-          display: "flex",
-          marginLeft: "10px",
-          marginRight: "20px",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            paddingRight: 10,
-            overflow: "hidden",
-          }}
-        >
-          {(history || category) && <Link to={history || `/category/${category}`}>
-            <IconButton sx={{ margin: 0, padding: 0 }}>
-              <ArrowBackIcon color="secondary" />
-            </IconButton>
-          </Link>}
+    <Box
+      className="title-root"
+      sx={{
+        bgcolor: "primary.main",
+      }}
+    >
+      <div className="flex ml10 mr20 align-center justify-space-between fullheight">
+        <div className="flex align-center mr10 overflow-hidden">
+          {(history || category) && (
+            <Link to={history || `/category/${category}`}>
+              <IconButton className="nomargin nopadding">
+                <ArrowBackIcon color="secondary" />
+              </IconButton>
+            </Link>
+          )}
           <Typography
-            className="novmargin"
+            className="novmargin ml10 overflow-hidden text-overflow-ellipsis nowrap title-text"
             sx={{
               color: "secondary.main",
-              fontSize: "18px",
-              paddingLeft: "10px",
-              lineHeight: "24px",
-              maxHeight: "24px",
-              textOverflow: "ellipsis",
-              overflow: "hidden",
             }}
           >
             {title}
           </Typography>
         </div>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box className="flex">
           <Tooltip title="Comment" arrow>
-            <a
-              style={{ textDecoration: "none" }}
-              href={`/comment/${params.id}`}
-            >
+            <a className="notextdecoration" href={`/comment/${params.id}`}>
               <IconButton>
-                <ReplyIcon
-                  sx={{ color: "white", height: "24px", width: "24px" }}
-                />
+                <ReplyIcon className="white title-reply" />
               </IconButton>
             </a>
           </Tooltip>
           <Tooltip title="Share" arrow>
             <IconButton
               onClick={() => {
-                setOpen(true);
+                !shareOpen && setShareOpen(true);
+                shareTitle !== title && setShareTitle(title);
+                shareLink !== slink && setShareLink(slink);
               }}
             >
-              <ShareIcon sx={{ color: "white", fontSize: "20px" }} />
+              <ShareIcon className="white title-share" />
             </IconButton>
           </Tooltip>
         </Box>

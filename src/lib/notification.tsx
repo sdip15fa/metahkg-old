@@ -1,18 +1,15 @@
 import React from "react";
 import { Close, Notifications } from "@mui/icons-material";
 import { Box, Snackbar } from "@mui/material";
+import { useNotification } from "../components/ContextProvider";
 /*
  * Display a notification at the top right corner
  */
-export function Notification(props: {
-  notify: { open: boolean; text: string };
-  setNotify: React.Dispatch<
-    React.SetStateAction<{ open: boolean; text: string }>
-  >;
-}) {
+export function Notification() {
+  const [notification, setNotification] = useNotification();
   const vertical: "top" | "bottom" = "top";
   const horizontal: "left" | "right" | "center" = "right";
-  const open = props.notify.open;
+  const open = notification.open;
   return (
     <Snackbar
       className="conversation"
@@ -25,10 +22,10 @@ export function Notification(props: {
       open={open}
       autoHideDuration={4000}
       onClick={() => {
-        props.setNotify({ ...props.notify, open: false });
+        setNotification({ ...notification, open: false });
       }}
       onClose={() => {
-        props.setNotify({ ...props.notify, open: false });
+        setNotification({ ...notification, open: false });
       }}
     >
       <Box
@@ -76,6 +73,7 @@ export function Notification(props: {
               }}
             >
               <Close
+                className="icon-white-onhover"
                 sx={{ fontSize: "16px", color: "#aca9a9", marginRight: "30px" }}
               />
             </div>
@@ -95,7 +93,7 @@ export function Notification(props: {
               overflow: "hidden",
             }}
           >
-            {props.notify.text}
+            {notification.text}
           </p>
         </Box>
       </Box>

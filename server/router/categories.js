@@ -16,7 +16,7 @@ router.get("/api/category/:id", body_parser.json(), async (req, res) => {
       !isInteger(req.params.id.replace("bytid", "")))
   ) {
     res.status(400);
-    res.send("Bad request.");
+    res.send({ error: "Bad request." });
     return;
   }
   const client = new MongoClient(mongouri);
@@ -40,7 +40,7 @@ router.get("/api/category/:id", body_parser.json(), async (req, res) => {
       const c = await categories.findOne({ id: s?.category });
       if (!c) {
         res.status(404);
-        res.send("Not found.");
+        res.send({ error: "Not found." });
         return;
       }
       res.send({ id: c.id, name: c.name });
@@ -49,7 +49,7 @@ router.get("/api/category/:id", body_parser.json(), async (req, res) => {
     const c = await categories.findOne({ id: Number(req.params.id) });
     if (!c) {
       res.status(404);
-      res.send("Not found.");
+      res.send({ error: "Not found." });
       return;
     }
     res.send({ id: c.id, name: c.name });

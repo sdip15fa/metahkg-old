@@ -58,7 +58,10 @@ export function splitarray(arr: [], start: number, end: number) {
   }
   return r;
 }
-export async function logout () {
+export async function logout() {
   localStorage.clear();
   await axios.get("/api/logout");
+}
+export function wholepath() {
+  return window.location.href.replace(window.location.origin, "");
 }

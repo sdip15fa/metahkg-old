@@ -17,7 +17,7 @@ router.get("/api/menu/:category", async (req, res) => {
     (req.query.page && !isInteger(req.query.page))
   ) {
     res.status(400);
-    res.send("Bad request.");
+    res.send({ error: "Bad request." });
     return;
   }
   const client = new MongoClient(mongouri);
@@ -34,7 +34,7 @@ router.get("/api/menu/:category", async (req, res) => {
       });
       if (!s || !s.category) {
         res.status(404);
-        res.send("Not found.");
+        res.send({ error: "Not found." });
         return;
       }
       category = s.category;
@@ -46,7 +46,7 @@ router.get("/api/menu/:category", async (req, res) => {
         .findOne({ id: category }))
     ) {
       res.status(404);
-      res.send("Not found.");
+      res.send({ error: "Not found." });
       return;
     }
     const data = sort
