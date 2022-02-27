@@ -15,11 +15,11 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
   if (
     !req.body.id ||
     !req.body.comment ||
-    Object.keys(req.body).length > 2 ||
+    Object.keys(req.body)?.length > 2 ||
     !(typeof req.body.id === "number" && typeof req.body.comment === "string")
   ) {
     res.status(400);
-    res.send("Bad request");
+    res.send({ error: "Bad request" });
     return;
   }
   await client.connect();
@@ -35,17 +35,17 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
     const key = req.cookies.key;
     const user = await metahkgusers.findOne({ key: key });
     if (
-      !(await metahkgusers.findOne({ key: key })) ||
-      !(await conversation.findOne({ id: req.body.id }))
+      !(await metahkgusers.countDocuments({ key: key })) ||
+      !(await conversation.countDocuments({ id: req.body.id }))
     ) {
       res.status(404);
-      res.send("Not found.");
+      res.send({ error: "Not found." });
       return;
     }
     const newid = (await summary.findOne({ id: req.body.id })).c + 1;
     if ((await limit.countDocuments({ id: user.id, type: "comment" })) >= 300) {
       res.status(429);
-      res.send("You cannot add more than 300 comments a day.");
+      res.send({ error: "You cannot add more than 300 comments a day." });
       return;
     }
     await conversation.updateOne(
@@ -66,7 +66,7 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
       { id: req.body.id },
       { $inc: { c: 1 }, $currentDate: { lastModified: true } }
     );
-    if (!(await users.findOne({ id: req.body.id })[user.id])) {
+    if (!(await users.findOne({ id: req.body.id })?.[user.id])) {
       await users.updateOne(
         { id: req.body.id },
         { $set: { [user.id]: { sex: user.sex, name: user.user } } }

@@ -4,16 +4,18 @@ const { exit } = require("process");
 (async () => {
   const client = new MongoClient(mongouri);
   await client.connect();
-  const threads = client.db("metahkg-threads").collection("conversation");
-  const summary = client.db("metahkg-threads").collection("summary");
-  threads
+  const conversation = client
+    .db("metahkg-conversation")
+    .collection("conversation");
+  const summary = client.db("metahkg-conversation").collection("summary");
+  conversation
     .find()
     .forEach(async (i) => {
       await summary.updateOne(
         { id: i.id },
-        { $set: { slink: (await threads.findOne({ _id: i._id })).slink } }
+        { $set: { slink: (await conversation.findOne({ _id: i._id })).slink } }
       );
-      await threads.replaceOne(
+      await conversation.replaceOne(
         { _id: i._id },
         {
           conversation: objtoarr(i.conversation),

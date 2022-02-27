@@ -1,12 +1,13 @@
+import "./css/empty.css";
 import React from "react";
 import {
   AccountCircle as AccountCircleIcon,
   Create as CreateIcon,
   Code as CodeIcon,
-  Info as InfoIcon,
+  Telegram as TelegramIcon,
+  ManageAccounts as ManageAccountsIcon,
 } from "@mui/icons-material";
 import {
-  Box,
   List,
   ListItem,
   ListItemIcon,
@@ -14,66 +15,78 @@ import {
   Paper,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import MetahkgLogo from "./logo";
+import { wholepath } from "../lib/common";
 /*
  * just a template for large screens if there's no content
  * e.g. /category/:id, in which there's no main content but only the menu
  */
 export default function Empty() {
-  const listitems = ["Create Topic", "About", "Source code"];
-  const links = ["/create", "/about", "/source"];
-  const icons: JSX.Element[] = [<CreateIcon />, <InfoIcon />, <CodeIcon />];
+  const links: { logo: JSX.Element; title: string; link: string }[] = [
+    {
+      logo: <CreateIcon />,
+      title: "Create topic",
+      link: "/create",
+    },
+    {
+      logo: <TelegramIcon />,
+      title: "Telegram group",
+      link: "/telegram",
+    },
+    {
+      logo: <CodeIcon />,
+      title: "Source code",
+      link: "/source",
+    },
+  ];
   return (
-    <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
-      <Box
-        sx={{
-          width: "70vw",
-          justifyContent: "center",
-          alignItems: "center",
-          display: "flex",
-          backgroundColor: "parmary.dark",
-        }}
-      >
-        <div style={{ margin: "50px", width: "100%" }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              className="svgwhite"
-              height="40px"
-              width="50px"
-              src="/logo.svg"
-              alt="Metahkg"
-            />
-            <h1 style={{ color: "white" }}>Metahkg</h1>
-          </div>
-          <List>
-            <Link
-              style={{ textDecoration: "none", color: "white" }}
-              to={`/${localStorage.user ? "logout" : "signin"}?returnto=${
-                window.location.pathname
-              }`}
-            >
-              <ListItem button sx={{ width: "100%" }}>
+    <Paper
+      className="overflow-auto justify-center flex empty-paper"
+      sx={{
+        bgcolor: "parmary.dark",
+      }}
+    >
+      <div className="fullwidth empty-main-div">
+        <div className="flex align-center">
+          <MetahkgLogo height={40} width={50} svg light />
+          <h1>Metahkg</h1>
+        </div>
+        <List>
+          <Link
+            className="notextdecoration white"
+            to={`/${
+              localStorage.user ? "logout" : "signin"
+            }?returnto=${encodeURIComponent(wholepath())}`}
+          >
+            <ListItem button className="fullwidth">
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              <ListItemText>
+                {localStorage.user ? "Logout" : "Sign in / Register"}
+              </ListItemText>
+            </ListItem>
+          </Link>
+          {localStorage.user && (
+            <Link to="/profile/self" className="notextdecoration white">
+              <ListItem button className="fullwidth">
                 <ListItemIcon>
-                  <AccountCircleIcon />
+                  <ManageAccountsIcon />
                 </ListItemIcon>
-                <ListItemText>
-                  {localStorage.user ? "Logout" : "Sign in / Register"}
-                </ListItemText>
+                <ListItemText>{localStorage.user}</ListItemText>
               </ListItem>
             </Link>
-            {listitems.map((item, index) => (
-              <Link
-                style={{ textDecoration: "none", color: "white" }}
-                to={links[index]}
-              >
-                <ListItem button sx={{ width: "100%" }}>
-                  <ListItemIcon>{icons[index]}</ListItemIcon>
-                  <ListItemText>{item}</ListItemText>
-                </ListItem>
-              </Link>
-            ))}
-          </List>
-        </div>
-      </Box>
+          )}
+          {links.map((i) => (
+            <Link className="notextdecoration white" to={i.link}>
+              <ListItem button className="fullwidth">
+                <ListItemIcon>{i.logo}</ListItemIcon>
+                <ListItemText>{i.title}</ListItemText>
+              </ListItem>
+            </Link>
+          ))}
+        </List>
+      </div>
     </Paper>
   );
 }

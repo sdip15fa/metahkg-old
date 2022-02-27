@@ -54,7 +54,7 @@ export default function SearchBar(props: {
     | undefined;
 }) {
   const [query] = useQuery();
-  const params = queryString.parse(window.location.search);
+  const querystring = queryString.parse(window.location.search);
   return (
     <Search>
       <SearchIconWrapper>
@@ -62,11 +62,11 @@ export default function SearchBar(props: {
       </SearchIconWrapper>
       <StyledInputBase
         key={query}
-        placeholder="Search…"
+        placeholder="Search"
         inputProps={{ "aria-label": "search" }}
         onKeyPress={props.onKeyPress}
         onChange={props.onChange}
-        defaultValue={decodeURIComponent(String(params.q || query || ""))}
+        defaultValue={decodeURIComponent(String(querystring.q || query || ""))}
       />
     </Search>
   );

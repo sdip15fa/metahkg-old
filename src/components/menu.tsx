@@ -1,6 +1,7 @@
-import React, { memo, useState } from "react";
-import { Box, Typography, Paper } from "@mui/material";
-import axios from "axios";
+import "./css/menu.css";
+import React, { memo, useEffect, useState } from "react";
+import { Box, Typography, Paper, Divider } from "@mui/material";
+import axios, { AxiosError } from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
 import {
@@ -15,7 +16,7 @@ import {
 import { summary } from "../lib/common";
 import MenuPreload from "./menu/preload";
 import queryString from "query-string";
-import { useHistory, useQuery } from "./ContextProvider";
+import { useHistory, useNotification, useQuery } from "./ContextProvider";
 import SearchBar from "./searchbar";
 import { useNavigate } from "react-router";
 /*
@@ -29,34 +30,48 @@ import { useNavigate } from "react-router";
  * MenuThreads are rendered after data is fetched
  */
 function MainContent() {
-  const params = queryString.parse(window.location.search);
+  const querystring = queryString.parse(window.location.search);
+  const navigate = useNavigate();
   const [category] = useCat();
   const [search] = useSearch();
   const [profile] = useProfile();
   const [selected] = useSelected();
   const [query] = useQuery();
+  const [, setNotification] = useNotification();
   const [id] = useId();
   const [data, setData] = useData();
   const [page, setPage] = useState(1);
   const [end, setEnd] = useState(false);
   const [updating, setUpdating] = useState(false);
-  const q = decodeURIComponent(String(params.q || query || ""));
-  const c: string | number = id ? `bytid${id}` : category;
-  function fetch() {
-    setUpdating(true);
-    const url = {
-      search: `/api/search?q=${q}&sort=${selected}`,
-      profile: `/api/history/${profile}?sort=${selected}`,
-      menu: `/api/menu/${c}?sort=${selected}`,
-    }[search ? "search" : profile ? "profile" : "menu"];
-    axios.get(url).then((res) => {
-      !(page === 1) && setPage(1);
-      setData(res.data);
-      res.data.length < 25 && !end && setEnd(true);
-      res.data.length >= 25 && end && setEnd(false);
-      setUpdating(false);
+  const q = decodeURIComponent(String(querystring.q || query || ""));
+  const c: string | number = category || `bytid${id}`;
+  function onError(err: AxiosError) {
+    setNotification({
+      open: true,
+      text: err?.response?.data?.error || err?.response?.data || "",
     });
+    err?.response?.status === 404 && navigate("/404", { replace: true });
   }
+  useEffect(() => {
+    if (!data.length && (category || profile || search || id)) {
+      const url = {
+        search: `/api/search?q=${q}&sort=${selected}`,
+        profile: `/api/history/${profile}?sort=${selected}`,
+        menu: `/api/menu/${c}?sort=${selected}`,
+      }[search ? "search" : profile ? "profile" : "menu"];
+      axios
+        .get(url)
+        .then((res) => {
+          !(page === 1) && setPage(1);
+          setData(res.data);
+          res.data.length < 25 && !end && setEnd(true);
+          res.data.length >= 25 && end && setEnd(false);
+          setUpdating(false);
+        })
+        .catch(onError);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
   function update() {
     setUpdating(true);
     const url = {
@@ -64,70 +79,65 @@ function MainContent() {
       profile: `/api/history/${profile}?sort=${selected}&page=${page + 1}`,
       menu: `/api/menu/${c}?sort=${selected}&page=${page + 1}`,
     }[search ? "search" : profile ? "profile" : "menu"];
-    axios.get(url).then((res) => {
-      const d = data;
-      if (res.data?.[0] !== null) {
-        res.data.forEach((item: any) => {
-          d.push(item);
-        });
-        setData(d);
-      }
-      if (res.data.length < 25) {
-        setEnd(true);
-      }
-      setPage((page) => page + 1);
-      setUpdating(false);
-    });
+    axios
+      .get(url)
+      .then((res) => {
+        const d: any = data;
+        if (res.data?.[0] !== null) {
+          res.data.forEach((item: any) => {
+            d.push(item);
+          });
+          setData(d);
+        }
+        res.data.length < 25 && setEnd(true);
+        setPage((page) => page + 1);
+        setUpdating(false);
+      })
+      .catch(onError);
   }
-  if (!data.length && (category || id || profile || search) && !updating) {
-    fetch();
+  function onScroll(e: any) {
+    if (!end && !updating) {
+      const diff = e.target.scrollHeight - e.target.scrollTop;
+      if (
+        (e.target.clientHeight >= diff - 1.5 &&
+          e.target.clientHeight <= diff + 1.5) ||
+        diff < e.target.clientHeight
+      ) {
+        update();
+      }
+    }
   }
   return (
     <Paper
+      className="overflow-auto"
       style={{
-        overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
       }}
-      onScroll={(e: any) => {
-        if (!end && !updating) {
-          const diff = e.target.scrollHeight - e.target.scrollTop;
-          if (
-            e.target.clientHeight >= diff - 1.5 &&
-            e.target.clientHeight <= diff + 1.5
-          ) {
-            update();
-          }
-        }
-      }}
+      onScroll={onScroll}
     >
       <Box
+        className="min-height-full"
         sx={{
           backgroundColor: "primary.main",
-          minHeight: "100%",
         }}
       >
-        {!!(data.length && data[0] !== null) && (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              maxWidth: "99%",
-            }}
-          >
+        {!!(data.length && data?.[0] !== null) && (
+          <Box className="flex flex-dir-column max-width-full">
             {data.map((thread: summary) => (
               <div>
-                <MenuThread key={category} thread={thread} />
+                <MenuThread
+                  key={`${category}${id === thread.id}`}
+                  thread={thread}
+                />
+                <Divider />
               </div>
             ))}
             {updating && <MenuPreload />}
             {end && (
               <Typography
+                className="mt10 mb10 text-align-center menu-end"
                 sx={{
-                  fontSize: "20px",
                   color: "secondary.main",
-                  textAlign: "center",
-                  marginTop: "10px",
-                  marginBottom: "10px",
                 }}
               >
                 End
@@ -154,12 +164,11 @@ function Menu() {
   let tempq = decodeURIComponent(query || "");
   return (
     <Box
+      className={`max-width-full min-height-fullvh flex-dir-column ${
+        menu ? "flex" : "display-none"
+      }`}
       sx={{
         backgroundColor: "primary.main",
-        maxWidth: "100%",
-        minHeight: "100vh",
-        display: menu ? "flex" : "none",
-        flexDirection: "column",
       }}
     >
       <MenuTop
@@ -176,17 +185,8 @@ function Menu() {
         selected={selected}
       />
       {search && (
-        <div style={{ display: "flex", width: "100%" }}>
-          <div
-            style={{
-              display: "flex",
-              height: "39px",
-              margin: "10px",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+        <div className="flex fullwidth">
+          <div className="flex fullwidth justify-center align-center m10 menu-search">
             <SearchBar
               onChange={(e) => {
                 tempq = e.target.value;

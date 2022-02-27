@@ -12,18 +12,20 @@ const isInteger = require("is-sn-integer");
   0: users
   1: details
   2: conversation
+* default type is 1
 */
 router.get("/api/thread/:id", async (req, res) => {
   if (
     !isInteger(req.params.id) ||
-    ![0, 1, 2].includes(Number(req.query.type)) ||
-    (Number(req.query.type) === 2 && !isInteger(req.query.page))
+    (req.query.page && ![0, 1, 2].includes(Number(req.query.type))) ||
+    (req.query.page &&
+      (!isInteger(req.query.page) || Number(req.query.page) < 1))
   ) {
     res.status(400);
-    res.send("Bad request");
+    res.send({ error: "Bad request" });
     return;
   }
-  const type = Number(req.query.type);
+  const type = Number(req.query.type ?? 1);
   const page = Number(req.query.page) || 1;
   const client = new MongoClient(mongouri);
   await client.connect();
@@ -36,13 +38,15 @@ router.get("/api/thread/:id", async (req, res) => {
       );
       if (!r) {
         res.status(404);
-        res.send("Not found");
+        res.send({ error: "Not found" });
         return;
       }
       res.send(r);
       return;
     }
-    const threads = client.db("metahkg-threads").collection("conversation");
+    const conversation = client
+      .db("metahkg-threads")
+      .collection("conversation");
     const summary = client.db("metahkg-threads").collection("summary");
     const result =
       type === 1
@@ -59,7 +63,7 @@ router.get("/api/thread/:id", async (req, res) => {
               },
             }
           )
-        : await threads.findOne(
+        : await conversation.findOne(
             { id: Number(req.params.id) },
             {
               projection: {
@@ -79,6 +83,11 @@ router.get("/api/thread/:id", async (req, res) => {
             }
           );
     if (!result) {
+      res.status(404);
+      res.send({ error: "Not found." });
+      return;
+    }
+    if (result?.conversation && !result?.conversation?.length) {
       res.send([null]);
       return;
     }

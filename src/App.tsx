@@ -1,5 +1,6 @@
-import "./App.css";
 import React from "react";
+import "./App.css";
+import "./common.css";
 import Theme from "./lib/theme";
 import {
   BrowserRouter as Router,
@@ -13,7 +14,7 @@ import Thread from "./pages/thread";
 import AddComment from "./pages/AddComment";
 import Create from "./pages/create";
 import Category from "./pages/category";
-import Logout from "./components/logout";
+import Logout from "./pages/logout";
 import Search from "./pages/search";
 import Profile from "./pages/profile";
 import History from "./pages/history";
@@ -21,8 +22,14 @@ import Menu from "./components/menu";
 import { useMenu } from "./components/MenuProvider";
 import { Box } from "@mui/material";
 import { useWidth } from "./components/ContextProvider";
+import { Notification } from "./lib/notification";
+import NotFound from "./pages/notfound";
 function Source() {
-  window.location.href = "https://gitlab.com/metahkg/metahkg";
+  window.location.replace("https://gitlab.com/metahkg/metahkg");
+  return <div />;
+}
+function Telegram() {
+  window.location.replace("https://t.me/+WbB7PyRovUY1ZDFl");
   return <div />;
 }
 /*
@@ -37,6 +44,7 @@ export default function App() {
       primary={{ main: "#222222" }}
       secondary={{ main: "#f5bd1f", dark: "#ffc100" }}
     >
+      <Notification />
       <Box sx={{ maxHeight: "100vh", backgroundColor: "primary.dark" }}>
         <Router>
           <div style={{ display: "flex", flexDirection: "row" }}>
@@ -46,7 +54,7 @@ export default function App() {
               </div>
             )}
             <Routes>
-              <Route path="/" element={<Navigate to="/category/1" />} />
+              <Route path="/" element={<Navigate to="/category/1" replace />} />
               <Route path="/thread/:id" element={<Thread />} />
               <Route path="/comment/:id" element={<AddComment />} />
               <Route path="/category/:category" element={<Category />} />
@@ -56,9 +64,11 @@ export default function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/source" element={<Source />} />
-              <Route path="/about" element={<Source />} />
+              <Route path="/telegram" element={<Telegram />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/history/:id" element={<History />} />
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/404" replace />} />
             </Routes>
           </div>
         </Router>

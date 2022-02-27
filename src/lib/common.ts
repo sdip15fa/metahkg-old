@@ -1,5 +1,6 @@
 import humanizeDurationShortened from "humanize-duration-shortened-english";
 import humanizeDuration from "humanize-duration";
+import axios from "axios";
 export function roundup(num: number, precision = 0): number {
   precision = Math.pow(10, precision);
   return Math.ceil(num * precision) / precision;
@@ -13,7 +14,7 @@ export function timetoword(sdate: string): string {
     spacer: "",
     delimiter: " ",
   });
-  let r : string = shortened.split(" ")[0];
+  let r: string = shortened.split(" ")[0];
   if (r.endsWith("s")) {
     r = "now";
   }
@@ -36,7 +37,7 @@ export type summary = {
   c: number;
   id: number;
   op: string;
-  sex: boolean;
+  sex: "M" | "F";
   title: string;
   category: number;
   lastModified: string;
@@ -47,18 +48,41 @@ export type summary = {
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-export const categories = {
-  "1": "Chit-chat",
-  "2": "Stories",
-  "3": "School",
-  "4": "Admin",
-  "5": "Leisure",
-  "6": "IT",
-};
+export const categories: any = JSON.parse(
+  process.env.REACT_APP_categories || ""
+);
 export function splitarray(arr: [], start: number, end: number) {
   const r: [] = [];
   for (let i = start; i <= end; i++) {
     arr[i] !== undefined && r.push(arr[i]);
   }
   return r;
+}
+export async function logout() {
+  localStorage.clear();
+  await axios.get("/api/logout");
+}
+export function wholepath() {
+  return window.location.href.replace(window.location.origin, "");
+}
+export function checkpwd(pwd: string) {
+  if (pwd.length < 8) {
+    return false;
+  }
+  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const upper = lower.toUpperCase();
+  const numbers = "1234567890";
+  for (const i of [lower, upper, numbers]) {
+    let contain = false;
+    for (const p of pwd) {
+      if (i.includes(p)) {
+        contain = true;
+        break;
+      }
+    }
+    if (!contain) {
+      return false;
+    }
+  }
+  return true;
 }

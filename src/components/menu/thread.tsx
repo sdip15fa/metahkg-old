@@ -1,6 +1,6 @@
 import React from "react";
-import "./thread.css";
-import { Divider, Button, Box } from "@mui/material";
+import "./css/thread.css";
+import { Button, Box } from "@mui/material";
 import {
   ThumbUp as ThumbUpIcon,
   ThumbDown as ThumbDownIcon,
@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 import { timetoword, roundup, summary } from "../../lib/common";
 import { Link } from "react-router-dom";
-import { useCat, useProfile, useSearch } from "../MenuProvider";
+import { useCat, useId, useProfile, useSearch } from "../MenuProvider";
 /*
  * A thread in the menu
  * Basic information about the thread is needed (see type summary in ../../lib/common)
@@ -19,72 +19,63 @@ export default function MenuThread(props: { thread: summary }) {
   const [cat] = useCat();
   const [search] = useSearch();
   const [profile] = useProfile();
+  const [id] = useId();
   const { thread } = props;
   return (
-    <div>
-      <Link
-        style={{ width: "99%", textDecoration: "none" }}
-        to={`/thread/${thread.id}?page=1`}
+    <Link
+      className="fullwidth notextdecoration"
+      to={`/thread/${thread.id}?page=1`}
+    >
+      <Box
+        className="flex fullwidth menuthread-root"
+        sx={id === thread.id ? { bgcolor: "#303030 !important" } : {}}
       >
-        <Box className="menuthread">
-          <div
-            style={{
-              height: "35px",
-              width: "100%",
-            }}
-          >
-            <div className="threadtop">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <p
-                  className="threadtoptext ml20"
-                  style={{
-                    color: thread.sex ? "#0277bd" : "red",
-                    fontSize: "16px",
-                  }}
-                >
-                  {thread.op}
-                </p>
-                <p className="threadtoptext ml5">
-                  {timetoword(thread.lastModified)}
-                </p>
-              </div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {thread.vote >= 0 ? (
-                  <ThumbUpIcon className="threadicons" />
-                ) : (
-                  <ThumbDownIcon className="threadicons" />
-                )}
-                <p className="threadtoptext">{thread.vote}</p>
-                <CommentIcon className="threadicons" />
-                <p className="threadtoptext">{thread.c}</p>
-                <ArticleIcon className="threadicons" />
-                <p className="threadtoptext mr10">
-                  {String(roundup(thread.c / 25))}
-                </p>
-              </div>
-            </div>
+        <div className="menuthread-top flex fullwidth align-center">
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <p
+              className="menuthread-op ml20"
+              style={{
+                color: thread.sex === "M" ? "#0277bd" : "red",
+              }}
+            >
+              {thread.op}
+            </p>
+            <p className="menuthread-toptext ml5 nomargin">
+              {timetoword(thread.lastModified)}
+            </p>
           </div>
-          <div className="threadbottom">
-            <p className="ml20 threadtitle">{thread.title}</p>
-            {!!(cat === 1 || search || profile) && (
-              <Link
-                className="mr10"
-                to={`/category/${thread.category}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  variant="contained"
-                  className="threadcatbtn"
-                  sx={{ backgroundColor: "#333" }}
-                >
-                  <p className="threadcatname">{thread.catname}</p>
-                </Button>
-              </Link>
+          <div className="flex align-center">
+            {thread.vote >= 0 ? (
+              <ThumbUpIcon className="menuthread-icons" />
+            ) : (
+              <ThumbDownIcon className="menuthread-icons" />
             )}
+            <p className="menuthread-toptext nomargin">{thread.vote}</p>
+            <CommentIcon className="menuthread-icons" />
+            <p className="menuthread-toptext nomargin">{thread.c}</p>
+            <ArticleIcon className="menuthread-icons" />
+            <p className="menuthread-toptext mr10 nomargin">
+              {String(roundup(thread.c / 25))}
+            </p>
           </div>
-        </Box>
-      </Link>
-      <Divider />
-    </div>
+        </div>
+        <div className="menuthread-bottom flex fullwidth mb10 align-center">
+          <p className="ml20 nomargin menuthread-title">{thread.title}</p>
+          {!!(cat === 1 || search || profile) && (
+            <Link
+              className="mr10 notextdecoration"
+              to={`/category/${thread.category}`}
+            >
+              <Button
+                variant="contained"
+                className="nomargin nopadding notexttransform menuthread-catbtn"
+              >
+                <p className="nomargin menuthread-catname">{thread.catname}</p>
+              </Button>
+            </Link>
+          )}
+        </div>
+      </Box>
+    </Link>
   );
 }

@@ -6,7 +6,7 @@
   pwd (password, sha256 hashed): string,
   email: string,
   htoken (hcaptcha token): string,
-  sex: boolean
+  sex: string
 }
 */
 require("dotenv").config();
@@ -19,7 +19,10 @@ const { verify } = require("hcaptcha");
 const random = require("random");
 const bcrypt = require("bcrypt");
 const mailgun = require("mailgun-js");
-const mg = mailgun({ apiKey: process.env.api_key, domain: "metahkg.wcyat.me" });
+const mg = mailgun({
+  apiKey: process.env.mailgun_key,
+  domain: "metahkg.wcyat.me",
+});
 const router = express.Router();
 async function valid(req, res) {
   if (
@@ -28,26 +31,27 @@ async function valid(req, res) {
     !req.body.htoken ||
     !req.body.email ||
     !req.body.sex ||
-    req.body.user.split(" ")[1] ||
-    req.body.user.length > 15 ||
+    req.body.user?.split(" ")[1] ||
+    req.body.user?.length > 15 ||
     !(
       typeof req.body.user === "string" &&
       typeof req.body.pwd === "string" &&
       typeof req.body.email === "string" &&
       typeof req.body.htoken === "string" &&
-      typeof req.body.sex === "boolean"
+      (req.body.sex === "M" || req.body.sex === "F")
     ) ||
     Object.keys(req.body).length > 5 ||
-    !EmailValidator.validate(req.body.email)
+    !EmailValidator.validate(req.body.email) ||
+    EmailValidator.validate(req.body.user)
   ) {
     res.status(400);
-    res.send("Bad request");
+    res.send({ error: "Bad request." });
     return false;
   }
   const hvalid = await verify(secret, req.body.htoken);
   if (!hvalid.success) {
     res.status(400);
-    res.send("hCaptcha token invalid.");
+    res.send({ error: "hCaptcha token invalid." });
     return false;
   }
   return true;
@@ -57,7 +61,7 @@ async function exceptions(req, res, client) {
   console.log(req.ip);
   if (await banned.findOne({ ip: req.ip })) {
     res.status(403);
-    res.send("You are banned from creating accounts.");
+    res.send({ error: "You are banned from creating accounts." });
     console.log(`Banned ${req.ip}`);
     return false;
   }
@@ -68,23 +72,23 @@ async function exceptions(req, res, client) {
     (await verification.countDocuments({ user: req.body.user }))
   ) {
     res.status(409);
-    res.send("Username exists.");
+    res.send({ error: "Username exists." });
     return false;
   } else if (
     (await users.countDocuments({ email: req.body.email })) ||
     (await verification.countDocuments({ email: req.body.email }))
   ) {
     res.status(409);
-    res.send("Email exists.");
+    res.send({ error: "Email exists." });
     return false;
   }
   return true;
 }
 router.post("/api/register", body_parser.json(), async (req, res) => {
-  const client = new MongoClient(mongouri);
   if (!(await valid(req, res))) {
     return;
   }
+  const client = new MongoClient(mongouri);
   await client.connect();
   if (!(await exceptions(req, res, client))) {
     return;
@@ -109,6 +113,6 @@ router.post("/api/register", body_parser.json(), async (req, res) => {
     user: req.body.user,
     sex: req.body.sex,
   });
-  res.send("Ok");
+  res.send({response : "ok"});
 });
 module.exports = router;

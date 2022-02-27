@@ -5,14 +5,11 @@
 - x86_64 debian linux (only tested on ubuntu)
 - mongodb, hcaptcha, mailgun, aws account (s3)
 
-## Build the React app
+## Set up
 
-```bash
-yarn install
-yarn run build
-```
-
-## Setting up for backend
+Run `./setup.sh` for a fast setup. It will install all the dependencies for you.
+However, you will still need to configure the env variables.
+Alternatively, use the following step-by-step guide. It assumes that you have installed all the dependencies.
 
 ### Mongodb
 
@@ -35,6 +32,13 @@ cp templates/template.env .env
 ```
 
 Then edit values in the .env file.
+
+## Build the React app
+
+```bash
+yarn install
+yarn run build
+```
 
 ## Deploying backend
 

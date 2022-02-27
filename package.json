@@ -1,9 +1,14 @@
 {
   "name": "metahkg",
-  "version": "0.5.2-patch1",
+  "version": "0.5.3",
   "author": "wcyat",
-  "license": "MIT",
+  "license": "MPL-2.0",
+  "keywords": [
+    "forum",
+    "react"
+  ],
   "dependencies": {
+    "@anzerr/file.type": "^1.0.10",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@hcaptcha/react-hcaptcha": "^1.0.0",
@@ -45,19 +50,20 @@
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
     "react-visibility-sensor": "^5.1.1",
-    "sharp": "^0.29.3",
+    "sharp": "^0.30.1",
+    "system-commands": "^1.1.7",
     "uuid": "^8.3.2",
     "wcyat-rg": "^1.0.1"
   },
   "devDependencies": {
     "prettier": "^2.5.1",
-    "typescript": "^4.5.5",
-    "react-scripts": "5.0.0"
+    "react-scripts": "5.0.0",
+    "typescript": "^4.5.5"
   },
   "scripts": {
-    "start": "node server/server.js",
+    "start": "node start.js && node server/server.js",
     "start:api": "yarn run start",
-    "build": "react-scripts build",
+    "build": "node build.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "yarn run build && yarn run start"

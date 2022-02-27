@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Button, Divider } from "@mui/material";
 import { Shimmer } from "../../lib/shimmer/shimmer";
 import { roundup } from "../../lib/common";
@@ -17,7 +18,7 @@ export default function MenuPreload() {
           <Button
             sx={{
               height: 72,
-              width: "99%",
+              width: "100%",
               display: "flex",
               alignItems: "flex-start",
               flexDirection: "column",

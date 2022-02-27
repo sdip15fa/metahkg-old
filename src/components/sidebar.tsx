@@ -1,3 +1,4 @@
+import "./css/sidebar.css";
 import React, { useState } from "react";
 import {
   Box,
@@ -13,7 +14,7 @@ import {
   Menu as MenuIcon,
   AccountCircle as AccountCircleIcon,
   Create as CreateIcon,
-  Info as InfoIcon,
+  Telegram as TelegramIcon,
   Code as CodeIcon,
   ManageAccounts as ManageAccountsIcon,
 } from "@mui/icons-material";
@@ -21,17 +22,21 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import SearchBar from "./searchbar";
 import { useQuery } from "./ContextProvider";
-import { categories } from "../lib/common";
-import { useData } from "./MenuProvider";
+import { categories, wholepath } from "../lib/common";
+import { useCat, useData, useProfile, useSearch } from "./MenuProvider";
+import MetahkgLogo from "./logo";
 /*
  * The sidebar used by Menu
  * link to metahkg frontpage, search bar, sign in/register/logout,
- * create topic, link to categories, about and source code,
+ * create topic, link to categories, telegram group and source code,
  * at the bottom, if signed in, a link to /profile/self
  */
 export default function SideBar() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useQuery();
+  const [cat] = useCat();
+  const [profile] = useProfile();
+  const [search] = useSearch();
   const navigate = useNavigate();
   const toggleDrawer =
     (o: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -47,17 +52,13 @@ export default function SideBar() {
   function onClick() {
     setOpen(false);
   }
-  const links = ["/about", "/source"];
   const [data, setData] = useData();
   let tempq = decodeURIComponent(query || "");
   return (
     <div>
       <div>
-        <IconButton
-          sx={{ height: "40px", width: "40px" }}
-          onClick={toggleDrawer(true)}
-        >
-          <MenuIcon sx={{ color: "white" }} />
+        <IconButton className="sidebar-menu-btn" onClick={toggleDrawer(true)}>
+          <MenuIcon className="force-white" />
         </IconButton>
       </div>
       <Drawer
@@ -71,29 +72,19 @@ export default function SideBar() {
           },
         }}
       >
-        <Box sx={{ width: 250 }} role="presentation">
-          <div
-            style={{
-              width: "100%",
-            }}
-          >
-            <List sx={{ width: "100%" }}>
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+        <Box className="sidebar-box max-width-full" role="presentation">
+          <div className="fullwidth">
+            <List className="fullwidth">
+              <Link to="/" className="notextdecoration white">
                 <ListItem button onClick={onClick}>
                   <ListItemIcon>
-                    <img
-                      className="svgwhite"
-                      width="24px"
-                      height="24px"
-                      src="/logo.svg"
-                      alt="Metahkg"
-                    />
+                    <MetahkgLogo height={24} width={24} svg light />
                   </ListItemIcon>
                   <ListItemText>Metahkg</ListItemText>
                 </ListItem>
               </Link>
             </List>
-            <div style={{ marginLeft: "10px", marginRight: "10px" }}>
+            <div className="ml10 mr10">
               <SearchBar
                 onChange={(e) => {
                   tempq = e.target.value;
@@ -111,10 +102,10 @@ export default function SideBar() {
           </div>
           <List>
             <Link
-              style={{ textDecoration: "none", color: "white" }}
-              to={`/${localStorage.user ? "logout" : "signin"}?returnto=${
-                window.location.pathname
-              }`}
+              className="notextdecoration white"
+              to={`/${
+                localStorage.user ? "logout" : "signin"
+              }?returnto=${encodeURIComponent(wholepath())}`}
             >
               <ListItem button onClick={onClick}>
                 <ListItemIcon>
@@ -125,10 +116,7 @@ export default function SideBar() {
                 </ListItemText>
               </ListItem>
             </Link>
-            <Link
-              style={{ textDecoration: "none", color: "white" }}
-              to="/create"
-            >
+            <Link className="notextdecoration white" to="/create">
               <ListItem button onClick={onClick}>
                 <ListItemIcon>
                   <CreateIcon />
@@ -138,17 +126,16 @@ export default function SideBar() {
             </Link>
           </List>
           <Divider />
-          <div className="catlink" style={{ margin: "20px" }}>
+          <div className="m20">
             {Object.entries(categories).map((category: any) => (
               <Link
+                className="sidebar-catlink notextdecoration text-align-left halfwidth"
                 to={`/category/${category[0]}`}
                 style={{
-                  textDecoration: "none",
-                  display: "inline-block",
-                  textAlign: "left",
-                  width: "50%",
-                  fontSize: "16px",
-                  lineHeight: "35px",
+                  color:
+                    cat === Number(category[0]) && !(profile || search)
+                      ? "#fbc308"
+                      : "white",
                 }}
                 onClick={onClick}
               >
@@ -158,28 +145,31 @@ export default function SideBar() {
           </div>
           <Divider />
           <List>
-            {["About", "Source code"].map((text, index) => (
-              <Link
-                style={{ textDecoration: "none", color: "white" }}
-                to={links[index]}
-              >
-                <ListItem button key={text} onClick={onClick}>
-                  <ListItemIcon>
-                    {index === 0 ? <InfoIcon /> : <CodeIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
+            {[
+              {
+                icon: <TelegramIcon />,
+                title: "Telegram group",
+                link: "https://t.me/+WbB7PyRovUY1ZDFl",
+              },
+              {
+                icon: <CodeIcon />,
+                title: "Source code",
+                link: "https://gitlab.com/metahkg/metahkg",
+              },
+            ].map((item, index) => (
+              <a className="notextdecoration white" href={item.link}>
+                <ListItem button key={index} onClick={onClick}>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.title} />
                 </ListItem>
-              </Link>
+              </a>
             ))}
           </List>
           <Divider />
           {localStorage.user && (
             <div>
               <List>
-                <Link
-                  to="/profile/self"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
+                <Link to="/profile/self" className="notextdecoration white">
                   <ListItem button onClick={onClick}>
                     <ListItemIcon>
                       <ManageAccountsIcon />
@@ -191,8 +181,8 @@ export default function SideBar() {
               <Divider />
             </div>
           )}
-          <p style={{ color: "white", paddingLeft: "5px" }}>
-            Metahkg build {process.env.REACT_APP_build || "0.5.2-patch1"}
+          <p className="ml5">
+            Metahkg build {process.env.REACT_APP_build || "v0.5.3"}
           </p>
         </Box>
       </Drawer>

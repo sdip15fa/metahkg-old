@@ -1,8 +1,10 @@
 import React from "react";
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import Empty from "../components/empty";
 import {
+  useCat,
   useData,
+  useId,
   useMenu,
   useSearch,
   useSelected,
@@ -17,10 +19,14 @@ export default function Search() {
   const [width] = useWidth();
   const [selected, setSelected] = useSelected();
   const [, setTitle] = useTitle();
+  const [id, setId] = useId();
+  const [cat, setCat] = useCat();
   document.title = "Search | Metahkg";
   history !== window.location.pathname &&
     setHistory(window.location.pathname + window.location.search);
   !menu && setMenu(true);
+  id && setId(0);
+  cat && setCat(0);
   if (!search) {
     setSearch(true);
     data && setData([]);
@@ -29,27 +35,12 @@ export default function Search() {
   }
   return (
     <Box
+      className="flex min-height-fullvh"
       sx={{
-        minHeight: "100vh",
-        backgroundColor: "primary.dark",
-        display: "flex",
-        flexDirection: "row",
+        bgcolor: "primary.dark",
       }}
     >
-      {!(width < 760) && (
-        <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
-          <div
-            style={{
-              width: "70vw",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Empty />
-          </div>
-        </Paper>
-      )}
+      {!(width < 760) && <Empty />}
     </Box>
   );
 }

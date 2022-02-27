@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/api/profile/:id", async (req, res) => {
   if (!isInteger(req.params.id) && !req.params.id === "self") {
     res.status(400);
-    res.send("Bad request");
+    res.send({ error: "Bad request." });
     return;
   }
   const client = new MongoClient(mongouri);
@@ -22,7 +22,7 @@ router.get("/api/profile/:id", async (req, res) => {
             : { id: Number(req.params.id) }
         )
         .project(
-          req?.query?.nameonly
+          req.query.nameonly
             ? { user: 1, _id: 0 }
             : {
                 id: 1,
@@ -37,11 +37,11 @@ router.get("/api/profile/:id", async (req, res) => {
         .toArray()
     )[0];
     if (!user) {
-      res.status(404);
-      res.send("User not found");
+      res.status(400);
+      res.send({ error: "User not found" });
       return;
     }
-    !req?.query?.nameonly &&
+    !req.query.nameonly &&
       (user.count = await summary.countDocuments({ op: user.user }));
     res.send(user);
   } finally {

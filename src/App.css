@@ -1,16 +1,16 @@
 *::-webkit-scrollbar {
-  width: 9px;
+  width: 7px;
 }
 *::-webkit-scrollbar-track {
   background: #151515;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: #404040;
+  background-color: #464646;
   border-radius: 10px;
 }
 body {
   scrollbar-width: thin;
-  scrollbar-color: #404040 #151515;
+  scrollbar-color: #464646 #151515;
 }
 body * {
   font-family: "Segoe UI", "Helvetica Neue", Helvetica, Tahoma, Geneva, Verdana,
@@ -57,68 +57,18 @@ a:hover,
 a:active {
   color: #3498db;
 }
-.conversation *::selection {
-  background: #fbc308;
-  color: black;
-}
-.catlink a,
-.catlink a:visited,
-.catlink a:active {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+blockquote,
+q {
   color: white;
-}
-.catlink a:hover {
-  color: #fbc308;
-  will-change: color;
-}
-.votearrow svg:hover,
-.close svg:hover {
-  color: white;
-  will-change: color;
-}
-.cuserlink:active {
-  text-decoration: none;
-}
-.cuserlink:hover {
-  text-decoration: underline;
 }
 .TextField-without-border-radius fieldset {
   border-radius: 0;
-}
-.svgwhite {
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%)
-    contrast(103%);
-}
-.novmargin {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-.nohmargin {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-.novpadding {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-.nohpadding {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-.ml5 {
-  margin-left: 5px !important;
-}
-.mr5 {
-  margin-right: 5px !important;
-}
-.ml10 {
-  margin-left: 10px !important;
-}
-.ml20 {
-  margin-left: 20px !important;
-}
-.mr10 {
-  margin-right: 10px !important;
-}
-.mr20 {
-  margin-right: 20px !important;
 }

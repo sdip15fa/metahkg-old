@@ -1,3 +1,4 @@
+import "./css/popup.css";
 import React from "react";
 import { Close } from "@mui/icons-material";
 import {
@@ -27,17 +28,7 @@ export function PopUp(props: {
         },
       }}
     >
-      <DialogTitle
-        sx={{
-          alignItems: "center",
-          justifyContent: "space-between",
-          display: "flex",
-          padding: "0px",
-          marginTop: "5px",
-          marginBottom: "5px",
-          minWidth: "270px",
-        }}
-      >
+      <DialogTitle className="nopadding flex mt5 mb5 popup-dialogtitle">
         <p
           style={{
             marginLeft: "20px",
@@ -48,7 +39,7 @@ export function PopUp(props: {
           {props.title}
         </p>
         <IconButton
-          className="close"
+          className="mr5"
           onClick={() => {
             props.setOpen(false);
           }}

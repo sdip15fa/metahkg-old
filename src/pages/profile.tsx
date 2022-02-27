@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import "./css/profile.css";
 import {
   Box,
   Button,
@@ -10,40 +11,44 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import {
   useData,
+  useId,
   useMenu,
   useProfile,
   useSearch,
   useSelected,
   useTitle,
+  useCat,
 } from "../components/MenuProvider";
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
 import { Link } from "react-router-dom";
-import { useHistory, useWidth } from "../components/ContextProvider";
+import {
+  useHistory,
+  useNotification,
+  useWidth,
+} from "../components/ContextProvider";
 /*
  * ProfileMenu returns posts that a user has posted
  * Renders a Menu without any threads if the user has posted nothing
  * Used in /profile/:id (if width >= 750) and /history/:id (id width < 750)
  */
 function DataTable(props: { user: any }) {
-  const tablerows = ["Posts", "Sex", "Admin", "Joined"];
+  const tablerows = ["Name", "Posts", "Sex", "Admin", "Joined"];
   const items = [
+    props.user.user,
     props.user.count,
-    props.user.sex ? "male" : "female",
+    props.user.sex === "M" ? "male" : "female",
     props.user?.admin ? "yes" : "no",
     `${timetoword_long(props.user.createdAt)} ago`,
   ];
   return (
-    <TableContainer
-      sx={{ marginLeft: "50px", marginRight: "50px" }}
-      component={Paper}
-    >
-      <Table sx={{ width: "100%" }} aria-label="simple table">
+    <TableContainer className="profile-tablecontainer" component={Paper}>
+      <Table className="fullwidth" aria-label="simple table">
         <TableBody>
           {items.map((item, index) => (
             <TableRow
@@ -71,28 +76,37 @@ export default function Profile() {
   const [width] = useWidth();
   const [, setData] = useData();
   const [, setTitle] = useTitle();
-  const [fetching, setFetching] = useState(false);
+  const [id, setId] = useId();
+  const [cat, setCat] = useCat();
   const [selected, setSelected] = useSelected();
-  function fetch() {
-    setFetching(true);
-    axios.get(`/api/profile/${Number(params.id) || "self"}`).then((res) => {
-      setUser(res.data);
-      document.title = `${res.data.user} | Metahkg`;
-      setFetching(false);
-    });
-  }
+  const [history, setHistory] = useHistory();
+  const [, setNotification] = useNotification();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!(params.id === "self" && !localStorage.user)) {
+      axios
+        .get(`/api/profile/${Number(params.id) || "self"}`)
+        .then((res) => {
+          setUser(res.data);
+          document.title = `${res.data.user} | Metahkg`;
+        })
+        .catch((err: AxiosError) => {
+          setNotification({ open: true, text: err?.response?.data?.error });
+          err?.response?.status === 404 && navigate("/404", { replace: true });
+        });
+    }
+  }, [navigate, params.id, setNotification]);
   function cleardata() {
     setData([]);
     setTitle("");
     selected && setSelected(0);
   }
-  const [history, setHistory] = useHistory();
-  history !== window.location.pathname && setHistory(window.location.pathname);
-  if (!menu && !(width < 760)) {
-    setMenu(true);
-  } else if (menu && width < 760) {
-    setMenu(false);
+  if (params?.id === "self" && !localStorage.user) {
+    return <Navigate to="/" replace />;
   }
+  history !== window.location.pathname && setHistory(window.location.pathname);
+  !menu && !(width < 760) && setMenu(true);
+  menu && width < 760 && setMenu(false);
   if (profile !== (Number(params.id) || "self")) {
     setProfile(Number(params.id) || "self");
     cleardata();
@@ -101,124 +115,97 @@ export default function Profile() {
     setSearch(false);
     cleardata();
   }
-  !Object.keys(user).length && !fetching && fetch();
+  id && setId(0);
+  cat && setCat(0);
   return (
-    <div>
-      <Box
-        sx={{
-          backgroundColor: "primary.dark",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        {!Object.keys(user).length ? (
-          <LinearProgress sx={{ width: "100%" }} color="secondary" />
-        ) : (
-          user?.[0] !== null && (
-            <Paper sx={{ maxHeight: "100vh", overflow: "auto" }}>
+    <Box
+      className="profile-root flex"
+      sx={{
+        backgroundColor: "primary.dark",
+      }}
+    >
+      {!Object.keys(user).length ? (
+        <LinearProgress className="fullwidth" color="secondary" />
+      ) : (
+        user?.[0] !== null && (
+          <Paper className="profile-paper">
+            <Box className="profile-mainbox flex">
               <Box
+                className="profile-top flex"
                 sx={{
-                  backgroundColor: "primary.dark",
-                  minHeight: "100vh",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  width: width < 760 ? "100vw" : "70vw",
                 }}
               >
-                <Box
-                  sx={{
-                    width: width < 760 ? "100vw" : "70vw",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
+                <img
+                  src={
+                    user?.avatar ||
+                    "https://metahkg.s3.amazonaws.com/avatars/noavatar.png"
+                  }
+                  alt="User avatar"
+                  height={width < 760 ? 150 : 200}
+                  width={width < 760 ? 150 : 200}
+                />
+                <br />
+                <div
+                  className="profile-toptextdiv ml20 flex"
+                  style={{
+                    flexDirection: params.id === "self" ? "column" : "row",
                   }}
                 >
-                  <img
-                    src={
-                      user?.avatar ||
-                      "https://metahkg.s3.amazonaws.com/avatars/noavatar.png"
-                    }
-                    alt="User avatar"
-                  />
-                  <br />
-                  <div
-                    style={{
-                      marginLeft: "20px",
-                      height: "200px",
-                      display: "flex",
-                      flexDirection: params.id === "self" ? "column" : "row",
-                    }}
-                  >
-                    <h1
+                  <h1 className="profile-toptext">
+                    <div
+                      className="profile-userspandiv"
                       style={{
-                        color: "white",
-                        fontSize: "30px",
-                        alignSelf: "center",
-                        paddingTop: params.id === "self" ? "50px" : "0px",
-                        wordBreak: "break-all",
                         maxWidth:
                           width < 760
-                            ? "calc(100vw - 260px)"
-                            : "calc(70vw - 260px)",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        lineHeight: "35px",
-                        maxHeight: "35px",
+                            ? "calc(100vw - 250px)"
+                            : "calc(70vw - 350px)",
                       }}
                     >
                       <span
+                        className="profile-userspan"
                         style={{
-                          color: user.sex ? "#34aadc" : "red",
+                          color: user.sex === "M" ? "#34aadc" : "red",
                         }}
                       >
                         {user.user}
-                      </span>{" "}
-                      #{user.id}
-                    </h1>
-                    <div
-                      style={{
-                        alignSelf: "flex-start",
-                        marginTop: params.id === "self" ? "10px" : "0px",
-                      }}
-                    >
-                      {params.id === "self" && <UploadAvatar />}
+                      </span>
                     </div>
+                    #{user.id}
+                  </h1>
+                  <div
+                    className="profile-uploaddiv"
+                    style={{
+                      marginTop: params.id === "self" ? 25 : 0,
+                    }}
+                  >
+                    {params.id === "self" && <UploadAvatar />}
                   </div>
-                </Box>
-                <Box
-                  sx={{
-                    marginTop: "20px",
-                    maxWidth: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                  }}
-                >
-                  <DataTable user={user} />
-                </Box>
-                {width < 760 && (
-                  <div style={{ marginTop: "20px" }}>
-                    <Link
-                      to={`/history/${params.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Button
-                        sx={{ fontSize: "16px" }}
-                        variant="text"
-                        color="secondary"
-                      >
-                        View History
-                      </Button>
-                    </Link>
-                  </div>
-                )}
+                </div>
               </Box>
-            </Paper>
-          )
-        )}
-      </Box>
-    </div>
+              <Box className="profile-tablebox flex mt20 mb10 fullwidth font">
+                <DataTable user={user} />
+              </Box>
+              {width < 760 && (
+                <div className="mt20">
+                  <Link
+                    className="notextdecoration"
+                    to={`/history/${params.id}`}
+                  >
+                    <Button
+                      className="profile-historybtn"
+                      variant="text"
+                      color="secondary"
+                    >
+                      View History
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </Box>
+          </Paper>
+        )
+      )}
+    </Box>
   );
 }

@@ -9,11 +9,11 @@ router.post("/api/check", body_parser.json(), async (req, res) => {
   const client = new MongoClient(mongouri);
   if (
     !req.body.id ||
-    Object.keys(req.body).length > 1 ||
+    Object.keys(req.body)?.length > 1 ||
     typeof req.body.id !== "number"
   ) {
     res.status(400);
-    res.send("Bad request.");
+    res.send({ error: "Bad request." });
     return;
   }
   try {
@@ -25,10 +25,10 @@ router.post("/api/check", body_parser.json(), async (req, res) => {
         .findOne({ id: req.body.id }))
     ) {
       res.status(404);
-      res.send("Not found.");
+      res.send({ error: "Not found." });
       return;
     }
-    res.send("ok");
+    res.send({ response : "ok" });
   } finally {
     await client.close();
   }

@@ -18,11 +18,11 @@ router.post("/api/signin", body_parser.json(), async (req, res) => {
   if (
     !req.body.user ||
     !req.body.pwd ||
-    Object.keys(req.body).length > 2 ||
+    Object.keys(req.body)?.length > 2 ||
     !(typeof req.body.user === "string" && typeof req.body.pwd === "string")
   ) {
     res.status(400);
-    res.send("Bad request");
+    res.send({ error: "Bad request" });
     return;
   }
   await client.connect();
@@ -31,14 +31,14 @@ router.post("/api/signin", body_parser.json(), async (req, res) => {
     (await users.findOne({ user: req.body.user })) ||
     (await users.findOne({ email: req.body.user }));
   if (!data) {
-    res.status(404);
-    res.send("User not found");
+    res.status(400);
+    res.send({ error: "User not found" });
     return;
   }
   const correct = await bcrypt.compare(req.body.pwd, data.pwd);
   if (!correct) {
     res.status(401);
-    res.send("Password incorrect");
+    res.send({ error: "Password incorrect" });
     return;
   }
   res.cookie("key", data.key, {

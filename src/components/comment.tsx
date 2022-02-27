@@ -1,3 +1,4 @@
+import "./css/comment.css";
 import React, { memo } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Reply as ReplyIcon } from "@mui/icons-material";
@@ -7,6 +8,7 @@ import { timetoword } from "../lib/common";
 import VoteButtons from "./votebuttons";
 import { PopUp } from "../lib/popup";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 /*
  * Comment component renders a comment
  * which includes a title (Tag)
@@ -15,7 +17,7 @@ import { useState } from "react";
  */
 function Comment(props: {
   op: boolean; //is original poster (true | false)
-  sex: boolean; //user sex
+  sex: "M" | "F"; //user sex
   id: number; //comment id
   tid: number; //thread id
   userid: number; //user's id
@@ -24,7 +26,7 @@ function Comment(props: {
   date: string; //comment date
   up: number; //number of upvotes
   down: number; //number of downvotes
-  vote: "up" | "down" | undefined; //user's vote, if not voted or not signed in it would be undefined
+  vote?: "U" | "D"; //user's vote, if not voted or not signed in it would be undefined
 }) {
   /*
    * Tag serves as a title for the comment
@@ -33,6 +35,7 @@ function Comment(props: {
    */
   function Tag(tprops: { children: string | JSX.Element | JSX.Element[] }) {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     return (
       <div
         style={{
@@ -49,7 +52,13 @@ function Comment(props: {
           title="User information"
           button={{ text: "View Profile", link: `/profile/${props.userid}` }}
         >
-          <p style={{ textAlign: "center" }}>
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "5px",
+              marginBottom: "5px",
+            }}
+          >
             {props.name}
             <br />#{props.userid}
           </p>
@@ -63,12 +72,12 @@ function Comment(props: {
           #{props.id}
         </p>
         <p
-          className="cuserlink novmargin"
+          className="comment-userlink novmargin"
           onClick={() => {
             setOpen(true);
           }}
           style={{
-            color: props.sex ? "#34aadc" : "red",
+            color: props.sex === "M" ? "#34aadc" : "red",
             marginLeft: "10px",
             textOverflow: "ellipsis",
             maxWidth: "100%",
@@ -101,7 +110,7 @@ function Comment(props: {
             sx={{ marginLeft: "10px", padding: 0 }}
             onClick={() => {
               localStorage.reply = props.children;
-              window.location.href = `/comment/${props.tid}`;
+              navigate(`/comment/${props.tid}`);
             }}
           >
             <ReplyIcon sx={{ fontSize: "19px", color: "#aca9a9" }} />
@@ -112,6 +121,7 @@ function Comment(props: {
   }
   return (
     <Box
+      id={`c${props.id}`}
       sx={{
         backgroundColor: "primary.main",
         textAlign: "left",

@@ -3,7 +3,7 @@ import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 import { Button, ButtonGroup, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { Notification } from "../lib/notification";
+import { useNotification } from "./ContextProvider";
 /*
  * Buttons for voting
  * Disabled if user is not signed in
@@ -13,7 +13,7 @@ import { Notification } from "../lib/notification";
  * Generates a notification in case of errors
  */
 export default function VoteButtons(props: {
-  vote: "up" | "down" | undefined;
+  vote?: "U" | "D";
   id: number;
   cid: number;
   up: number;
@@ -22,12 +22,9 @@ export default function VoteButtons(props: {
   const [vote, setVote] = useState(props.vote);
   const [up, setUp] = useState(props.up);
   const [down, setDown] = useState(props.down);
-  const [notify, setNotify] = useState<{
-    open: boolean;
-    text: string;
-  }>({ open: false, text: "" });
-  const sendvote = (v: "up" | "down") => {
-    v === "up" ? setUp(up + 1) : setDown(down + 1);
+  const [, setNotification] = useNotification();
+  const sendvote = (v: "U" | "D") => {
+    v === "U" ? setUp(up + 1) : setDown(down + 1);
     setVote(v);
     axios
       .post("/api/vote", {
@@ -36,14 +33,16 @@ export default function VoteButtons(props: {
         vote: v,
       })
       .catch((err) => {
-        v === "up" ? setUp(up) : setDown(down);
+        v === "U" ? setUp(up) : setDown(down);
         setVote(undefined);
-        setNotify({ open: true, text: err.response.data });
+        setNotification({
+          open: true,
+          text: err?.response?.data?.error || err?.response?.data || "",
+        });
       });
   };
   return (
     <div>
-      <Notification notify={notify} setNotify={setNotify} />
       <ButtonGroup
         variant="text"
         sx={{ borderRadius: "5px", backgroundColor: "#333" }}
@@ -52,17 +51,16 @@ export default function VoteButtons(props: {
           sx={{ padding: "0px", marginTop: "1.5px", marginBottom: "1.5px" }}
           disabled={!localStorage.user || !!vote}
           onClick={() => {
-            sendvote("up");
+            sendvote("U");
           }}
         >
           <Typography
-            className="votearrow"
             sx={{
               display: "flex",
-              color: vote === "up" ? "green" : "#aaa",
+              color: vote === "U" ? "green" : "#aaa",
             }}
           >
-            <ArrowDropUp />
+            <ArrowDropUp className="icon-white-onhover" />
             {up}
           </Typography>
         </Button>
@@ -75,17 +73,16 @@ export default function VoteButtons(props: {
           }}
           disabled={!localStorage.user || !!vote}
           onClick={() => {
-            sendvote("down");
+            sendvote("D");
           }}
         >
           <Typography
-            className="votearrow"
             sx={{
-              color: vote === "down" ? "red" : "#aaa",
+              color: vote === "D" ? "red" : "#aaa",
               display: "flex",
             }}
           >
-            <ArrowDropDown />
+            <ArrowDropDown className="icon-white-onhover" />
             {down}
           </Typography>
         </Button>

@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const { autodecrement } = require("./router/menu/autodecrement");
-const rootRouter = express.Router();
 require("dotenv").config();
 const app = express();
 /*
@@ -41,14 +40,21 @@ app.use(cookieParser());
 * Otherwise the React app would be served
 */
 app.use(require("./router"));
+app.use(async (req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    res.status(404);
+    res.send({ error: "Route not found." });
+    return;
+  }
+  return next();
+});
 app.use(express.static("build"));
-rootRouter.get("(/*)?", async (req, res) => {
+app.get("(/*)?", async (req, res) => {
   res.sendFile("index.html", { root: "build" });
 });
-app.use(rootRouter);
 /*
  * The port can be modified in .env
  */
-app.listen(process.env.port, () => {
-  console.log(`listening at port ${process.env.port}`);
+app.listen(process.env.port || 3000, () => {
+  console.log(`listening at port ${process.env.port || 3000}`);
 });
