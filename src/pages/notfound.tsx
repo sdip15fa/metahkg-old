@@ -1,8 +1,8 @@
 import "./css/notfound.css";
+import React from "react";
 import { Box } from "@mui/material";
 import MetahkgLogo from "../components/logo";
 import { useMenu } from "../components/MenuProvider";
-
 export default function NotFound() {
   document.title = "404 Not Found | Metahkg";
   const [menu, setMenu] = useMenu();

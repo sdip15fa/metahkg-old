@@ -1,4 +1,5 @@
 import "./css/logo.css";
+import React from "react";
 /*
  * @description Metahkg logo, in different formats
  */
