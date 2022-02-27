@@ -48,7 +48,7 @@ export default function AddComment() {
           },
         });
         setTimeout(() => {
-          window.location.replace("/");
+          navigate("/", {replace:true});
         }, 5000);
       } else {
         setState({
@@ -80,10 +80,10 @@ export default function AddComment() {
       });
   }
   if (!localStorage.user) {
-    window.location.replace(
+    navigate(
       `/signin?continue=true&returnto=${encodeURIComponent(
         window.location.href.replace(window.location.origin, "")
-      )}`
+      )}`, {replace: true}
     );
     return <div />;
   }

@@ -69,7 +69,7 @@ export default function Signin() {
       });
   }
   if (localStorage.user) {
-    navigate("/");
+    navigate("/", {replace: true});
     return <div />;
   }
   return (

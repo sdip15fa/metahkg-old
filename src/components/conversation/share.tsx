@@ -3,6 +3,9 @@ import {
   Telegram,
   WhatsApp,
   Link as LinkIcon,
+  Facebook,
+  Twitter,
+  Reddit,
 } from "@mui/icons-material";
 import { IconButton, TextField, Tooltip } from "@mui/material";
 import { PopUp } from "../../lib/popup";
@@ -15,6 +18,42 @@ export default function Share() {
   const text = title + "\n" + link + "\n- Shared from Metahkg forum";
   const [, setNotification] = useNotification();
   const [width] = useWidth();
+  type external = {
+    logo: JSX.Element;
+    title: string;
+    link: string;
+  };
+  const externals: external[] = [
+    {
+      logo: <Telegram />,
+      title: "Share to Telegram",
+      link: `tg://msg_url?text=${encodeURIComponent(
+        title + "\n- Shared from Metahkg forum"
+      )}&url=${link}`,
+    },
+    {
+      logo: <WhatsApp />,
+      title: "Share to WhatsApp",
+      link: `whatsapp://send?text=${encodeURIComponent(text)}`,
+    },
+    {
+      logo: <Twitter />,
+      title: "Share to Twitter",
+      link: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
+    },
+    {
+      logo: <Reddit />,
+      title: "Share to Reddit",
+      link: `https://www.reddit.com/submit?link=${encodeURIComponent(
+        link
+      )}&title=${encodeURIComponent(title)}`,
+    },
+    {
+      logo: <Facebook />,
+      title: "Share to Facebook",
+      link: `https://www.facebook.com/sharer/sharer.php?u=${link}`,
+    },
+  ];
   return (
     <PopUp
       withbutton={false}
@@ -66,24 +105,13 @@ export default function Share() {
               <LinkIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip arrow title="Share to Telegram">
-            <a
-              href={`tg://msg_url?text=${encodeURIComponent(
-                title + "\n- Shared from Metahkg forum"
-              )}&url=${link}`}
-            >
-              <IconButton>
-                <Telegram />
-              </IconButton>
-            </a>
-          </Tooltip>
-          <Tooltip arrow title="Share to Whatsapp">
-            <a href={`whatsapp://send?text=${encodeURIComponent(text)}`}>
-              <IconButton>
-                <WhatsApp />
-              </IconButton>
-            </a>
-          </Tooltip>
+          {externals.map((external) => (
+            <Tooltip arrow title={external.title}>
+              <a href={external.link} target="_blank" rel="noreferrer">
+                <IconButton>{external.logo}</IconButton>
+              </a>
+            </Tooltip>
+          ))}
         </div>
       </div>
     </PopUp>

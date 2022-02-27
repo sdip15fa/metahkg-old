@@ -1,6 +1,6 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Box, Typography, Paper, Divider } from "@mui/material";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import MenuTop from "./menu/top";
 import MenuThread from "./menu/thread";
 import {
@@ -15,7 +15,7 @@ import {
 import { summary } from "../lib/common";
 import MenuPreload from "./menu/preload";
 import queryString from "query-string";
-import { useHistory, useQuery } from "./ContextProvider";
+import { useHistory, useNotification, useQuery } from "./ContextProvider";
 import SearchBar from "./searchbar";
 import { useNavigate } from "react-router";
 /*
@@ -30,11 +30,13 @@ import { useNavigate } from "react-router";
  */
 function MainContent() {
   const querystring = queryString.parse(window.location.search);
+  const navigate = useNavigate();
   const [category] = useCat();
   const [search] = useSearch();
   const [profile] = useProfile();
   const [selected] = useSelected();
   const [query] = useQuery();
+  const [, setNotification] = useNotification();
   const [id] = useId();
   const [data, setData] = useData();
   const [page, setPage] = useState(1);
@@ -42,21 +44,30 @@ function MainContent() {
   const [updating, setUpdating] = useState(false);
   const q = decodeURIComponent(String(querystring.q || query || ""));
   const c: string | number = category || `bytid${id}`;
-  function fetch() {
-    setUpdating(true);
-    const url = {
-      search: `/api/search?q=${q}&sort=${selected}`,
-      profile: `/api/history/${profile}?sort=${selected}`,
-      menu: `/api/menu/${c}?sort=${selected}`,
-    }[search ? "search" : profile ? "profile" : "menu"];
-    axios.get(url).then((res) => {
-      !(page === 1) && setPage(1);
-      setData(res.data);
-      res.data.length < 25 && !end && setEnd(true);
-      res.data.length >= 25 && end && setEnd(false);
-      setUpdating(false);
-    });
+  function onError(err: AxiosError) {
+    setNotification({ open: true, text: err?.response?.data.error });
+    err?.response?.status === 404 && navigate("/404", { replace: true });
   }
+  useEffect(() => {
+    if (!data.length && (category || profile || search || id)) {
+      const url = {
+        search: `/api/search?q=${q}&sort=${selected}`,
+        profile: `/api/history/${profile}?sort=${selected}`,
+        menu: `/api/menu/${c}?sort=${selected}`,
+      }[search ? "search" : profile ? "profile" : "menu"];
+      axios
+        .get(url)
+        .then((res) => {
+          !(page === 1) && setPage(1);
+          setData(res.data);
+          res.data.length < 25 && !end && setEnd(true);
+          res.data.length >= 25 && end && setEnd(false);
+          setUpdating(false);
+        })
+        .catch(onError);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
   function update() {
     setUpdating(true);
     const url = {
@@ -64,21 +75,33 @@ function MainContent() {
       profile: `/api/history/${profile}?sort=${selected}&page=${page + 1}`,
       menu: `/api/menu/${c}?sort=${selected}&page=${page + 1}`,
     }[search ? "search" : profile ? "profile" : "menu"];
-    axios.get(url).then((res) => {
-      const d: any = data;
-      if (res.data?.[0] !== null) {
-        res.data.forEach((item: any) => {
-          d.push(item);
-        });
-        setData(d);
-      }
-      res.data.length < 25 && setEnd(true);
-      setPage((page) => page + 1);
-      setUpdating(false);
-    });
+    axios
+      .get(url)
+      .then((res) => {
+        const d: any = data;
+        if (res.data?.[0] !== null) {
+          res.data.forEach((item: any) => {
+            d.push(item);
+          });
+          setData(d);
+        }
+        res.data.length < 25 && setEnd(true);
+        setPage((page) => page + 1);
+        setUpdating(false);
+      })
+      .catch(onError);
   }
-  if (!data.length && (category || profile || search || id) && !updating) {
-    fetch();
+  function onScroll(e: any) {
+    if (!end && !updating) {
+      const diff = e.target.scrollHeight - e.target.scrollTop;
+      if (
+        (e.target.clientHeight >= diff - 1.5 &&
+          e.target.clientHeight <= diff + 1.5) ||
+        diff < e.target.clientHeight
+      ) {
+        update();
+      }
+    }
   }
   return (
     <Paper
@@ -86,17 +109,7 @@ function MainContent() {
         overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
       }}
-      onScroll={(e: any) => {
-        if (!end && !updating) {
-          const diff = e.target.scrollHeight - e.target.scrollTop;
-          if (
-            e.target.clientHeight >= diff - 1.5 &&
-            e.target.clientHeight <= diff + 1.5
-          ) {
-            update();
-          }
-        }
-      }}
+      onScroll={onScroll}
     >
       <Box
         sx={{

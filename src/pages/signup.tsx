@@ -171,7 +171,7 @@ export default function Register() {
       });
   }
   if (localStorage.user) {
-    window.location.replace("/");
+    navigate("/", {replace: true});
     return <div />;
   }
   return (

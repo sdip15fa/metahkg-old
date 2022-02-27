@@ -166,6 +166,18 @@ function Conversation(props: { id: number }) {
       document.getElementById(String(page))?.scrollIntoView();
     });
   }
+  function onScroll(e: any) {
+      if (!end && !updating) {
+        const diff = e.target.scrollHeight - e.target.scrollTop;
+        if (
+          (e.target.clientHeight >= diff - 1.5 &&
+            e.target.clientHeight <= diff + 1.5) ||
+          diff < e.target.clientHeight
+        ) {
+          update();
+        }
+      }
+  }
   return (
     <ShareContext.Provider
       value={{
@@ -186,18 +198,7 @@ function Conversation(props: { id: number }) {
           id="croot"
           key={n}
           sx={{ overflow: "auto", maxHeight: "calc(100vh - 48px)" }}
-          onScroll={(e: any) => {
-            if (!end && !updating) {
-              const diff = e.target.scrollHeight - e.target.scrollTop;
-              if (
-                (e.target.clientHeight >= diff - 1.5 &&
-                  e.target.clientHeight <= diff + 1.5) ||
-                diff < e.target.clientHeight
-              ) {
-                update();
-              }
-            }
-          }}
+          onScroll={onScroll}
         >
           <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
             {ready &&

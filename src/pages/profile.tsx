@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./css/profile.css";
 import {
   Box,
@@ -11,7 +11,7 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import {
@@ -27,7 +27,7 @@ import {
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
 import { Link } from "react-router-dom";
-import { useHistory, useWidth } from "../components/ContextProvider";
+import { useHistory, useNotification, useWidth } from "../components/ContextProvider";
 /*
  * ProfileMenu returns posts that a user has posted
  * Renders a Menu without any threads if the user has posted nothing
@@ -74,24 +74,25 @@ export default function Profile() {
   const [, setTitle] = useTitle();
   const [id, setId] = useId();
   const [cat, setCat] = useCat();
-  const [fetching, setFetching] = useState(false);
   const [selected, setSelected] = useSelected();
   const [history, setHistory] = useHistory();
+  const [,setNotification] = useNotification();
   const navigate = useNavigate();
-  function fetch() {
-    setFetching(true);
+  useEffect(() => {
     axios.get(`/api/profile/${Number(params.id) || "self"}`).then((res) => {
       setUser(res.data);
       document.title = `${res.data.user} | Metahkg`;
-      setFetching(false);
+    }).catch((err: AxiosError) => {
+      setNotification({open: true, text: err?.response?.data?.error});
+      err?.response?.status === 404 && navigate("/404", {replace: true});
     });
-  }
+  }, [navigate, params.id, setNotification])
   function cleardata() {
     setData([]);
     setTitle("");
     selected && setSelected(0);
   }
-  params?.id === "self" && !localStorage.user && navigate("/");
+  params?.id === "self" && !localStorage.user && navigate("/", {replace: true});
   history !== window.location.pathname && setHistory(window.location.pathname);
   !menu && !(width < 760) && setMenu(true);
   menu && width < 760 && setMenu(false);
@@ -105,7 +106,6 @@ export default function Profile() {
   }
   id && setId(0);
   cat && setCat(0);
-  !Object.keys(user).length && !fetching && fetch();
   return (
     <Box
       className="profile-root"
