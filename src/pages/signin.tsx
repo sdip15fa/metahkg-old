@@ -104,7 +104,7 @@ export default function Signin() {
             <h1 className="signin-title-text mb20">Sign in</h1>
           </div>
           {alert.text && (
-            <Alert className="mb20 mt10" severity={alert.severity}>
+            <Alert className="mb15 mt10" severity={alert.severity}>
               {alert.text}
             </Alert>
           )}

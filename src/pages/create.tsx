@@ -145,7 +145,7 @@ export default function Create() {
             <h1>Create topic</h1>
           </div>
           {alert.text && (
-            <Alert className="mt10 mb10" severity={alert.severity}>
+            <Alert className="mt10 mb15" severity={alert.severity}>
               {alert.text}
             </Alert>
           )}

@@ -189,10 +189,10 @@ export default function Register() {
         <div className="signup-main-div">
           <div className="flex justify-center align-center">
             <MetahkgLogo svg light height={50} width={40} className="mb10" />
-            <h1 className="signup-title-text mb20">Register</h1>
+            <h1 className="signup-title-text mb20 nohmargin">Register</h1>
           </div>
           {alert.text && (
-            <Alert className="signup-alert mt10" severity={alert.severity}>
+            <Alert className="mb15 mt10" severity={alert.severity}>
               {alert.text}
             </Alert>
           )}

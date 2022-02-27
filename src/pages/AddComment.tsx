@@ -94,7 +94,7 @@ export default function AddComment() {
     <Box
       className="min-height-fullvh flex justify-center fullwidth align-center"
       sx={{
-        backgroundColor: "primary.dark",
+        bgcolor: "primary.dark",
       }}
     >
       <div style={{ width: width < 760 ? "100vw" : "80vw" }}>
@@ -116,7 +116,7 @@ export default function AddComment() {
             </Link>
           </h4>
           {alert.text && (
-            <Alert className="mt10 mb10" severity={alert.severity}>
+            <Alert className="mt10 mb15" severity={alert.severity}>
               {alert.text}
             </Alert>
           )}

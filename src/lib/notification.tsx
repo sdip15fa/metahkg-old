@@ -1,3 +1,4 @@
+import "./css/notification.css";
 import React from "react";
 import { Close, Notifications } from "@mui/icons-material";
 import { Box, Snackbar } from "@mui/material";
@@ -12,11 +13,9 @@ export function Notification() {
   const open = notification.open;
   return (
     <Snackbar
-      className="conversation"
+      className="notification-root"
       sx={{
-        backgroundColor: "primary.main",
-        width: "300px",
-        borderRadius: "8px",
+        bgcolor: "primary.main",
       }}
       anchorOrigin={{ horizontal, vertical }}
       open={open}
@@ -28,72 +27,18 @@ export function Notification() {
         setNotification({ ...notification, open: false });
       }}
     >
-      <Box
-        sx={{
-          backgroundColor: "#444",
-          width: "100%",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            backgroundColor: "#333",
-            fontSize: "14px",
-            borderTopLeftRadius: "8px",
-            borderTopRightRadius: "8px",
-          }}
-        >
-          <div
-            style={{
-              marginLeft: "15px",
-              display: "flex",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <Notifications sx={{ color: "#aca9a9", fontSize: "14px" }} />
-            <p
-              style={{
-                color: "#aca9a9",
-                marginTop: "6px",
-                marginBottom: "6px",
-                marginLeft: "10px",
-              }}
-            >
-              Notification
-            </p>
-            <div
-              className="close"
-              style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Close
-                className="icon-white-onhover"
-                sx={{ fontSize: "16px", color: "#aca9a9", marginRight: "30px" }}
-              />
+      <Box className="fullwidth pointer notification-mainbox">
+        <Box className="fullwidth notification-top">
+          <div className="ml15 flex align-center fullwidth">
+            <Notifications className="metahkg-grey-force notification-icon" />
+            <p className="metahkg-grey ml10 notification-title">Notification</p>
+            <div className="flex fullwidth justify-flex-end">
+              <Close className="icon-white-onhover metahkg-grey-force notification-close" />
             </div>
           </div>
         </Box>
-        <Box sx={{ width: "100%", borderRadius: "8px" }}>
-          <p
-            style={{
-              color: "white",
-              marginLeft: "15px",
-              marginRight: "15px",
-              marginTop: "15px",
-              marginBottom: "15px",
-              fontSize: "15px",
-              lineHeight: "18px",
-              maxHeight: "36px",
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-            }}
-          >
+        <Box className="fullwidth notification-bottom">
+          <p className="m15 text-overflow-ellipsis overflow-hidden notification-text">
             {notification.text}
           </p>
         </Box>
