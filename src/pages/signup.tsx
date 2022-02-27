@@ -92,7 +92,7 @@ export default function Register() {
         localStorage.user = user;
         localStorage.id = res.data.id;
         navigate(decodeURIComponent(String(query.returnto || "/")), {replace: true});
-        setNotification({open: true, text: `Signed in as ${res.data.user}.`})
+        setNotification({open: true, text: `Signed in as ${user}.`})
       })
       .catch((err) => {
         setAlert({
