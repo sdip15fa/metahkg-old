@@ -1,10 +1,20 @@
 .signup-root {
   min-height: 100vh;
 }
+.signup-main-box {
+  min-height: 50vh;
+}
+.signup-main-div {
+  margin: 50px;
+}
 .signup-title-text {
   font-size: 25px;
   color: white;
 }
 .signup-alert {
   margin-bottom: 30px;
+}
+.signup-submit-btn {
+  font-size: 16px;
+  height: 40px;
 }

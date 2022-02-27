@@ -1,5 +1,5 @@
 import "./css/signup.css";
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import hash from "hash.js";
 import * as EmailValidator from "email-validator";
@@ -28,28 +28,24 @@ declare const hcaptcha: { reset: (e: string) => void };
  * props.disabled: set the Select as disabled if true
  * props.changeHandler: callback to use when user changes selection
  */
-function Sex(props: {
-  changeHandler: (e: SelectChangeEvent<string>) => void;
+function SexSelect(props: {
+  sex: "M" | "F" | undefined;
+  setSex: React.Dispatch<React.SetStateAction<"M" | "F" | undefined>>;
   disabled: boolean;
 }) {
-  const [sex, setSex] = React.useState("");
-  const [menu, setMenu] = useMenu();
-  if (menu) {
-    setMenu(false);
-  }
-  const changeHandler = (e: SelectChangeEvent<string>) => {
-    props.changeHandler(e);
-    setSex(e.target.value);
+  const { sex, setSex, disabled } = props;
+  const onChange = (e: SelectChangeEvent<string>) => {
+    setSex(e.target.value ? "M" : "F");
   };
   return (
     <FormControl sx={{ minWidth: 200 }}>
       <InputLabel color="secondary">Sex</InputLabel>
       <Select
         color="secondary"
-        disabled={props.disabled}
+        disabled={disabled}
         value={sex}
         label="Sex"
-        onChange={changeHandler}
+        onChange={onChange}
       >
         <MenuItem value={1}>Male</MenuItem>
         <MenuItem value={0}>Female</MenuItem>
@@ -73,105 +69,77 @@ export default function Register() {
   document.title = "Register | Metahkg";
   const navigate = useNavigate();
   const [width] = useWidth();
-  const [state, setState] = React.useState<{
-    user: string;
-    email: string;
-    pwd: string;
-    sex: "M" | "F";
-    disabled: boolean;
-    waiting: boolean;
-    htoken: string;
-    code: string;
-    alert: { severity: severity; text: string };
-  }>({
-    user: "",
-    email: "",
-    pwd: "",
-    sex: "M",
-    disabled: false,
-    waiting: false,
-    htoken: "",
-    code: "",
-    alert: { severity: "info", text: "" },
+  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [sex, setSex] = useState<"M" | "F" | undefined>(undefined);
+  const [disabled, setDisabled] = useState(false);
+  const [waiting, setWaiting] = useState(false);
+  const [htoken, setHtoken] = useState("");
+  const [code, setCode] = useState("");
+  const [alert, setAlert] = useState<{ severity: severity; text: string }>({
+    severity: "info",
+    text: "",
   });
+  const [menu, setMenu] = useMenu();
+  menu && setMenu(false);
   const query = queryString.parse(window.location.search);
   function verify() {
-    setState({
-      ...state,
-      alert: { severity: "info", text: "Verifying..." },
-      disabled: true,
-    });
+    setAlert({ severity: "info", text: "Verifying..." });
+    setDisabled(true);
     axios
-      .post("/api/verify", { email: state.email, code: Number(state.code) })
+      .post("/api/verify", { email: email, code: Number(code) })
       .then((res) => {
-        localStorage.user = state.user;
+        localStorage.user = user;
         localStorage.id = res.data.id;
         navigate(decodeURIComponent(String(query.returnto || "/")));
       })
       .catch((err) => {
-        setState({
-          ...state,
-          alert: { severity: "error", text: err.response.data },
-          disabled: false,
-        });
+        setAlert({ severity: "error", text: err.response.data.error });
+        setDisabled(false);
       });
   }
   function register() {
-    setState({
-      ...state,
-      alert: { severity: "info", text: "Registering..." },
-      disabled: true,
-    });
-    if (!EmailValidator.validate(state.email)) {
-      setState({
-        ...state,
-        alert: { severity: "error", text: "Email invalid" },
-        disabled: false,
-      });
+    setAlert({ severity: "info", text: "Registering..." });
+    setDisabled(true);
+    if (!EmailValidator.validate(email)) {
+      setAlert({ severity: "error", text: "Email invalid" });
+      setDisabled(false);
       return;
     }
-    if (state.user.split(" ")[1] || state.user.length > 15) {
-      setState({
-        ...state,
-        alert: {
-          severity: "error",
-          text: "Username must be one word and less than 16 characters.",
-        },
-        disabled: false,
+    if (user.split(" ")[1] || user.length > 15) {
+      setAlert({
+        severity: "error",
+        text: "Username must be one word and less than 16 characters.",
       });
+      setDisabled(false);
       return;
     }
     axios
       .post("/api/register", {
-        email: state.email,
-        user: state.user,
-        pwd: hash.sha256().update(state.pwd).digest("hex"),
-        sex: state.sex,
-        htoken: state.htoken,
+        email: email,
+        user: user,
+        pwd: hash.sha256().update(pwd).digest("hex"),
+        sex: sex,
+        htoken: htoken,
       })
       .then(() => {
-        setState({
-          ...state,
-          waiting: true,
-          alert: {
-            severity: "success",
-            text: "Please enter the verification code sent to your email address.\nIt will expire in 5 minutes.",
-          },
-          disabled: false,
+        setWaiting(true);
+        setAlert({
+          severity: "success",
+          text: "Please enter the verification code sent to your email address.\nIt will expire in 5 minutes.",
         });
+        setDisabled(false);
       })
       .catch((err) => {
-        setState({
-          ...state,
-          alert: { severity: "error", text: err.response.data },
-          disabled: false,
-          htoken: "",
-        });
+        setAlert({ severity: "error", text: err.response.data.error });
+        setDisabled(false);
+        setHtoken("");
         hcaptcha.reset("");
       });
   }
   if (localStorage.user) {
-    navigate("/", {replace: true});
+    navigate("/", { replace: true });
     return <div />;
   }
   return (
@@ -182,125 +150,92 @@ export default function Register() {
       }}
     >
       <Box
+        className="signup-main-box"
         sx={{
-          minHeight: "50vh",
           width: width < 760 ? "100vw" : "50vw",
         }}
       >
-        <div style={{ margin: "50px" }}>
+        <div className="signup-main-div">
           <div className="flex justify-center align-center">
             <MetahkgLogo svg light height={50} width={40} className="mb10" />
             <h1 className="signup-title-text mb20">Register</h1>
           </div>
-          {state.alert.text && (
-            <Alert
-              className="signup-alert mt10"
-              severity={state.alert.severity}
-            >
-              {state.alert.text}
+          {alert.text && (
+            <Alert className="signup-alert mt10" severity={alert.severity}>
+              {alert.text}
             </Alert>
           )}
-          {["user", "email", "pwd"].map((item, index) => (
+          {[
+            { label: "Username", set: setUser, type: "text" },
+            { label: "Email", set: setEmail, type: "email" },
+            { label: "Password", set: setPwd, type: "password" },
+          ].map((item) => (
             <TextField
-              sx={{ marginBottom: "20px", input: { color: "white" } }}
+              className="mb20"
+              sx={{ input: { color: "white" } }}
               color="secondary"
-              disabled={state.waiting}
+              disabled={waiting}
               variant="filled"
-              type={item === "pwd" ? "password" : "text"}
+              type={item.type}
               onChange={(e) => {
-                setState({ ...state, [item]: e.target.value });
+                item.set(e.target.value);
               }}
-              label={["Username", "Email", "Password"][index]}
+              label={item.label}
               required
               fullWidth
             />
           ))}
-          <div
-            style={width < 760 ? {} : { display: "flex", flexDirection: "row" }}
-          >
-            <Sex
-              disabled={state.waiting}
-              changeHandler={(e) => {
-                setState({ ...state, sex: e.target.value ? "M" : "F" });
-              }}
-            />
+          <div className={width < 760 ? "" : "flex"}>
+            <SexSelect disabled={waiting} sex={sex} setSex={setSex} />
             {width < 760 ? <br /> : <div />}
             <div
-              style={{
-                display: "flex",
-                justifyContent: width < 760 ? "left" : "flex-end",
-                width: "100%",
-              }}
+              className={`flex fullwidth justify-${
+                width < 760 ? "left" : "flex-end"
+              }`}
             >
-              {!state.waiting ? (
-                <div />
-              ) : (
+              {waiting && (
                 <TextField
                   color="secondary"
-                  sx={{
-                    marginTop: width < 760 ? "20px" : "0px",
-                  }}
+                  className={width < 760 ? "mt20" : ""}
                   variant="filled"
                   label="verification code"
                   onChange={(e) => {
-                    setState({ ...state, code: e.target.value });
+                    setCode(e.target.value);
                   }}
                 />
               )}
             </div>
           </div>
           <br />
-          <div
-            style={
-              width < 760
-                ? {}
-                : { display: "flex", flexDirection: "row", width: "100%" }
-            }
-          >
-            <div
-              style={{ display: "flex", justifyContent: "left", width: "100%" }}
-            >
+          <div className={width < 760 ? "" : "flex fullwidth"}>
+            <div className="flex justify-left fullwidth">
               <HCaptcha
                 theme="dark"
                 sitekey="adbdce6c-dde2-46e1-b881-356447110fa7"
                 onVerify={(token) => {
-                  setState({ ...state, htoken: token });
+                  setHtoken(token);
                 }}
               />
             </div>
             <div
-              style={{
-                display: "flex",
-                justifyContent: width < 760 ? "left" : "flex-end",
-                alignItems: "center",
-                width: "100%",
-                marginTop: width < 760 ? "20px" : "0px",
-              }}
+              className={`flex justify-${
+                width < 760 ? "left" : "flex-end"
+              } align-center fullwidth ${width < 760 ? "mt20" : ""}`}
             >
               <Button
                 disabled={
-                  state.disabled ||
-                  (state.waiting
-                    ? !(
-                        state.code &&
-                        isInteger(state.code) &&
-                        state.code.length === 6
-                      )
-                    : !(
-                        state.htoken &&
-                        state.user &&
-                        state.email &&
-                        state.pwd &&
-                        state.sex
-                      ))
+                  disabled ||
+                  (waiting
+                    ? !(code && isInteger(code) && code.length === 6)
+                    : !(htoken && user && email && pwd && sex))
                 }
                 type="submit"
-                sx={{ fontSize: "16px", height: "40px" }}
+                className="signup-submit-btn"
                 color="secondary"
                 variant="contained"
-                onClick={state.waiting ? verify : register}
+                onClick={waiting ? verify : register}
               >
-                {state.waiting ? "Verify" : "Register"}
+                {waiting ? "Verify" : "Register"}
               </Button>
             </div>
           </div>

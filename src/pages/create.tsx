@@ -111,7 +111,7 @@ export default function Create() {
       .catch((err) => {
         setState({
           ...state,
-          alert: { severity: "error", text: err.response.data },
+          alert: { severity: "error", text: err.response.data.error },
           disabled: false,
         });
         hcaptcha.reset("");

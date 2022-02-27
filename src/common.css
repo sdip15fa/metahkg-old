@@ -77,6 +77,12 @@
 .justify-center {
   justify-content: center;
 }
+.justify-left {
+  justify-content: left;
+}
+.justify-flex-end {
+  justify-content: flex-end;
+}
 .align-center {
   align-items: center;
 }
@@ -103,4 +109,7 @@
 }
 .overflow-hidden {
   overflow: hidden;
+}
+.min-height-fullvh {
+  min-height: 100vh;
 }

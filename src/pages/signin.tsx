@@ -1,5 +1,5 @@
 import "./css/signin.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import hash from "hash.js";
@@ -23,37 +23,27 @@ export default function Signin() {
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
   menu && setMenu(false);
-  const [state, setState] = React.useState<{
-    user: string;
-    pwd: string;
-    disabled: boolean;
-    alert: { severity: severity; text: string };
-  }>({
-    user: "",
-    pwd: "",
-    disabled: false,
-    alert: { severity: "info", text: "" },
+  const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [disabled, setDisabled] = useState(false);
+  const [alert, setAlert] = useState<{ severity: severity; text: string }>({
+    severity: "info",
+    text: "",
   });
   const query = queryString.parse(window.location.search);
   useEffect(() => {
     if (query.continue) {
-      setState({
-        ...state,
-        alert: { severity: "info", text: "Sign in to continue." },
-      });
+      setAlert({ severity: "info", text: "Sign in to continue." });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   function signin() {
-    setState({
-      ...state,
-      alert: { severity: "info", text: "Signing in..." },
-      disabled: true,
-    });
+    setAlert({ severity: "info", text: "Signing in..." });
+    setDisabled(true);
     axios
       .post("/api/signin", {
-        user: state.user,
-        pwd: hash.sha256().update(state.pwd).digest("hex"),
+        user: user,
+        pwd: hash.sha256().update(pwd).digest("hex"),
       })
       .then((res) => {
         localStorage.user = res.data.user;
@@ -61,54 +51,35 @@ export default function Signin() {
         navigate(decodeURIComponent(String(query.returnto || "/")));
       })
       .catch((err) => {
-        setState({
-          ...state,
-          alert: { severity: "error", text: err.response.data },
-          disabled: false,
-        });
+        setAlert({ severity: "error", text: err.response.data.error });
+        setDisabled(false);
       });
   }
   if (localStorage.user) {
-    navigate("/", {replace: true});
+    navigate("/", { replace: true });
     return <div />;
   }
   return (
     <Box
+      className="flex align-center justify-center fullwidth min-height-fullvh"
       sx={{
         backgroundColor: "primary.dark",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
       }}
     >
       <Box
+        className="signin-main-box"
         sx={{
-          minHeight: "50vh",
           width: width < 760 ? "100vw" : "50vw",
         }}
       >
-        <div style={{ marginLeft: "50px", marginRight: "50px" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              width: "100%",
-            }}
-          >
+        <div className="signin-main-div">
+          <div className="flex fullwidth justify-flex-end">
             <Link
-              style={{ textDecoration: "none", textAlign: "end" }}
+              className="notextdecoration"
               to={`/register${window.location.search}`}
             >
               <Button
-                sx={{
-                  fontSize: "18px",
-                  textTransform: "none",
-                  display: "flex",
-                  justifyContent: "end",
-                  width: "100%",
-                }}
+                className="flex notexttransform signin-toregister-btn"
                 color="secondary"
                 variant="text"
               >
@@ -120,44 +91,44 @@ export default function Signin() {
             <MetahkgLogo height={50} width={40} svg light className="mb10" />
             <h1 className="signin-title-text mb20">Sign in</h1>
           </div>
-          {!state.alert.text ? (
+          {!alert.text ? (
             <div />
           ) : (
             <Alert
-              sx={{ marginTop: "10px", marginBottom: "20px" }}
-              severity={state.alert.severity}
+              className="mb20 mt10"
+              severity={alert.severity}
             >
-              {state.alert.text}
+              {alert.text}
             </Alert>
           )}
           <TextField
-            sx={{ marginBottom: "20px" }}
+            className="mb20"
             color="secondary"
             type="text"
             label="Username / Email"
             variant="filled"
             onChange={(e) => {
-              setState({ ...state, user: e.target.value });
+              setUser(e.target.value);
             }}
             required
             fullWidth
           />
           <TextField
-            sx={{ marginBottom: "20px" }}
+            className="mb20"
             color="secondary"
             type="password"
             label="Password"
             variant="filled"
             onChange={(e) => {
-              setState({ ...state, pwd: e.target.value });
+              setPwd(e.target.value);
             }}
             required
             fullWidth
           />
           <br />
           <Button
-            disabled={state.disabled || !(state.user && state.pwd)}
-            sx={{ fontSize: "16px", height: "40px", marginTop: "10px" }}
+            disabled={disabled || !(user && pwd)}
+            className="mt10 signin-signin-btn"
             color="secondary"
             variant="contained"
             onClick={signin}
