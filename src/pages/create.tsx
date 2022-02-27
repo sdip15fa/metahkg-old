@@ -14,7 +14,7 @@ import {
 import TextEditor from "../components/texteditor";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import {
   useCat,
   useData,
@@ -23,7 +23,7 @@ import {
   useSearch,
 } from "../components/MenuProvider";
 import { useNotification, useWidth } from "../components/ContextProvider";
-import { categories, severity } from "../lib/common";
+import { categories, severity, wholepath } from "../lib/common";
 import MetahkgLogo from "../components/logo";
 declare const hcaptcha: { reset: (e: string) => void }; //the hcaptcha object, defined to use hcaptcha.reload("")
 /*
@@ -66,7 +66,6 @@ function ChooseCat(props: {
  * The user must be signed in, otherwise he would be redirected to /signin
  */
 export default function Create() {
-  document.title = "Create topic | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
   const [width] = useWidth();
@@ -76,7 +75,6 @@ export default function Create() {
   const [data, setData] = useData();
   const [, setNotification] = useNotification();
   const [catchoosed, setCatchoosed] = useState<number>(cat || 0);
-  menu && setMenu(false);
   const [htoken, setHtoken] = useState(""); //hcaptcha token
   const [title, setTitle] = useState(""); //this will be the post title
   const [icomment, setIcomment] = useState(""); //initial comment (#1)
@@ -116,15 +114,17 @@ export default function Create() {
         hcaptcha.reset("");
       });
   }
+  document.title = "Create topic | Metahkg";
+  menu && setMenu(false);
   if (!localStorage.user) {
-    navigate(
-      `/signin?continue=true&returnto=${encodeURIComponent(
-        window.location.href.replace(window.location.origin, "")
-      )}`,
-      { replace: true }
+    return (
+      <Navigate
+        to={`/signin?continue=true&returnto=${encodeURIComponent(wholepath())}`}
+        replace
+      />
     );
-    return <div />;
   }
+  const small = width * 0.8 - 40 <= 450;
   return (
     <Box
       className="flex fullwidth min-height-fullvh justify-center"
@@ -132,7 +132,7 @@ export default function Create() {
         backgroundColor: "primary.dark",
       }}
     >
-      <div style={{ width: width < 760 ? "100vw" : "80vw" }}>
+      <div style={{ width: small ? "100vw" : "80vw" }}>
         <div className="m20">
           <div className="flex align-center">
             <MetahkgLogo
@@ -170,7 +170,7 @@ export default function Create() {
           </div>
           <div
             className={`mt20 ${
-              width < 760 ? "" : "flex fullwidth justify-space-between"
+              small ? "" : "flex fullwidth justify-space-between"
             }`}
           >
             <HCaptcha

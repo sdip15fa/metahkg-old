@@ -188,7 +188,7 @@ function Conversation(props: { id: number }) {
           className="overflow-auto conversation-paper"
           onScroll={onScroll}
         >
-          <Box className="fullwidth" sx={{ backgroundColor: "primary.dark"}}>
+          <Box className="fullwidth" sx={{ backgroundColor: "primary.dark" }}>
             {ready &&
               [...Array(pages)].map((p, index) => (
                 <Box>

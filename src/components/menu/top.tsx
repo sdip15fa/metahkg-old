@@ -1,4 +1,5 @@
-import React from "react";
+import "./css/top.css";
+import React, { useEffect } from "react";
 import {
   Add as AddIcon,
   Autorenew as AutorenewIcon,
@@ -41,96 +42,67 @@ export default function MenuTop(props: {
     profile: ["Created", "Last Comment"],
     menu: ["Newest", "Hottest"],
   }[search ? "search" : profile ? "profile" : "menu"];
-
-  !search &&
-    !title &&
-    (category || profile || id) &&
-    (async () => {
+  useEffect(() => {
+    if (!search && !title && (category || profile || id)) {
       if (profile) {
-        await axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
+        axios.get(`/api/profile/${profile}?nameonly=true`).then((res) => {
           setTitle(res.data.user);
           document.title = `${res.data.user} | Metahkg`;
         });
-        return;
+      } else {
+        axios.get(`/api/category/${category || `bytid${id}`}`).then((res) => {
+          setTitle(res.data.name);
+          if (!id) {
+            document.title = `${res.data.name} | Metahkg`;
+          }
+        });
       }
-      axios.get(`/api/category/${category || `bytid${id}`}`).then((res) => {
-        setTitle(res.data.name);
-        if (!id) {
-          document.title = `${res.data.name} | Metahkg`;
-        }
-      });
-    })();
+    }
+  }, [category, id, profile, search, setTitle, title]);
   return (
     <div>
       <Box
-        sx={{ backgroundColor: "primary.main", width: "100%", height: "90px" }}
+        className="fullwidth menutop-root"
+        sx={{ backgroundColor: "primary.main" }}
       >
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            height: "50px",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ paddingLeft: "10px", marginRight: "40px" }}>
+        <div className="flex fullwidth align-center justify-space-between menutop-top">
+          <div className="ml10 menutop-sidebar-btn">
             <SideBar />
           </div>
-          <p
-            style={{
-              color: "#F5BD1F",
-              fontSize: "18px",
-              marginTop: "0px",
-              marginBottom: "0px",
-              userSelect: "none",
-            }}
-          >
-            {title || inittitle}
-          </p>
-          <div style={{ display: "flex" }}>
+          <p className="novmargin menutop-title">{title || inittitle}</p>
+          <div className="flex">
             <Tooltip title="Refresh" arrow>
               <IconButton onClick={props.refresh}>
-                <AutorenewIcon sx={{ color: "white" }} />
+                <AutorenewIcon className="force-white" />
               </IconButton>
             </Tooltip>
             <Tooltip title="Create topic" arrow>
-              <Link style={{ display: "flex" }} to="/create">
-                <IconButton sx={{ marginRight: "10px" }}>
-                  <AddIcon sx={{ color: "white" }} />
+              <Link className="flex" to="/create">
+                <IconButton className="mr10">
+                  <AddIcon className="force-white" />
                 </IconButton>
               </Link>
             </Tooltip>
           </div>
         </div>
-        <div
-          style={{
-            fontSize: "20px",
-            display: "flex",
-            width: "100%",
-            alignItems: "flex-end",
-            height: "40px",
-          }}
-        >
+        <div className="flex fullwidth align-flex-end menutop-bottom">
           {tabs.map((tab, index) => (
             <Box
               onClick={() => {
                 props.onClick(index);
               }}
+              className={`pointer fullwidth mr10 flex justify-center align-center fullheight${
+                !index ? " ml10" : ""
+              }`}
               sx={{
-                cursor: "pointer",
-                marginLeft: index === 0 ? "10px" : "0px",
                 borderBottom:
                   props.selected === index ? "2px solid rgb(245, 189, 31)" : "",
-                width: "100%",
-                marginRight: "10px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
               }}
             >
-              <Typography sx={{ color: "secondary.main", fontSize: "15px" }}>
+              <Typography
+                className="menutop-tabtext"
+                sx={{ color: "secondary.main" }}
+              >
                 {tab}
               </Typography>
             </Box>

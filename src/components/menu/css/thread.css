@@ -7,7 +7,8 @@
 .menuthread-icons {
   color: #aca9a9;
 }
-.menuthread-op, .menuthread-title {
+.menuthread-op,
+.menuthread-title {
   font-size: 16px;
 }
 .menuthread-root {
@@ -33,9 +34,12 @@
   padding-right: 30px;
   text-align: left;
 }
+.menuthread-catbtn:hover {
+  background-color: #444 !important;
+}
 .menuthread-catbtn {
   border-radius: 15px !important;
-  background-color: #333;
+  background-color: #333 !important;
 }
 .menuthread-catname {
   font-size: 12px;

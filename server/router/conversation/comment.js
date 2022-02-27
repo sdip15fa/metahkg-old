@@ -15,7 +15,7 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
   if (
     !req.body.id ||
     !req.body.comment ||
-    Object.keys(req.body).length > 2 ||
+    Object.keys(req.body)?.length > 2 ||
     !(typeof req.body.id === "number" && typeof req.body.comment === "string")
   ) {
     res.status(400);

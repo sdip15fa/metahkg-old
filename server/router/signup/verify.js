@@ -21,8 +21,8 @@ router.post("/api/verify", body_parser.json(), async (req, res) => {
     !(
       typeof req.body.email === "string" && typeof req.body.code === "number"
     ) ||
-    Object.keys(req.body).length > 2 ||
-    req.body.code.toString().length !== 6
+    Object.keys(req.body)?.length > 2 ||
+    req.body.code?.toString().length !== 6
   ) {
     res.status(400);
     res.send({ error: "Bad request." });

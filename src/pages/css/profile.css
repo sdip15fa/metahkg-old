@@ -1,11 +1,4 @@
 .profile-root,
-.profile-top,
-.profile-mainbox,
-.profile-toptextdiv,
-.profile-tablebox {
-  display: flex;
-}
-.profile-root,
 .profile-mainbox {
   min-height: 100vh;
 }
@@ -13,9 +6,6 @@
 .profile-top {
   justify-content: center;
   align-items: center;
-}
-.profile-root {
-  flex-direction: row;
 }
 .profile-paper {
   max-height: 100vh;

@@ -17,10 +17,10 @@ import {
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import isInteger from "is-sn-integer";
 import queryString from "query-string";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { useMenu } from "../components/MenuProvider";
-import { useWidth } from "../components/ContextProvider";
-import { severity } from "../lib/common";
+import { useNotification, useWidth } from "../components/ContextProvider";
+import { checkpwd, severity } from "../lib/common";
 import MetahkgLogo from "../components/logo";
 declare const hcaptcha: { reset: (e: string) => void };
 /*
@@ -69,6 +69,7 @@ export default function Register() {
   document.title = "Register | Metahkg";
   const navigate = useNavigate();
   const [width] = useWidth();
+  const [, setNotification] = useNotification();
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
@@ -82,8 +83,6 @@ export default function Register() {
     text: "",
   });
   const [menu, setMenu] = useMenu();
-  menu && setMenu(false);
-  const query = queryString.parse(window.location.search);
   function verify() {
     setAlert({ severity: "info", text: "Verifying..." });
     setDisabled(true);
@@ -92,28 +91,47 @@ export default function Register() {
       .then((res) => {
         localStorage.user = user;
         localStorage.id = res.data.id;
-        navigate(decodeURIComponent(String(query.returnto || "/")));
+        navigate(decodeURIComponent(String(query.returnto || "/")), {replace: true});
+        setNotification({open: true, text: `Signed in as ${res.data.user}.`})
       })
       .catch((err) => {
-        setAlert({ severity: "error", text: err?.response?.data?.error || err?.response?.data || "" });
+        setAlert({
+          severity: "error",
+          text: err?.response?.data?.error || err?.response?.data || "",
+        });
+        setNotification({
+          open: true,
+          text: err?.response?.data?.error || err?.response?.data || "",
+        });
         setDisabled(false);
       });
   }
   function register() {
     setAlert({ severity: "info", text: "Registering..." });
     setDisabled(true);
-    if (!EmailValidator.validate(email)) {
-      setAlert({ severity: "error", text: "Email invalid" });
-      setDisabled(false);
-      return;
-    }
-    if (user.split(" ")[1] || user.length > 15) {
-      setAlert({
-        severity: "error",
-        text: "Username must be one word and less than 16 characters.",
-      });
-      setDisabled(false);
-      return;
+    const errors = [
+      { cond: !EmailValidator.validate(email), alert: "Email invalid." },
+      {
+        cond: user.split(" ")[1] || user.length > 15,
+        alert: "Username must be one word and less than 16 characters.",
+      },
+      {
+        cond: EmailValidator.validate(user),
+        alert: "Username must not be a email.",
+      },
+      {
+        cond: !checkpwd(pwd),
+        alert:
+          "Password must contain 8 characters, an uppercase, a lowercase, and a number.",
+      },
+    ];
+    for (const error of errors) {
+      if (error.cond) {
+        setAlert({ severity: "error", text: error.alert });
+        setNotification({ open: true, text: error.alert });
+        setDisabled(false);
+        return;
+      }
     }
     axios
       .post("/api/register", {
@@ -129,19 +147,32 @@ export default function Register() {
           severity: "success",
           text: "Please enter the verification code sent to your email address.\nIt will expire in 5 minutes.",
         });
+        setNotification({
+          open: true,
+          text: "Please enter the verification code sent to your email address.",
+        });
         setDisabled(false);
       })
       .catch((err) => {
-        setAlert({ severity: "error", text: err?.response?.data?.error || err?.response?.data || "" });
+        setAlert({
+          severity: "error",
+          text: err?.response?.data?.error || err?.response?.data || "",
+        });
+        setNotification({
+          open: true,
+          text: err?.response?.data?.error || err?.response?.data || "",
+        });
         setDisabled(false);
         setHtoken("");
         hcaptcha.reset("");
       });
   }
   if (localStorage.user) {
-    navigate("/", { replace: true });
-    return <div />;
+    return <Navigate to="/" replace/>;
   }
+  menu && setMenu(false);
+  const query = queryString.parse(window.location.search);
+  const small = width / 2 - 100 <= 450;
   return (
     <Box
       className="signup-root flex fullwidth fullheight justify-center align-center"
@@ -152,7 +183,7 @@ export default function Register() {
       <Box
         className="signup-main-box"
         sx={{
-          width: width < 760 ? "100vw" : "50vw",
+          width: small ? "100vw" : "50vw",
         }}
       >
         <div className="signup-main-div">
@@ -185,18 +216,18 @@ export default function Register() {
               fullWidth
             />
           ))}
-          <div className={width < 760 ? "" : "flex"}>
+          <div className={small ? "" : "flex"}>
             <SexSelect disabled={waiting} sex={sex} setSex={setSex} />
-            {width < 760 ? <br /> : <div />}
+            {small ? <br /> : <div />}
             <div
               className={`flex fullwidth justify-${
-                width < 760 ? "left" : "flex-end"
+                small ? "left" : "flex-end"
               }`}
             >
               {waiting && (
                 <TextField
                   color="secondary"
-                  className={width < 760 ? "mt20" : ""}
+                  className={small ? "mt20" : ""}
                   variant="filled"
                   label="verification code"
                   onChange={(e) => {
@@ -207,7 +238,7 @@ export default function Register() {
             </div>
           </div>
           <br />
-          <div className={width < 760 ? "" : "flex fullwidth"}>
+          <div className={small ? "" : "flex fullwidth"}>
             <div className="flex justify-left fullwidth">
               <HCaptcha
                 theme="dark"
@@ -219,8 +250,8 @@ export default function Register() {
             </div>
             <div
               className={`flex justify-${
-                width < 760 ? "left" : "flex-end"
-              } align-center fullwidth ${width < 760 ? "mt20" : ""}`}
+                small ? "left" : "flex-end"
+              } align-center fullwidth ${small ? "mt20" : ""}`}
             >
               <Button
                 disabled={

@@ -11,9 +11,9 @@ router.get("/api/category/:id", body_parser.json(), async (req, res) => {
   if (
     (req.params.id !== "all" &&
       !isInteger(req.params.id) &&
-      !req.params.id.startsWith("bytid")) ||
-    (req.params.id.startsWith("bytid") &&
-      !isInteger(req.params.id.replace("bytid", "")))
+      !req.params.id?.startsWith("bytid")) ||
+    (req.params.id?.startsWith("bytid") &&
+      !isInteger(req.params.id?.replace("bytid", "")))
   ) {
     res.status(400);
     res.send({ error: "Bad request." });
@@ -32,10 +32,10 @@ router.get("/api/category/:id", body_parser.json(), async (req, res) => {
       res.send(o);
       return;
     }
-    if (req.params.id.startsWith("bytid")) {
+    if (req.params.id?.startsWith("bytid")) {
       const summary = client.db("metahkg-threads").collection("summary");
       const s = await summary.findOne({
-        id: Number(req.params.id.replace("bytid", "")),
+        id: Number(req.params.id?.replace("bytid", "")),
       });
       const c = await categories.findOne({ id: s?.category });
       if (!c) {

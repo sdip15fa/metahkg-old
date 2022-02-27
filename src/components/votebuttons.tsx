@@ -35,7 +35,10 @@ export default function VoteButtons(props: {
       .catch((err) => {
         v === "U" ? setUp(up) : setDown(down);
         setVote(undefined);
-        setNotification({ open: true, text: err?.response?.data?.error || err?.response?.data || "" });
+        setNotification({
+          open: true,
+          text: err?.response?.data?.error || err?.response?.data || "",
+        });
       });
   };
   return (

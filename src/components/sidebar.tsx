@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import SearchBar from "./searchbar";
 import { useQuery } from "./ContextProvider";
-import { categories } from "../lib/common";
+import { categories, wholepath } from "../lib/common";
 import { useCat, useData, useProfile, useSearch } from "./MenuProvider";
 import MetahkgLogo from "./logo";
 /*
@@ -52,19 +52,12 @@ export default function SideBar() {
   function onClick() {
     setOpen(false);
   }
-  const links = [
-    "https://t.me/+WbB7PyRovUY1ZDFl",
-    "https://gitlab.com/metahkg/metahkg",
-  ];
   const [data, setData] = useData();
   let tempq = decodeURIComponent(query || "");
   return (
     <div>
       <div>
-        <IconButton
-          className="sidebar-menu-btn"
-          onClick={toggleDrawer(true)}
-        >
+        <IconButton className="sidebar-menu-btn" onClick={toggleDrawer(true)}>
           <MenuIcon className="force-white" />
         </IconButton>
       </div>
@@ -79,7 +72,7 @@ export default function SideBar() {
           },
         }}
       >
-        <Box className="sidebar-box" role="presentation">
+        <Box className="sidebar-box max-width-full" role="presentation">
           <div className="fullwidth">
             <List className="fullwidth">
               <Link to="/" className="notextdecoration white">
@@ -112,9 +105,7 @@ export default function SideBar() {
               className="notextdecoration white"
               to={`/${
                 localStorage.user ? "logout" : "signin"
-              }?returnto=${encodeURIComponent(
-                window.location.href.replace(window.location.origin, "")
-              )}`}
+              }?returnto=${encodeURIComponent(wholepath())}`}
             >
               <ListItem button onClick={onClick}>
                 <ListItemIcon>
@@ -155,14 +146,20 @@ export default function SideBar() {
           <Divider />
           <List>
             {[
-              { icon: <TelegramIcon />, title: "Telegram group" },
-              { icon: <CodeIcon />, title: "Source code" },
+              {
+                icon: <TelegramIcon />,
+                title: "Telegram group",
+                link: "https://t.me/+WbB7PyRovUY1ZDFl",
+              },
+              {
+                icon: <CodeIcon />,
+                title: "Source code",
+                link: "https://gitlab.com/metahkg/metahkg",
+              },
             ].map((item, index) => (
-              <a className="notextdecoration white" href={links[index]}>
+              <a className="notextdecoration white" href={item.link}>
                 <ListItem button key={index} onClick={onClick}>
-                  <ListItemIcon>
-                    {item.icon}
-                  </ListItemIcon>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.title} />
                 </ListItem>
               </a>
@@ -185,7 +182,7 @@ export default function SideBar() {
             </div>
           )}
           <p className="ml5">
-            Metahkg build {process.env.REACT_APP_build || "v0.5.3rc3"}
+            Metahkg build {process.env.REACT_APP_build || "v0.5.3rc4"}
           </p>
         </Box>
       </Drawer>

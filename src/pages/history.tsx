@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 import {
   useCat,
   useId,
@@ -15,7 +15,6 @@ import { useHistory, useWidth } from "../components/ContextProvider";
  * Does its work only if width < 760
  */
 export default function History() {
-  const navigate = useNavigate();
   const params = useParams();
   const [profile, setProfile] = useProfile();
   const [search, setSearch] = useSearch();
@@ -26,17 +25,15 @@ export default function History() {
   const [id, setId] = useId();
   const [cat, setCat] = useCat();
   if (!(width < 760)) {
-    navigate(`/profile/${params.id}`);
-  } else {
-    !menu && setMenu(true);
-    history !== window.location.pathname &&
-      setHistory(window.location.pathname);
-    (profile !== Number(params.id) || "self") &&
-      setProfile(Number(params.id) || "self");
-    search && setSearch(false);
-    selected && setSelected(0);
-    id && setId(0);
-    cat && setCat(0);
+    return <Navigate to={`/profile/${params.id}`} replace />;
   }
+  !menu && setMenu(true);
+  history !== window.location.pathname && setHistory(window.location.pathname);
+  (profile !== Number(params.id) || "self") &&
+    setProfile(Number(params.id) || "self");
+  search && setSearch(false);
+  selected && setSelected(0);
+  id && setId(0);
+  cat && setCat(0);
   return <div />;
 }

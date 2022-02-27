@@ -8,6 +8,7 @@ import { timetoword } from "../lib/common";
 import VoteButtons from "./votebuttons";
 import { PopUp } from "../lib/popup";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 /*
  * Comment component renders a comment
  * which includes a title (Tag)
@@ -34,6 +35,7 @@ function Comment(props: {
    */
   function Tag(tprops: { children: string | JSX.Element | JSX.Element[] }) {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     return (
       <div
         style={{
@@ -108,7 +110,7 @@ function Comment(props: {
             sx={{ marginLeft: "10px", padding: 0 }}
             onClick={() => {
               localStorage.reply = props.children;
-              window.location.href = `/comment/${props.tid}`;
+              navigate(`/comment/${props.tid}`);
             }}
           >
             <ReplyIcon sx={{ fontSize: "19px", color: "#aca9a9" }} />

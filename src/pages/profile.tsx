@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import {
   useData,
   useId,
@@ -27,7 +27,11 @@ import {
 import UploadAvatar from "../components/uploadavatar";
 import { timetoword_long } from "../lib/common";
 import { Link } from "react-router-dom";
-import { useHistory, useNotification, useWidth } from "../components/ContextProvider";
+import {
+  useHistory,
+  useNotification,
+  useWidth,
+} from "../components/ContextProvider";
 /*
  * ProfileMenu returns posts that a user has posted
  * Renders a Menu without any threads if the user has posted nothing
@@ -76,23 +80,30 @@ export default function Profile() {
   const [cat, setCat] = useCat();
   const [selected, setSelected] = useSelected();
   const [history, setHistory] = useHistory();
-  const [,setNotification] = useNotification();
+  const [, setNotification] = useNotification();
   const navigate = useNavigate();
   useEffect(() => {
-    axios.get(`/api/profile/${Number(params.id) || "self"}`).then((res) => {
-      setUser(res.data);
-      document.title = `${res.data.user} | Metahkg`;
-    }).catch((err: AxiosError) => {
-      setNotification({open: true, text: err?.response?.data?.error});
-      err?.response?.status === 404 && navigate("/404", {replace: true});
-    });
-  }, [navigate, params.id, setNotification])
+    if (!(params.id === "self" && !localStorage.user)) {
+      axios
+        .get(`/api/profile/${Number(params.id) || "self"}`)
+        .then((res) => {
+          setUser(res.data);
+          document.title = `${res.data.user} | Metahkg`;
+        })
+        .catch((err: AxiosError) => {
+          setNotification({ open: true, text: err?.response?.data?.error });
+          err?.response?.status === 404 && navigate("/404", { replace: true });
+        });
+    }
+  }, [navigate, params.id, setNotification]);
   function cleardata() {
     setData([]);
     setTitle("");
     selected && setSelected(0);
   }
-  params?.id === "self" && !localStorage.user && navigate("/", {replace: true});
+  if (params?.id === "self" && !localStorage.user) {
+    return <Navigate to="/" replace />;
+  }
   history !== window.location.pathname && setHistory(window.location.pathname);
   !menu && !(width < 760) && setMenu(true);
   menu && width < 760 && setMenu(false);
@@ -108,7 +119,7 @@ export default function Profile() {
   cat && setCat(0);
   return (
     <Box
-      className="profile-root"
+      className="profile-root flex"
       sx={{
         backgroundColor: "primary.dark",
       }}
@@ -118,9 +129,9 @@ export default function Profile() {
       ) : (
         user?.[0] !== null && (
           <Paper className="profile-paper">
-            <Box className="profile-mainbox">
+            <Box className="profile-mainbox flex">
               <Box
-                className="profile-top"
+                className="profile-top flex"
                 sx={{
                   width: width < 760 ? "100vw" : "70vw",
                 }}
@@ -136,7 +147,7 @@ export default function Profile() {
                 />
                 <br />
                 <div
-                  className="profile-toptextdiv ml20"
+                  className="profile-toptextdiv ml20 flex"
                   style={{
                     flexDirection: params.id === "self" ? "column" : "row",
                   }}
@@ -172,7 +183,7 @@ export default function Profile() {
                   </div>
                 </div>
               </Box>
-              <Box className="profile-tablebox mt20 mb10 fullwidth">
+              <Box className="profile-tablebox flex mt20 mb10 fullwidth font">
                 <DataTable user={user} />
               </Box>
               {width < 760 && (

@@ -1,9 +1,10 @@
 import React from "react";
 import { Alert, Box } from "@mui/material";
 import axios from "axios";
-import { useMenu } from "./MenuProvider";
+import { useMenu } from "../components/MenuProvider";
 import queryString from "query-string";
 import { useNavigate } from "react-router";
+import { useNotification } from "../components/ContextProvider";
 async function logout() {
   await axios.get("/api/logout");
   localStorage.clear();
@@ -15,13 +16,13 @@ async function logout() {
  */
 export default function Logout() {
   const [menu, setMenu] = useMenu();
+  const [, setNotification] = useNotification();
   const navigate = useNavigate();
   const query = queryString.parse(window.location.search);
-  if (menu) {
-    setMenu(false);
-  }
+  menu && setMenu(false);
   logout().then(() => {
-    navigate(decodeURIComponent(String(query.returnto || "/")));
+    navigate(decodeURIComponent(String(query.returnto || "/")), {replace: true});
+    setNotification({open: true, text: "Logged out."});
   });
   return (
     <Box

@@ -2,12 +2,12 @@ import "./css/addcomment.css";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Box, Button } from "@mui/material";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useNotification, useWidth } from "../components/ContextProvider";
 import { useMenu } from "../components/MenuProvider";
 import TextEditor from "../components/texteditor";
-import { roundup, severity } from "../lib/common";
+import { roundup, severity, wholepath } from "../lib/common";
 import MetahkgLogo from "../components/logo";
 /*
  * AddComment component for /comment/:id adds a comment
@@ -30,38 +30,33 @@ export default function AddComment() {
   const [, setNotification] = useNotification();
   const inittext = useRef("");
   const params = useParams();
-  const id = Number(params.id);
-  menu && setMenu(false);
-  document.title = "Comment | Metahkg";
-  if (localStorage.reply && localStorage.user) {
-    inittext.current = `<blockquote style="color: #aca9a9; border-left: 2px solid #aca9a9; margin-left: 0"><div style="margin-left: 15px">${localStorage.reply}</div></blockquote><p></p>`;
-    localStorage.removeItem("reply");
-  }
   useEffect(() => {
-    axios.post("/api/check", { id: id }).catch((err) => {
-      if (err.response.status === 404) {
-        setAlert({
-          severity: "warning",
-          text: "Thread not found. Redirecting you to the homepage in 5 seconds.",
-        });
-        setNotification({
-          open: true,
-          text: "Thread not found. Redirecting you to the homepage in 5 seconds.",
-        });
-        setTimeout(() => {
-          navigate("/", { replace: true });
-        }, 5000);
-      } else {
-        setAlert({
-          severity: "error",
-          text: err?.response?.data?.error || err?.response?.data || "",
-        });
-        setNotification({
-          open: true,
-          text: err?.response?.data?.error || err?.response?.data || "",
-        });
-      }
-    });
+    if (localStorage.user) {
+      axios.post("/api/check", { id: id }).catch((err) => {
+        if (err.response.status === 404) {
+          setAlert({
+            severity: "warning",
+            text: "Thread not found. Redirecting you to the homepage in 5 seconds.",
+          });
+          setNotification({
+            open: true,
+            text: "Thread not found. Redirecting you to the homepage in 5 seconds.",
+          });
+          setTimeout(() => {
+            navigate("/", { replace: true });
+          }, 5000);
+        } else {
+          setAlert({
+            severity: "error",
+            text: err?.response?.data?.error || err?.response?.data || "",
+          });
+          setNotification({
+            open: true,
+            text: err?.response?.data?.error || err?.response?.data || "",
+          });
+        }
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   function addcomment() {
@@ -86,13 +81,14 @@ export default function AddComment() {
       });
   }
   if (!localStorage.user) {
-    navigate(
-      `/signin?continue=true&returnto=${encodeURIComponent(
-        window.location.href.replace(window.location.origin, "")
-      )}`,
-      { replace: true }
-    );
-    return <div />;
+    return <Navigate to={`/signin?continue=true&returnto=${encodeURIComponent(wholepath())}`} replace/>
+  }
+  const id = Number(params.id);
+  menu && setMenu(false);
+  document.title = "Comment | Metahkg";
+  if (localStorage.reply && localStorage.user) {
+    inittext.current = `<blockquote style="color: #aca9a9; border-left: 2px solid #aca9a9; margin-left: 0"><div style="margin-left: 15px">${localStorage.reply}</div></blockquote><p></p>`;
+    localStorage.removeItem("reply");
   }
   return (
     <Box

@@ -14,7 +14,7 @@ import Thread from "./pages/thread";
 import AddComment from "./pages/AddComment";
 import Create from "./pages/create";
 import Category from "./pages/category";
-import Logout from "./components/logout";
+import Logout from "./pages/logout";
 import Search from "./pages/search";
 import Profile from "./pages/profile";
 import History from "./pages/history";

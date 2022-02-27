@@ -84,28 +84,28 @@ async function compress(filename) {
  * Image is delted locally after the process
  */
 router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
-  if (!req?.file?.size) {
+  if (!req.file?.size) {
     res.status(400);
     res.send({ error: "Bad request." });
     return;
   }
-  if (req?.file?.size > 250000) {
+  if (req.file?.size > 250000) {
     res.status(422);
     res.send({ error: "file too large." });
-    fs.rm(req?.file?.path, () => {});
+    fs.rm(req.file?.path, () => {});
     return;
   }
   const client = new MongoClient(mongouri);
   if (
     //check if file type is not aupported
     !["jpg", "svg", "png", "jpeg"].includes(
-      req?.file?.originalname.split(".").pop()
+      req.file?.originalname.split(".").pop()
     )
   ) {
     res.status(400);
     res.send({ error: "File type not supported." });
     //remove the file
-    fs.rm(req?.file?.path, () => {});
+    fs.rm(req.file?.path, () => {});
     return;
   }
   try {

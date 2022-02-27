@@ -40,9 +40,7 @@ export default function Search() {
         bgcolor: "primary.dark",
       }}
     >
-      {!(width < 760) && (
-        <Empty />
-      )}
+      {!(width < 760) && <Empty />}
     </Box>
   );
 }

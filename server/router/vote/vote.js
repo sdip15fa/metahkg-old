@@ -9,7 +9,7 @@ router.post("/api/vote", body_parser.json(), async (req, res) => {
     !req.body.id ||
     !req.body.cid ||
     !req.body.vote ||
-    Object.keys(req.body).length > 3 ||
+    Object.keys(req.body)?.length > 3 ||
     !(
       typeof req.body.cid === "number" &&
       typeof req.body.id === "number" &&

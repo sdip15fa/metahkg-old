@@ -20,13 +20,13 @@ export default function TextEditor(props: {
           menubar: true,
         },
         plugins: [
-          "advlist autolink lists link image charmap print preview anchor textcolor",
-          "searchreplace visualblocks code fullscreen",
-          "insertdatetime media table paste code help wordcount",
+          "advlist autolink lists link image imagetools charmap print preview anchor textcolor",
+          "searchreplace visualblocks code fullscreen autosave",
+          "insertdatetime media table paste code wordcount",
         ],
-        toolbar: `undo redo | formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help`,
+        toolbar: `undo redo | cut copy paste | link image | formatselect | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat`,
       }}
-      tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/tinymce.min.js"
+      tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.3/tinymce.min.js"
     />
   );
 }

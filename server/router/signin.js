@@ -18,7 +18,7 @@ router.post("/api/signin", body_parser.json(), async (req, res) => {
   if (
     !req.body.user ||
     !req.body.pwd ||
-    Object.keys(req.body).length > 2 ||
+    Object.keys(req.body)?.length > 2 ||
     !(typeof req.body.user === "string" && typeof req.body.pwd === "string")
   ) {
     res.status(400);

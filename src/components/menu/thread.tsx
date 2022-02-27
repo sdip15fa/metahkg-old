@@ -66,7 +66,10 @@ export default function MenuThread(props: { thread: summary }) {
               className="mr10 notextdecoration"
               to={`/category/${thread.category}`}
             >
-              <Button variant="contained" className="nomargin nopadding notexttransform menuthread-catbtn">
+              <Button
+                variant="contained"
+                className="nomargin nopadding notexttransform menuthread-catbtn"
+              >
                 <p className="nomargin menuthread-catname">{thread.catname}</p>
               </Button>
             </Link>

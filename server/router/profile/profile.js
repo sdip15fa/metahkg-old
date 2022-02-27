@@ -22,7 +22,7 @@ router.get("/api/profile/:id", async (req, res) => {
             : { id: Number(req.params.id) }
         )
         .project(
-          req?.query?.nameonly
+          req.query.nameonly
             ? { user: 1, _id: 0 }
             : {
                 id: 1,
@@ -41,7 +41,7 @@ router.get("/api/profile/:id", async (req, res) => {
       res.send({ error: "User not found" });
       return;
     }
-    !req?.query?.nameonly &&
+    !req.query.nameonly &&
       (user.count = await summary.countDocuments({ op: user.user }));
     res.send(user);
   } finally {

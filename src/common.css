@@ -113,11 +113,14 @@
 .justify-flex-end {
   justify-content: flex-end;
 }
+.justify-space-between {
+  justify-content: space-between;
+}
 .align-center {
   align-items: center;
 }
-.justify-space-between {
-  justify-content: space-between;
+.align-flex-end {
+  align-items: flex-end;
 }
 .overflow-hidden {
   overflow: hidden;
@@ -154,4 +157,7 @@
 }
 .text-align-left {
   text-align: left;
+}
+.pointer {
+  cursor: pointer;
 }

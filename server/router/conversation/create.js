@@ -21,7 +21,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     !req.body.htoken ||
     !req.body.title ||
     !req.body.category ||
-    Object.keys(req.body).length > 4 ||
+    Object.keys(req.body)?.length > 4 ||
     !(
       typeof req.body.icomment === "string" &&
       typeof req.body.title === "string" &&

@@ -9,7 +9,7 @@ router.post("/api/check", body_parser.json(), async (req, res) => {
   const client = new MongoClient(mongouri);
   if (
     !req.body.id ||
-    Object.keys(req.body).length > 1 ||
+    Object.keys(req.body)?.length > 1 ||
     typeof req.body.id !== "number"
   ) {
     res.status(400);

@@ -49,3 +49,7 @@ node server/migrate/migratetov0.5.2.js
 - security fix (avatar)
 - improve signin / register page (visual)
 - Metahkg logo as an element
+
+## v0.5.3rc4
+
+- minor improvements

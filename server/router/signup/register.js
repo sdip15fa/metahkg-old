@@ -31,8 +31,8 @@ async function valid(req, res) {
     !req.body.htoken ||
     !req.body.email ||
     !req.body.sex ||
-    req.body.user.split(" ")[1] ||
-    req.body.user.length > 15 ||
+    req.body.user?.split(" ")[1] ||
+    req.body.user?.length > 15 ||
     !(
       typeof req.body.user === "string" &&
       typeof req.body.pwd === "string" &&
@@ -41,7 +41,8 @@ async function valid(req, res) {
       (req.body.sex === "M" || req.body.sex === "F")
     ) ||
     Object.keys(req.body).length > 5 ||
-    !EmailValidator.validate(req.body.email)
+    !EmailValidator.validate(req.body.email) ||
+    EmailValidator.validate(req.body.user)
   ) {
     res.status(400);
     res.send({ error: "Bad request." });

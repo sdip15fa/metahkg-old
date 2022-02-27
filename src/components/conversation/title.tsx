@@ -59,11 +59,11 @@ export default function Title(props: {
         </div>
         <Box className="flex">
           <Tooltip title="Comment" arrow>
-            <a className="notextdecoration" href={`/comment/${params.id}`}>
+            <Link className="notextdecoration" to={`/comment/${params.id}`}>
               <IconButton>
                 <ReplyIcon className="white title-reply" />
               </IconButton>
-            </a>
+            </Link>
           </Tooltip>
           <Tooltip title="Share" arrow>
             <IconButton

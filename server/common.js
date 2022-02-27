@@ -58,4 +58,11 @@ function objtoarr(obj) {
 const domain = process.env.domain.startsWith(".")
   ? process.env.domain.replace(".", "")
   : process.env.domain;
-module.exports = { mongouri, secret, timediff, arrtoobj, objtoarr, domain };
+module.exports = {
+  mongouri,
+  secret,
+  timediff,
+  arrtoobj,
+  objtoarr,
+  domain,
+};

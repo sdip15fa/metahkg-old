@@ -4,10 +4,10 @@ import { Alert, Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import hash from "hash.js";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import queryString from "query-string";
 import { useMenu } from "../components/MenuProvider";
-import { useWidth } from "../components/ContextProvider";
+import { useNotification, useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
 import MetahkgLogo from "../components/logo";
 /*
@@ -18,11 +18,10 @@ import MetahkgLogo from "../components/logo";
  * After signing in, user is redirected to query.returnto if it exists, otherwise /
  */
 export default function Signin() {
-  document.title = "Sign in | Metahkg";
   const navigate = useNavigate();
   const [menu, setMenu] = useMenu();
+  const [, setNotification] = useNotification();
   const [width] = useWidth();
-  menu && setMenu(false);
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -30,13 +29,19 @@ export default function Signin() {
     severity: "info",
     text: "",
   });
-  const query = queryString.parse(window.location.search);
   useEffect(() => {
-    if (query.continue) {
+    if (query?.continue) {
       setAlert({ severity: "info", text: "Sign in to continue." });
+      setNotification({ open: true, text: "Sign in to continue." });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  if (localStorage.user) {
+    return <Navigate to="/" replace />;
+  }
+  menu && setMenu(false);
+  document.title = "Sign in | Metahkg";
+  const query = queryString.parse(window.location.search);
   function signin() {
     setAlert({ severity: "info", text: "Signing in..." });
     setDisabled(true);
@@ -48,16 +53,22 @@ export default function Signin() {
       .then((res) => {
         localStorage.user = res.data.user;
         localStorage.id = res.data.id;
-        navigate(decodeURIComponent(String(query.returnto || "/")));
+        navigate(decodeURIComponent(String(query.returnto || "/")), {
+          replace: true,
+        });
+        setNotification({ open:true, text: `Signed in as ${res.data.user}.`});
       })
       .catch((err) => {
-        setAlert({ severity: "error", text: err?.response?.data?.error || err?.response?.data || "" });
+        setAlert({
+          severity: "error",
+          text: err?.response?.data?.error || err?.response?.data || "",
+        });
+        setNotification({
+          open: true,
+          text: err?.response?.data?.error || err?.response?.data || "",
+        });
         setDisabled(false);
       });
-  }
-  if (localStorage.user) {
-    navigate("/", { replace: true });
-    return <div />;
   }
   return (
     <Box
@@ -76,14 +87,15 @@ export default function Signin() {
           <div className="flex fullwidth justify-flex-end">
             <Link
               className="notextdecoration"
-              to={`/register${window.location.search}`}
+              to={`/register?returnto=${query.returnto}`}
+              replace
             >
               <Button
                 className="flex notexttransform signin-toregister-btn"
                 color="secondary"
                 variant="text"
               >
-                Register
+                <strong>Register</strong>
               </Button>
             </Link>
           </div>
@@ -91,13 +103,8 @@ export default function Signin() {
             <MetahkgLogo height={50} width={40} svg light className="mb10" />
             <h1 className="signin-title-text mb20">Sign in</h1>
           </div>
-          {!alert.text ? (
-            <div />
-          ) : (
-            <Alert
-              className="mb20 mt10"
-              severity={alert.severity}
-            >
+          {alert.text && (
+            <Alert className="mb20 mt10" severity={alert.severity}>
               {alert.text}
             </Alert>
           )}

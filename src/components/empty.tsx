@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import MetahkgLogo from "./logo";
+import { wholepath } from "../lib/common";
 /*
  * just a template for large screens if there's no content
  * e.g. /category/:id, in which there's no main content but only the menu
@@ -55,9 +56,7 @@ export default function Empty() {
             className="notextdecoration white"
             to={`/${
               localStorage.user ? "logout" : "signin"
-            }?returnto=${encodeURIComponent(
-              window.location.href.replace(window.location.origin, "")
-            )}`}
+            }?returnto=${encodeURIComponent(wholepath())}`}
           >
             <ListItem button className="fullwidth">
               <ListItemIcon>

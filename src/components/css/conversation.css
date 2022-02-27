@@ -3,8 +3,8 @@
   color: black;
 }
 .conversation-paper {
-    max-height: calc(100vh - 48px);
+  max-height: calc(100vh - 48px);
 }
 .conversation-bottom {
-    height: 80px;
+  height: 80px;
 }

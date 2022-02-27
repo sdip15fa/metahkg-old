@@ -65,3 +65,24 @@ export async function logout() {
 export function wholepath() {
   return window.location.href.replace(window.location.origin, "");
 }
+export function checkpwd(pwd: string) {
+  if (pwd.length < 8) {
+    return false;
+  }
+  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const upper = lower.toUpperCase();
+  const numbers = "1234567890";
+  for (const i of [lower, upper, numbers]) {
+    let contain = false;
+    for (const p of pwd) {
+      if (i.includes(p)) {
+        contain = true;
+        break;
+      }
+    }
+    if (!contain) {
+      return false;
+    }
+  }
+  return true;
+}
