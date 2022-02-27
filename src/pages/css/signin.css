@@ -3,7 +3,7 @@
   color: white;
 }
 .signin-toregister-btn {
-  font-size: 18px;
+  font-size: 18px !important;
 }
 .signin-main-box {
   min-height: 50vh;
@@ -12,7 +12,7 @@
   margin-left: 50px;
   margin-right: 50px;
 }
-.signin-signin-btn {
+.signin-btn {
   font-size: 16px;
   height: 40px;
 }

@@ -45,7 +45,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const user = await metahkgusers.findOne({ key: req.cookies.key });
     if (!user) {
       res.status(400);
-      res.send("User not found.");
+      res.send({error:"User not found."});
       return;
     }
     const limit = client.db("metahkg-users").collection("limit");

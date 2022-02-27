@@ -62,10 +62,10 @@ export default function SideBar() {
     <div>
       <div>
         <IconButton
-          sx={{ height: "40px", width: "40px" }}
+          className="sidebar-menu-btn"
           onClick={toggleDrawer(true)}
         >
-          <MenuIcon sx={{ color: "white" }} />
+          <MenuIcon className="force-white" />
         </IconButton>
       </div>
       <Drawer
@@ -79,14 +79,10 @@ export default function SideBar() {
           },
         }}
       >
-        <Box sx={{ width: 250 }} role="presentation">
-          <div
-            style={{
-              width: "100%",
-            }}
-          >
-            <List sx={{ width: "100%" }}>
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+        <Box className="sidebar-box" role="presentation">
+          <div className="fullwidth">
+            <List className="fullwidth">
+              <Link to="/" className="notextdecoration white">
                 <ListItem button onClick={onClick}>
                   <ListItemIcon>
                     <MetahkgLogo height={24} width={24} svg light />
@@ -95,7 +91,7 @@ export default function SideBar() {
                 </ListItem>
               </Link>
             </List>
-            <div style={{ marginLeft: "10px", marginRight: "10px" }}>
+            <div className="ml10 mr10">
               <SearchBar
                 onChange={(e) => {
                   tempq = e.target.value;
@@ -113,7 +109,7 @@ export default function SideBar() {
           </div>
           <List>
             <Link
-              style={{ textDecoration: "none", color: "white" }}
+              className="notextdecoration white"
               to={`/${
                 localStorage.user ? "logout" : "signin"
               }?returnto=${encodeURIComponent(
@@ -129,10 +125,7 @@ export default function SideBar() {
                 </ListItemText>
               </ListItem>
             </Link>
-            <Link
-              style={{ textDecoration: "none", color: "white" }}
-              to="/create"
-            >
+            <Link className="notextdecoration white" to="/create">
               <ListItem button onClick={onClick}>
                 <ListItemIcon>
                   <CreateIcon />
@@ -142,18 +135,12 @@ export default function SideBar() {
             </Link>
           </List>
           <Divider />
-          <div style={{ margin: "20px" }}>
+          <div className="m20">
             {Object.entries(categories).map((category: any) => (
               <Link
-                className="sidebar-catlink"
+                className="sidebar-catlink notextdecoration text-align-left halfwidth"
                 to={`/category/${category[0]}`}
                 style={{
-                  textDecoration: "none",
-                  display: "inline-block",
-                  textAlign: "left",
-                  width: "50%",
-                  fontSize: "16px",
-                  lineHeight: "35px",
                   color:
                     cat === Number(category[0]) && !(profile || search)
                       ? "#fbc308"
@@ -167,16 +154,16 @@ export default function SideBar() {
           </div>
           <Divider />
           <List>
-            {["Telegram group", "Source code"].map((text, index) => (
-              <a
-                style={{ textDecoration: "none", color: "white" }}
-                href={links[index]}
-              >
-                <ListItem button key={text} onClick={onClick}>
+            {[
+              { icon: <TelegramIcon />, title: "Telegram group" },
+              { icon: <CodeIcon />, title: "Source code" },
+            ].map((item, index) => (
+              <a className="notextdecoration white" href={links[index]}>
+                <ListItem button key={index} onClick={onClick}>
                   <ListItemIcon>
-                    {index === 0 ? <TelegramIcon /> : <CodeIcon />}
+                    {item.icon}
                   </ListItemIcon>
-                  <ListItemText primary={text} />
+                  <ListItemText primary={item.title} />
                 </ListItem>
               </a>
             ))}
@@ -185,10 +172,7 @@ export default function SideBar() {
           {localStorage.user && (
             <div>
               <List>
-                <Link
-                  to="/profile/self"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
+                <Link to="/profile/self" className="notextdecoration white">
                   <ListItem button onClick={onClick}>
                     <ListItemIcon>
                       <ManageAccountsIcon />
@@ -200,7 +184,7 @@ export default function SideBar() {
               <Divider />
             </div>
           )}
-          <p style={{ color: "white", paddingLeft: "5px" }}>
+          <p className="ml5">
             Metahkg build {process.env.REACT_APP_build || "v0.5.3rc3"}
           </p>
         </Box>

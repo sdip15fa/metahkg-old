@@ -27,47 +27,47 @@ export default function MenuThread(props: { thread: summary }) {
       to={`/thread/${thread.id}?page=1`}
     >
       <Box
-        className="menuthread root fullwidth"
+        className="flex fullwidth menuthread-root"
         sx={id === thread.id ? { bgcolor: "#303030 !important" } : {}}
       >
-        <div className="menuthread top fullwidth">
+        <div className="menuthread-top flex fullwidth align-center">
           <div style={{ display: "flex", alignItems: "center" }}>
             <p
-              className="menuthread op ml20"
+              className="menuthread-op ml20"
               style={{
                 color: thread.sex === "M" ? "#0277bd" : "red",
               }}
             >
               {thread.op}
             </p>
-            <p className="menuthread toptext ml5">
+            <p className="menuthread-toptext ml5 nomargin">
               {timetoword(thread.lastModified)}
             </p>
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div className="flex align-center">
             {thread.vote >= 0 ? (
-              <ThumbUpIcon className="menuthread icons" />
+              <ThumbUpIcon className="menuthread-icons" />
             ) : (
-              <ThumbDownIcon className="menuthread icons" />
+              <ThumbDownIcon className="menuthread-icons" />
             )}
-            <p className="menuthread toptext">{thread.vote}</p>
-            <CommentIcon className="menuthread icons" />
-            <p className="menuthread toptext">{thread.c}</p>
-            <ArticleIcon className="menuthread icons" />
-            <p className="menuthread toptext mr10">
+            <p className="menuthread-toptext nomargin">{thread.vote}</p>
+            <CommentIcon className="menuthread-icons" />
+            <p className="menuthread-toptext nomargin">{thread.c}</p>
+            <ArticleIcon className="menuthread-icons" />
+            <p className="menuthread-toptext mr10 nomargin">
               {String(roundup(thread.c / 25))}
             </p>
           </div>
         </div>
-        <div className="menuthread bottom fullwidth mb10">
-          <p className="ml20 menuthread title">{thread.title}</p>
+        <div className="menuthread-bottom flex fullwidth mb10 align-center">
+          <p className="ml20 nomargin menuthread-title">{thread.title}</p>
           {!!(cat === 1 || search || profile) && (
             <Link
               className="mr10 notextdecoration"
               to={`/category/${thread.category}`}
             >
-              <Button variant="contained" className="menuthread catbtn">
-                <p className="menuthread catname">{thread.catname}</p>
+              <Button variant="contained" className="nomargin nopadding notexttransform menuthread-catbtn">
+                <p className="nomargin menuthread-catname">{thread.catname}</p>
               </Button>
             </Link>
           )}

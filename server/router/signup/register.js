@@ -112,6 +112,6 @@ router.post("/api/register", body_parser.json(), async (req, res) => {
     user: req.body.user,
     sex: req.body.sex,
   });
-  res.send("Ok");
+  res.send({response : "ok"});
 });
 module.exports = router;

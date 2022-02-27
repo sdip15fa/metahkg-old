@@ -51,7 +51,7 @@ export default function Signin() {
         navigate(decodeURIComponent(String(query.returnto || "/")));
       })
       .catch((err) => {
-        setAlert({ severity: "error", text: err.response.data.error });
+        setAlert({ severity: "error", text: err?.response?.data?.error || err?.response?.data || "" });
         setDisabled(false);
       });
   }
@@ -83,7 +83,7 @@ export default function Signin() {
                 color="secondary"
                 variant="text"
               >
-                <strong>Register</strong>
+                Register
               </Button>
             </Link>
           </div>
@@ -128,7 +128,7 @@ export default function Signin() {
           <br />
           <Button
             disabled={disabled || !(user && pwd)}
-            className="mt10 signin-signin-btn"
+            className="mt10 signin-btn"
             color="secondary"
             variant="contained"
             onClick={signin}

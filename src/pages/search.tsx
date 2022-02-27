@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import Empty from "../components/empty";
 import {
   useCat,
@@ -35,26 +35,13 @@ export default function Search() {
   }
   return (
     <Box
+      className="flex min-height-fullvh"
       sx={{
-        minHeight: "100vh",
-        backgroundColor: "primary.dark",
-        display: "flex",
-        flexDirection: "row",
+        bgcolor: "primary.dark",
       }}
     >
       {!(width < 760) && (
-        <Paper sx={{ overflow: "auto", maxHeight: "100vh" }}>
-          <div
-            style={{
-              width: "70vw",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Empty />
-          </div>
-        </Paper>
+        <Empty />
       )}
     </Box>
   );

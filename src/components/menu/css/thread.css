@@ -1,46 +1,30 @@
-.menuthread.root,
-.menuthread.top,
-.menuthread.bottom {
-  display: flex;
-}
-.menuthread.top,
-.menuthread.bottom {
+.menuthread-top,
+.menuthread-bottom {
   justify-content: space-between;
-  align-items: center;
 }
-.menuthread.title,
-.menuthread.catname {
-  color: white;
-}
-.menuthread.title,
-.menuthread.catname,
-.menuthread.toptext {
-  margin: 0px;
-}
-.menuthread.toptext,
-.menuthread.op,
-.menuthread.icons {
+.menuthread-toptext,
+.menuthread-op,
+.menuthread-icons {
   color: #aca9a9;
 }
-.menuthread.toptext,
-.menuthread.icons {
-  font-size: 13px;
-}
-.menuthread.root {
-  flex-direction: column;
-}
-.menuthread.root:hover {
-  background-color: #282828;
-}
-.menuthread.op {
+.menuthread-op, .menuthread-title {
   font-size: 16px;
 }
-.menuthread.icons {
+.menuthread-root {
+  flex-direction: column;
+}
+.menuthread-root:hover {
+  background-color: #282828;
+}
+.menuthread-toptext {
+  font-size: 13px;
+}
+.menuthread-icons {
+  font-size: 13px !important;
   margin-left: 5px;
   margin-right: 2px;
 }
-.menuthread.title {
-  font-size: 16px;
+.menuthread-title {
   word-break: break-word;
   line-height: 20px;
   max-height: 60px;
@@ -49,16 +33,13 @@
   padding-right: 30px;
   text-align: left;
 }
-.menuthread.catbtn {
+.menuthread-catbtn {
   border-radius: 15px !important;
-  text-transform: none !important;
-  margin: 0px !important;
-  padding: 0px !important;
   background-color: #333;
 }
-.menuthread.catname {
+.menuthread-catname {
   font-size: 12px;
 }
-.menuthread.top {
+.menuthread-top {
   height: 35px;
 }

@@ -69,10 +69,6 @@ blockquote,
 q {
   color: white;
 }
-.conversation *::selection {
-  background: #fbc308;
-  color: black;
-}
 .TextField-without-border-radius fieldset {
   border-radius: 0;
 }

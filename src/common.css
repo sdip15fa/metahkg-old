@@ -56,20 +56,50 @@
 .mb20 {
   margin-bottom: 20px !important;
 }
+.m5 {
+  margin: 5px;
+}
+.m10 {
+  margin: 10px;
+}
+.m20 {
+  margin: 20px;
+}
+.m5-force {
+  margin: 5px !important;
+}
+.m10-force {
+  margin: 10px !important;
+}
+.m20-force {
+  margin: 20px !important;
+}
 .fullwidth {
   width: 100%;
+}
+.halfwidth {
+  width: 50%;
 }
 .fullheight {
   height: 100%;
 }
+.halfheight {
+  height: 50%;
+}
 .notextdecoration {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 .notexttransform {
-  text-transform: none;
+  text-transform: none !important;
 }
 .flex {
   display: flex;
+}
+.flex-dir-column {
+  flex-direction: column;
+}
+.display-none {
+  display: none;
 }
 .icon-white-onhover:hover {
   color: white !important;
@@ -112,4 +142,16 @@
 }
 .min-height-fullvh {
   min-height: 100vh;
+}
+.min-height-full {
+  min-height: 100%;
+}
+.max-width-full {
+  max-width: 100%;
+}
+.text-align-center {
+  text-align: center;
+}
+.text-align-left {
+  text-align: left;
 }

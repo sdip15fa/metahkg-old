@@ -11,7 +11,7 @@ import {
 import { IconButton, TextField, Tooltip } from "@mui/material";
 import { PopUp } from "../../lib/popup";
 import { useNotification, useWidth } from "../ContextProvider";
-import { useShareLink, useShareOpen, useShareTitle } from "../conversation";
+import { useShareLink, useShareOpen, useShareTitle } from "../ShareProvider";
 export default function Share() {
   const [title] = useShareTitle();
   const [link] = useShareLink();

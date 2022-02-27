@@ -68,6 +68,8 @@ if [ $reply = "y" ]; then
   echo "port=$reply" >> .env.save;
   read -p "hCaptcha secret: " reply;
   echo "hcaptchasecret=$reply" >> .env.save;
+  read -p "hCaptcha site key: " reply;
+  echo "REACT_APP_hcaptchasitekey=$reply" >> .env.save;
   read -p "AWS Region: " reply;
   echo "awsRegion=$reply" >> .env.save;
   read -p "s3 Bucket name: " reply;

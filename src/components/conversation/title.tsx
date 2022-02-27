@@ -9,7 +9,7 @@ import {
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useHistory } from "../ContextProvider";
-import { useShareLink, useShareOpen, useShareTitle } from "../conversation";
+import { useShareLink, useShareOpen, useShareTitle } from "../ShareProvider";
 /*
  * Thread title component
  * category: category of the thread'

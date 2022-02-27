@@ -1,11 +1,5 @@
-import React, {
-  createContext,
-  memo,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import "./css/conversation.css";
+import React, { memo, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -26,11 +20,11 @@ import ReactVisibilitySensor from "react-visibility-sensor";
 import { useCat, useId } from "./MenuProvider";
 import { useNotification } from "./ContextProvider";
 import Share from "./conversation/share";
+import { ShareProvider } from "./ShareProvider";
 /*
  * Conversation component gets data from /api/thread/<thread id(props.id)>/<conversation/users>
  * Then renders it as Comments
  */
-const ShareContext = createContext<any>({});
 function Conversation(props: { id: number }) {
   const query = queryString.parse(window.location.search);
   const [notification, setNotification] = useNotification();
@@ -43,9 +37,6 @@ function Conversation(props: { id: number }) {
   const [pages, setPages] = useState(1);
   const [end, setEnd] = useState(false);
   const [n, setN] = useState(Math.random());
-  const [shareOpen, setShareOpen] = useState(false);
-  const [shareTitle, setShareTitle] = useState("");
-  const [shareLink, setShareLink] = useState("");
   const lastHeight = useRef(0);
   const [cat, setCat] = useCat();
   const [id, setId] = useId();
@@ -53,7 +44,10 @@ function Conversation(props: { id: number }) {
   const navigate = useNavigate();
   const onError = function (err: AxiosError) {
     !notification.open &&
-      setNotification({ open: true, text: err?.response?.data.error });
+      setNotification({
+        open: true,
+        text: err?.response?.data?.error || err?.response?.data || "",
+      });
     err?.response?.status === 404 && navigate("/404", { replace: true });
   };
   !query.page &&
@@ -167,28 +161,22 @@ function Conversation(props: { id: number }) {
     });
   }
   function onScroll(e: any) {
-      if (!end && !updating) {
-        const diff = e.target.scrollHeight - e.target.scrollTop;
-        if (
-          (e.target.clientHeight >= diff - 1.5 &&
-            e.target.clientHeight <= diff + 1.5) ||
-          diff < e.target.clientHeight
-        ) {
-          update();
-        }
+    if (!end && !updating) {
+      const diff = e.target.scrollHeight - e.target.scrollTop;
+      if (
+        (e.target.clientHeight >= diff - 1.5 &&
+          e.target.clientHeight <= diff + 1.5) ||
+        diff < e.target.clientHeight
+      ) {
+        update();
       }
+    }
   }
   return (
-    <ShareContext.Provider
-      value={{
-        shareOpen: [shareOpen, setShareOpen],
-        shareTitle: [shareTitle, setShareTitle],
-        shareLink: [shareLink, setShareLink],
-      }}
-    >
-      <Share />
-      <div className="conversation" style={{ minHeight: "100vh" }}>
-        {!ready && <LinearProgress sx={{ width: "100%" }} color="secondary" />}
+    <ShareProvider>
+      <div className="conversation-root" style={{ minHeight: "100vh" }}>
+        <Share />
+        {!ready && <LinearProgress className="fullwidth" color="secondary" />}
         <Title
           slink={details.slink}
           category={details.category}
@@ -197,10 +185,10 @@ function Conversation(props: { id: number }) {
         <Paper
           id="croot"
           key={n}
-          sx={{ overflow: "auto", maxHeight: "calc(100vh - 48px)" }}
+          className="overflow-auto conversation-paper"
           onScroll={onScroll}
         >
-          <Box sx={{ backgroundColor: "primary.dark", width: "100%" }}>
+          <Box className="fullwidth" sx={{ backgroundColor: "primary.dark"}}>
             {ready &&
               [...Array(pages)].map((p, index) => (
                 <Box>
@@ -294,13 +282,9 @@ function Conversation(props: { id: number }) {
               ))}
           </Box>
           <Box
+            className="flex justify-center align-center conversation-bottom"
             sx={{
-              height: "80px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
               bgcolor: "primary.dark",
-              border: "0px",
             }}
           >
             {!updating ? (
@@ -320,28 +304,7 @@ function Conversation(props: { id: number }) {
           </Box>
         </Paper>
       </div>
-    </ShareContext.Provider>
+    </ShareProvider>
   );
 }
 export default memo(Conversation);
-export function useShareOpen(): [
-  boolean,
-  React.Dispatch<React.SetStateAction<boolean>>
-] {
-  const { shareOpen } = useContext(ShareContext);
-  return shareOpen;
-}
-export function useShareTitle(): [
-  string,
-  React.Dispatch<React.SetStateAction<string>>
-] {
-  const { shareTitle } = useContext(ShareContext);
-  return shareTitle;
-}
-export function useShareLink(): [
-  string,
-  React.Dispatch<React.SetStateAction<string>>
-] {
-  const { shareLink } = useContext(ShareContext);
-  return shareLink;
-}

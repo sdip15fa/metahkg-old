@@ -95,7 +95,7 @@ export default function Register() {
         navigate(decodeURIComponent(String(query.returnto || "/")));
       })
       .catch((err) => {
-        setAlert({ severity: "error", text: err.response.data.error });
+        setAlert({ severity: "error", text: err?.response?.data?.error || err?.response?.data || "" });
         setDisabled(false);
       });
   }
@@ -132,7 +132,7 @@ export default function Register() {
         setDisabled(false);
       })
       .catch((err) => {
-        setAlert({ severity: "error", text: err.response.data.error });
+        setAlert({ severity: "error", text: err?.response?.data?.error || err?.response?.data || "" });
         setDisabled(false);
         setHtoken("");
         hcaptcha.reset("");
@@ -230,7 +230,7 @@ export default function Register() {
                     : !(htoken && user && email && pwd && sex))
                 }
                 type="submit"
-                className="signup-submit-btn"
+                className="signup-btn"
                 color="secondary"
                 variant="contained"
                 onClick={waiting ? verify : register}

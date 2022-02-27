@@ -1,3 +1,4 @@
+import "./css/menu.css";
 import React, { memo, useEffect, useState } from "react";
 import { Box, Typography, Paper, Divider } from "@mui/material";
 import axios, { AxiosError } from "axios";
@@ -45,7 +46,10 @@ function MainContent() {
   const q = decodeURIComponent(String(querystring.q || query || ""));
   const c: string | number = category || `bytid${id}`;
   function onError(err: AxiosError) {
-    setNotification({ open: true, text: err?.response?.data.error });
+    setNotification({
+      open: true,
+      text: err?.response?.data?.error || err?.response?.data || "",
+    });
     err?.response?.status === 404 && navigate("/404", { replace: true });
   }
   useEffect(() => {
@@ -105,26 +109,20 @@ function MainContent() {
   }
   return (
     <Paper
+      className="overflow-auto"
       style={{
-        overflow: "auto",
         maxHeight: search ? "calc(100vh - 151px)" : "calc(100vh - 91px)",
       }}
       onScroll={onScroll}
     >
       <Box
+        className="min-height-full"
         sx={{
           backgroundColor: "primary.main",
-          minHeight: "100%",
         }}
       >
         {!!(data.length && data?.[0] !== null) && (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              maxWidth: "100%",
-            }}
-          >
+          <Box className="flex flex-dir-column max-width-full">
             {data.map((thread: summary) => (
               <div>
                 <MenuThread
@@ -137,12 +135,9 @@ function MainContent() {
             {updating && <MenuPreload />}
             {end && (
               <Typography
+                className="mt10 mb10 text-align-center menu-end"
                 sx={{
-                  fontSize: "20px",
                   color: "secondary.main",
-                  textAlign: "center",
-                  marginTop: "10px",
-                  marginBottom: "10px",
                 }}
               >
                 End
@@ -169,12 +164,11 @@ function Menu() {
   let tempq = decodeURIComponent(query || "");
   return (
     <Box
+      className={`max-width-full min-height-fullvh flex-dir-column ${
+        menu ? "flex" : "display-none"
+      }`}
       sx={{
         backgroundColor: "primary.main",
-        maxWidth: "100%",
-        minHeight: "100vh",
-        display: menu ? "flex" : "none",
-        flexDirection: "column",
       }}
     >
       <MenuTop
@@ -191,17 +185,8 @@ function Menu() {
         selected={selected}
       />
       {search && (
-        <div style={{ display: "flex", width: "100%" }}>
-          <div
-            style={{
-              display: "flex",
-              height: "39px",
-              margin: "10px",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+        <div className="flex fullwidth">
+          <div className="flex fullwidth justify-center align-center m10 menu-search">
             <SearchBar
               onChange={(e) => {
                 tempq = e.target.value;
