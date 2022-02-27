@@ -53,3 +53,5 @@ node server/migrate/migratetov0.5.2.js
 ## v0.5.3rc4
 
 - minor improvements
+- forbid the use of emails as a username
+- check password strength
