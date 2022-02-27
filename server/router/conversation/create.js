@@ -1,12 +1,12 @@
-//Create a topic
-/*Syntax: POST /api/create 
+// Create a topic
+/* Syntax: POST /api/create
 {
   icomment (initial comment) : string,
   htoken (hcaptcha token) : string,
   title : string,
   category : number
-}*/
-//only for human
+} */
+// only for human
 const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
@@ -45,7 +45,7 @@ router.post("/api/create", body_parser.json(), async (req, res) => {
     const user = await metahkgusers.findOne({ key: req.cookies.key });
     if (!user) {
       res.status(400);
-      res.send({error:"User not found."});
+      res.send({ error: "User not found." });
       return;
     }
     const limit = client.db("metahkg-users").collection("limit");

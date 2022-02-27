@@ -3,13 +3,13 @@
  * Create a s3 bucket in a region you want
  */
 const express = require("express");
-const multer = require("multer"); //handle image uploads
+const multer = require("multer"); // handle image uploads
 const AWS = require("aws-sdk");
 const fs = require("fs");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 require("dotenv").config();
-const sharp = require("sharp"); //reshape images to circle
+const sharp = require("sharp"); // reshape images to circle
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 /*
@@ -31,25 +31,25 @@ const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
  */
 async function uploadtos3(filename) {
   const uploadParams = {
-    Bucket: bucket, //change to your bucket name
-    //get the filename without extension
+    Bucket: bucket, // change to your bucket name
+    // get the filename without extension
     Key: `avatars/${filename.split("/").pop().split(".")[0]}`,
     Body: "",
-    //change content type according to file extension
+    // change content type according to file extension
     ContentType: `image/${filename
       .split(".")
       .pop()
       .replace("jpg", "jpeg")
       .replace("svg", "svg+xml")}`,
-    //disable s3 cache for the image
+    // disable s3 cache for the image
     CacheConfig: "no-cache",
   };
-  const fileStream = fs.createReadStream(filename); //read file
+  const fileStream = fs.createReadStream(filename); // read file
   fileStream.on("error", (err) => {
     console.log("File Error", err);
   });
   uploadParams.Body = fileStream;
-  //using promise to await
+  // using promise to await
   await s3.upload(uploadParams).promise();
 }
 /*
@@ -60,10 +60,10 @@ async function compress(filename) {
   const width = 200;
   const r = width / 2;
   const circleShape = Buffer.from(
-    //avg circle
+    // avg circle
     `<svg><circle cx="${r}" cy="${r}" r="${r}" /></svg>`
   );
-  //use sharp to resize
+  // use sharp to resize
   await sharp(filename)
     .resize(width, width)
     .composite([
@@ -73,7 +73,7 @@ async function compress(filename) {
       },
     ])
     .toFile(`${filename}.png`);
-  //remove the original
+  // remove the original
   fs.rm(filename, () => {});
 }
 /*
@@ -97,44 +97,44 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
   }
   const client = new MongoClient(mongouri);
   if (
-    //check if file type is not aupported
+    // check if file type is not aupported
     !["jpg", "svg", "png", "jpeg"].includes(
       req.file?.originalname.split(".").pop()
     )
   ) {
     res.status(400);
     res.send({ error: "File type not supported." });
-    //remove the file
+    // remove the file
     fs.rm(req.file?.path, () => {});
     return;
   }
   try {
     await client.connect();
     const users = client.db("metahkg-users").collection("users");
-    //search for the user using cookie "key"
+    // search for the user using cookie "key"
     const user = await users.findOne({ key: req.cookies.key });
-    //send 404 if no such user
+    // send 404 if no such user
     if (!user) {
       res.status(400);
       res.send({ error: "User not found." });
       fs.rm(`uploads/${req.file.originalname}`, () => {});
       return;
     }
-    //rename file to <user-id>.<extension>
+    // rename file to <user-id>.<extension>
     let newfilename = `${user.id}.${req.file.originalname.split(".").pop()}`;
     fs.rename(
       `uploads/${req.file.filename}`,
       `uploads/${newfilename}`,
       () => {}
     );
-    //compress the file
+    // compress the file
     try {
       await compress(`uploads/${newfilename}`);
       newfilename += ".png";
-      //upload file to s3
+      // upload file to s3
       await uploadtos3(`uploads/${newfilename}`);
       const url = `https://${bucket}.s3.amazonaws.com/avatars/${user.id}`;
-      //save avatar url to db
+      // save avatar url to db
       await users.updateOne({ id: user.id }, { $set: { avatar: url } });
     } catch {
       res.status(422);
@@ -144,9 +144,9 @@ router.post("/api/avatar", upload.single("avatar"), async (req, res) => {
       fs.rm(`uploads/${newfilename}`, () => {});
       return;
     }
-    //redirect user back to /profile/self
+    // redirect user back to /profile/self
     res.redirect("/profile/self");
-    //remove the file locally
+    // remove the file locally
     fs.rm(`uploads/${newfilename}`, () => {});
   } finally {
     await client.close();

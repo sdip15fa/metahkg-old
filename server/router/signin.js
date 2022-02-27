@@ -1,11 +1,11 @@
-//Signin
-/*Syntax: POST /api/signin 
+// Signin
+/* Syntax: POST /api/signin
 {
   user (username OR email): string,
   pwd (password): string
 }
 */
-//sets a cookie "key" if success
+// sets a cookie "key" if success
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();

@@ -1,6 +1,6 @@
-//Signup for an account
-//humans only
-/*Syntax: POST /api/register
+// Signup for an account
+// humans only
+/* Syntax: POST /api/register
 {
   user (username): string,
   pwd (password, sha256 hashed): string,
@@ -113,6 +113,6 @@ router.post("/api/register", body_parser.json(), async (req, res) => {
     user: req.body.user,
     sex: req.body.sex,
   });
-  res.send({response : "ok"});
+  res.send({ response: "ok" });
 });
 module.exports = router;
