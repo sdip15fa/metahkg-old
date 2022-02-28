@@ -17,7 +17,7 @@ const isInteger = require("is-sn-integer");
 router.get("/api/thread/:id", async (req, res) => {
   if (
     !isInteger(req.params.id) ||
-    (req.query.page && ![0, 1, 2].includes(Number(req.query.type))) ||
+    (req.query.type && ![0, 1, 2].includes(Number(req.query.type))) ||
     (req.query.page &&
       (!isInteger(req.query.page) || Number(req.query.page) < 1))
   ) {
