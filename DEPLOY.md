@@ -3,7 +3,10 @@
 ## Prerequisites
 
 - x86_64 debian linux (only tested on ubuntu)
-- mongodb, hcaptcha, mailgun, aws account (s3)
+- mongodb (either locally or remotely)
+- mailgun key (for sending emails, obviously)
+- hcaptcha site key and secret pair (for anti-spamming)
+- a publicily accessible s3 bucket
 
 ## Set up
 

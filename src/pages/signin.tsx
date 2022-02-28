@@ -87,7 +87,7 @@ export default function Signin() {
           <div className="flex fullwidth justify-flex-end">
             <Link
               className="notextdecoration"
-              to={`/register?returnto=${query.returnto}`}
+              to={`/register${window.location.search}`}
               replace
             >
               <Button
