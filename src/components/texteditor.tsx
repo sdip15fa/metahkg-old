@@ -7,10 +7,11 @@ export default function TextEditor(props: {
   changehandler: (a: string, editor: import("tinymce/tinymce").Editor) => void;
   text: string;
 }) {
+  const {changehandler, text} = props;
   return (
     <Editor
-      onEditorChange={props.changehandler}
-      initialValue={props.text}
+      onEditorChange={changehandler}
+      initialValue={text}
       init={{
         height: 300,
         menubar: true,

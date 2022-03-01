@@ -8,7 +8,7 @@ import { useNotification, useWidth } from "../components/ContextProvider";
 import { useMenu } from "../components/MenuProvider";
 import TextEditor from "../components/texteditor";
 import { roundup, severity, wholepath } from "../lib/common";
-import MetahkgLogo from "../components/logo";
+import MetahkgLogo from "../components/icon";
 /*
  * AddComment component for /comment/:id adds a comment
  * if user not signed in, he would be redirected to /signin

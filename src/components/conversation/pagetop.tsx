@@ -1,3 +1,4 @@
+import "./css/pagetop.css";
 import React from "react";
 import {
   Box,
@@ -14,58 +15,50 @@ export default function PageTop(props: {
   next?: boolean;
   onLastClicked?: React.MouseEventHandler<HTMLSpanElement>;
   onNextClicked?: React.MouseEventHandler<HTMLSpanElement>;
-  ref?: string;
   id?: number | string;
 }) {
+  const {
+    pages,
+    page,
+    onChange,
+    last,
+    next,
+    onLastClicked,
+    onNextClicked,
+    id,
+  } = props;
   return (
     <Box
-      sx={{
-        height: "70px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginLeft: "20px",
-        marginRight: "20px",
-      }}
-      id={String(props.id)}
+      className="flex justify-space-between align-center ml20 mr20 pagetop-root"
+      id={String(id)}
     >
-      {props.last ? (
-        <Typography
-          sx={{ color: "secondary.main", cursor: "pointer" }}
-          onClick={props.onLastClicked}
-        >
-          Last Page
-        </Typography>
-      ) : (
-        <Typography sx={{ color: "rgba(255,255,255,0)", userSelect: "none" }}>
-          Last page
-        </Typography>
-      )}
+      <Typography
+        className={last ? "pointer" : "user-select-none transparent"}
+        sx={last ? { color: "secondary.main" } : {}}
+        onClick={onLastClicked}
+      >
+        Last Page
+      </Typography>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={props.page}
+        value={page}
         label="Age"
-        onChange={props.onChange}
+        onChange={onChange}
         color="secondary"
         variant="standard"
       >
-        {[...Array(props.pages)].map((p, index) => (
+        {[...Array(pages)].map((p, index) => (
           <MenuItem value={index + 1}>Page {index + 1}</MenuItem>
         ))}
       </Select>
-      {props.next ? (
-        <Typography
-          sx={{ color: "secondary.main", cursor: "pointer" }}
-          onClick={props.onNextClicked}
-        >
-          Next Page
-        </Typography>
-      ) : (
-        <Typography sx={{ color: "rgba(255,255,255,0)", userSelect: "none" }}>
-          Next page
-        </Typography>
-      )}
+      <Typography
+        className={next ? "pointer" : "user-select-none transparent"}
+        sx={next ? { color: "secondary.main" } : {}}
+        onClick={onNextClicked}
+      >
+        Next Page
+      </Typography>
     </Box>
   );
 }

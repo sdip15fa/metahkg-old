@@ -24,7 +24,7 @@ import {
 } from "../components/MenuProvider";
 import { useNotification, useWidth } from "../components/ContextProvider";
 import { categories, severity, wholepath } from "../lib/common";
-import MetahkgLogo from "../components/logo";
+import MetahkgLogo from "../components/icon";
 declare const hcaptcha: { reset: (e: string) => void }; //the hcaptcha object, defined to use hcaptcha.reload("")
 /*
  * A select list to choose category
@@ -42,7 +42,7 @@ function ChooseCat(props: {
   return (
     <div>
       {Object.keys(categories).length && (
-        <FormControl sx={{ minWidth: "200px" }}>
+        <FormControl className="create-choosecat-form">
           <InputLabel color="secondary">Category</InputLabel>
           <Select
             color="secondary"

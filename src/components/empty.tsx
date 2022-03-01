@@ -15,26 +15,26 @@ import {
   Paper,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import MetahkgLogo from "./logo";
+import MetahkgIcon from "./icon";
 import { wholepath } from "../lib/common";
 /*
  * just a template for large screens if there's no content
  * e.g. /category/:id, in which there's no main content but only the menu
  */
 export default function Empty() {
-  const links: { logo: JSX.Element; title: string; link: string }[] = [
+  const links: { icon: JSX.Element; title: string; link: string }[] = [
     {
-      logo: <CreateIcon />,
+      icon: <CreateIcon />,
       title: "Create topic",
       link: "/create",
     },
     {
-      logo: <TelegramIcon />,
+      icon: <TelegramIcon />,
       title: "Telegram group",
       link: "/telegram",
     },
     {
-      logo: <CodeIcon />,
+      icon: <CodeIcon />,
       title: "Source code",
       link: "/source",
     },
@@ -48,14 +48,14 @@ export default function Empty() {
     >
       <div className="fullwidth empty-main-div">
         <div className="flex align-center">
-          <MetahkgLogo height={40} width={50} svg light />
+          <MetahkgIcon height={40} width={50} svg light />
           <h1>Metahkg</h1>
         </div>
         <List>
           <Link
             className="notextdecoration white"
             to={`/${
-              localStorage.user ? "logout" : "signin"
+              localStorage.user ? "iconut" : "signin"
             }?returnto=${encodeURIComponent(wholepath())}`}
           >
             <ListItem button className="fullwidth">
@@ -63,7 +63,7 @@ export default function Empty() {
                 <AccountCircleIcon />
               </ListItemIcon>
               <ListItemText>
-                {localStorage.user ? "Logout" : "Sign in / Register"}
+                {localStorage.user ? "iconut" : "Sign in / Register"}
               </ListItemText>
             </ListItem>
           </Link>
@@ -80,7 +80,7 @@ export default function Empty() {
           {links.map((i) => (
             <Link className="notextdecoration white" to={i.link}>
               <ListItem button className="fullwidth">
-                <ListItemIcon>{i.logo}</ListItemIcon>
+                <ListItemIcon>{i.icon}</ListItemIcon>
                 <ListItemText>{i.title}</ListItemText>
               </ListItem>
             </Link>

@@ -9,7 +9,7 @@ import queryString from "query-string";
 import { useMenu } from "../components/MenuProvider";
 import { useNotification, useWidth } from "../components/ContextProvider";
 import { severity } from "../lib/common";
-import MetahkgLogo from "../components/logo";
+import MetahkgLogo from "../components/icon";
 /*
  * /signin
  * The Signin component collects data from user then send to the server /api/signin

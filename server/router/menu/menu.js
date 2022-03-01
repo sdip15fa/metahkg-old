@@ -6,14 +6,19 @@ const isInteger = require("is-sn-integer");
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 const router = express.Router();
+/**
+ * sort:
+ * 0 : newest
+ * 1 : hottest
+ */
 router.get("/api/menu/:category", async (req, res) => {
   if (
     (!isInteger(req.params?.category) &&
       !req.params.category?.startsWith("bytid")) ||
     (req.params.category?.startsWith("bytid") &&
       !isInteger(req.params.category?.replace("bytid", ""))) ||
-    !req.query.sort ||
-    ![0, 1].includes(Number(req.query.sort)) ||
+    (req.query.sort &&
+    ![0, 1].includes(Number(req.query.sort))) ||
     (req.query.page && !isInteger(req.query.page))
   ) {
     res.status(400);
@@ -21,7 +26,7 @@ router.get("/api/menu/:category", async (req, res) => {
     return;
   }
   const client = new MongoClient(mongouri);
-  const sort = Number(req.query.sort);
+  const sort = Number(req.query.sort || 0);
   const page = Number(req.query.page) || 1;
   try {
     await client.connect();
@@ -61,13 +66,16 @@ router.get("/api/menu/:category", async (req, res) => {
           .sort({ lastModified: -1 })
           .skip(25 * (page - 1))
           .limit(25)
+          .project({ _id: 0 })
           .toArray();
-    await (sort &&
-      (async () => {
-        for (let index = 0; index < data.length; index++) {
-          data[index] = await summary.findOne({ id: data[index].id });
-        }
-      })());
+    if (sort) {
+      for (let index = 0; index < data.length; index++) {
+        data[index] = await summary.findOne(
+          { id: data[index].id },
+          { projection: { _id: 0 } }
+        );
+      }
+    }
     res.send(data.length ? data : [null]);
   } finally {
     await client.close();

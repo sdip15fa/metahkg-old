@@ -37,14 +37,7 @@ function Comment(props: {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     return (
-      <div
-        style={{
-          display: "flex",
-          fontSize: "16px",
-          alignItems: "center",
-          paddingTop: "10px",
-        }}
-      >
+      <div className="flex align-center comment-tag-root">
         <PopUp
           withbutton
           open={open}
@@ -52,13 +45,7 @@ function Comment(props: {
           title="User information"
           button={{ text: "View Profile", link: `/profile/${props.userid}` }}
         >
-          <p
-            style={{
-              textAlign: "center",
-              marginTop: "5px",
-              marginBottom: "5px",
-            }}
-          >
+          <p className="text-align-center mt5 mb5">
             {props.name}
             <br />#{props.userid}
           </p>
@@ -66,26 +53,18 @@ function Comment(props: {
         <p
           className="novmargin"
           style={{
-            color: props.op ? "#F5BD1F" : "#aca9a9",
+            color: props.op ? "#f5bd1f" : "#aca9a9",
           }}
         >
           #{props.id}
         </p>
         <p
-          className="comment-userlink novmargin"
+          className="comment-tag-userlink novmargin ml10 text-overflow-ellipsis nowrap pointer overflow-hidden max-width-full"
           onClick={() => {
             setOpen(true);
           }}
           style={{
             color: props.sex === "M" ? "#34aadc" : "red",
-            marginLeft: "10px",
-            textOverflow: "ellipsis",
-            maxWidth: "100%",
-            overflow: "hidden",
-            lineHeight: "22px",
-            maxHeight: "22px",
-            wordBreak: "keep-all",
-            cursor: "pointer",
           }}
         >
           {tprops.children}
@@ -94,26 +73,19 @@ function Comment(props: {
           title={date.format(new Date(props.date), "ddd, MMM DD YYYY HH:mm:ss")}
           arrow
         >
-          <p
-            className="novmargin"
-            style={{
-              fontSize: "15px",
-              color: "#aca9a9",
-              marginLeft: "10px",
-            }}
-          >
+          <p className="novmargin metahkg-grey ml10 comment-tag-time">
             {timetoword(props.date)}
           </p>
         </Tooltip>
         <Tooltip title="Quote" arrow>
           <IconButton
-            sx={{ marginLeft: "10px", padding: 0 }}
+            className="ml10 nopadding"
             onClick={() => {
               localStorage.reply = props.children;
               navigate(`/comment/${props.tid}`);
             }}
           >
-            <ReplyIcon sx={{ fontSize: "19px", color: "#aca9a9" }} />
+            <ReplyIcon className="metahkg-grey-force comment-tag-reply" />
           </IconButton>
         </Tooltip>
       </div>
@@ -122,27 +94,17 @@ function Comment(props: {
   return (
     <Box
       id={`c${props.id}`}
+      className="text-align-left mt5"
       sx={{
         backgroundColor: "primary.main",
-        textAlign: "left",
-        marginTop: "5px",
       }}
     >
-      <div style={{ marginLeft: "20px", marginRight: "20px" }}>
+      <div className="ml20 mr20">
         <Tag>{props.name}</Tag>
-        <p
-          style={{
-            color: "white",
-            wordBreak: "break-word",
-            marginTop: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          {parse(props.children)}
-        </p>
-        <div style={{ height: "2px" }} />
+        <p className="mt10 mb10">{parse(props.children)}</p>
+        <div className="comment-internal-spacer" />
       </div>
-      <div style={{ marginLeft: "20px" }}>
+      <div className="ml20">
         <VoteButtons
           key={props.tid}
           vote={props.vote}
@@ -152,7 +114,7 @@ function Comment(props: {
           down={props.down}
         />
       </div>
-      <div style={{ height: "10px" }} />
+      <div className="comment-spacer" />
     </Box>
   );
 }
