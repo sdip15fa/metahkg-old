@@ -45,7 +45,7 @@ router.get("/api/thread/:id", async (req, res) => {
   const metahkgThreads = client.db("metahkg-threads");
   try {
     if (type === 0) {
-      //not using !type to avoid confusion
+      // not using !type to avoid confusion
       const users = metahkgThreads.collection("users");
       const result = await users.findOne(
         { id: Number(req.params.id) },
