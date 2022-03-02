@@ -30,3 +30,5 @@ uploads/
 # internal
 deploy.sh
 .lh/
+package-lock.json
+.dccache

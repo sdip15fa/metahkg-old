@@ -118,7 +118,7 @@ function MainContent() {
       <Box
         className="min-height-full"
         sx={{
-          backgroundColor: "primary.main",
+          bgcolor: "primary.main",
         }}
       >
         {!!(data.length && data?.[0] !== null) && (
@@ -168,7 +168,7 @@ function Menu() {
         menu ? "flex" : "display-none"
       }`}
       sx={{
-        backgroundColor: "primary.main",
+        bgcolor: "primary.main",
       }}
     >
       <MenuTop

@@ -1,3 +1,4 @@
+import "./css/votebuttons.css";
 import React from "react";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 import { Button, ButtonGroup, Typography } from "@mui/material";
@@ -42,21 +43,20 @@ export default function VoteButtons(props: {
       });
   };
   return (
-    <div>
       <ButtonGroup
         variant="text"
-        sx={{ borderRadius: "5px", backgroundColor: "#333" }}
+        className="vb-btn-group"
       >
         <Button
-          sx={{ padding: "0px", marginTop: "1.5px", marginBottom: "1.5px" }}
+          className="nopadding vb-btn vb-btn-left"
           disabled={!localStorage.user || !!vote}
           onClick={() => {
             sendvote("U");
           }}
         >
           <Typography
+            className="flex"
             sx={{
-              display: "flex",
               color: vote === "U" ? "green" : "#aaa",
             }}
           >
@@ -65,21 +65,16 @@ export default function VoteButtons(props: {
           </Typography>
         </Button>
         <Button
-          sx={{
-            padding: "0px",
-            marginTop: "1.5px",
-            marginBottom: "1.5px",
-            marginRight: "5px",
-          }}
+          className="nopadding vb-btn vb-btn-right"
           disabled={!localStorage.user || !!vote}
           onClick={() => {
             sendvote("D");
           }}
         >
           <Typography
+            className="flex"
             sx={{
               color: vote === "D" ? "red" : "#aaa",
-              display: "flex",
             }}
           >
             <ArrowDropDown className="icon-white-onhover" />
@@ -87,6 +82,5 @@ export default function VoteButtons(props: {
           </Typography>
         </Button>
       </ButtonGroup>
-    </div>
   );
 }

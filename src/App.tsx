@@ -1,6 +1,7 @@
 import React from "react";
-import "./App.css";
-import "./common.css";
+import "./css/App.css";
+import "./css/common.css";
+import "./css/fontsize.css";
 import Theme from "./lib/theme";
 import {
   BrowserRouter as Router,
@@ -45,9 +46,9 @@ export default function App() {
       secondary={{ main: "#f5bd1f", dark: "#ffc100" }}
     >
       <Notification />
-      <Box sx={{ maxHeight: "100vh", backgroundColor: "primary.dark" }}>
+      <Box className="max-height-fullvh" sx={{ bgcolor: "primary.dark" }}>
         <Router>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div className="flex">
             {(menu || window.location.pathname.split("/")[1] === "thread") && (
               <div style={{ width: width < 760 ? "100vw" : "30vw" }}>
                 <Menu />

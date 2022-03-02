@@ -7,6 +7,7 @@ const body_parser = require("body-parser");
 const { MongoClient } = require("mongodb");
 const { mongouri, timediff } = require("../../common");
 const { JSDOM } = require("jsdom");
+const isInteger = require("is-sn-integer");
 const createDOMPurify = require("dompurify");
 const jsdomwindow = new JSDOM("").window;
 const DOMPurify = createDOMPurify(jsdomwindow);
@@ -16,7 +17,8 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
     !req.body.id ||
     !req.body.comment ||
     Object.keys(req.body)?.length > 2 ||
-    !(typeof req.body.id === "number" && typeof req.body.comment === "string")
+    !(typeof req.body.id === "number" && typeof req.body.comment === "string") ||
+    !isInteger(req.body.id)
   ) {
     res.status(400);
     res.send({ error: "Bad request" });

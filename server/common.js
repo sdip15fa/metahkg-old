@@ -56,8 +56,15 @@ function objtoarr(obj) {
   return arr;
 }
 const domain = process.env.domain.startsWith(".")
-  ? process.env.domain.replace(".", "")
+  ? process.env.domain?.replace(".", "")
   : process.env.domain;
+function allequal(arr) {
+  const first = arr[0];
+  for (const i of arr) {
+    if (i !== first) return false;
+  }
+  return true;
+}
 module.exports = {
   mongouri,
   secret,
@@ -65,4 +72,5 @@ module.exports = {
   arrtoobj,
   objtoarr,
   domain,
+  allequal,
 };

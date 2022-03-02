@@ -39,28 +39,17 @@ export default function Category() {
   }
   history !== window.location.pathname && setHistory(window.location.pathname);
   !menu && setMenu(true);
-  if (category !== Number(params.category)) {
-    category !== Number(params.category) &&
-      setCategory(Number(params.category));
-    cleardata();
-  }
+  (category !== Number(params.category) || search || profile) && cleardata();
+  category !== Number(params.category) && setCategory(Number(params.category));
   id && setId(0);
-  if (search) {
-    setSearch(false);
-    cleardata();
-  }
-  if (profile) {
-    setProfile(0);
-    cleardata();
-  }
+  search && setSearch(false);
+  profile && setProfile(0);
   ![0, 1].includes(selected) && setSelected(0);
   return (
     <Box
+      className="flex"
       sx={{
         backgroundColor: "primary.dark",
-        display: "flex",
-        flexDirection: "row",
-        maxHeight: "100vh",
       }}
     >
       {!(width < 760) && <Empty />}

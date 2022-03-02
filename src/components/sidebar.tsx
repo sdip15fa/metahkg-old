@@ -24,7 +24,7 @@ import SearchBar from "./searchbar";
 import { useQuery } from "./ContextProvider";
 import { categories, wholepath } from "../lib/common";
 import { useCat, useData, useProfile, useSearch } from "./MenuProvider";
-import MetahkgLogo from "./logo";
+import MetahkgLogo from "./icon";
 /*
  * The sidebar used by Menu
  * link to metahkg frontpage, search bar, sign in/register/logout,
@@ -182,7 +182,7 @@ export default function SideBar() {
             </div>
           )}
           <p className="ml5">
-            Metahkg build {process.env.REACT_APP_build || "v0.5.3"}
+            Metahkg build {process.env.REACT_APP_build || "v0.5.3rc4"}
           </p>
         </Box>
       </Drawer>

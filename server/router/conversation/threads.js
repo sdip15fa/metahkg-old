@@ -1,53 +1,66 @@
-//get conversation
-//Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
-//conversation: main conversation content
-//users: content of users involved in the conversation
+/*
+ * get conversation
+ * Syntax: GET /api/thread/<thread id>/<"conversation"/"users">
+ * conversation: main conversation content
+ * users: content of users involved in the conversation
+ */
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");
 const { mongouri } = require("../../common");
 const isInteger = require("is-sn-integer");
 /*
-* type:
-  0: users
-  1: details
-  2: conversation
-* default type is 1
-*/
+ * type:
+ *  0: users
+ *  1: details
+ *  2: conversation
+ * default type is 1
+ */
 router.get("/api/thread/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const type = Number(req.query.type ?? 1);
+  const page = Number(req.query.page) || 1;
+  const start = Number(req.query.start);
+  const end = Number(req.query.end);
   if (
-    !isInteger(req.params.id) ||
-    (req.query.page && ![0, 1, 2].includes(Number(req.query.type))) ||
-    (req.query.page &&
-      (!isInteger(req.query.page) || Number(req.query.page) < 1))
+    !isInteger(id) ||
+    ![0, 1, 2].includes(type) ||
+    !isInteger(page) ||
+    page < 1 ||
+    (start &&
+      (!isInteger(start) ||
+        start > end ||
+        (!end && (start < (page - 1) * 25 + 1 || start > page * 25)))) ||
+    (end &&
+      (!isInteger(end) ||
+        end < start ||
+        (!start && (end > page * 25 || end < (page - 1) * 25 + 1))))
   ) {
     res.status(400);
     res.send({ error: "Bad request" });
     return;
   }
-  const type = Number(req.query.type ?? 1);
-  const page = Number(req.query.page) || 1;
   const client = new MongoClient(mongouri);
   await client.connect();
+  const metahkgThreads = client.db("metahkg-threads");
   try {
-    if (!type) {
-      const users = client.db("metahkg-threads").collection("users");
-      const r = await users.findOne(
+    if (type === 0) {
+      //not using !type to avoid confusion
+      const users = metahkgThreads.collection("users");
+      const result = await users.findOne(
         { id: Number(req.params.id) },
         { projection: { _id: 0 } }
       );
-      if (!r) {
+      if (!result) {
         res.status(404);
         res.send({ error: "Not found" });
         return;
       }
-      res.send(r);
+      res.send(result);
       return;
     }
-    const conversation = client
-      .db("metahkg-threads")
-      .collection("conversation");
-    const summary = client.db("metahkg-threads").collection("summary");
+    const conversation = metahkgThreads.collection("conversation");
+    const summary = metahkgThreads.collection("summary");
     const result =
       type === 1
         ? await summary.findOne(
@@ -73,8 +86,18 @@ router.get("/api/thread/:id", async (req, res) => {
                     input: "$conversation",
                     cond: {
                       $and: [
-                        { $gte: ["$$this.id", (page - 1) * 25 + 1] },
-                        { $lte: ["$$this.id", page * 25] },
+                        {
+                          $gte: [
+                            "$$this.id",
+                            Number(req.query.start) || (page - 1) * 25 + 1,
+                          ],
+                        },
+                        {
+                          $lte: [
+                            "$$this.id",
+                            Number(req.query.end) || page * 25,
+                          ],
+                        },
                       ],
                     },
                   },
