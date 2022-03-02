@@ -1,6 +1,6 @@
-//add a comment
-//Syntax: POST /api/comment {id (thread id) : number, comment : string}
-//client must have a cookie "key"
+// add a comment
+// Syntax: POST /api/comment {id (thread id) : number, comment : string}
+// client must have a cookie "key"
 const express = require("express");
 const router = express.Router();
 const body_parser = require("body-parser");
@@ -17,7 +17,9 @@ router.post("/api/comment", body_parser.json(), async (req, res) => {
     !req.body.id ||
     !req.body.comment ||
     Object.keys(req.body)?.length > 2 ||
-    !(typeof req.body.id === "number" && typeof req.body.comment === "string") ||
+    !(
+      typeof req.body.id === "number" && typeof req.body.comment === "string"
+    ) ||
     !isInteger(req.body.id)
   ) {
     res.status(400);
