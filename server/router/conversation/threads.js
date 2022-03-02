@@ -17,24 +17,13 @@ const isInteger = require("is-sn-integer");
  * default type is 1
  */
 router.get("/api/thread/:id", async (req, res) => {
-  const id = Number(req.params.id);
   const type = Number(req.query.type ?? 1);
   const page = Number(req.query.page) || 1;
-  const start = Number(req.query.start);
-  const end = Number(req.query.end);
   if (
-    !isInteger(id) ||
-    ![0, 1, 2].includes(type) ||
-    !isInteger(page) ||
-    page < 1 ||
-    (start &&
-      (!isInteger(start) ||
-        start > end ||
-        (!end && (start < (page - 1) * 25 + 1 || start > page * 25)))) ||
-    (end &&
-      (!isInteger(end) ||
-        end < start ||
-        (!start && (end > page * 25 || end < (page - 1) * 25 + 1))))
+    !isInteger(req.params.id) ||
+    (req.query.type && ![0, 1, 2].includes(Number(req.query.type))) ||
+    (req.query.page &&
+      (!isInteger(req.query.page) || Number(req.query.page) < 1))
   ) {
     res.status(400);
     res.send({ error: "Bad request" });
